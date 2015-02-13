@@ -1,24 +1,21 @@
 package com.echobond.fragment;
 
-import java.io.IOException;
-import java.util.Map;
-
-import org.xmlpull.v1.XmlPullParserException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.IntroPage;
 import com.echobond.activity.MainPage;
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
-import com.echobond.util.HTTPUtil;
+import com.echobond.activity.StartPage;
+import com.echobond.connector.ResetPassAsyncTask;
 
-
+import android.R.interpolator;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.res.XmlResourceParser;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,14 +34,11 @@ import android.widget.Toast;
 public class LoginPageFragment extends Fragment {
 	
 	private EditText loginEmailText, loginPasswordText;
-	private String loginEmailStr, loginPasswordStr, url, method;
-	private Map<?, ?> headers;
-	private Object params;
+	private String loginEmailStr, loginPasswordStr, url;
 	private ImageButton login, forgetPassword;
+	private OnLoginSelectedListener mSelectedListener;
 	
 	private boolean isFirstUse;
-	private HTTPUtil loginHttpUtil, fgtPwHttpUtil;
-	private RawHttpRequest loginRequest, fgtPwRequest;
 	private Intent intent = new Intent();
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +76,7 @@ public class LoginPageFragment extends Fragment {
 				} else if (loginPasswordStr == null || loginPasswordStr.equals("")) {
 					Toast.makeText(getActivity(), "You need your password to come back your wonderland. ", Toast.LENGTH_SHORT).show();
 				} else {
+					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNIN);
 					startActivity(intent);
 					getActivity().finish();
 					Editor editor = pref.edit();
@@ -105,23 +100,7 @@ public class LoginPageFragment extends Fragment {
 							getResources().getString(R.string.url_port) + "/" + 
 							getResources().getString(R.string.url_sub) + "/" + 
 							getResources().getString(R.string.url_reset_pass);
-					fgtPwRequest = new RawHttpRequest(url, RawHttpRequest.HTTP_METHOD_POST, headers, "email="+loginEmailStr);
-					new AsyncTask<String, Integer, String>() {
-
-						@Override
-						protected String doInBackground(String... params) {
-							RawHttpResponse response = HTTPUtil.getInstance().send(fgtPwRequest);
-							return null;
-						}
-						
-						@Override
-						protected void onPostExecute(String result) {
-							
-						}
-						
-					}.execute();
-
-					Toast.makeText(getActivity(), url/*+"Please check the re-authentication email in your mailbox. :)"*/, Toast.LENGTH_SHORT).show();
+					new ResetPassAsyncTask().execute(loginEmailStr, url, LoginPageFragment.this);
 				}
 			}
 		});
@@ -129,5 +108,19 @@ public class LoginPageFragment extends Fragment {
 		return loginPageView;
 		
 	}
-
+	
+	public interface OnLoginSelectedListener {
+		public String OnButtonSelected(int type);
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mSelectedListener = (OnLoginSelectedListener) activity;
+		} catch (ClassCastException e) {
+			// should never happen in normal cases
+			throw new ClassCastException(activity.toString() + "must implement OnButtonSelectedListener in LoginPageFragment. ");
+		}
+	}
 }

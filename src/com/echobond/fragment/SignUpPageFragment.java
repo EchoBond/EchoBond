@@ -2,8 +2,9 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 import com.echobond.activity.IntroPage;
+import com.echobond.activity.StartPage;
 
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,8 @@ public class SignUpPageFragment extends Fragment {
 	private EditText signUpEmailText, signUpPasswordText;
 	private String signUpEmailStr, signUpPasswordStr;
 	private ImageButton signUp;
-	Intent intent = new Intent();
+	private OnSignUpSelectedListener mSelectedListener;
+	private Intent intent = new Intent();
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -47,6 +49,7 @@ public class SignUpPageFragment extends Fragment {
 				} else if (signUpPasswordStr == null || signUpPasswordStr.equals("")) {
 					Toast.makeText(getActivity(), "You need a password to protect your account. ", Toast.LENGTH_SHORT).show();
 				} else {
+					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNUP);
 					intent.setClass(getActivity(), IntroPage.class);
 					startActivity(intent);
 					getActivity().finish();
@@ -55,6 +58,20 @@ public class SignUpPageFragment extends Fragment {
 		});
 		
 		return signUpPageView;
-		
+	}
+	
+	public interface OnSignUpSelectedListener {
+		public String OnButtonSelected(int type);
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mSelectedListener = (OnSignUpSelectedListener) activity;
+		} catch (ClassCastException e) {
+			// should never happen in normal cases
+			throw new ClassCastException(activity.toString() + "must implement OnButtonSelectedListener in SignUpPageFragment. ");
+		}
 	}
 }

@@ -1,12 +1,14 @@
 package com.echobond.fragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.connector.FBSignInAsyncTask;
+import com.echobond.entity.Gender;
+import com.echobond.entity.User;
 import com.echobond.util.GCMUtil;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -16,22 +18,18 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +38,15 @@ import android.widget.ImageButton;
 
 /**
  * 
- * @author aohuijun
+ * @author AO Huijun & LIU Junjie
  *
  */
 public class StartPageFragment extends Fragment {
 	
+	private OnLoginClickListener mClickListener;
+	private int index;
 	private ImageButton loginEmail, signEmail;
 	private FragmentTransaction transaction;
-	Intent intent = new Intent();
 	
 	private UiLifecycleHelper uiLifecycleHelper;
 	private LoginButton loginButton;
@@ -55,8 +54,9 @@ public class StartPageFragment extends Fragment {
 	private String regId;
 	private String senderId;
 	private Context ctx;
-	private AtomicInteger msgId = new AtomicInteger();
 
+	private JSONObject FBAccount;
+	
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -68,7 +68,7 @@ public class StartPageFragment extends Fragment {
 	    }
 	};
 	
-	/** called when request to facebook returned.*/
+	/** called when request to Facebook returned.*/
 	private Request.Callback myRequestCallback = new Request.Callback() {
 		
 		@Override
@@ -76,8 +76,28 @@ public class StartPageFragment extends Fragment {
             /* handle the result */
         	GraphObject rs = response.getGraphObject();
         	if(null != rs){
-        		JSONObject jObj = rs.getInnerJSONObject();
-        		new AlertDialog.Builder(StartPageFragment.this.getActivity()).setMessage(jObj.toString()).show();
+        		/* First load */
+        		if(null == FBAccount){
+        			FBAccount = rs.getInnerJSONObject();
+		    		User fbUser = new User();
+		    		try{
+		    			fbUser.setEmail(FBAccount.getString("email"));
+			    		fbUser.setFBId(FBAccount.getString("id"));
+			    		fbUser.setFirstName(FBAccount.getString("first_name"));
+			    		fbUser.setLastName(FBAccount.getString("last_name"));
+			    		fbUser.setName(FBAccount.getString("name"));
+			    		fbUser.setTimeZone(FBAccount.getInt("timezone"));
+			    		fbUser.setLocale(FBAccount.getString("locale"));
+			    		Gender gender = new Gender();
+			    		gender.setName(FBAccount.getString("gender"));
+			    		fbUser.setGender(gender);
+		    		} catch (JSONException e){
+		    			e.printStackTrace();
+		    		}
+		    		String baseUrl = "http://www.echobond.com/Echobond_API/FBSignInServlet";
+		    		new FBSignInAsyncTask().execute(fbUser, baseUrl, StartPageFragment.this);
+		    		//new AlertDialog.Builder(StartPageFragment.this.getActivity()).setMessage(FBAccount.toString()).show();
+        		}
         	}
 		}
 	};
@@ -134,9 +154,11 @@ public class StartPageFragment extends Fragment {
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		//already logged in
 	    if (state.isOpened()) {
-	    	requestReadPermissions();
+	    	//first log in
+	    	if(null == FBAccount){
+	    		loadUserFBData(session);
+	    	}
 	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
-	    	loadUserData(session);
 	    } 
 	    //already logged out
 	    else if (state.isClosed()) {
@@ -144,6 +166,9 @@ public class StartPageFragment extends Fragment {
 	    }
 	}
 	
+	/**
+	 * need to be called OUTSIDE the ASYNC session state callback
+	 */
 	private void requestReadPermissions(){
 		Session session = Session.getActiveSession();
 		if(null == session){
@@ -160,7 +185,7 @@ public class StartPageFragment extends Fragment {
 	    loginButton.setReadPermissions(readPermissions);
 	}
 	
-	private void loadUserData(Session session){
+	private void loadUserFBData(Session session){
     	new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback).executeAsync();
 	}
 	
@@ -214,55 +239,10 @@ public class StartPageFragment extends Fragment {
 	    }
 	}
 	
-	/**
-	 * Registers the application with GCM servers asynchronously.
-	 * <p>
-	 * Stores the registration ID and app versionCode in the application's
-	 * shared preferences.
-	 */
-	private void registerInBackground() {
-	    new AsyncTask<Void,String,String>() {
-	        @Override
-	        protected String doInBackground(Void... params) {
-	            String msg = "";
-	            try {
-	                if (gcm == null) {
-	                    gcm = GoogleCloudMessaging.getInstance(ctx);
-	                }
-	                regId = gcm.register(senderId);
-	                msg = "Device registered, registration ID=" + regId;
-
-	                // You should send the registration ID to your server over HTTP,
-	                // so it can use GCM/HTTP or CCS to send messages to your app.
-	                // The request to your server should be authenticated if your app
-	                // is using accounts.
-	                
-	                //sendRegistrationIdToBackend();
-
-	                // For this demo: we don't need to send it because the device
-	                // will send upstream messages to a server that echo back the
-	                // message using the 'from' address in the message.
-
-	                // Persist the regID - no need to register again.
-	                
-	                //storeRegistrationId(ctx, regId);
-	            } catch (IOException ex) {
-	                msg = "Error :" + ex.getMessage();
-	                // If there is an error, don't just keep trying to register.
-	                // Require the user to click a button again, or perform
-	                // exponential back-off.
-	            }
-	            return msg;
-	        }
-	    }.execute(null, null, null);
-	}
-	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View startPageView = inflater.inflate(R.layout.authentication_startpage, container, false);
-		
 		loginButton = (LoginButton) startPageView.findViewById(R.id.loginFbBtn);
-		
         loginEmail = (ImageButton)startPageView.findViewById(R.id.loginEmailBtn);
         signEmail = (ImageButton)startPageView.findViewById(R.id.signEmailBtn);
         
@@ -275,13 +255,16 @@ public class StartPageFragment extends Fragment {
 	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    }
 	    */
+        requestReadPermissions();
         loginButton.setBackgroundResource(R.drawable.continue_facebook);
-	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);	    
 	    loginButton.setFragment(this);
+	    
 	    //2. check google play services, also in onResume()
 	    if(!GCMUtil.checkPlayServices(this.getActivity())){
 	    	//download google play or enable it
 	    }
+	    
 	    //3. get registration id from SharedPreference or register device in gcm
 	    ctx = getActivity().getApplicationContext();	    
 	    gcm = GoogleCloudMessaging.getInstance(getActivity());
@@ -289,7 +272,7 @@ public class StartPageFragment extends Fragment {
         regId = getRegistrationId(ctx);
 	    regId = "";
         if (regId.isEmpty()) {
-            registerInBackground();
+            GCMUtil.getInstance().regInBackground(this, senderId, gcm);
         }
         
         /*
@@ -306,10 +289,11 @@ public class StartPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				
+				index = 1;
 				transaction = getFragmentManager().beginTransaction().replace(R.id.startContent, new SignUpPageFragment());
 				transaction.addToBackStack(null);
 				transaction.commit();
+				mClickListener.OnFragmentSelected(index);
 			}
 		});
         
@@ -317,14 +301,41 @@ public class StartPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-
+				index = 2;
 				transaction = getFragmentManager().beginTransaction().replace(R.id.startContent, new LoginPageFragment());
 				transaction.addToBackStack(null);
 				transaction.commit();
+				mClickListener.OnFragmentSelected(index);
 			}
 		});
         
         return startPageView;
 	}
 
+	public void setRegId(String regId){
+		this.regId = regId;
+	}
+	
+	public void onGCMRegComplete(){
+		new AlertDialog.Builder(getActivity()).setMessage(regId).show();
+	}
+	
+	public void onFBLogin(String msg){
+		new AlertDialog.Builder(getActivity()).setMessage(msg).show();		
+	}
+	
+	public interface OnLoginClickListener {
+		public int OnFragmentSelected(int index);
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mClickListener = (OnLoginClickListener) activity;
+		} catch (ClassCastException e) {
+			// should never happen in normal cases
+			throw new ClassCastException(activity.toString() + "must implement OnLoginClickListener. ");
+		}
+	}
 }
