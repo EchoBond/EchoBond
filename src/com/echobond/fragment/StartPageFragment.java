@@ -20,6 +20,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +44,7 @@ import android.widget.ImageButton;
  */
 public class StartPageFragment extends Fragment {
 	
-	private ImageButton loginFacebook, loginEmail, signEmail;
+	private ImageButton loginEmail, signEmail;
 	private FragmentTransaction transaction;
 	Intent intent = new Intent();
 	
@@ -79,7 +80,7 @@ public class StartPageFragment extends Fragment {
         	GraphObject rs = response.getGraphObject();
         	if(null != rs){
         		JSONObject jObj = rs.getInnerJSONObject();
-
+        		new AlertDialog.Builder(StartPageFragment.this.getActivity()).setMessage(jObj.toString()).show();
         	}
 		}
 	};	
@@ -143,7 +144,7 @@ public class StartPageFragment extends Fragment {
 	    } 
 	    //already logged out
 	    else if (state.isClosed()) {
-	    	loginButton.setBackgroundResource(R.drawable.login);
+	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    }
 	}
 	
@@ -284,17 +285,19 @@ public class StartPageFragment extends Fragment {
 		
 		loginButton = (LoginButton) startPageView.findViewById(R.id.loginFbBtn);
 		
-		loginFacebook = (ImageButton)startPageView.findViewById(R.id.loginFbBtn);
         loginEmail = (ImageButton)startPageView.findViewById(R.id.loginEmailBtn);
         signEmail = (ImageButton)startPageView.findViewById(R.id.signEmailBtn);
         
 	    //1. modify login button UI according to FB session state
-	    Session session = Session.getActiveSession();
+        /*
+        Session session = Session.getActiveSession();
 	    if(null == session || !session.isOpened()){
-	    	loginButton.setBackgroundResource(R.drawable.login);
+	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    } else {
-	    	loginButton.setBackgroundResource(R.drawable.login);
+	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    }
+	    */
+        loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 	    loginButton.setFragment(this);
 	    //2. check google play services, also in onResume()
@@ -310,7 +313,7 @@ public class StartPageFragment extends Fragment {
             registerInBackground();
         }
         
-        
+        /*
         loginFacebook.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -318,6 +321,7 @@ public class StartPageFragment extends Fragment {
 				// TODO REGISTRATION USING FACEBOOK ACCOUNT
 			}
 		});
+		*/
         
         signEmail.setOnClickListener(new OnClickListener() {
 			
