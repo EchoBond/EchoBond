@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.util.GCMUtil;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -55,15 +56,10 @@ public class StartPageFragment extends Fragment {
 	private String senderId;
 	private Context ctx;
 	private AtomicInteger msgId = new AtomicInteger();
-    /**
-     * Substitute you own sender ID here. This is the project number you got
-     * from the API Console, as described in "Getting Started."
-     */
-    private String SENDER_ID = "428609751156";
+
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     
 	private Session.StatusCallback myStatuscallback = new Session.StatusCallback() {
 	    @Override
@@ -72,6 +68,7 @@ public class StartPageFragment extends Fragment {
 	    }
 	};
 	
+	/** called when request to facebook returned.*/
 	private Request.Callback myRequestCallback = new Request.Callback() {
 		
 		@Override
@@ -83,13 +80,13 @@ public class StartPageFragment extends Fragment {
         		new AlertDialog.Builder(StartPageFragment.this.getActivity()).setMessage(jObj.toString()).show();
         	}
 		}
-	};	
+	};
     
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	    uiLifecycleHelper = new UiLifecycleHelper(getActivity(), myStatuscallback);
-	    uiLifecycleHelper.onCreate(savedInstanceState);		
+	    uiLifecycleHelper.onCreate(savedInstanceState);
 	};
 	
 	@Override
@@ -104,7 +101,7 @@ public class StartPageFragment extends Fragment {
 	        onSessionStateChange(session, session.getState(), null);
 	    }
 	    // For scenarios when google play is disabled upon resume
-	    if(!checkPlayServices()){
+	    if(!GCMUtil.checkPlayServices(this.getActivity())){
 	    	//download google play or enable it
 	    }
 		uiLifecycleHelper.onResume();
@@ -134,7 +131,6 @@ public class StartPageFragment extends Fragment {
 		uiLifecycleHelper.onSaveInstanceState(outState);
 	}
 	
-	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		//already logged in
 	    if (state.isOpened()) {
@@ -154,7 +150,7 @@ public class StartPageFragment extends Fragment {
 			Session.openActiveSession(getActivity(), true, myStatuscallback);
 		}
 		//asking permissions
-		String[] pers = new String[]{"public_profile","email"};
+		String[] pers = getResources().getString(R.string.facebook_permissions).split(",");
 		ArrayList<String> readPermissions = new ArrayList<String>();
 		for(int i=0;i<pers.length;i++){
 			if(!session.isPermissionGranted(pers[i])){
@@ -165,27 +161,9 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	private void loadUserData(Session session){
-    	new Request(session, "v2.2/me", null, HttpMethod.GET, myRequestCallback).executeAsync();
+    	new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback).executeAsync();
 	}
 	
-	/**
-	 * Check the device to make sure it has the Google Play Services APK. If
-	 * it doesn't, display a dialog that allows users to download the APK from
-	 * the Google Play Store or enable it in the device's system settings.
-	 */
-	private boolean checkPlayServices() {
-	    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
-	    if (resultCode != ConnectionResult.SUCCESS) {
-	        if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-	            GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(),
-	                    PLAY_SERVICES_RESOLUTION_REQUEST).show();
-	        } else {
-	            getActivity().finish();
-	        }
-	        return false;
-	    }
-	    return true;
-	}
 	
 	/**
 	 * Gets the current registration ID for application on GCM service.
@@ -251,7 +229,7 @@ public class StartPageFragment extends Fragment {
 	                if (gcm == null) {
 	                    gcm = GoogleCloudMessaging.getInstance(ctx);
 	                }
-	                regId = gcm.register(SENDER_ID);
+	                regId = gcm.register(senderId);
 	                msg = "Device registered, registration ID=" + regId;
 
 	                // You should send the registration ID to your server over HTTP,
@@ -301,12 +279,13 @@ public class StartPageFragment extends Fragment {
 	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 	    loginButton.setFragment(this);
 	    //2. check google play services, also in onResume()
-	    if(!checkPlayServices()){
+	    if(!GCMUtil.checkPlayServices(this.getActivity())){
 	    	//download google play or enable it
 	    }
 	    //3. get registration id from SharedPreference or register device in gcm
 	    ctx = getActivity().getApplicationContext();	    
 	    gcm = GoogleCloudMessaging.getInstance(getActivity());
+	    senderId = getResources().getString(R.string.gcm_sender_id);
         regId = getRegistrationId(ctx);
 	    regId = "";
         if (regId.isEmpty()) {
