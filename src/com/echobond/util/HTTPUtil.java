@@ -52,7 +52,7 @@ public class HTTPUtil {
 			if(request.getMethod().equalsIgnoreCase("POST")){
 				//send post request
 				osw = new OutputStreamWriter(conn.getOutputStream());
-				osw.write(request.getparams().toString());
+				osw.write(request.getParams().toString());
 				osw.flush();
 			} else {
 				//send get request
@@ -84,6 +84,8 @@ public class HTTPUtil {
 		return response;
 	}
 	private void setRequestHeaders(URLConnection conn, Map<?, ?> headers){
+		if(null == headers)
+			return;
 		Set<?> headerNames = headers.keySet();
 		for (Object header: headerNames) {
 			conn.setRequestProperty((String)header, (String)headers.get(header));

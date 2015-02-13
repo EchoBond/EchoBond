@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/signUpEmailView"
         android:layout_toRightOf="@id/signUpEmailView"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
+        android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
         android:inputType="textEmailAddress"
         android:singleLine="true"
         android:hint="@string/hint_email_address"

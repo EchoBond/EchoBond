@@ -38,10 +38,10 @@ public class RawHttpRequest {
 	public void setHeaders(Map<?, ?> headers) {
 		this.headers = headers;
 	}
-	public Object getparams() {
+	public Object getParams() {
 		return params;
 	}
-	public void setparams(String params) {
+	public void setParams(String params) {
 		this.params = params;
 	}
 	
