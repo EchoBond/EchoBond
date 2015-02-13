@@ -59,7 +59,7 @@ public class StartPageFragment extends Fragment {
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."
      */
-    private String SENDER_ID = "428609751156";	
+    private String SENDER_ID = "428609751156";
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
