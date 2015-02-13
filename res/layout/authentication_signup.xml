@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:contentDescription="@string/none"
+        android:id="@+id/signUpEmailView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/email_logo"
+        android:layout_marginTop="200dp" />  
+    <EditText
+        android:id="@+id/signUpEmailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/signUpEmailView"
+        android:layout_toRightOf="@id/signUpEmailView"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:hint="@string/hint_email_address"
+        android:typeface="monospace" />    
+    <ImageView 
+        android:contentDescription="@string/none"
+        android:id="@+id/signUpPasswordView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/password_logo"
+        android:layout_below="@id/signUpEmailView" />
+    <EditText 
+        android:id="@+id/signUpPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/signUpPasswordView"
+        android:layout_below="@id/signUpEmailView"
+        android:layout_alignBottom="@id/signUpPasswordView"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:hint="@string/hint_password"
+        android:typeface="normal" />
+    <ImageButton 
+        android:contentDescription="@string/none"
+        android:id="@+id/signUpBtn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#ffffff"
+        android:src="@drawable/sign_up"
+        android:layout_below="@id/signUpPasswordView"
+        android:scaleType="fitCenter" />
+
+</RelativeLayout>

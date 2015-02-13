@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- xml config file for network connections -->
+<!-- http server -->
+<server id="0" name="http_server">
+    <desc>server to handle HTTP requests</desc>
+    <protocol>http</protocol>
+    <domain>www.echobond.com</domain>
+    <sub>Echobond_API</sub>
+    <port>80</port>
+    <service id="0" type="Servlet">SignUp</service>
+    <service id="1" type="Servlet">SignIn</service>
+    <service id="2" type="Servlet">AccountActivate</service>
+    <service id="3" type="Servlet">ResetPass</service>
+    <service id="4" type="Servlet">ConfirmPassReset</service>
+    <service id="5" type="Servlet">FBSignUp</service>
+    <service id="6" type="Servlet">FBSignIn</service>
+    <service id="7" type="Servlet">PostThought</service>
+    <service id="8" type="Servlet">LoadThoughts</service>
+    <service id="9" type="Servlet">LoadUsers</service>
+</server>
+
+<!-- db server not yet in DIRECT use, accessable via web server -->
+<!-- 
+<server id="1" name="db_server">
+    <description>DB server to handle DB requests</description>
+    <protocol>ssh</protocol>
+    <domain>www.echobond.com</domain>
+    <servicd>Echobond_db</servicd>
+    <port>443</port>
+</server>
+-->

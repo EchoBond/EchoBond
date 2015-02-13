@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EchoBond</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="facebook_app_id">825701450811254</string>
+    <string name="title_activity_login_page">LoginPage</string>
+    <string name="title_activity_intro_page">IntroPage</string>
+    <string name="title_activity_main_page">MainPage</string>
+    <string name="title_activity_search_page">SearchPage</string>
+    <string name="none"></string>
+    <string name="hint_email_address">youareawesome@email.com</string>
+    <string name="hint_password">password that no one knows</string>
+    <string name="title_button_search">Search</string>
+    <string name="title_button_message">Message</string>
+    <string name="title_button_setting">Setting</string>
+    <string name="menu_search">SearchBar</string>
+
+</resources>

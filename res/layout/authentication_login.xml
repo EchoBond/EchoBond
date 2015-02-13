@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:contentDescription="@string/none"
+        android:id="@+id/loginEmailView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/email_logo"
+        android:layout_marginTop="200dp" />  
+    <EditText
+        android:id="@+id/loginEmailInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/loginEmailView"
+        android:layout_toRightOf="@id/loginEmailView"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:hint="@string/hint_email_address"
+        android:typeface="monospace" />    
+    <ImageView 
+        android:contentDescription="@string/none"
+        android:id="@+id/loginPasswordView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/password_logo"
+        android:layout_below="@id/loginEmailView" />
+    <EditText 
+        android:id="@+id/loginPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/loginPasswordView"
+        android:layout_below="@id/loginEmailView"
+        android:layout_alignBottom="@id/loginPasswordView"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:hint="@string/hint_password"
+        android:typeface="normal" />
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginPasswordView"
+        android:orientation="horizontal" >
+	    <ImageButton 
+	        android:contentDescription="@string/none"
+	        android:layout_weight="1.6"
+	        android:id="@+id/forgetPWBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="80dp"
+	        android:background="#ffffff"
+	        android:src="@drawable/forget_pw"
+	        android:scaleType="fitCenter" />
+	    <ImageButton 
+	        android:contentDescription="@string/none"
+	        android:layout_weight="1"
+	        android:id="@+id/loginBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="80dp"
+	        android:background="#ffffff"
+	        android:src="@drawable/login"
+	        android:scaleType="fitCenter" />
+    </LinearLayout>
+
+</RelativeLayout>

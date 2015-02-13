@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.echobond"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- basic permission -->
+	<uses-permission android:name="android.permission.INTERNET"/>	
+	<!-- for register and receive msg from GCM -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+	<!-- get google account to register on GCM -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+	<!-- for notification -->
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	
+	<!-- package name specified permissions -->
+	<permission android:name="com.echobond.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.echobond.permission.C2D_MESSAGE" />	
+    
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <!-- package name specified receiver -->
+		<receiver
+            android:name="com.echobond.gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.echobond" />
+            </intent-filter>
+        </receiver>
+        <!-- service for GCM -->
+        <service android:name="com.echobond.GcmIntentService" />
+        
+        <!-- necessary to use facebook LoginButton -->
+        <activity android:name="com.facebook.LoginActivity" />
+        <!-- necessary to map to registered FB app id -->
+        <!-- should be placed within application -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <!-- for usage of google play services -->
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+		
+        <activity
+            android:name="com.echobond.activity.StartPage"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.echobond.activity.IntroPage"
+            android:label="@string/title_activity_intro_page"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="com.echobond.activity.MainPage"
+            android:label="@string/none"
+            android:logo="@drawable/search_btn" >
+        </activity>
+        <activity
+			android:name="com.echobond.activity.SearchPage"
+            android:label="@string/none"
+            android:logo="@drawable/search_btn" >
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"  
+        		android:value="com.echobond.activity.MainPage" />
+        </activity>
+    </application>
+
+</manifest>
