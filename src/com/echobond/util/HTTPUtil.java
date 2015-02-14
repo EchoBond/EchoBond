@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
@@ -29,7 +31,7 @@ public class HTTPUtil {
 	public static HTTPUtil getInstance(){
 		return HTTPUtilHolder.INSTANCE;
 	}
-	public RawHttpResponse send(RawHttpRequest request){
+	public RawHttpResponse send(RawHttpRequest request) throws SocketTimeoutException, ConnectException{
 		RawHttpResponse response = null;
 		InputStream is = null;
 		OutputStreamWriter osw = null;
@@ -45,6 +47,8 @@ public class HTTPUtil {
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.setUseCaches(false);
+			conn.setConnectTimeout(3000);
+			conn.setReadTimeout(3000);
 			//headers settings
 			setRequestHeaders(conn, request.getHeaders());
 			//method setting

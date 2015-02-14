@@ -8,27 +8,33 @@
         android:contentDescription="@string/none"
         android:id="@+id/thought_list_pic"  
         android:layout_width="wrap_content"  
-        android:layout_height="wrap_content"  
-        android:layout_alignParentRight="true"  
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
         android:padding="6dp"  
         android:layout_marginTop="4dp" />  
   
     <TextView  
         android:id="@+id/thought_list_title"  
-        android:layout_width="match_parent"  
+        android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:paddingLeft="4dp"  
         android:paddingRight="4dp"  
         android:textStyle="bold"  
-        android:layout_toLeftOf="@id/thought_list_pic" />  
-  
+        android:layout_below="@id/thought_list_pic" />
     <TextView  
         android:id="@+id/thought_list_content"  
         android:layout_width="match_parent"  
         android:layout_height="wrap_content"  
         android:layout_alignParentLeft="true"  
         android:layout_below="@id/thought_list_title"  
-        android:layout_toLeftOf="@id/thought_list_pic"  
-        android:padding="4dp" />  
+        android:padding="4dp" />
+    <TextView 
+        android:id="@+id/thought_list_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/thought_list_pic"
+        android:padding="4dp" />
   
 </RelativeLayout>

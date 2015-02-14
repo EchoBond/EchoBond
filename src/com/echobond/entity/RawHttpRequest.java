@@ -1,5 +1,6 @@
 package com.echobond.entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RawHttpRequest {
@@ -9,16 +10,35 @@ public class RawHttpRequest {
 	
 	private String url;
 	private String method;
-	private Map<?,?> headers;
+	private Map<String,String> headers;
 	private Object params;
 	
-	public RawHttpRequest(String url, String method, Map<?, ?> headers,
+	public RawHttpRequest(String url, String method, Map<String, String> headers,
 			Object params) {
 		super();
 		this.url = url;
 		this.method = method;
 		this.headers = headers;
 		this.params = params;
+		setJSON(false);
+	}
+	public RawHttpRequest(String url, String method, Map<String, String> headers,
+			Object params, boolean isJSON){
+		super();
+		this.url = url;
+		this.method = method;
+		this.headers = headers;
+		this.params = params;
+		setJSON(isJSON);
+	}
+	public void setJSON(boolean isJSON){
+		if(null == headers)
+			headers = new HashMap<String, String>();
+		if(isJSON){
+			headers.put("content-type", "text/json;charset=UTF-8");			
+		} else {
+			headers.put("content-type", "text/plain;charset=UTF-8");
+		}
 	}
 	public String getUrl() {
 		return url;
@@ -35,7 +55,7 @@ public class RawHttpRequest {
 	public Map<?, ?> getHeaders() {
 		return headers;
 	}
-	public void setHeaders(Map<?, ?> headers) {
+	public void setHeaders(Map<String, String> headers) {
 		this.headers = headers;
 	}
 	public Object getParams() {

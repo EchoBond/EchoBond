@@ -2,7 +2,7 @@ package com.echobond.connector;
 
 import java.io.IOException;
 
-import com.echobond.fragment.StartPageFragment;
+import com.echobond.activity.MainPage;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.os.AsyncTask;
  */
 public class GCMRegAsyncTask extends AsyncTask<Object, Integer, String> {
 	
-	private StartPageFragment fragment;
+	private MainPage mainPage;
 	
 	/**
 	 * Registers the application with GCM servers asynchronously.
@@ -26,11 +26,10 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, String> {
     @Override
     protected String doInBackground(Object... params) {
     	String regId = "";
-    	StartPageFragment fragment = (StartPageFragment) params[0];
-    	this.fragment = fragment;
+    	this.mainPage = (MainPage) params[0];
     	String senderId = (String) params[1];
         GoogleCloudMessaging gcm = (GoogleCloudMessaging) params[2];
-        Context ctx = fragment.getActivity().getApplicationContext();
+        Context ctx = mainPage.getApplicationContext();
         try {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(ctx);
@@ -63,7 +62,7 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, String> {
     
     @Override
     protected void onPostExecute(String result) {
-    	fragment.setRegId(result);
-    	fragment.onGCMRegComplete();
+    	//fragment.setRegId(result);
+    	//fragment.onGCMRegComplete();
     }
 }

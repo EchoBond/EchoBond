@@ -15,12 +15,9 @@
     <string name="title_button_message">Message</string>
     <string name="title_button_setting">Setting</string>
     <string name="menu_search">SearchBar</string>
-    
     <string name="facebook_permissions">public_profile,email</string>
     <string name="facebook_root_path">v2.2/me</string>
-    
     <string name="gcm_sender_id">812713217371</string>
-    
     <string name="url_protocol">http</string>
     <string name="url_domain">www.echobond.com</string>
     <string name="url_sub">Echobond_API</string>
@@ -30,14 +27,16 @@
     <string name="url_reset_pass">ResetPassServlet</string>
     <string name="url_fb_signin">FBSignInServlet</string>
     <string name="url_load_t">LoadThoughtsServlet</string>
-    
     <string name="resetpass_not_reg">You have not registered yet!</string>
     <string name="resetpass_now">A reset email will be sent to you.</string>
     <string name="resetpass_resetting">A reset email is already sent to you, please follow the instructions.</string>
-    
     <string name="signin_wrong_pass">Oops, the password is not right.</string>
+    <string name="signin_not_exists">You have not registered yet!</string>
     <string name="signup_exst_vrfd">Sorry, the email has registered.</string>
-    <string name="signup_exst_unvrfd_new_mail">We will send you a new email to activate your account.</string>
-    <string name="signup_exst_unvrfd_mailed">We have already sent you a activation email, please check it.</string>
-        
+    <string name="signup_exst_unvrfd_new_mail">We will send you an email to activate your account.</string>
+    <string name="signup_exst_unvrfd_mailed">We have already sent you an activation email, please check it.</string>
+    <string name="title_activity_app_setting_page">AppSettingPage</string>
+    
+    <string name="network_issue">Unable to connect to server, please check your network connectivity.</string>
+
 </resources>
