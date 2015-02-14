@@ -1,5 +1,8 @@
 package com.echobond.connector;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,9 +10,8 @@ import com.echobond.activity.StartPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
-import com.echobond.fragment.LoginPageFragment;
-import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 
 import android.os.AsyncTask;
 
@@ -31,34 +33,24 @@ public class SignUpAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		String baseUrl = (String) params[1];
 		activity = (StartPage) params[2];
 		String method = RawHttpRequest.HTTP_METHOD_POST;
-		String body = "email="+user.getEmail()+"&password="+user.getPassword();
-		RawHttpRequest request = new RawHttpRequest(baseUrl, method, null, body);
-		RawHttpResponse response = HTTPUtil.getInstance().send(request);
-		String msg = response.getMsg();
-		JSONObject result = new JSONObject();
+		JSONObject body = JSONUtil.fromObjectToJSON(user);
+		RawHttpRequest request = new RawHttpRequest(baseUrl, method, null, body, true);
+		RawHttpResponse response = null;
+		JSONObject result = null;
 		try{
-			if("exists=0,extra=sendEmail".equals(msg)){
-				result.put("exists", 0);
-			} else if("exists=1,verified=1".equals(msg)){
-				result.put("exists", 1);
-				result.put("verified", 1);
-			} else if("exists=1,verified=0,email=0,extra=resendEmail".equals(msg)){
-				result.put("exists", 1);
-				result.put("verified", 0);
-				result.put("email", 0);
-			} else if("exists=1,verified=0,email=1,expired=0".equals(msg)){
-				result.put("exists", 1);
-				result.put("verified", 0);				
-				result.put("email", 1);
-				result.put("expired", 0);
-			} else if("exists=1,verified=0,email=1,expired=1,extra=resendEmail".equals(msg)){
-				result.put("exists", 1);
-				result.put("verified", 0);
-				result.put("email", 1);
-				result.put("expired", 1);
-			}
-		} catch (JSONException e){
+			response = HTTPUtil.getInstance().send(request);
+		} catch(SocketTimeoutException e){
 			e.printStackTrace();
+		} catch(ConnectException e){
+			e.printStackTrace();
+		}
+		if(null != response){
+			String msg = response.getMsg();
+			try{
+				result = new JSONObject(msg);
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}

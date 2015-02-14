@@ -1,7 +1,9 @@
 package com.echobond.entity;
 
-import java.sql.Blob;
 import java.util.ArrayList;
+
+import android.graphics.Bitmap;
+
 
 /**
  * 
@@ -10,16 +12,17 @@ import java.util.ArrayList;
  */
 public class Thought {
 	private int id;
-	private int echoerId;
+	private int userId;
 	private int langId;
 	private int groupId;
 	private String content;
-	private Blob image;
+	private Bitmap image;
 	private String time;
 
-	private User echoer;
+	private User user;
 	private Language lang;
 	private Group group;
+	private ArrayList<Integer> tagIds;
 	private ArrayList<Tag> tags;
 	public int getId() {
 		return id;
@@ -27,11 +30,11 @@ public class Thought {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getEchoerId() {
-		return echoerId;
+	public int getUserId() {
+		return userId;
 	}
-	public void setEchoerId(int echoerId) {
-		this.echoerId = echoerId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public int getLangId() {
 		return langId;
@@ -51,10 +54,10 @@ public class Thought {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Blob getImage() {
+	public Bitmap getImage() {
 		return image;
 	}
-	public void setImage(Blob image) {
+	public void setImage(Bitmap image) {
 		this.image = image;
 	}
 	public String getTime() {
@@ -63,11 +66,11 @@ public class Thought {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public User getEchoer() {
-		return echoer;
+	public User getUser() {
+		return user;
 	}
-	public void setEchoer(User echoer) {
-		this.echoer = echoer;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public Language getLang() {
 		return lang;
@@ -81,6 +84,12 @@ public class Thought {
 	public void setGroup(Group group) {
 		this.group = group;
 	}
+	public ArrayList<Integer> getTagIds() {
+		return tagIds;
+	}
+	public void setTagIds(ArrayList<Integer> tagIds) {
+		this.tagIds = tagIds;
+	}
 	public ArrayList<Tag> getTags() {
 		return tags;
 	}
@@ -88,5 +97,4 @@ public class Thought {
 		this.tags = tags;
 	}
 
-	
 }

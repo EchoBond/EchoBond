@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.echobond.R;
+import com.google.android.gms.plus.model.people.Person.Image;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,10 @@ import android.widget.Toast;
  *
  */
 public class ThoughtFragment extends ListFragment implements AdapterView.OnItemClickListener{
+	
+	private int[] testImages = new int[] {
+		R.drawable.temp_1, R.drawable.temp_2, R.drawable.temp_3, R.drawable.temp_4, R.drawable.temp_5, R.drawable.temp_6
+	};
 	
 	private String[] testTitles = {
 		"Happy girl:)", "Global citizen", "Sports fanatic", "Japan lover", "Anonymous", "Traveller"
@@ -47,10 +52,10 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		
-		final String[] from = new String[] {"title", "content"};
-		final int[] to = new int[] {R.id.thought_list_title, R.id.thought_list_content};
+		final String[] from = new String[] {"pic", "title", "content"};
+		final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_content};
 		super.onActivityCreated(savedInstanceState);
-		SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.thoughts_list_item, from, to);
+		SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
 		this.setListAdapter(adapter);
 		getListView().setOnItemClickListener(this);
 	}
@@ -60,6 +65,7 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 		List<Map<String, Object>> thoughtList = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < testTitles.length; i++) {
 			Map<String, Object> thoughtMap = new HashMap<String, Object>();
+			thoughtMap.put("pic", testImages[i]);
 			thoughtMap.put("title", testTitles[i]);
 			thoughtMap.put("content", testContents[i]);
 			thoughtList.add(thoughtMap);

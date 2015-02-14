@@ -1,6 +1,9 @@
 package com.echobond.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
@@ -8,35 +11,36 @@ import com.echobond.fragment.ProfileFragment;
 import com.echobond.fragment.ThoughtFragment;
 import com.echobond.R;
 
+import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
-
 /**
  * 
  * @author aohuijun
  *
  */
-public class MainPage extends FragmentActivity {
+public class MainPage extends ActionBarActivity {
 
 	private ThoughtFragment homeFragment, hitFragment, newTrendFragment;
 	private LikeMindedFragment likeMindedFragment;
@@ -44,50 +48,61 @@ public class MainPage extends FragmentActivity {
 	private ArrayList<Fragment> mainFragmentsList;
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
-	private ImageView home, hit, newTrend, likeMindedPpl, profile, add, tabSelector;
+	private ImageView homeButton, hitButton, newTrendButton, likeMindedPplButton, profileButton, addButton, 
+						messageButton, settingButton, tabSelector;
+	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
-	public FragmentManager fManager;
+	public FragmentManager fManager = getSupportFragmentManager();
+	
+	private ActionBarDrawerToggle drawerToggle;
+	private DrawerLayout mainDrawerLayout;
+	private ListView drawerList;
+	private int[] settingIcons = new int[]{
+			R.drawable.edit_profile, R.drawable.app_setting, R.drawable.following_blue, 
+			R.drawable.sucks_comment, R.drawable.terms_of_service, R.drawable.contact};
+	private String[] settingTitles;
+	private SimpleAdapter settingPageAdapter;
+	private boolean isOpened = false;
+	private long exitTime = 0;
+
 	Intent intent = new Intent();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-		ColorDrawable colorDrawable = new ColorDrawable();
-		colorDrawable.setColor(Color.WHITE);
-		colorDrawable.setAlpha(0);
-		getActionBar().setBackgroundDrawable(colorDrawable);
-		getActionBar().setHomeButtonEnabled(true);
-		
-//		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main_page);
-		
-		fManager = getSupportFragmentManager();
+		initActionBar();
 		initViews();
 		initTabPager();
+		initSettingPage();
 		
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.mainpage_actionbar_menu, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent.setClass(MainPage.this, SearchPage.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+	private List<Map<String, Object>> getSettingData() {
+		List<Map<String, Object>> settingList = new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < settingIcons.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("pic", settingIcons[i]);
+			map.put("title", settingTitles[i]);
+			settingList.add(map);
 		}
+		return settingList;
 	}
-	
+
+	private void initActionBar() {
+		Toolbar mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
+		setSupportActionBar(mainToolbar);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.title_bar_main);
+		
+		searchBar = (EditText)findViewById(R.id.searchBarView);
+		messageButton = (ImageView)findViewById(R.id.messageBtn);
+		settingButton = (ImageView)findViewById(R.id.settingBtn);
+		searchBar.setOnClickListener(new BarItemOnClickListener(0));
+		settingButton.setOnClickListener(new BarItemOnClickListener(2));
+	}
+
 	private void initViews() {
 		
 		mainFragmentsList = new ArrayList<Fragment>();
@@ -123,29 +138,117 @@ public class MainPage extends FragmentActivity {
 		
 		tabSelector = (ImageView)findViewById(R.id.tabBtn);
 
-		home = (ImageView)findViewById(R.id.homeBtn);
-		hit = (ImageView)findViewById(R.id.hitBtn);
-		newTrend = (ImageView)findViewById(R.id.newTrendBtn);
-		likeMindedPpl = (ImageView)findViewById(R.id.likeMindedPplBtn);
-		profile = (ImageView)findViewById(R.id.profileBtn);
-		add = (ImageView)findViewById(R.id.addBtn);
+		homeButton = (ImageView)findViewById(R.id.homeBtn);
+		hitButton = (ImageView)findViewById(R.id.hitBtn);
+		newTrendButton = (ImageView)findViewById(R.id.newTrendBtn);
+		likeMindedPplButton = (ImageView)findViewById(R.id.likeMindedPplBtn);
+		profileButton = (ImageView)findViewById(R.id.profileBtn);
+		addButton = (ImageView)findViewById(R.id.addBtn);
 		
-		home.setOnClickListener(new MyOnClickListener(0));
-		hit.setOnClickListener(new MyOnClickListener(1));
-		newTrend.setOnClickListener(new MyOnClickListener(2));
-		likeMindedPpl.setOnClickListener(new MyOnClickListener(3));
-		profile.setOnClickListener(new MyOnClickListener(4));
-		add.setOnClickListener(new MyOnClickListener(5));
+		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
+		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
+		newTrendButton.setOnClickListener(new FragmentChangeOnClickListener(2));
+		likeMindedPplButton.setOnClickListener(new FragmentChangeOnClickListener(3));
+		profileButton.setOnClickListener(new FragmentChangeOnClickListener(4));
+		addButton.setOnClickListener(new FragmentChangeOnClickListener(5));
 		
 	}
-
 	
-	public class MyOnClickListener implements OnClickListener {
+	private void initSettingPage() {
 		
-		private int index = 0;
-		public MyOnClickListener(int i) {	index = i;	}
+		final String[] from = new String[] {"pic", "title"};
+		final int[] to = new int[] {R.id.settingItemIcon, R.id.settingItemText};
+		settingTitles = getResources().getStringArray(R.array.setting_list_array);
+		settingPageAdapter = new SimpleAdapter(this, getSettingData(), R.layout.item_setting, from, to);
+    	mainDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+    	drawerList = (ListView)findViewById(R.id.setting_drawer);
+    	drawerList.setAdapter(settingPageAdapter);
+    	drawerToggle = new ActionBarDrawerToggle(this, mainDrawerLayout, null, 0, 0) {
+    		
+    		@Override
+    		public void onDrawerOpened(View drawerView) {
+    			isOpened = true;
+    			super.onDrawerOpened(drawerView);
+    		}
+    		
+    		@Override
+    		public void onDrawerClosed(View drawerView) {
+    			isOpened = false;
+    			super.onDrawerClosed(drawerView);
+    		}
+    	};
+    	mainDrawerLayout.setDrawerListener(drawerToggle);
+    	drawerList.setOnItemClickListener(new SettingItemClickListener());
+	}
+
+	public class BarItemOnClickListener implements OnClickListener {
+		
+		private int barItemIndex = 0;
+		public BarItemOnClickListener(int i) { barItemIndex = i; }
+		@Override
+		public void onClick(View v) {
+			switch (barItemIndex) {
+			case 0:
+				intent.setClass(MainPage.this, SearchPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				try {
+					mainDrawerLayout.openDrawer(drawerList);
+					isOpened = true;
+				} catch (ClassCastException e) {
+					throw new ClassCastException(this.toString() + "must implement SettingButtonClickListener. ");
+				}
+				break;
+				
+			default:
+				break;
+			}
+		}
+		
+	}
+	
+	public class SettingItemClickListener implements AdapterView.OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			switch (position) {
+			case 0:
+				Toast.makeText(getApplicationContext(), settingTitles[0], Toast.LENGTH_SHORT).show();
+				break;
+			case 1:
+				intent.setClass(MainPage.this, AppSettingPage.class);
+				startActivity(intent);
+				break;
+			case 2:
+				Toast.makeText(getApplicationContext(), settingTitles[2], Toast.LENGTH_SHORT).show();
+				break;
+			case 3:
+				Toast.makeText(getApplicationContext(), settingTitles[3], Toast.LENGTH_SHORT).show();
+				break;
+			case 4:
+				Toast.makeText(getApplicationContext(), settingTitles[4], Toast.LENGTH_SHORT).show();
+				break;
+			case 5:
+				Toast.makeText(getApplicationContext(), settingTitles[5], Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+		}
+		
+	}
+	
+	public class FragmentChangeOnClickListener implements OnClickListener {
+		
+		private int fragmentIndex = 0;
+		public FragmentChangeOnClickListener(int i) { fragmentIndex = i; }
 		public void onClick(View v){
-			mTabPager.setCurrentItem(index);
+			mTabPager.setCurrentItem(fragmentIndex);
 		}
 	};
 	
@@ -153,19 +256,7 @@ public class MainPage extends FragmentActivity {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-
-			if (arg0 == 2) {
-				int i = mTabPager.getCurrentItem();
-				switch (i) {
-				case 0: mTabPager.setCurrentItem(0); break;
-				case 1: mTabPager.setCurrentItem(1); break;
-				case 2: mTabPager.setCurrentItem(2); break;
-				case 3: mTabPager.setCurrentItem(3); break;
-				case 4: mTabPager.setCurrentItem(4); break;
-				case 5: mTabPager.setCurrentItem(5); break;
-				default: break;
-				}
-			}
+			
 		}
 
 		@Override
@@ -185,16 +276,20 @@ public class MainPage extends FragmentActivity {
 		}
 	}
 
-	private long exitTime = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			if ((System.currentTimeMillis() - exitTime) > 2000) {
-				Toast.makeText(getApplicationContext(), "Click once more to quit.", Toast.LENGTH_SHORT).show();
-				exitTime = System.currentTimeMillis();
-			} else {
-				finish();
-				System.exit(0);
+			if (isOpened == true) {
+				mainDrawerLayout.closeDrawer(drawerList);
+				isOpened = false;
+			}else if (isOpened == false) {
+				if ((System.currentTimeMillis() - exitTime) > 2000) {
+					Toast.makeText(getApplicationContext(), "Click once more to quit.", Toast.LENGTH_SHORT).show();
+					exitTime = System.currentTimeMillis();
+				} else {
+					finish();
+					System.exit(0);
+				}
 			}
 			return true;
 		}

@@ -1,11 +1,10 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
-import com.echobond.activity.IntroPage;
 import com.echobond.activity.StartPage;
+import com.echobond.entity.User;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ public class SignUpPageFragment extends Fragment {
 	private String signUpEmailStr, signUpPasswordStr;
 	private ImageButton signUp;
 	private OnSignUpSelectedListener mSelectedListener;
-	private Intent intent = new Intent();
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -49,10 +47,11 @@ public class SignUpPageFragment extends Fragment {
 				} else if (signUpPasswordStr == null || signUpPasswordStr.equals("")) {
 					Toast.makeText(getActivity(), "You need a password to protect your account. ", Toast.LENGTH_SHORT).show();
 				} else {
-					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNUP);
-					intent.setClass(getActivity(), IntroPage.class);
-					startActivity(intent);
-					getActivity().finish();
+					// TODO REGULAR-EXPRESSION CHECK
+					User user = new User();
+					user.setEmail(signUpEmailStr);
+					user.setPassword(signUpPasswordStr);
+					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNUP, user);
 				}
 			}
 		});
@@ -61,7 +60,7 @@ public class SignUpPageFragment extends Fragment {
 	}
 	
 	public interface OnSignUpSelectedListener {
-		public String OnButtonSelected(int type);
+		public void OnButtonSelected(int type, User user);
 	}
 	
 	@Override

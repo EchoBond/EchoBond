@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * 
  * @author aohuijun
  *
  */
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
 	private ArrayList<Fragment> mainFragmentsList;	
 

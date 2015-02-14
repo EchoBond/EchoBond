@@ -1,5 +1,8 @@
 package com.echobond.connector;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,8 +10,8 @@ import com.echobond.activity.StartPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
-import com.echobond.fragment.StartPageFragment;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 
 import android.os.AsyncTask;
 
@@ -30,26 +33,23 @@ public class FBSignInAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		activity = (StartPage) params[2];
 		String url = baseUrl;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
-		String body = "email="+fBUser.getEmail();
-		body += "&FBId="+fBUser.getFBId();
-		body += "&firstName="+fBUser.getFirstName();
-		body += "&lastName="+fBUser.getLastName();
-		body += "&name="+fBUser.getName();
-		body += "&timezone="+fBUser.getTimeZone();
-		body += "&locale="+fBUser.getLocale();
-		body += "&gender="+fBUser.getGender().getName();
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body);
-		RawHttpResponse response = HTTPUtil.getInstance().send(request);
-		String msg = response.getMsg();
-		JSONObject result = new JSONObject();
+		JSONObject body = JSONUtil.fromObjectToJSON(fBUser);
+		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
+		RawHttpResponse response = null;
+		JSONObject result = null;
 		try{
-			if("new=0".equals(msg)){
-				result.put("new", 0);
-			} else if("new=1".equals(msg)){
-				result.put("new", 1);
-			}
-		} catch (JSONException e){
+			response = HTTPUtil.getInstance().send(request);
+		} catch (SocketTimeoutException e){
 			e.printStackTrace();
+		} catch (ConnectException e){
+			e.printStackTrace();
+		}
+		if(null != response){
+			try{
+				result = new JSONObject(response.getMsg());
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
