@@ -39,8 +39,9 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	private StartPageFragment startPageFragment;
 	private SignUpPageFragment signUpPageFragment;
 	private LoginPageFragment loginPageFragment;
-	private int fgIndex = 0;
 	private String preUrl;
+	private int fgIndex = 0;
+	
 	public static final int BUTTON_TYPE_SIGNUP = 0;
 	public static final int BUTTON_TYPE_SIGNIN = 1;
 	public static final int BUTTON_TYPE_FGTPW = 2;
@@ -242,15 +243,8 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     		//in the start fragment
     		if(fgIndex == 0){
     			// Click twice to leave the app. 
-	    		/*
-	    		if (fgIndex != 0) {
-					transaction = getSupportFragmentManager().beginTransaction().replace(R.id.startContent, startPageFragment);
-					transaction.addToBackStack(null);
-					transaction.commit();
-					fgIndex = 0;
-				}else */
 	    		if ((System.currentTimeMillis() - exitTime) > 2000) {
-					Toast.makeText(getApplicationContext(), "Click once more to quit.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_quit), Toast.LENGTH_SHORT).show();
 					exitTime = System.currentTimeMillis();
 				} else {
 					finish();
@@ -259,8 +253,8 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 				return true;
 			}
         	//in other fragments
-        	else {
-    			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        	else { 
+        		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             	transaction.hide(signUpPageFragment);
             	transaction.hide(loginPageFragment);
             	transaction.show(startPageFragment).commit();
