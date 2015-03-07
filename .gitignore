@@ -27,3 +27,5 @@ proguard/
 
 #others
 .settings
+/proguard-project.txt
+/project.properties
