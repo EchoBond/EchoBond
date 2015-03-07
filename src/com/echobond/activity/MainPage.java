@@ -42,6 +42,13 @@ import android.widget.Toast;
  */
 public class MainPage extends ActionBarActivity {
 
+	public static final int SETTING_EDIT_PROFILE = 0;
+	public static final int SETTING_APP_SETTING = 1;
+	public static final int SETTING_FOLLOWING = 2;
+	public static final int SETTING_THIS_APP_SUCKS = 3;
+	public static final int SETTING_TERMS_OF_SERVICES = 4;
+	public static final int SETTING_CONTACT_US = 5;
+	
 	private ThoughtFragment homeFragment, hitFragment, newTrendFragment;
 	private LikeMindedFragment likeMindedFragment;
 	private ProfileFragment profileFragment;
@@ -217,23 +224,23 @@ public class MainPage extends ActionBarActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			switch (position) {
-			case 0:
+			case SETTING_EDIT_PROFILE:
 				Toast.makeText(getApplicationContext(), settingTitles[0], Toast.LENGTH_SHORT).show();
 				break;
-			case 1:
-				intent.setClass(MainPage.this, AppSettingPage.class);
+			case SETTING_APP_SETTING:
+				intent.setClass(MainPage.this, AppSettingPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
-			case 2:
+			case SETTING_FOLLOWING:
 				Toast.makeText(getApplicationContext(), settingTitles[2], Toast.LENGTH_SHORT).show();
 				break;
-			case 3:
+			case SETTING_THIS_APP_SUCKS:
 				Toast.makeText(getApplicationContext(), settingTitles[3], Toast.LENGTH_SHORT).show();
 				break;
-			case 4:
+			case SETTING_TERMS_OF_SERVICES:
 				Toast.makeText(getApplicationContext(), settingTitles[4], Toast.LENGTH_SHORT).show();
 				break;
-			case 5:
+			case SETTING_CONTACT_US:
 				Toast.makeText(getApplicationContext(), settingTitles[5], Toast.LENGTH_SHORT).show();
 				break;
 			default:
@@ -284,7 +291,7 @@ public class MainPage extends ActionBarActivity {
 				isOpened = false;
 			}else if (isOpened == false) {
 				if ((System.currentTimeMillis() - exitTime) > 2000) {
-					Toast.makeText(getApplicationContext(), "Click once more to quit.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_quit), Toast.LENGTH_SHORT).show();
 					exitTime = System.currentTimeMillis();
 				} else {
 					finish();

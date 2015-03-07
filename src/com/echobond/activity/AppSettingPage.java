@@ -5,6 +5,8 @@ import com.echobond.R;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -41,6 +43,20 @@ public class AppSettingPage extends ActionBarActivity {
 		
 		backButton = (ImageView)findViewById(R.id.leftBtn);
 		backButton.setImageResource(R.drawable.back_button);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent upIntent = NavUtils.getParentActivityIntent(AppSettingPage.this);
+				if (NavUtils.shouldUpRecreateTask(AppSettingPage.this, upIntent)) {
+					TaskStackBuilder.create(AppSettingPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+				}else {
+					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					NavUtils.navigateUpTo(AppSettingPage.this, upIntent);
+				}
+				
+			}
+		});
 		
 		titleView = (TextView)findViewById(R.id.titleName);
 		titleView.setText("App Setting");
