@@ -10,14 +10,17 @@ import com.echobond.activity.StartPage;
 import com.echobond.entity.Gender;
 import com.echobond.entity.User;
 import com.echobond.util.GCMUtil;
+import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
+import com.facebook.widget.LoginButton.OnErrorListener;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 /**
  * 
@@ -59,7 +63,7 @@ public class StartPageFragment extends Fragment {
             /* handle the result */
         	GraphObject rs = response.getGraphObject();
         	if(null != rs){
-        		/* First load */
+        		loginButton.setClickable(false);
         		if(null == FBAccount){
         			FBAccount = rs.getInnerJSONObject();
 		    		User fbUser = new User();
@@ -79,6 +83,10 @@ public class StartPageFragment extends Fragment {
 		    		}
 		    		mClickListener.OnButtonSelected(StartPage.BUTTON_TYPE_FBSIGNIN, fbUser);
         		}
+        	}
+        	else {
+        		loginButton.setClickable(true);
+    			Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
         	}
 		}
 	};
@@ -135,11 +143,19 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-		//already logged in
-	    if (state.isOpened()) {
-	    	//first log in
-	    	if(null == FBAccount){
-	    		loadUserFBData(session);
+		if(state == SessionState.OPENING){
+			loginButton.setClickable(false);
+		}
+		else if (state.isOpened()) {
+			loginButton.setClickable(false);
+	    	loadUserFBData(session);
+	    }
+	    else if(state.isClosed()){
+	    	loginButton.setClickable(true);
+	    	if(null != exception)
+	    		Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+	    	else{
+	    		session.closeAndClearTokenInformation();
 	    	}
 	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
 	    } 
@@ -153,19 +169,14 @@ public class StartPageFragment extends Fragment {
 	
 	/**
 	 * need to be called OUTSIDE the ASYNC session state callback
+	 * 
 	 */
 	private void requestReadPermissions(){
-		Session session = Session.getActiveSession();
-		if(null == session){
-			Session.openActiveSession(getActivity(), true, myStatuscallback);
-		}
 		//asking permissions
 		String[] pers = getResources().getString(R.string.facebook_permissions).split(",");
 		ArrayList<String> readPermissions = new ArrayList<String>();
 		for(int i=0;i<pers.length;i++){
-			if(!session.isPermissionGranted(pers[i])){
-				readPermissions.add(pers[i]);
-			}
+			readPermissions.add(pers[i]);
 		}
 	    loginButton.setReadPermissions(readPermissions);
 	}
@@ -174,8 +185,7 @@ public class StartPageFragment extends Fragment {
     	new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback).executeAsync();
 	}
 	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		View startPageView = inflater.inflate(R.layout.authentication_startpage, container, false);
 		loginButton = (LoginButton) startPageView.findViewById(R.id.loginFbBtn);
         loginEmail = (ImageButton)startPageView.findViewById(R.id.loginEmailBtn);
@@ -183,9 +193,18 @@ public class StartPageFragment extends Fragment {
         
         requestReadPermissions();
         loginButton.setBackgroundResource(R.drawable.continue_facebook);
-	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);	    
+	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 	    loginButton.setFragment(this);
-        
+	    
+	    loginButton.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+	    loginButton.setOnErrorListener(new OnErrorListener() {
+			
+			@Override
+			public void onError(FacebookException error) {
+				
+			}
+		});
+
         signEmail.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -199,6 +218,11 @@ public class StartPageFragment extends Fragment {
 				mClickListener.OnFragmentSelected(StartPage.FRAG_LOGIN);
 			}
 		});
+        
+        Session session = Session.getActiveSession();
+        if(null != session){
+        	onSessionStateChange(session, session.getState(), null);
+        }
         
         return startPageView;
 	}

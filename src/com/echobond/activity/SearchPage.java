@@ -2,66 +2,55 @@ package com.echobond.activity;
 
 import com.echobond.R;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 /**
  * 
  * @author aohuijun
  *
  */
-public class SearchPage extends Activity {
-
+public class SearchPage extends ActionBarActivity {
+	
+	private ImageView backButton;
+	private EditText searchBar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		
-//		ColorDrawable colorDrawable = new ColorDrawable();
-//		colorDrawable.setColor(Color.WHITE);
-//		getActionBar().setBackgroundDrawable(colorDrawable);
-//		getActionBar().setHomeButtonEnabled(true);
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
 		setContentView(R.layout.activity_search_page);
 		initActionBar();
 	}
 
 	private void initActionBar() {
-		// TODO Auto-generated method stub
+		Toolbar searchToolbar = (Toolbar)findViewById(R.id.search_toolbar);
+		setSupportActionBar(searchToolbar);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.title_bar_search);
+		
+		searchBar = (EditText)findViewById(R.id.searchBar);
+		backButton = (ImageView)findViewById(R.id.searchBackBtn);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent upIntent = NavUtils.getParentActivityIntent(SearchPage.this);
+				if (NavUtils.shouldUpRecreateTask(SearchPage.this, upIntent)) {
+					TaskStackBuilder.create(SearchPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+				}else {
+					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					NavUtils.navigateUpTo(SearchPage.this, upIntent);
+				}
+			}
+		});
 		
 	}
-	
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater menuInflater = getMenuInflater();
-//		menuInflater.inflate(R.menu.searchpage_actionbar_menu, menu);
-//		return true;
-//	}
-//	
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//		case android.R.id.home:
-//			Intent upIntent = NavUtils.getParentActivityIntent(this);  
-//	        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {  
-//	            TaskStackBuilder.create(this)
-//	                    .addNextIntentWithParentStack(upIntent)  
-//	                    .startActivities();  
-//	        } else {  
-//	            upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
-//	            NavUtils.navigateUpTo(this, upIntent);  
-//	        }
-//			return true;
-//		default:
-//			return super.onOptionsItemSelected(item);
-//		}
-//		
-//	}
+
 }

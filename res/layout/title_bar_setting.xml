@@ -20,7 +20,8 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/none" />
+            android:contentDescription="@string/none"
+            android:clickable="true" />
         
     </RelativeLayout>
 
@@ -37,6 +38,7 @@
             android:id="@+id/titleName"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:textSize="25sp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/none" />
         

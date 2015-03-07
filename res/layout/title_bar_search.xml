@@ -21,7 +21,8 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/title_button_search"
-            android:src="@drawable/search_btn" />
+            android:src="@drawable/search_btn"
+            android:clickable="true" />
         
     </RelativeLayout>
 

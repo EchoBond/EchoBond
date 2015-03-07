@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -56,7 +57,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
         //avoid dead loop of Facebook logout<->login
     	Session session = Session.getActiveSession();
     	if(null != session)
-    		session.close();
+    		session.closeAndClearTokenInformation();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(null == startPageFragment || null == signUpPageFragment || null == loginPageFragment){
 	    	startPageFragment = new StartPageFragment();
@@ -101,19 +102,19 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
         switch (type) {
 		case BUTTON_TYPE_SIGNUP:
 			url = preUrl + getResources().getString(R.string.url_signup);
-			new SignUpAsyncTask().execute(user, url, this);
+			new SignUpAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user, url, this);
 			break;
 		case BUTTON_TYPE_SIGNIN:
 			url = preUrl + getResources().getString(R.string.url_signin);
-			new SignInAsyncTask().execute(user, url, this);
+			new SignInAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user, url, this);
 			break;
 		case BUTTON_TYPE_FGTPW:
 			url = preUrl + getResources().getString(R.string.url_reset_pass);
-			new ResetPassAsyncTask().execute(user.getEmail(), url, this);
+			new ResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user.getEmail(), url, this);
 			break;
 		case BUTTON_TYPE_FBSIGNIN:
 			url = preUrl + getResources().getString(R.string.url_fb_signin);
-			new FBSignInAsyncTask().execute(user, url, this);
+			new FBSignInAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user, url, this);
 			break;
 		default:
 			break;
@@ -123,7 +124,10 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     
     public void onSignInResult(JSONObject result){
     	try {
-			if(result.getInt("exists") == 0){
+    		if(null == result){
+				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+    		}
+    		else if(result.getInt("exists") == 0){
 				Toast.makeText(this, getResources().getString(R.string.signin_not_exists), Toast.LENGTH_LONG).show();
 			} else if(result.getInt("passMatch") == 0){
 				Toast.makeText(this, getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
@@ -154,47 +158,71 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     
     public void onSignUpResult(JSONObject result){
     	try {
-			if(result.getInt("exists") == 0){
-				Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
-				Intent intent = new Intent();
-				intent.setClass(this, IntroPage.class);
-				startActivity(intent);
-				finish();
-			}
-			if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
-				Toast.makeText(this, getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
-			} 
-			if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 0){
-				Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();				
-			}
-			if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 1){
-				Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();	
-			}
-			if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 0){
-				Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_mailed), Toast.LENGTH_LONG).show();	
-			}
+    		if(null == result){
+				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+    		}
+    		else{
+				if(result.getInt("exists") == 0){
+					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
+					Intent intent = new Intent();
+					intent.setClass(this, IntroPage.class);
+					startActivity(intent);
+					finish();
+				}
+				if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
+					Toast.makeText(this, getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
+				} 
+				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 0){
+					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();				
+				}
+				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 1){
+					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();	
+				}
+				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 0){
+					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_mailed), Toast.LENGTH_LONG).show();	
+				}
+    		}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
     }
     
     public void onFBSignInResult(JSONObject result){
-    	if(null != result){
-    		try{
-    			int isNew = result.getInt("new");
-    		} catch (JSONException e){
-    			e.printStackTrace();
-    		}
+    	try{
+			if(null == result){
+				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			}
+			else {
+				if(result.getInt("new") == 0){
+					
+				}
+				else {
+					
+				}
+				//make sure it is a valid session instead of a cache
+				Session session = Session.getActiveSession();
+				if(null != session && session.isOpened()){
+					Intent intent = new Intent();
+					intent.setClass(StartPage.this, MainPage.class);
+					startActivity(intent);
+					finish();
+				}
+				else{
+					
+				}
+			}
+    	} catch (JSONException e){
+    		e.printStackTrace();
     	}
-    	Intent intent = new Intent();
-    	intent.setClass(StartPage.this, MainPage.class);
-    	startActivity(intent);
-    	finish();
+    	
     }
 
     public void onResetPassResult(JSONObject result){
 		try{
-			if(result.getInt("accExists") == 0){
+			if(null == result){
+				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			}			
+			else if(result.getInt("accExists") == 0){
 				Toast.makeText(this, getResources().getString(R.string.resetpass_not_reg), Toast.LENGTH_LONG).show();
 			} else if(result.getInt("hadReset") == 1 && result.getInt("reset") == 0 && result.getInt("expire") == 0){
 				Toast.makeText(this, getResources().getString(R.string.resetpass_resetting), Toast.LENGTH_LONG).show();

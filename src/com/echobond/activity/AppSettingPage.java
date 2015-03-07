@@ -2,17 +2,23 @@ package com.echobond.activity;
 
 import com.echobond.R;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class AppSettingPage extends Activity {
+public class AppSettingPage extends ActionBarActivity {
 	
+	private ImageView backButton;
+	private TextView titleView;
 	private String[] appSettingTitles;
 	private ListView appSettingListView;
 	private ArrayAdapter<String> appSettingArrayAdapter;
@@ -22,7 +28,25 @@ public class AppSettingPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_setting_page);
+		initTitleBar();
+		initSettingList();
 		
+	}
+	
+	private void initTitleBar() {
+		Toolbar searchToolbar = (Toolbar)findViewById(R.id.setting_toolbar);
+		setSupportActionBar(searchToolbar);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
+		
+		backButton = (ImageView)findViewById(R.id.leftBtn);
+		backButton.setImageResource(R.drawable.back_button);
+		
+		titleView = (TextView)findViewById(R.id.titleName);
+		titleView.setText("App Setting");
+	}
+
+	private void initSettingList() {
 		appSettingTitles = getResources().getStringArray(R.array.app_setting_array);
 		appSettingArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appSettingTitles);	//Need to be fixed. 
 		appSettingListView = (ListView)findViewById(R.id.appSettingList);
@@ -30,7 +54,7 @@ public class AppSettingPage extends Activity {
 		appSettingListView.setOnItemClickListener(new SettingItemClickListener());
 		
 	}
-	
+
 	public class SettingItemClickListener implements AdapterView.OnItemClickListener {
 
 		@Override
