@@ -22,7 +22,7 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/title_button_search"
-            android:src="@drawable/search_btn" />
+            android:src="@drawable/search_button" />
         
     </RelativeLayout>
 
@@ -36,7 +36,7 @@
 
         <EditText
             android:id="@+id/searchBarView"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:contentDescription="@string/title_button_search"
             android:clickable="true"
@@ -61,7 +61,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/title_button_setting"
-            android:src="@drawable/setting_btn"
+            android:src="@drawable/setting_button"
             android:clickable="true" />
         
         <ImageView
@@ -72,7 +72,7 @@
             android:layout_toLeftOf="@id/settingBtn"
             android:layout_marginRight="16dp"
             android:contentDescription="@string/title_button_message"
-            android:src="@drawable/message_btn"
+            android:src="@drawable/message_record_button"
             android:clickable="true" />
         
     </RelativeLayout>

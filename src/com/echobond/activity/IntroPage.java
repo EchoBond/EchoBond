@@ -43,12 +43,11 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 		initData();
 		setAnim();
 		
-		ImageView enterButton = (ImageView)view3.findViewById(R.id.enterBtn);
+		ImageView enterButton = (ImageView)view3.findViewById(R.id.button_enter);
 		enterButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				intent.setClass(IntroPage.this, MainPage.class);
 				startActivity(intent);
 				finish();
@@ -91,7 +90,7 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 
 	private void initPoint() {
 
-		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.points);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.switching_points);
 		points = new ImageView[3];
 		for (int i = 0; i < 3; i++) {
 			points[i] = (ImageView)linearLayout.getChildAt(i);

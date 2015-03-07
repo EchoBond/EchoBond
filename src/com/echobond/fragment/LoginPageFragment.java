@@ -29,11 +29,11 @@ public class LoginPageFragment extends Fragment {
 		
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		View loginPageView = inflater.inflate(R.layout.authentication_login, container, false);
-		loginEmailText = (EditText)loginPageView.findViewById(R.id.loginEmailInput);
-		loginPasswordText = (EditText)loginPageView.findViewById(R.id.loginPasswordInput);
-		login = (ImageButton)loginPageView.findViewById(R.id.loginBtn);
-		forgetPassword = (ImageButton)loginPageView.findViewById(R.id.forgetPWBtn);
+		View loginPageView = inflater.inflate(R.layout.fragment_start_login, container, false);
+		loginEmailText = (EditText)loginPageView.findViewById(R.id.email_signin_input);
+		loginPasswordText = (EditText)loginPageView.findViewById(R.id.signin_password_input);
+		login = (ImageButton)loginPageView.findViewById(R.id.button_signin);
+		forgetPassword = (ImageButton)loginPageView.findViewById(R.id.button_forget_pw);
 		
 		login.setOnClickListener(new OnClickListener() {
 			

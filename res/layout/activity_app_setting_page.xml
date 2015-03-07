@@ -6,17 +6,17 @@
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto" 
-        android:id="@+id/setting_toolbar"
+        android:id="@+id/toolbar_setting"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:contentInsetStart="0dp"
         android:background="#fff" />
     
     <ListView 
-        android:id="@+id/appSettingList"
+        android:id="@+id/list_app_setting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/setting_toolbar"
+        android:layout_below="@id/toolbar_setting"
         android:divider="@android:color/transparent" />
 
 </RelativeLayout>

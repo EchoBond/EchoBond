@@ -4,6 +4,7 @@
     <string name="app_name">EchoBond</string>
     <string name="hello_world">Hello world!</string>
     <string name="none"></string>
+    <string name="share">Share your thoughts. </string>
     <string name="facebook_app_id">825701450811254</string>
     
     <string name="title_activity_login_page">LoginPage</string>
@@ -14,6 +15,8 @@
     
     <string name="hint_email_address">youareawesome@email.com</string>
     <string name="hint_password">password that no one knows</string>
+    <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
+    <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy</string>
     <string name="title_button_search">Search</string>
     <string name="title_button_message">Message</string>
     <string name="title_button_setting">Setting</string>

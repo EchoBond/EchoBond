@@ -64,9 +64,9 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	    	startPageFragment = new StartPageFragment();
 	    	signUpPageFragment = new SignUpPageFragment();
 	    	loginPageFragment = new LoginPageFragment();
-	    	transaction.add(R.id.startContent, startPageFragment);
-	    	transaction.add(R.id.startContent, signUpPageFragment);
-	    	transaction.add(R.id.startContent, loginPageFragment);
+	    	transaction.add(R.id.start_page_content, startPageFragment);
+	    	transaction.add(R.id.start_page_content, signUpPageFragment);
+	    	transaction.add(R.id.start_page_content, loginPageFragment);
 	    	transaction.hide(signUpPageFragment);
 	    	transaction.hide(loginPageFragment);
 	    	transaction.show(startPageFragment).commit();

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.echobond.fragment.AddCategoryFragment;
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.ProfileFragment;
@@ -49,14 +50,15 @@ public class MainPage extends ActionBarActivity {
 	public static final int SETTING_TERMS_OF_SERVICES = 4;
 	public static final int SETTING_CONTACT_US = 5;
 	
-	private ThoughtFragment homeFragment, hitFragment, newTrendFragment;
+	private ThoughtFragment homeFragment, hitFragment, trendingFragment;
 	private LikeMindedFragment likeMindedFragment;
 	private ProfileFragment profileFragment;
+	private AddCategoryFragment categoryFragment;
 	private ArrayList<Fragment> mainFragmentsList;
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
-	private ImageView homeButton, hitButton, newTrendButton, likeMindedPplButton, profileButton, addButton, 
-						messageButton, settingButton, tabSelector;
+	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, profileButton, addButton, 
+						messageRecordButton, settingButton, tabSelector;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -66,8 +68,8 @@ public class MainPage extends ActionBarActivity {
 	private DrawerLayout mainDrawerLayout;
 	private ListView drawerList;
 	private int[] settingIcons = new int[]{
-			R.drawable.edit_profile, R.drawable.app_setting, R.drawable.following_blue, 
-			R.drawable.sucks_comment, R.drawable.terms_of_service, R.drawable.contact};
+			R.drawable.setting_edit_profile, R.drawable.setting_app_setting, R.drawable.setting_following_blue, 
+			R.drawable.setting_sucks_comment, R.drawable.setting_terms_of_service, R.drawable.setting_contact};
 	private String[] settingTitles;
 	private SimpleAdapter settingPageAdapter;
 	private boolean isOpened = false;
@@ -98,15 +100,16 @@ public class MainPage extends ActionBarActivity {
 	}
 
 	private void initActionBar() {
-		Toolbar mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
+		Toolbar mainToolbar = (Toolbar)findViewById(R.id.toolbar_main);
 		setSupportActionBar(mainToolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_main);
 		
 		searchBar = (EditText)findViewById(R.id.searchBarView);
-		messageButton = (ImageView)findViewById(R.id.messageBtn);
+		messageRecordButton = (ImageView)findViewById(R.id.messageBtn);
 		settingButton = (ImageView)findViewById(R.id.settingBtn);
 		searchBar.setOnClickListener(new BarItemOnClickListener(0));
+		messageRecordButton.setOnClickListener(new BarItemOnClickListener(1));
 		settingButton.setOnClickListener(new BarItemOnClickListener(2));
 	}
 
@@ -115,16 +118,16 @@ public class MainPage extends ActionBarActivity {
 		mainFragmentsList = new ArrayList<Fragment>();
 		homeFragment = new ThoughtFragment();
 		hitFragment = new ThoughtFragment();
-		newTrendFragment = new ThoughtFragment();
+		trendingFragment = new ThoughtFragment();
 		likeMindedFragment = new LikeMindedFragment();
 		profileFragment = new ProfileFragment();
-		ThoughtFragment f5 = new ThoughtFragment();
+		categoryFragment = new AddCategoryFragment();
 		mainFragmentsList.add(homeFragment);
 		mainFragmentsList.add(hitFragment);
-		mainFragmentsList.add(newTrendFragment);
+		mainFragmentsList.add(trendingFragment);
 		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(profileFragment);
-		mainFragmentsList.add(f5);
+		mainFragmentsList.add(categoryFragment);
 		
 		Display currentDisplay = getWindowManager().getDefaultDisplay();
 		Point outSize = new Point();
@@ -143,19 +146,19 @@ public class MainPage extends ActionBarActivity {
 		mTabPager.setOnPageChangeListener(new MyOnPageChangeListener());
 		mTabPager.setAdapter(mAdapter);
 		
-		tabSelector = (ImageView)findViewById(R.id.tabBtn);
+		tabSelector = (ImageView)findViewById(R.id.tab_button);
 
-		homeButton = (ImageView)findViewById(R.id.homeBtn);
-		hitButton = (ImageView)findViewById(R.id.hitBtn);
-		newTrendButton = (ImageView)findViewById(R.id.newTrendBtn);
-		likeMindedPplButton = (ImageView)findViewById(R.id.likeMindedPplBtn);
-		profileButton = (ImageView)findViewById(R.id.profileBtn);
-		addButton = (ImageView)findViewById(R.id.addBtn);
+		homeButton = (ImageView)findViewById(R.id.home_button);
+		hitButton = (ImageView)findViewById(R.id.hit_button);
+		trendingButton = (ImageView)findViewById(R.id.trend_button);
+		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
+		profileButton = (ImageView)findViewById(R.id.profile_button);
+		addButton = (ImageView)findViewById(R.id.add_button);
 		
 		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
 		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
-		newTrendButton.setOnClickListener(new FragmentChangeOnClickListener(2));
-		likeMindedPplButton.setOnClickListener(new FragmentChangeOnClickListener(3));
+		trendingButton.setOnClickListener(new FragmentChangeOnClickListener(2));
+		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(3));
 		profileButton.setOnClickListener(new FragmentChangeOnClickListener(4));
 		addButton.setOnClickListener(new FragmentChangeOnClickListener(5));
 		
@@ -164,7 +167,7 @@ public class MainPage extends ActionBarActivity {
 	private void initSettingPage() {
 		
 		final String[] from = new String[] {"pic", "title"};
-		final int[] to = new int[] {R.id.settingItemIcon, R.id.settingItemText};
+		final int[] to = new int[] {R.id.icon_setting_item, R.id.text_setting_item};
 		settingTitles = getResources().getStringArray(R.array.setting_list_array);
 		settingPageAdapter = new SimpleAdapter(this, getSettingData(), R.layout.item_setting, from, to);
     	mainDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -200,7 +203,7 @@ public class MainPage extends ActionBarActivity {
 				startActivity(intent);
 				break;
 			case 1:
-				
+				Toast.makeText(getApplicationContext(), "Storing chatting List. ", Toast.LENGTH_SHORT).show();
 				break;
 			case 2:
 				try {
@@ -255,6 +258,9 @@ public class MainPage extends ActionBarActivity {
 		private int fragmentIndex = 0;
 		public FragmentChangeOnClickListener(int i) { fragmentIndex = i; }
 		public void onClick(View v){
+			if (fragmentIndex == 5) {
+				
+			}
 			mTabPager.setCurrentItem(fragmentIndex);
 		}
 	};
@@ -267,16 +273,17 @@ public class MainPage extends ActionBarActivity {
 		}
 
 		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
-			
+		public void onPageScrolled(int position, float arg1, int arg2) {
+			if (position == 5) {
+				
+			}
 		}
 
 		@Override
-		public void onPageSelected(int arg0) {
+		public void onPageSelected(int position) {
 			
-			Animation animation = new TranslateAnimation(offset[0]*currentIndex, offset[0]*arg0, 0, 0);
-			currentIndex = arg0;
+			Animation animation = new TranslateAnimation(offset[0]*currentIndex, offset[0]*position, 0, 0);
+			currentIndex = position;
 			animation.setFillAfter(true);
 			animation.setDuration(300);
 			tabSelector.startAnimation(animation);

@@ -6,7 +6,6 @@
     android:layout_height="match_parent" >
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    xmlns:tools="http://schemas.android.com/tools"
-	    android:id="@+id/mainPage"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:orientation="vertical"
@@ -14,7 +13,7 @@
 	
 	    <android.support.v7.widget.Toolbar
 	        xmlns:app="http://schemas.android.com/apk/res-auto" 
-	        android:id="@+id/main_toolbar"
+	        android:id="@+id/toolbar_main"
 	        android:layout_width="match_parent"
 	        android:layout_height="60dp"
 	        app:contentInsetStart="0dp"
@@ -22,10 +21,10 @@
 	    
 	    <FrameLayout 
 	        android:paddingTop="?android:attr/actionBarSize"
-	        android:id="@+id/mainContent"
+	        android:id="@+id/main_content"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/main_toolbar" >
+	        android:layout_below="@id/toolbar_main" >
 	    </FrameLayout>
 	    
 	    <RelativeLayout 
@@ -36,7 +35,7 @@
 	        android:orientation="vertical" >
 	        <ImageView 
 	            android:contentDescription="@string/none"
-	            android:id="@+id/tabBtn"
+	            android:id="@+id/tab_button"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:scaleType="fitStart"
@@ -44,7 +43,7 @@
 	            android:layout_alignParentBottom="true" 
 	            android:src="@drawable/tab" />
 	        <LinearLayout 
-	            android:id="@+id/sss"
+	            android:id="@+id/buttons_group"
 	            android:layout_width="fill_parent"
 	            android:layout_height="match_parent"
 	            android:layout_alignParentBottom="true"
@@ -52,59 +51,59 @@
 	            android:paddingBottom="2dp" >
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/homeBtn"
+	                android:id="@+id/home_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/home" />
+	                android:src="@drawable/main_home_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/hitBtn"
+	                android:id="@+id/hit_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/hit" />
+	                android:src="@drawable/main_hit_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/newTrendBtn"
+	                android:id="@+id/trend_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/new_trending" />
+	                android:src="@drawable/main_trending_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/likeMindedPplBtn"
+	                android:id="@+id/like_minded_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/like_minded_people" />
+	                android:src="@drawable/main_like_minded_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/profileBtn"
+	                android:id="@+id/profile_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/profile" />
+	                android:src="@drawable/main_profile_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
-	                android:id="@+id/addBtn"
+	                android:id="@+id/add_button"
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/add" />
+	                android:src="@drawable/main_add_button" />
 	        </LinearLayout>
 	        
 	    </RelativeLayout>   
 	    <LinearLayout 
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@id/main_toolbar"
+	        android:layout_below="@id/toolbar_main"
 	        android:layout_above="@id/main_bottom"
 	        android:orientation="vertical" >
 	        <android.support.v4.view.ViewPager 

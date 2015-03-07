@@ -185,10 +185,10 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
-		View startPageView = inflater.inflate(R.layout.authentication_startpage, container, false);
-		loginButton = (LoginButton) startPageView.findViewById(R.id.loginFbBtn);
-        loginEmail = (ImageButton)startPageView.findViewById(R.id.loginEmailBtn);
-        signEmail = (ImageButton)startPageView.findViewById(R.id.signEmailBtn);
+		View startPageView = inflater.inflate(R.layout.fragment_startpage, container, false);
+		loginButton = (LoginButton) startPageView.findViewById(R.id.button_login_Fb);
+        loginEmail = (ImageButton)startPageView.findViewById(R.id.button_signin_email);
+        signEmail = (ImageButton)startPageView.findViewById(R.id.button_signup_email);
         
         requestReadPermissions();
         loginButton.setBackgroundResource(R.drawable.continue_facebook);

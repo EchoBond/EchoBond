@@ -6,17 +6,17 @@
 
     <ImageView 
         android:contentDescription="@string/none"
-        android:id="@+id/startLogo1"
+        android:id="@+id/start_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/echobond_startlogo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
     <FrameLayout 
-        android:id="@+id/startContent"
+        android:id="@+id/start_page_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/startLogo1" >
+        android:layout_below="@id/start_logo" >
         
     </FrameLayout>
 

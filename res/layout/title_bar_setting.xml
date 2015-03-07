@@ -16,7 +16,7 @@
         android:paddingRight="16dp" >
 
         <ImageView
-            android:id="@+id/leftBtn"
+            android:id="@+id/button_left_side"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
         android:paddingRight="10dp" >
 
         <TextView
-            android:id="@+id/titleName"
+            android:id="@+id/title_name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:textSize="25sp"
@@ -44,5 +44,26 @@
             android:contentDescription="@string/none" />
         
     </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/right_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" >
+
+        <ImageView
+            android:id="@+id/button_right_side"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/none"
+            android:clickable="true" />
+        
+        </RelativeLayout>
 
 </LinearLayout>
