@@ -42,10 +42,9 @@ public class StartPageFragment extends Fragment {
 	
 	private OnLoginClickListener mClickListener;
 	private ImageButton loginEmail, signEmail;
-	
-	private UiLifecycleHelper uiLifecycleHelper;
 	private LoginButton loginButton;
 
+	private UiLifecycleHelper uiLifecycleHelper;
 	private JSONObject FBAccount;
     
 	private Session.StatusCallback myStatuscallback = new Session.StatusCallback() {
