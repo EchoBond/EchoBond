@@ -36,12 +36,12 @@ public class AppSettingPage extends ActionBarActivity {
 	}
 	
 	private void initTitleBar() {
-		Toolbar searchToolbar = (Toolbar)findViewById(R.id.setting_toolbar);
+		Toolbar searchToolbar = (Toolbar)findViewById(R.id.toolbar_setting);
 		setSupportActionBar(searchToolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
-		backButton = (ImageView)findViewById(R.id.leftBtn);
+		backButton = (ImageView)findViewById(R.id.button_left_side);
 		backButton.setImageResource(R.drawable.back_button);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -58,14 +58,14 @@ public class AppSettingPage extends ActionBarActivity {
 			}
 		});
 		
-		titleView = (TextView)findViewById(R.id.titleName);
+		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText("App Setting");
 	}
 
 	private void initSettingList() {
 		appSettingTitles = getResources().getStringArray(R.array.app_setting_array);
 		appSettingArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appSettingTitles);	//Need to be fixed. 
-		appSettingListView = (ListView)findViewById(R.id.appSettingList);
+		appSettingListView = (ListView)findViewById(R.id.list_app_setting);
 		appSettingListView.setAdapter(appSettingArrayAdapter);
 		appSettingListView.setOnItemClickListener(new SettingItemClickListener());
 		

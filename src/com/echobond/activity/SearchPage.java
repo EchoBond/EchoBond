@@ -30,7 +30,7 @@ public class SearchPage extends ActionBarActivity {
 	}
 
 	private void initActionBar() {
-		Toolbar searchToolbar = (Toolbar)findViewById(R.id.search_toolbar);
+		Toolbar searchToolbar = (Toolbar)findViewById(R.id.toolbar_search);
 		setSupportActionBar(searchToolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_search);

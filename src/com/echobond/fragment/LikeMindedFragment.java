@@ -18,7 +18,7 @@ public class LikeMindedFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		View likeMindedView = inflater.inflate(R.layout.main_like_minded, container, false);
+		View likeMindedView = inflater.inflate(R.layout.fragment_main_like_minded, container, false);
 		return likeMindedView;
 		
 	}

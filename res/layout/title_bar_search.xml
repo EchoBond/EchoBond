@@ -12,16 +12,16 @@
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" >
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
 
         <ImageView
             android:id="@+id/searchBackBtn"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/title_button_search"
-            android:src="@drawable/search_btn"
+            android:contentDescription="@string/none"
+            android:src="@drawable/search_button"
             android:clickable="true" />
         
     </RelativeLayout>
@@ -29,18 +29,15 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
 
         <EditText
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/title_button_search"
+            android:layout_height="50dp"
+            android:contentDescription="@string/none"
             android:inputType="text" />
         
     </RelativeLayout>

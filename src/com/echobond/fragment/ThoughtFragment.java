@@ -34,7 +34,7 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 	};
 	
 	private String[] testContents = {
-		"其實係咪讀港大神科既男生都甘悶?最近有個男仔追我但硬係覺得個男仔有d奇怪⋯⋯", 
+		"其實係咪讀港大神科既男生都甘悶?最近有個男仔追我但硬係覺得個男仔有d奇怪…", 
 		"I love Asian culture! Wanna meet some locals here! ", 
 		"Anyone wanna hike this weekend? HKU to the Peak! Hit me up:)", 
 		"Learning Japanese now. Want to meet some Japanese friends! Anyone who are from Japan or love Japan are welcome! ", 
@@ -45,7 +45,7 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		View thoughtView = inflater.inflate(R.layout.main_thoughts, container, false);
+		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
 		return thoughtView;
 	}
 	
@@ -74,7 +74,7 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Toast.makeText(getActivity(), "You've clicked me & you are a Somebody-Brilliant. ", Toast.LENGTH_SHORT).show();
 	}
 }

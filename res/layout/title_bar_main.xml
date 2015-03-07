@@ -7,41 +7,38 @@
     android:baselineAligned="false" >
 
     <RelativeLayout
-        android:id="@+id/search_view"
+        android:id="@+id/search_view_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" >
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" >
 
         <ImageView
-            android:id="@+id/searchBtnView"
+            android:id="@+id/search_button_view"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/title_button_search"
-            android:src="@drawable/search_btn" />
+            android:contentDescription="@string/none"
+            android:src="@drawable/search_button" />
         
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/search_bar"
+        android:id="@+id/search_bar_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
 
         <EditText
-            android:id="@+id/searchBarView"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/title_button_search"
+            android:id="@+id/search_bar_view"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/none"
             android:clickable="true"
             android:focusableInTouchMode="false"
             android:inputType="none" />
@@ -54,28 +51,28 @@
         android:layout_gravity="center_horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="16dp"
+        android:paddingLeft="12dp"
         android:paddingRight="10dp" >
 
         <ImageView
-            android:id="@+id/settingBtn"
+            android:id="@+id/button_setting"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
-            android:contentDescription="@string/title_button_setting"
-            android:src="@drawable/setting_btn"
+            android:contentDescription="@string/none"
+            android:src="@drawable/setting_button"
             android:clickable="true" />
         
         <ImageView
-            android:id="@+id/messageBtn"
+            android:id="@+id/button_new_post"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@id/settingBtn"
+            android:layout_toLeftOf="@id/button_setting"
             android:layout_marginRight="16dp"
-            android:contentDescription="@string/title_button_message"
-            android:src="@drawable/message_btn"
+            android:contentDescription="@string/none"
+            android:src="@drawable/main_add_button"
             android:clickable="true" />
         
     </RelativeLayout>

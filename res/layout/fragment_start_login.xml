@@ -6,17 +6,17 @@
 
     <ImageView
         android:contentDescription="@string/none"
-        android:id="@+id/loginEmailView"
+        android:id="@+id/email_signin_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/email_logo"
         android:layout_marginTop="200dp" />  
     <EditText
-        android:id="@+id/loginEmailInput"
+        android:id="@+id/email_signin_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/loginEmailView"
-        android:layout_toRightOf="@id/loginEmailView"
+        android:layout_alignBottom="@id/email_signin_view"
+        android:layout_toRightOf="@id/email_signin_view"
         android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
         android:inputType="textEmailAddress"
         android:singleLine="true"
@@ -24,18 +24,18 @@
         android:typeface="monospace" />    
     <ImageView 
         android:contentDescription="@string/none"
-        android:id="@+id/loginPasswordView"
+        android:id="@+id/signin_password_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/password_logo"
-        android:layout_below="@id/loginEmailView" />
+        android:layout_below="@id/email_signin_view" />
     <EditText 
-        android:id="@+id/loginPasswordInput"
+        android:id="@+id/signin_password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/loginPasswordView"
-        android:layout_below="@id/loginEmailView"
-        android:layout_alignBottom="@id/loginPasswordView"
+        android:layout_toRightOf="@id/signin_password_view"
+        android:layout_below="@id/email_signin_view"
+        android:layout_alignBottom="@id/signin_password_view"
         android:inputType="textPassword"
         android:singleLine="true"
         android:hint="@string/hint_password"
@@ -43,12 +43,12 @@
     <LinearLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/loginPasswordView"
+        android:layout_below="@id/signin_password_view"
         android:orientation="horizontal" >
 	    <ImageButton 
 	        android:contentDescription="@string/none"
 	        android:layout_weight="1.6"
-	        android:id="@+id/forgetPWBtn"
+	        android:id="@+id/button_forget_pw"
 	        android:layout_width="wrap_content"
 	        android:layout_height="80dp"
 	        android:background="#ffffff"
@@ -57,11 +57,11 @@
 	    <ImageButton 
 	        android:contentDescription="@string/none"
 	        android:layout_weight="1"
-	        android:id="@+id/loginBtn"
+	        android:id="@+id/button_signin"
 	        android:layout_width="wrap_content"
 	        android:layout_height="80dp"
 	        android:background="#ffffff"
-	        android:src="@drawable/login"
+	        android:src="@drawable/signin_button"
 	        android:scaleType="fitCenter" />
     </LinearLayout>
 

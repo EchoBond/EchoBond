@@ -6,17 +6,17 @@
 
     <ImageView
         android:contentDescription="@string/none"
-        android:id="@+id/signUpEmailView"
+        android:id="@+id/email_signup_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/email_logo"
         android:layout_marginTop="200dp" />  
     <EditText
-        android:id="@+id/signUpEmailInput"
+        android:id="@+id/email_signup_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/signUpEmailView"
-        android:layout_toRightOf="@id/signUpEmailView"
+        android:layout_alignBottom="@id/email_signup_view"
+        android:layout_toRightOf="@id/email_signup_view"
         android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
         android:inputType="textEmailAddress"
         android:singleLine="true"
@@ -24,30 +24,30 @@
         android:typeface="monospace" />    
     <ImageView 
         android:contentDescription="@string/none"
-        android:id="@+id/signUpPasswordView"
+        android:id="@+id/signup_password_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/password_logo"
-        android:layout_below="@id/signUpEmailView" />
+        android:layout_below="@id/email_signup_view" />
     <EditText 
-        android:id="@+id/signUpPasswordInput"
+        android:id="@+id/signup_password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/signUpPasswordView"
-        android:layout_below="@id/signUpEmailView"
-        android:layout_alignBottom="@id/signUpPasswordView"
+        android:layout_toRightOf="@id/signup_password_view"
+        android:layout_below="@id/email_signup_view"
+        android:layout_alignBottom="@id/signup_password_view"
         android:inputType="textPassword"
         android:singleLine="true"
         android:hint="@string/hint_password"
         android:typeface="normal" />
     <ImageButton 
         android:contentDescription="@string/none"
-        android:id="@+id/signUpBtn"
+        android:id="@+id/button_signup"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="#ffffff"
-        android:src="@drawable/sign_up"
-        android:layout_below="@id/signUpPasswordView"
+        android:src="@drawable/sign_up_button"
+        android:layout_below="@id/signup_password_view"
         android:scaleType="fitCenter" />
 
 </RelativeLayout>

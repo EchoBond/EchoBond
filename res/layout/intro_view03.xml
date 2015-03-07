@@ -5,7 +5,7 @@
     
     <ImageView 
         android:contentDescription="@string/none"
-        android:id="@+id/enterBtn"
+        android:id="@+id/button_enter"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
