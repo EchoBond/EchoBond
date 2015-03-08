@@ -20,7 +20,11 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
+<<<<<<< HEAD
             android:contentDescription="@string/none"
+=======
+            android:contentDescription="@string/title_button_search"
+>>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
             android:src="@drawable/search_button"
             android:clickable="true" />
         

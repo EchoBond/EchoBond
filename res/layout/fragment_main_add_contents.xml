@@ -13,6 +13,7 @@
         android:id="@+id/thoughts_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+<<<<<<< HEAD
         android:inputType="textMultiLine"
         android:hint="@string/hint_thoughts_content"
         android:singleLine="false"
@@ -38,15 +39,28 @@
             android:contentDescription="@string/none" />
         
     </RelativeLayout>
+=======
+        android:inputType="text"
+        android:hint="@string/hint_thoughts_content"
+        android:singleLine="false"
+        android:layout_weight="1" />
+>>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
     <EditText 
         android:id="@+id/tags_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+<<<<<<< HEAD
         android:inputType="textMultiLine"
         android:hint="@string/hint_tags_content"
         android:singleLine="false"
         android:gravity="left|top"
         android:background="@drawable/square_edittext"
         android:layout_weight="5" />
+=======
+        android:inputType="text"
+        android:hint="@string/hint_tags_content"
+        android:singleLine="false"
+        android:layout_weight="1" />
+>>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 
 </LinearLayout>
