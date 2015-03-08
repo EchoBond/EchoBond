@@ -13,17 +13,40 @@
         android:id="@+id/thoughts_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:hint="@string/hint_thoughts_content"
         android:singleLine="false"
-        android:layout_weight="1" />
+        android:gravity="left|top"
+        android:background="@drawable/square_edittext"
+        android:layout_weight="5" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="# TAGS"
+            android:textSize="25sp"
+            android:textColor="#90ee90"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/none" />
+        
+    </RelativeLayout>
     <EditText 
         android:id="@+id/tags_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:hint="@string/hint_tags_content"
         android:singleLine="false"
-        android:layout_weight="1" />
+        android:gravity="left|top"
+        android:background="@drawable/square_edittext"
+        android:layout_weight="5" />
 
 </LinearLayout>
