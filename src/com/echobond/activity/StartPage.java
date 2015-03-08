@@ -14,13 +14,11 @@ import com.echobond.fragment.LoginPageFragment;
 import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.fragment.StartPageFragment;
 import com.echobond.fragment.StartPageFragment.OnLoginClickListener;
+import com.echobond.util.SPUtil;
 import com.echobond.R;
 import com.facebook.Session;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -133,24 +131,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 			} else if(result.getInt("passMatch") == 0){
 				Toast.makeText(this, getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
 			} else {
-				SharedPreferences pref = getSharedPreferences("isFirstUse", Context.MODE_PRIVATE);
-				boolean isFirstUse = pref.getBoolean("isFirstUse", true);
-				/* 
-				 * If it is detected that the mobile loads the app for the 1st time, 
-				 * the app loads the introduction activity. Otherwise it jumps straight 
-				 * to the main page. 
-				*/ 
-				Intent intent = new Intent();
-				if (isFirstUse) {
-					intent.setClass(this, IntroPage.class);
-				} else {
-					intent.setClass(this, MainPage.class);
-				}				
-				Editor editor = pref.edit();
-				editor.putBoolean("isFirstUse", false);
-				editor.commit();
-				startActivity(intent);
-				finish();
+				checkFirstUse();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -165,14 +146,12 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     		else{
 				if(result.getInt("exists") == 0){
 					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
-					Intent intent = new Intent();
-					intent.setClass(this, IntroPage.class);
-					startActivity(intent);
-					finish();
+					SPUtil.put(this, "isFirstUse", true);
+					checkFirstUse();
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
 					Toast.makeText(this, getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
-				} 
+				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 0){
 					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();				
 				}
@@ -203,10 +182,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 				//make sure it is a valid session instead of a cache
 				Session session = Session.getActiveSession();
 				if(null != session && session.isOpened()){
-					Intent intent = new Intent();
-					intent.setClass(StartPage.this, MainPage.class);
-					startActivity(intent);
-					finish();
+					goToMain();
 				}
 				else{
 					
@@ -215,7 +191,6 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     	} catch (JSONException e){
     		e.printStackTrace();
     	}
-    	
     }
 
     public void onResetPassResult(JSONObject result){
@@ -235,6 +210,30 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 		}    	
     }
 
+    private void checkFirstUse(){
+		boolean isFirstUse = (boolean) SPUtil.get(this, "isFirstUse", true, boolean.class);
+		if (isFirstUse) {
+			goToIntro();
+		} else {
+			goToMain();
+		}
+    }
+    
+    private void goToIntro(){
+		SPUtil.put(this, "isFirstUse", false);
+		Intent intent = new Intent();
+		intent.setClass(StartPage.this, IntroPage.class);
+		startActivity(intent);
+		finish();
+    }
+    
+    private void goToMain(){
+		Intent intent = new Intent();
+		intent.setClass(StartPage.this, MainPage.class);
+		startActivity(intent);
+		finish();
+    }
+    
     private long exitTime = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

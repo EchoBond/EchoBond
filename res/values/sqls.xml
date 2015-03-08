@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="create_tables">
+		<item name="thought">CREATE TABLE `thought` (`id` int(11) NOT NULL,`user_id` varchar(255) NOT NULL,`lang_id` int(255) DEFAULT NULL,`group_id` int(11) DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(0) DEFAULT NULL,`time` varchar(255) NOT NULL,PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;</item>
+		<item name="message">CREATE TABLE `user_msg` (`id` int(11) NOT,`sender_id` varchar(255) NOT NULL,`recver_id` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL,PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;</item>
+	</string-array>
+</resources>
