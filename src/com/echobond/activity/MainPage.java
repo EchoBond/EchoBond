@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.echobond.fragment.AddCategoryFragment;
-<<<<<<< HEAD
 import com.echobond.fragment.AddContentsFragment;
-=======
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.ProfileFragment;
@@ -55,16 +52,12 @@ public class MainPage extends ActionBarActivity {
 	public static final int SETTING_TERMS_OF_SERVICES = 4;
 	public static final int SETTING_CONTACT_US = 5;
 	
-<<<<<<< HEAD
 //	public static final int TAB_NUMBER = 6;
 	public static final int TAB_NUMBER = 4;
-=======
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 	private ThoughtFragment homeFragment, hitFragment, trendingFragment;
 	private LikeMindedFragment likeMindedFragment;
 	private ThoughtFragment notificationFragment;
 	private ProfileFragment profileFragment;
-<<<<<<< HEAD
 //	private AddCategoryFragment categoryFragment;
 //	private AddContentsFragment contentsFragment;
 	private ArrayList<Fragment> mainFragmentsList;
@@ -73,14 +66,6 @@ public class MainPage extends ActionBarActivity {
 	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, notificationButton, profileButton, addButton, 
 						newPostButton, settingButton, tabSelector;
 	private LinearLayout buttonsGroup;
-=======
-	private AddCategoryFragment categoryFragment;
-	private ArrayList<Fragment> mainFragmentsList;
-	private MainFragmentPagerAdapter mAdapter;
-	private ViewPager mTabPager;
-	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, profileButton, addButton, 
-						messageRecordButton, settingButton, tabSelector;
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -127,19 +112,11 @@ public class MainPage extends ActionBarActivity {
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_main);
 		
-<<<<<<< HEAD
 		searchBar = (EditText)findViewById(R.id.search_bar_view);
 		newPostButton = (ImageView)findViewById(R.id.button_new_post);
 		settingButton = (ImageView)findViewById(R.id.button_setting);
 		searchBar.setOnClickListener(new BarItemOnClickListener(0));
 		newPostButton.setOnClickListener(new BarItemOnClickListener(1));
-=======
-		searchBar = (EditText)findViewById(R.id.searchBarView);
-		messageRecordButton = (ImageView)findViewById(R.id.messageBtn);
-		settingButton = (ImageView)findViewById(R.id.settingBtn);
-		searchBar.setOnClickListener(new BarItemOnClickListener(0));
-		messageRecordButton.setOnClickListener(new BarItemOnClickListener(1));
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		settingButton.setOnClickListener(new BarItemOnClickListener(2));
 	}
 
@@ -147,37 +124,21 @@ public class MainPage extends ActionBarActivity {
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		homeFragment = new ThoughtFragment();
-<<<<<<< HEAD
 //		hitFragment = new ThoughtFragment();
 //		trendingFragment = new ThoughtFragment();
-=======
-		hitFragment = new ThoughtFragment();
-		trendingFragment = new ThoughtFragment();
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new ThoughtFragment();
 		profileFragment = new ProfileFragment();
-<<<<<<< HEAD
 //		categoryFragment = new AddCategoryFragment();
 //		contentsFragment = new AddContentsFragment();
 		mainFragmentsList.add(homeFragment);
 //		mainFragmentsList.add(hitFragment);
 //		mainFragmentsList.add(trendingFragment);
-=======
-		categoryFragment = new AddCategoryFragment();
-		mainFragmentsList.add(homeFragment);
-		mainFragmentsList.add(hitFragment);
-		mainFragmentsList.add(trendingFragment);
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
-<<<<<<< HEAD
 //		mainFragmentsList.add(categoryFragment);
 //		mainFragmentsList.add(contentsFragment);
-=======
-		mainFragmentsList.add(categoryFragment);
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		
 		Display currentDisplay = getWindowManager().getDefaultDisplay();
 		Point outSize = new Point();
@@ -198,7 +159,6 @@ public class MainPage extends ActionBarActivity {
 		
 		tabSelector = (ImageView)findViewById(R.id.tab_button);
 
-<<<<<<< HEAD
 		buttonsGroup = (LinearLayout)findViewById(R.id.buttons_group);
 		homeButton = (ImageView)findViewById(R.id.home_button);
 //		hitButton = (ImageView)findViewById(R.id.hit_button);
@@ -215,21 +175,6 @@ public class MainPage extends ActionBarActivity {
 		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		profileButton.setOnClickListener(new FragmentChangeOnClickListener(3));
 //		addButton.setOnClickListener(new FragmentChangeOnClickListener(5));
-=======
-		homeButton = (ImageView)findViewById(R.id.home_button);
-		hitButton = (ImageView)findViewById(R.id.hit_button);
-		trendingButton = (ImageView)findViewById(R.id.trend_button);
-		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
-		profileButton = (ImageView)findViewById(R.id.profile_button);
-		addButton = (ImageView)findViewById(R.id.add_button);
-		
-		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
-		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
-		trendingButton.setOnClickListener(new FragmentChangeOnClickListener(2));
-		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(3));
-		profileButton.setOnClickListener(new FragmentChangeOnClickListener(4));
-		addButton.setOnClickListener(new FragmentChangeOnClickListener(5));
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		
 	}
 	
@@ -327,9 +272,6 @@ public class MainPage extends ActionBarActivity {
 		private int fragmentIndex = 0;
 		public FragmentChangeOnClickListener(int i) { fragmentIndex = i; }
 		public void onClick(View v){
-			if (fragmentIndex == 5) {
-				
-			}
 			mTabPager.setCurrentItem(fragmentIndex);
 		}
 	};
@@ -343,13 +285,7 @@ public class MainPage extends ActionBarActivity {
 
 		@Override
 		public void onPageScrolled(int position, float arg1, int arg2) {
-<<<<<<< HEAD
 			
-=======
-			if (position == 5) {
-				
-			}
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 		}
 
 		@Override

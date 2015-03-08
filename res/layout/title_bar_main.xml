@@ -21,11 +21,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
-<<<<<<< HEAD
             android:contentDescription="@string/none"
-=======
-            android:contentDescription="@string/title_button_search"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
             android:src="@drawable/search_button" />
         
     </RelativeLayout>
@@ -39,11 +35,7 @@
         android:paddingRight="5dp" >
 
         <EditText
-<<<<<<< HEAD
             android:id="@+id/search_bar_view"
-=======
-            android:id="@+id/searchBarView"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:contentDescription="@string/none"
@@ -68,11 +60,7 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
-<<<<<<< HEAD
             android:contentDescription="@string/none"
-=======
-            android:contentDescription="@string/title_button_setting"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
             android:src="@drawable/setting_button"
             android:clickable="true" />
         
@@ -83,13 +71,8 @@
             android:layout_centerHorizontal="true"
             android:layout_toLeftOf="@id/button_setting"
             android:layout_marginRight="16dp"
-<<<<<<< HEAD
             android:contentDescription="@string/none"
             android:src="@drawable/main_add_button"
-=======
-            android:contentDescription="@string/title_button_message"
-            android:src="@drawable/message_record_button"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
             android:clickable="true" />
         
     </RelativeLayout>

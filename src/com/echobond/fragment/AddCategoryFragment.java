@@ -36,18 +36,10 @@ public class AddCategoryFragment extends ListFragment implements AdapterView.OnI
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-<<<<<<< HEAD
 		AddContentsFragment contentsFragment = new AddContentsFragment();
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
 		transaction.add(R.id.main_content, contentsFragment);
 		transaction.hide(this);
 		transaction.commit();
-=======
-		// TODO Auto-generated method stub
-		AddContentsFragment contentsFragment = new AddContentsFragment();
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.add(R.id.main_content, contentsFragment);
-		transaction.show(contentsFragment).commit();
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
 	}
 }

@@ -2,20 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item 
         android:id="@+id/messageBtn"
-<<<<<<< HEAD
         android:title="@string/none"
-=======
-        android:title="@string/title_button_message"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
         android:icon="@drawable/message_record_button"
         android:showAsAction="always" />
     <item 
         android:id="@+id/settingBtn"
-<<<<<<< HEAD
         android:title="@string/none"
-=======
-        android:title="@string/title_button_setting"
->>>>>>> 97066ed46b4452f9e85ca9b52eec5ecaf7ef334f
         android:icon="@drawable/setting_button"
         android:showAsAction="always" />    
 
