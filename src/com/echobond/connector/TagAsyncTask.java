@@ -11,6 +11,7 @@ import com.echobond.activity.StartPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.Tag;
+import com.echobond.intf.TagAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 
@@ -26,14 +27,14 @@ import android.os.AsyncTask;
  */
 public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private StartPage activity;
+	private TagAsyncTaskCallback activity;
 	public static final int TAG_UPDATE = 1;
 	public static final int TAG_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
-		activity = (StartPage) params[2];
+		activity = (TagAsyncTaskCallback) params[2];
 		ArrayList<Tag> tags = null;
 		String url = baseUrl;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
@@ -65,7 +66,7 @@ public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-//		activity.onTagResult(result);
+		activity.onTagResult(result);
 	}
 	
 	@Override

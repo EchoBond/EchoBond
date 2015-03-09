@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import com.echobond.activity.MainPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
+import com.echobond.intf.CategoryAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 
 import android.os.AsyncTask;
@@ -23,14 +24,14 @@ import android.os.AsyncTask;
  */
 public class CategoryAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private MainPage activity;
+	private CategoryAsyncTaskCallback activity;
 	public static final int CATEGORY_UPDATE = 1;
 	public static final int CATEGORY_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
-		activity = (MainPage) params[2];
+		activity =  (CategoryAsyncTaskCallback) params[2];
 		JSONObject body = new JSONObject();
 		String url = baseUrl;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
@@ -57,7 +58,7 @@ public class CategoryAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-//		activity.onCategoryResult(result);
+		activity.onCategoryResult(result);
 	}
 	
 	@Override

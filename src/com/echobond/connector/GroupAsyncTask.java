@@ -12,6 +12,7 @@ import com.echobond.entity.Group;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
+import com.echobond.intf.GroupAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 
@@ -27,14 +28,14 @@ import android.os.AsyncTask;
  */
 public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private MainPage activity;
+	private GroupAsyncTaskCallback activity;
 	public static final int GROUP_UPDATE = 1;
 	public static final int GROUP_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
-		activity = (MainPage) params[2];
+		activity = (GroupAsyncTaskCallback) params[2];
 		ArrayList<Group> groups = null;
 		JSONObject body = new JSONObject();
 		String url = baseUrl;
@@ -70,7 +71,7 @@ public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-//		activity.onGroupResult(result);
+		activity.onGroupResult(result);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.echobond.intf;
 
-public interface CategoryAsyncTaskCallback {
+import org.json.JSONObject;
 
+public interface CategoryAsyncTaskCallback {
+	public void onCategoryResult(JSONObject result);
 }

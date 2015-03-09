@@ -1,5 +1,7 @@
 package com.echobond.intf;
 
-public interface TagAsyncTaskCallback {
+import org.json.JSONObject;
 
+public interface TagAsyncTaskCallback {
+	public void onTagResult(JSONObject result);
 }

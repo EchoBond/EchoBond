@@ -1,5 +1,7 @@
 package com.echobond.intf;
 
-public interface GroupAsyncTaskCallback {
+import org.json.JSONObject;
 
+public interface GroupAsyncTaskCallback {
+	public void onGroupResult(JSONObject result);
 }
