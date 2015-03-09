@@ -19,6 +19,12 @@
     <string name="title_new_post_write">Write Your Thought</string>
     <string name="title_new_post_tag"># TAGS</string>
     <string name="title_new_post_group">Put It in A Group</string>
+    <string name="category_feelings">Feelings</string>
+    <string name="category_good_idea">A Good Idea</string>
+    <string name="category_dream">Your Dream</string>
+    <string name="category_interest">Interest</string>
+    <string name="category_plan">Plan</string>
+    <string name="category_other">Other</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

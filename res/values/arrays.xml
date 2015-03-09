@@ -21,12 +21,4 @@
         <item>Deactivate Account</item>
     </string-array>
     
-    <string-array name="category_list_array">
-        <item>Feelings</item>
-        <item>A Good Idea</item>
-        <item>Your Dream</item>
-        <item>Interest</item>
-        <item>Plan</item>
-        <item>Other</item>
-    </string-array>
 </resources>

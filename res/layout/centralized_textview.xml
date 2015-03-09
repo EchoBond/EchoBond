@@ -2,7 +2,9 @@
 <TextView 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/category_item"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center|center_horizontal"
-    android:textSize="35sp" />
+    android:gravity="center_horizontal|center_vertical"
+    android:textSize="40sp"
+    android:padding="15dp"
+    android:background="@drawable/corners_bg_blue" />

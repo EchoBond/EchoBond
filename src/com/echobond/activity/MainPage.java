@@ -328,7 +328,7 @@ public class MainPage extends ActionBarActivity {
 				profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button_selected));
 				if (currentIndex == 0) {
 //					animation = new TranslateAnimation(offset[0], 3, 0, 0);
-					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
 				}else if (currentIndex == 1) {
 //					animation = new TranslateAnimation(offset[1], 3, 0, 0);
 					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));

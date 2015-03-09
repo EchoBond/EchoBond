@@ -70,8 +70,13 @@ public class NewPostPage extends ActionBarActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			
+			Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
+			if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
+				TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+			}else {
+				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				NavUtils.navigateUpTo(NewPostPage.this, upIntent);
+			}
 		}
 		
 	}
