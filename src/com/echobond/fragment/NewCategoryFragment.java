@@ -63,7 +63,6 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 	}
 	
 	public interface CategoryInterface {
-		public void getIndex(int index);
 		public void getCategory(String category);
 	}
 	

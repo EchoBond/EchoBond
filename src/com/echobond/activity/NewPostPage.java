@@ -28,7 +28,6 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 	public static final int NEW_POST_WRITE = 2;
 	public static final int NEW_POST_GROUP = 3;
 	
-	private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 	private NewCategoryFragment categoryFragment;
 	private NewContentsFragment contentsFragment;
 	private ImageView backButton, forwardButton;
@@ -45,20 +44,20 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 		
 	}
 
-	@Override
-	public void getIndex(int index) {
-		fgIndex = index;
-	}
+//	@Override
+//	public void getIndex(int index) {
+//		this.fgIndex = index;
+//	}
 
 	@Override
 	public void getCategory(String category) {
-		categoryString = category;
+		this.categoryString = category;
 	}
 
 	@Override
 	public void getContent(String content, String tags) {
-		contentsString = content;
-		tagsString = tags;
+		this.contentsString = content;
+		this.tagsString = tags;
 	}
 	
 	private void initActionBar() {
@@ -96,7 +95,10 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 				
 				break;
 			case NEW_POST_WRITE:
-//				transaction.hide(contentsFragment).show(categoryFragment).commit();
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				transaction.hide(contentsFragment).show(categoryFragment).commit();
+				fgIndex -= 1;
+				fgIndex -= 1;
 				break;
 			case NEW_POST_GROUP:
 				
@@ -115,19 +117,22 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 		public void onClick(View v) {
 			switch (fgIndex) {
 			case NEW_POST_CATEGORY:
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.hide(categoryFragment).show(contentsFragment).commit();
+				fgIndex += 1;
+				fgIndex += 1;
 				break;
 			case NEW_POST_DRAW:
 				
 				break;
 			case NEW_POST_WRITE:
-//				Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
-//				if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
-//					TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-//				}else {
-//					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//					NavUtils.navigateUpTo(NewPostPage.this, upIntent);
-//				}
+				Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
+				if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
+					TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+				}else {
+					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					NavUtils.navigateUpTo(NewPostPage.this, upIntent);
+				}
 				break;
 			case NEW_POST_GROUP:
 				
@@ -140,6 +145,7 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 	}
 	
 	private void initView() {
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		if (null == categoryFragment || null == contentsFragment) {
 			categoryFragment = new NewCategoryFragment();
 			contentsFragment = new NewContentsFragment();
@@ -147,6 +153,7 @@ public class NewPostPage extends ActionBarActivity implements CategoryInterface,
 			transaction.add(R.id.new_post_content, contentsFragment);
 			transaction.hide(contentsFragment);
 			transaction.show(categoryFragment).commit();
+//			transaction.show(contentsFragment).commit();
 			fgIndex = 0;
 		}
 		

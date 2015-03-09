@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class NewContentsFragment extends Fragment {
 	
 	private ContentsInterface contentsSelected;
+	private ImageView backButton, forwardButton;
 	private EditText thoughtsContent, tagsContent;
 	private String thoughtsText, tagsText;
 	
@@ -27,14 +30,12 @@ public class NewContentsFragment extends Fragment {
 		tagsContent = (EditText)addContentsView.findViewById(R.id.tags_content);
 		thoughtsText = thoughtsContent.getText().toString();
 		tagsText = tagsContent.getText().toString();
-		
-		contentsSelected.getIndex(2);
+
 		contentsSelected.getContent(thoughtsText, tagsText);
 		return addContentsView;
 	}
 	
 	public interface ContentsInterface {
-		public void getIndex(int index);
 		public void getContent(String content, String tags);
 	}
 	
