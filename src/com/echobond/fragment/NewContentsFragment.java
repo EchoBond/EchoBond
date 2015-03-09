@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 
 public class NewContentsFragment extends Fragment {
 	
+	private ContentsInterface contentsSelected;
 	private EditText thoughtsContent, tagsContent;
 	private String thoughtsText, tagsText;
 	
@@ -26,7 +28,23 @@ public class NewContentsFragment extends Fragment {
 		thoughtsText = thoughtsContent.getText().toString();
 		tagsText = tagsContent.getText().toString();
 		
+		contentsSelected.getIndex(2);
+		contentsSelected.getContent(thoughtsText, tagsText);
 		return addContentsView;
 	}
 	
+	public interface ContentsInterface {
+		public void getIndex(int index);
+		public void getContent(String content, String tags);
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			contentsSelected = (ContentsInterface) activity;
+		} catch (Exception e) {
+			throw new ClassCastException(activity.toString() + "must implement ContentsInterface. ");
+		}
+	}
 }
