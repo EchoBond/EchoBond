@@ -37,6 +37,8 @@
         android:id="@+id/button_login_Fb"
         android:layout_width="match_parent"
         android:layout_height="95dp"
-        android:layout_above="@+id/email_buttons_group" />
+        android:layout_above="@+id/email_buttons_group" 
+        fb:login_text=""
+        fb:logout_text=""/>
     
 </RelativeLayout>

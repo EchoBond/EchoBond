@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- basic connection configs -->
     <string name="url_protocol">http</string>
     <string name="url_domain">www.echobond.com</string>
     <string name="url_sub">Echobond_API</string>
     <string name="url_port">80</string>
+    
+    <!-- login -->
     <string name="url_signup">SignUpServlet</string>
     <string name="url_signin">SignInServlet</string>
     <string name="url_reset_pass">ResetPassServlet</string>
     <string name="url_fb_signin">FBSignInServlet</string>
-    <string name="url_load_t">LoadThoughtsServlet</string>
+
+    <!-- user action -->
+    <string name="url_rc_usr_action">RecordUserActionServlet</string>
+    
+    <!-- post thought -->
+    <string name="url_post_thought">PostThoughtServlet</string>
+	<string name="url_up_img">ImageUploadServlet</string>
+    <string name="url_upd_tags">UpdateTagsServlet</string>
+    <string name="url_load_groups">LoadGroupsServlet</string>
+    <string name="url_load_categories">LoadCategoriesServlet</string>
+    
+    <!-- load / search posts -->
+    <string name="url_load_thoughts">LoadThoughtsServlet</string>
+    
+	<!-- search users -->
+    <string name="url_load_users">LoadUsersServlet</string>
+
+    <string name="url_load_tags">LoadTagsServlet</string>
+    <string name="url_upd_group">UpdateGroupServlet</string>
+    <string name="url_upd_category">UpdateCategoryServlet</string>
+    
 </resources>
