@@ -12,18 +12,19 @@ public class SPUtil {
 	public static Object get(Context ctx, String key, Object defValue, Class<?> cls){
 		SharedPreferences pref = ctx.getSharedPreferences(key, Activity.MODE_PRIVATE);
 		Object value = null;
-		if(cls == int.class)
-			value = pref.getInt(key, (int)defValue);
-		else if(cls == boolean.class)
-			value = pref.getBoolean(key, (boolean) defValue);
-		else if(cls == float.class)
-			value = pref.getFloat(key, (float) defValue);
-		else if(cls == long.class)
-			value = pref.getLong(key, (long) defValue);
+		if(cls == Integer.class)
+			value = pref.getInt(key, (Integer)defValue);
+		else if(cls == Boolean.class)
+			value = pref.getBoolean(key, (Boolean) defValue);
+		else if(cls == Float.class)
+			value = pref.getFloat(key, (Float) defValue);
+		else if(cls == Long.class)
+			value = pref.getLong(key, (Long) defValue);
 		else if(cls == String.class)
 			value = pref.getString(key, (String) defValue);
 		else if(cls == Set.class)
 			value = pref.getStringSet(key, (Set<String>) defValue);
+		Object x = value;
 		return value;
 	}
 	
@@ -32,14 +33,14 @@ public class SPUtil {
 		SharedPreferences pref = ctx.getSharedPreferences(key, Activity.MODE_PRIVATE);
 		Editor editor = pref.edit();
 		boolean result = false;
-		if(value.getClass() == boolean.class){
-			result = editor.putBoolean(key, (boolean) value).commit();
-		} else if(value.getClass() == int.class){
-			result = editor.putInt(key, (int) value).commit();
-		} else if(value.getClass() == float.class){
-			result = editor.putFloat(key, (float) value).commit();
-		} else if(value.getClass() == long.class){
-			result = editor.putLong(key, (long) value).commit();
+		if(value.getClass() == Boolean.class){
+			result = editor.putBoolean(key, (Boolean) value).commit();
+		} else if(value.getClass() == Integer.class){
+			result = editor.putInt(key, (Integer) value).commit();
+		} else if(value.getClass() == Float.class){
+			result = editor.putFloat(key, (Float) value).commit();
+		} else if(value.getClass() == Long.class){
+			result = editor.putLong(key, (Long) value).commit();
 		} else if(value.getClass() == String.class){
 			result = editor.putString(key, (String) value).commit();
 		} else if(value.getClass() == Set.class){

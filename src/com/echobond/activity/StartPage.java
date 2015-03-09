@@ -182,7 +182,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 				//make sure it is a valid session instead of a cache
 				Session session = Session.getActiveSession();
 				if(null != session && session.isOpened()){
-					goToMain();
+					checkFirstUse();
 				}
 				else{
 					
@@ -197,7 +197,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 		try{
 			if(null == result){
 				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
-			}			
+			}
 			else if(result.getInt("accExists") == 0){
 				Toast.makeText(this, getResources().getString(R.string.resetpass_not_reg), Toast.LENGTH_LONG).show();
 			} else if(result.getInt("hadReset") == 1 && result.getInt("reset") == 0 && result.getInt("expire") == 0){
@@ -211,25 +211,16 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     }
 
     private void checkFirstUse(){
-		boolean isFirstUse = (boolean) SPUtil.get(this, "isFirstUse", true, boolean.class);
+		boolean isFirstUse = (boolean) SPUtil.get(this, "isFirstUse", true, Boolean.class);
+		Class<?> target = null;
 		if (isFirstUse) {
-			goToIntro();
+			SPUtil.put(this, "isFirstUse", false);
+			target = IntroPage.class;
 		} else {
-			goToMain();
+			target = MainPage.class;
 		}
-    }
-    
-    private void goToIntro(){
-		SPUtil.put(this, "isFirstUse", false);
 		Intent intent = new Intent();
-		intent.setClass(StartPage.this, IntroPage.class);
-		startActivity(intent);
-		finish();
-    }
-    
-    private void goToMain(){
-		Intent intent = new Intent();
-		intent.setClass(StartPage.this, MainPage.class);
+		intent.setClass(StartPage.this, target);
 		startActivity(intent);
 		finish();
     }

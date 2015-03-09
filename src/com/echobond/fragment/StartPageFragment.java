@@ -61,7 +61,20 @@ public class StartPageFragment extends Fragment {
 		public void onCompleted(Response response) {
             /* handle the result */
         	GraphObject rs = response.getGraphObject();
-        	if(null != rs){
+        	/*
+        	boolean fullRead = true;
+        	Session session = Session.getActiveSession();
+        	String[] pers = getResources().getString(R.string.facebook_permissions).split(",");
+        	for(int i=0;i<pers.length;i++){
+        		if(!session.isPermissionGranted(pers[i]))
+        			fullRead = false;
+        	}
+			if(!fullRead){
+				session.closeAndClearTokenInformation();
+				session = Session.openActiveSession(getActivity(), true, myStatuscallback);
+				session.requestNewReadPermissions(new NewPermissionsRequest(getActivity(), pers));
+			}
+			else */if(null != rs){
         		loginButton.setClickable(false);
         		if(null == FBAccount){
         			FBAccount = rs.getInnerJSONObject();
@@ -147,23 +160,14 @@ public class StartPageFragment extends Fragment {
 		}
 		else if (state.isOpened()) {
 			loginButton.setClickable(false);
-	    	loadUserFBData(session);
+			loadUserFBData(session);
 	    }
 	    else if(state.isClosed()){
 	    	loginButton.setClickable(true);
 	    	if(null != exception)
 	    		Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
-	    	else{
-	    		session.closeAndClearTokenInformation();
-	    	}
-	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
-	    } 
-	    //already logged out
-	    /*
-	    else if (state.isClosed()) {
-	    	loginButton.setBackgroundResource(R.drawable.continue_facebook);
+    		session.closeAndClearTokenInformation();
 	    }
-	    */
 	}
 	
 	/**
