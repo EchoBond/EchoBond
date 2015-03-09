@@ -30,7 +30,7 @@ public class SignUpPageFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View signUpPageView = inflater.inflate(R.layout.fragment_start_signup, container, false);
-		signUpEmailText = (EditText)signUpPageView.findViewById(R.id.email_signin_input);
+		signUpEmailText = (EditText)signUpPageView.findViewById(R.id.email_signup_input);
 		signUpPasswordText = (EditText)signUpPageView.findViewById(R.id.signup_password_input);
 		signUp = (ImageButton)signUpPageView.findViewById(R.id.button_signup);
 

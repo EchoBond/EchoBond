@@ -54,9 +54,12 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
         //avoid dead loop of Facebook logout<->login
-    	Session session = Session.getActiveSession();
-    	if(null != session)
-    		session.closeAndClearTokenInformation();
+        Session session = Session.getActiveSession();
+        if (session != null) {
+            if (!session.isClosed()) {
+                session.closeAndClearTokenInformation();
+            }
+        }
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(null == startPageFragment || null == signUpPageFragment || null == loginPageFragment){
 	    	startPageFragment = new StartPageFragment();

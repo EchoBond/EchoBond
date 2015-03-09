@@ -164,7 +164,7 @@ public class StartPageFragment extends Fragment {
 	    }
 	    else if(state.isClosed()){
 	    	loginButton.setClickable(true);
-	    	if(null != exception)
+	    	if(null != exception && state == SessionState.CLOSED_LOGIN_FAILED)
 	    		Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
     		session.closeAndClearTokenInformation();
 	    }
@@ -222,11 +222,13 @@ public class StartPageFragment extends Fragment {
 			}
 		});
         
+        //A valid session, auto login
         Session session = Session.getActiveSession();
-        if(null != session){
-        	onSessionStateChange(session, session.getState(), null);
+        if (session != null) {
+            if (!session.isClosed()) {
+            	onSessionStateChange(session, session.getState(), null);
+            }
         }
-        
         return startPageView;
 	}
 	
