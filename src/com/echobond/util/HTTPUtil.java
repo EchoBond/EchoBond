@@ -16,6 +16,9 @@ import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import android.content.Context;
+
+import com.echobond.R;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 
@@ -94,6 +97,14 @@ public class HTTPUtil {
 		for (Object header: headerNames) {
 			conn.setRequestProperty((String)header, (String)headers.get(header));
 		}
+	}
+	
+	public String composePreURL(Context ctx){
+        String preUrl = ctx.getResources().getString(R.string.url_protocol) + "://" + 
+    			ctx.getResources().getString(R.string.url_domain) + ":" + 
+    			ctx.getResources().getString(R.string.url_port) + "/" + 
+    			ctx.getResources().getString(R.string.url_sub) + "/";
+        return preUrl;
 	}
 
 }

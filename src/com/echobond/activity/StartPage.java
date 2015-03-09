@@ -14,6 +14,7 @@ import com.echobond.fragment.LoginPageFragment;
 import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.fragment.StartPageFragment;
 import com.echobond.fragment.StartPageFragment.OnLoginClickListener;
+import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 import com.echobond.R;
 import com.facebook.Session;
@@ -72,10 +73,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	    	transaction.hide(loginPageFragment);
 	    	transaction.show(startPageFragment).commit();
         }
-        preUrl = this.getResources().getString(R.string.url_protocol) + "://" + 
-    			getResources().getString(R.string.url_domain) + ":" + 
-    			getResources().getString(R.string.url_port) + "/" + 
-    			getResources().getString(R.string.url_sub) + "/";
+        preUrl = HTTPUtil.getInstance().composePreURL(this);
     }
     
 	@Override

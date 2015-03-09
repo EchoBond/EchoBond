@@ -27,8 +27,8 @@ import android.os.AsyncTask;
 public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
 	private StartPage activity;
-	private static final int TAG_UPDATE = 1;
-	private static final int TAG_LOAD = 2;
+	public static final int TAG_UPDATE = 1;
+	public static final int TAG_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];

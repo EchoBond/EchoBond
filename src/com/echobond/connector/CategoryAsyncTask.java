@@ -24,14 +24,14 @@ import android.os.AsyncTask;
 public class CategoryAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
 	private MainPage activity;
-	private static final int CATEGORY_UPDATE = 1;
-	private static final int CATEGORY_LOAD = 2;
+	public static final int CATEGORY_UPDATE = 1;
+	public static final int CATEGORY_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
 		activity = (MainPage) params[2];
-		JSONObject body = null;
+		JSONObject body = new JSONObject();
 		String url = baseUrl;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);

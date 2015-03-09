@@ -6,6 +6,7 @@ import java.net.SocketTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.echobond.activity.NewPostPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.Thought;
@@ -16,10 +17,12 @@ import android.os.AsyncTask;
 
 public class PostThoughtAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
+	private NewPostPage activity;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
-		Thought t = (Thought) params[0];
-		String baseUrl = (String) params[1];
+		activity = (NewPostPage) params[0];
+		Thought t = (Thought) params[1];
+		String baseUrl = (String) params[2];
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = JSONUtil.fromObjectToJSON(t);
 		RawHttpRequest request = new RawHttpRequest(baseUrl, method, null, body, true);
@@ -45,6 +48,7 @@ public class PostThoughtAsyncTask extends AsyncTask<Object, Integer, JSONObject>
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
+		//activity.onPostThought(result);
 	}
 	
 	@Override

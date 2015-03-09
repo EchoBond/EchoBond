@@ -28,15 +28,15 @@ import android.os.AsyncTask;
 public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
 	private MainPage activity;
-	private static final int GROUP_UPDATE = 1;
-	private static final int GROUP_LOAD = 2;
+	public static final int GROUP_UPDATE = 1;
+	public static final int GROUP_LOAD = 2;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
 		activity = (MainPage) params[2];
 		ArrayList<Group> groups = null;
-		JSONObject body = null;
+		JSONObject body = new JSONObject();
 		String url = baseUrl;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		if(action == GROUP_UPDATE){
