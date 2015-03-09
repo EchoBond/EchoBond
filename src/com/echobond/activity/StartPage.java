@@ -77,7 +77,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     }
     
 	@Override
-	public int OnFragmentSelected(int index) {
+	public int onFragmentSelected(int index) {
 		this.fgIndex = index;
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		switch (fgIndex) {
@@ -97,7 +97,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	}
     
 	@Override
-	public void OnButtonSelected(int type, User user) {
+	public void onButtonSelected(int type, User user) {
 		String url = "";
         switch (type) {
 		case BUTTON_TYPE_SIGNUP:

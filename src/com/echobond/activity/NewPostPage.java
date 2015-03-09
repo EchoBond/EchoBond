@@ -20,10 +20,16 @@ import android.widget.TextView;
 
 public class NewPostPage extends ActionBarActivity {
 	
+	public static final int NEW_POST_CATEGORY = 0;
+	public static final int NEW_POST_DRAW = 1;
+	public static final int NEW_POST_WRITE = 2;
+	public static final int NEW_POST_GROUP = 3;
+	
 	private NewCategoryFragment categoryFragment;
 	private NewContentsFragment contentsFragment;
 	private ImageView backButton, forwardButton;
 	private TextView barTitle;
+	private int fgIndex = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

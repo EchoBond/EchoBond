@@ -55,7 +55,7 @@ public class LoginPageFragment extends Fragment {
 					User user = new User();
 					user.setEmail(loginEmailStr);
 					user.setPassword(loginPasswordStr);
-					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNIN, user);
+					mSelectedListener.onButtonSelected(StartPage.BUTTON_TYPE_SIGNIN, user);
 				}
 				
 			}
@@ -72,7 +72,7 @@ public class LoginPageFragment extends Fragment {
 					// TODO REGULAR EXPRESSION CHECK
 					User user = new User();
 					user.setEmail(loginEmailStr);
-					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_FGTPW, user);
+					mSelectedListener.onButtonSelected(StartPage.BUTTON_TYPE_FGTPW, user);
 				}
 			}
 		});
@@ -82,7 +82,7 @@ public class LoginPageFragment extends Fragment {
 	}
 	
 	public interface OnLoginSelectedListener {
-		public void OnButtonSelected(int type, User user);
+		public void onButtonSelected(int type, User user);
 	}
 	
 	@Override

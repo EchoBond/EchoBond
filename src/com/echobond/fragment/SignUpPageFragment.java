@@ -51,7 +51,7 @@ public class SignUpPageFragment extends Fragment {
 					User user = new User();
 					user.setEmail(signUpEmailStr);
 					user.setPassword(signUpPasswordStr);
-					mSelectedListener.OnButtonSelected(StartPage.BUTTON_TYPE_SIGNUP, user);
+					mSelectedListener.onButtonSelected(StartPage.BUTTON_TYPE_SIGNUP, user);
 				}
 			}
 		});
@@ -60,7 +60,7 @@ public class SignUpPageFragment extends Fragment {
 	}
 	
 	public interface OnSignUpSelectedListener {
-		public void OnButtonSelected(int type, User user);
+		public void onButtonSelected(int type, User user);
 	}
 	
 	@Override

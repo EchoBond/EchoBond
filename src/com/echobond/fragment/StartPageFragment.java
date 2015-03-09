@@ -93,7 +93,7 @@ public class StartPageFragment extends Fragment {
 		    		} catch (JSONException e){
 		    			e.printStackTrace();
 		    		}
-		    		mClickListener.OnButtonSelected(StartPage.BUTTON_TYPE_FBSIGNIN, fbUser);
+		    		mClickListener.onButtonSelected(StartPage.BUTTON_TYPE_FBSIGNIN, fbUser);
         		}
         	}
         	else {
@@ -211,14 +211,14 @@ public class StartPageFragment extends Fragment {
         signEmail.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mClickListener.OnFragmentSelected(StartPage.FRAG_SIGNUP);
+				mClickListener.onFragmentSelected(StartPage.FRAG_SIGNUP);
 			}
 		});
         
         loginEmail.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mClickListener.OnFragmentSelected(StartPage.FRAG_LOGIN);
+				mClickListener.onFragmentSelected(StartPage.FRAG_LOGIN);
 			}
 		});
         
@@ -233,8 +233,8 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	public interface OnLoginClickListener {
-		public int OnFragmentSelected(int index);
-		public void OnButtonSelected(int type, User user);
+		public int onFragmentSelected(int index);
+		public void onButtonSelected(int type, User user);
 	}
 	
 	@Override
