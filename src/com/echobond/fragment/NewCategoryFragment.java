@@ -1,8 +1,22 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
 import com.echobond.R;
+import com.echobond.connector.CategoryAsyncTask;
+import com.echobond.entity.Category;
+import com.echobond.intf.CategoryAsyncTaskCallback;
+import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
+import com.google.gson.Gson;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,19 +24,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-public class NewCategoryFragment extends Fragment {
-	
-	public static final int CATEGORY_FEELINGS = 0;
-	public static final int CATEGORY_GOOD_IDEA = 1;
-	public static final int CATEGORY_DREAM = 2;
-	public static final int CATEGORY_INTEREST = 3;
-	public static final int CATEGORY_PLAN = 4;
-	public static final int CATEGORY_OTHER = 5;
+public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCallback{
+
+	private ArrayList<ShapeDrawable> bgList;
+	private ListView categoryList;
 	
 	private CategoryInterface categorySelected;
-	private LinearLayout feelingsButton, goodIdeaButton, dreamButton, interestButton, planButton, otherButton;
 	private String categoryName = "";
+	
+	private ArrayList<Category> categories; 
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,61 +44,23 @@ public class NewCategoryFragment extends Fragment {
 		
 		View categoryView = inflater.inflate(R.layout.fragment_new_post_category, container, false);
 		
-		feelingsButton = (LinearLayout)categoryView.findViewById(R.id.button_category_feelings);
-		goodIdeaButton = (LinearLayout)categoryView.findViewById(R.id.button_category_good_idea);
-		dreamButton = (LinearLayout)categoryView.findViewById(R.id.button_category_dream);
-		interestButton = (LinearLayout)categoryView.findViewById(R.id.button_category_interest);
-		planButton = (LinearLayout)categoryView.findViewById(R.id.button_category_plan);
-		otherButton = (LinearLayout)categoryView.findViewById(R.id.button_category_other);
+		bgList = new ArrayList<ShapeDrawable>();		
+		bgList.add((ShapeDrawable) getResources().getDrawable(R.drawable.corners_bg_blue));
+		bgList.add((ShapeDrawable) getResources().getDrawable(R.drawable.corners_bg_red));
+		bgList.add((ShapeDrawable) getResources().getDrawable(R.drawable.corners_bg_orange));
+		bgList.add((ShapeDrawable) getResources().getDrawable(R.drawable.corners_bg_yellow));
+		bgList.add((ShapeDrawable) getResources().getDrawable(R.drawable.corners_bg_cyan));
 		
-		feelingsButton.setOnClickListener(new CategorySelectedListener(CATEGORY_FEELINGS));
-		goodIdeaButton.setOnClickListener(new CategorySelectedListener(CATEGORY_GOOD_IDEA));
-		dreamButton.setOnClickListener(new CategorySelectedListener(CATEGORY_DREAM));
-		interestButton.setOnClickListener(new CategorySelectedListener(CATEGORY_INTEREST));
-		planButton.setOnClickListener(new CategorySelectedListener(CATEGORY_PLAN));
-		otherButton.setOnClickListener(new CategorySelectedListener(CATEGORY_OTHER));
-
+		categoryList = (ListView) categoryView.findViewById(R.id.list_category);
+		
+		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CategoryAsyncTask.CATEGORY_LOAD,
+				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_categories), this);
+		
 		return categoryView;
 	}
 	
-	public class CategorySelectedListener implements OnClickListener {
-		
-		private int categoryIndex = -1;
-		public CategorySelectedListener(int i) {	categoryIndex = i;	}
-		@Override
-		public void onClick(View v) {
-			switch (categoryIndex) {
-			case CATEGORY_FEELINGS:
-				categoryName = "feeling";
-				break;
-			case CATEGORY_GOOD_IDEA:
-				categoryName = "idea";
-				break;
-			case CATEGORY_DREAM:
-				categoryName = "dream";
-				break;
-			case CATEGORY_INTEREST:
-				categoryName = "interest";
-				break;
-			case CATEGORY_PLAN:
-				categoryName = "plan";
-				break;
-			case CATEGORY_OTHER:
-				categoryName = "other";
-				break;
-			default:
-				break;
-			}
-			categorySelected.getCategory(categoryName);
-			categorySelected.onForwardClick(0);
-			categorySelected.onBackClick(0);
-		}
-		
-	}
-	
 	public interface CategoryInterface {
-		public int onForwardClick(int index);
-		public int onBackClick(int index);
+		public void getIndex(int index);
 		public void getCategory(String category);
 	}
 	
@@ -95,6 +71,25 @@ public class NewCategoryFragment extends Fragment {
 			categorySelected = (CategoryInterface) activity;
 		} catch (Exception e) {
 			throw new ClassCastException(activity.toString() + "must implement CategoryInterface. ");
+		}
+	}
+
+	@Override
+	public void onCategoryResult(JSONObject result) {
+		if(null == result){
+			Toast.makeText(getActivity(), "Failed loading categories", Toast.LENGTH_LONG).show();
+		} else {
+			categories = (ArrayList<Category>) JSONUtil.fromJSONToObject(result, ArrayList.class);
+			ArrayList<HashMap<String, Object>> listItems = new ArrayList<HashMap<String, Object>>();
+			for(int i=0;i < categories.size(); i++){
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("category", categories.get(i).getName());
+				listItems.add(map);
+			}
+			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_category, new String[]{"category"}, new int[]{R.id.text_category});
+			for(int i=0;i<categoryList.getChildCount();i++){
+				categoryList.getChildAt(i);
+			}
 		}
 	}
 }

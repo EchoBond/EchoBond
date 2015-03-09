@@ -4,7 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-    
+    <ListView android:id="@+id/list_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+    <!-- 
     <LinearLayout 
         android:id="@+id/button_category_feelings"
         android:layout_width="match_parent"
@@ -118,5 +122,5 @@
             android:textSize="30sp"
             android:textColor="#ffffff" />
     </LinearLayout>
-
+	-->
 </LinearLayout>

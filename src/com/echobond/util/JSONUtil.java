@@ -29,4 +29,8 @@ public class JSONUtil {
 		return dest;
 	}
 	
+	public static Object fromJSONToObject(JSONObject obj, Class<?> cls){
+		return fromStringToObject(obj.toString(), cls);
+	}
+	
 }
