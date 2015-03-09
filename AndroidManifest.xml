@@ -84,8 +84,15 @@
                 android:value="com.echobond.activity.MainPage" />
         </activity>
         <activity
-            android:name="com.echobond.activity.AppSettingPage"
+            android:name=".activity.AppSettingPage"
             android:label="@string/title_activity_app_setting_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.MainPage" />
+        </activity>
+        <activity
+            android:name="com.echobond.activity.NewPostPage"
+            android:label="@string/title_activity_new_post_page" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.MainPage" />

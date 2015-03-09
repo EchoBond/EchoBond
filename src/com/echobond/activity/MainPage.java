@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.echobond.fragment.AddCategoryFragment;
-import com.echobond.fragment.AddContentsFragment;
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.ProfileFragment;
@@ -58,14 +56,12 @@ public class MainPage extends ActionBarActivity {
 	private LikeMindedFragment likeMindedFragment;
 	private ThoughtFragment notificationFragment;
 	private ProfileFragment profileFragment;
-//	private AddCategoryFragment categoryFragment;
-//	private AddContentsFragment contentsFragment;
+	
 	private ArrayList<Fragment> mainFragmentsList;
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
-	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, notificationButton, profileButton, addButton, 
+	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, notificationButton, profileButton,  
 						newPostButton, settingButton, tabSelector;
-	private LinearLayout buttonsGroup;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -122,23 +118,20 @@ public class MainPage extends ActionBarActivity {
 
 	private void initViews() {
 		
-		mainFragmentsList = new ArrayList<Fragment>();
 		homeFragment = new ThoughtFragment();
 //		hitFragment = new ThoughtFragment();
 //		trendingFragment = new ThoughtFragment();
 		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new ThoughtFragment();
 		profileFragment = new ProfileFragment();
-//		categoryFragment = new AddCategoryFragment();
-//		contentsFragment = new AddContentsFragment();
+		
+		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
 //		mainFragmentsList.add(hitFragment);
 //		mainFragmentsList.add(trendingFragment);
 		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
-//		mainFragmentsList.add(categoryFragment);
-//		mainFragmentsList.add(contentsFragment);
 		
 		Display currentDisplay = getWindowManager().getDefaultDisplay();
 		Point outSize = new Point();
@@ -157,16 +150,16 @@ public class MainPage extends ActionBarActivity {
 		mTabPager.setOnPageChangeListener(new MyOnPageChangeListener());
 		mTabPager.setAdapter(mAdapter);
 		
-		tabSelector = (ImageView)findViewById(R.id.tab_button);
+//		tabSelector = (ImageView)findViewById(R.id.tab_button);
 
-		buttonsGroup = (LinearLayout)findViewById(R.id.buttons_group);
 		homeButton = (ImageView)findViewById(R.id.home_button);
 //		hitButton = (ImageView)findViewById(R.id.hit_button);
 //		trendingButton = (ImageView)findViewById(R.id.trend_button);
 		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
 		notificationButton = (ImageView)findViewById(R.id.notification_button);
 		profileButton = (ImageView)findViewById(R.id.profile_button);
-//		addButton = (ImageView)findViewById(R.id.add_button);
+		
+		homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button_selected));
 		
 		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
 //		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
@@ -174,7 +167,6 @@ public class MainPage extends ActionBarActivity {
 		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(1));
 		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		profileButton.setOnClickListener(new FragmentChangeOnClickListener(3));
-//		addButton.setOnClickListener(new FragmentChangeOnClickListener(5));
 		
 	}
 	
@@ -217,7 +209,8 @@ public class MainPage extends ActionBarActivity {
 				startActivity(intent);
 				break;
 			case 1:
-				Toast.makeText(getApplicationContext(), "Storing chatting List. ", Toast.LENGTH_SHORT).show();
+				intent.setClass(MainPage.this, NewPostPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				break;
 			case 2:
 				try {
@@ -290,12 +283,69 @@ public class MainPage extends ActionBarActivity {
 
 		@Override
 		public void onPageSelected(int position) {
-			
-			Animation animation = new TranslateAnimation(offset[0]*currentIndex, offset[0]*position, 0, 0);
+//			Animation animation = null;
+			switch (position) {
+			case 0:
+				homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button_selected));
+				if (currentIndex == 1) {
+//					animation = new TranslateAnimation(offset[1], 0, 0, 0);
+					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
+				}else if (currentIndex == 2) {
+//					animation = new TranslateAnimation(offset[2], 0, 0, 0);
+					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
+				}else if (currentIndex == 3) {
+//					animation = new TranslateAnimation(offset[3], 0, 0, 0);
+					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+				}
+				break;
+			case 1:
+				likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button_selected));
+				if (currentIndex == 0) {
+//					animation = new TranslateAnimation(offset[0], 1, 0, 0);
+					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
+				}else if (currentIndex == 2) {
+//					animation = new TranslateAnimation(offset[2], 1, 0, 0);
+					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
+				}else if (currentIndex == 3) {
+//					animation = new TranslateAnimation(offset[3], 1, 0, 0);
+					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+				}
+				break;
+			case 2:
+				notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button_selected));
+				if (currentIndex == 0) {
+//					animation = new TranslateAnimation(offset[0], 2, 0, 0);
+					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
+				}else if (currentIndex == 1) {
+//					animation = new TranslateAnimation(offset[1], 2, 0, 0);
+					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
+				}else if (currentIndex == 3) {
+//					animation = new TranslateAnimation(offset[3], 2, 0, 0);
+					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+				}
+				break;
+			case 3:
+				profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button_selected));
+				if (currentIndex == 0) {
+//					animation = new TranslateAnimation(offset[0], 3, 0, 0);
+					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+				}else if (currentIndex == 1) {
+//					animation = new TranslateAnimation(offset[1], 3, 0, 0);
+					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
+				}else if (currentIndex == 2) {
+//					animation = new TranslateAnimation(offset[2], 3, 0, 0);
+					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
+				}
+				break;
+
+			default:
+				break;
+			}
+//			Animation animation = new TranslateAnimation(offset[0]*currentIndex, offset[0]*position, 0, 0);
 			currentIndex = position;
-			animation.setFillAfter(true);
-			animation.setDuration(300);
-			tabSelector.startAnimation(animation);
+//			animation.setFillAfter(true);
+//			animation.setDuration(300);
+//			tabSelector.startAnimation(animation);
 		}
 	}
 

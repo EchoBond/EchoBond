@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <include 
-        layout="@layout/title_bar_setting"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
     <EditText 
         android:id="@+id/thoughts_content"
         android:layout_width="match_parent"
@@ -31,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="# TAGS"
+            android:text="@string/title_new_post_tag"
             android:textSize="25sp"
             android:textColor="#90ee90"
             android:layout_centerHorizontal="true"

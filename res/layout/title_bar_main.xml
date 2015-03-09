@@ -11,10 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp" >
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
 
         <ImageView
             android:id="@+id/search_button_view"
@@ -30,14 +30,14 @@
         android:id="@+id/search_bar_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingTop="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
+        android:paddingBottom="1dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp" >
 
         <EditText
             android:id="@+id/search_bar_view"
             android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/none"
             android:clickable="true"
             android:focusableInTouchMode="false"
@@ -49,9 +49,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
         <ImageView

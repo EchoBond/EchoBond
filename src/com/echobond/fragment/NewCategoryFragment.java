@@ -4,7 +4,6 @@ import com.echobond.R;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-public class AddCategoryFragment extends ListFragment implements AdapterView.OnItemClickListener {
+public class NewCategoryFragment extends ListFragment implements AdapterView.OnItemClickListener {
 	
 	private String[] categoryItemList;
 	
@@ -20,7 +19,7 @@ public class AddCategoryFragment extends ListFragment implements AdapterView.OnI
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		View categoryView = inflater.inflate(R.layout.fragment_main_add_category, container, false);
+		View categoryView = inflater.inflate(R.layout.fragment_new_post_category, container, false);
 		return categoryView;
 	}
 	
@@ -35,11 +34,7 @@ public class AddCategoryFragment extends ListFragment implements AdapterView.OnI
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		AddContentsFragment contentsFragment = new AddContentsFragment();
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.add(R.id.main_content, contentsFragment);
-		transaction.hide(this);
-		transaction.commit();
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
 	}
 }

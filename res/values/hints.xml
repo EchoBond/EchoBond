@@ -17,6 +17,4 @@
     <string name="network_issue">Unable to connect to server, please check your network connectivity. </string>
     <string name="hint_quit">Click once more to quit. </string>
     
-    <string name="share">Share your thoughts.</string>
-
 </resources>
