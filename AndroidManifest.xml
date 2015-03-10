@@ -91,11 +91,15 @@
                 android:value="com.echobond.activity.MainPage" />
         </activity>
         <activity
-            android:name="com.echobond.activity.NewPostPage"
+            android:name=".activity.NewPostPage"
             android:label="@string/title_activity_new_post_page" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.MainPage" />
+        </activity>
+        <activity
+            android:name="com.echobond.activity.FollowingPage"
+            android:label="@string/title_activity_following_page" >
         </activity>
     </application>
 

@@ -7,7 +7,7 @@
     <string name="facebook_permissions">public_profile,email</string>
     <string name="facebook_root_path">v2.2/me</string>
     <string name="gcm_sender_id">812713217371</string>
-    
+
     <!-- NAME OF THE ACTIVITIES -->
     <string name="title_activity_login_page">LoginPage</string>
     <string name="title_activity_intro_page">IntroPage</string>
@@ -15,14 +15,14 @@
     <string name="title_activity_search_page">SearchPage</string>
     <string name="title_activity_app_setting_page">AppSettingPage</string>
     <string name="title_activity_new_post_page">NewPostPage</string>
-    
+
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
     <string name="title_new_post_draw">Draw Your Mind</string>
     <string name="title_new_post_write">Write Your Thought</string>
     <string name="title_new_post_tag">TAGS</string>
     <string name="title_new_post_group">Put It in A Group</string>
-    
+
     <!-- LIST OF THE CATEGORY -->
     <string name="category_feelings">Feelings</string>
     <string name="category_good_idea">A Good Idea</string>
@@ -31,7 +31,10 @@
     <string name="category_plan">Plan</string>
     <string name="category_other">Other</string>
     
+    <string name="following_groups">Follow These Groups</string>
+    <string name="following_hashtags">Follow These Hashtags</string>
     <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_following_page">FollowingPage</string>
 
 </resources>

@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto" 
+		android:id="@+id/toolbar_following"
+		android:layout_width="match_parent"
+		android:layout_height="55dp"
+		app:contentInsetStart="0dp"
+		android:background="#fff" />
+
+    <FrameLayout 
+        android:paddingTop="?android:attr/actionBarSize"
+        android:id="@+id/following_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_following" >
+    </FrameLayout>
+
+</RelativeLayout>

@@ -81,11 +81,12 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.forward_button));
 		backButton.setOnClickListener(new backOnClickListener());
 		forwardButton.setOnClickListener(new forwardOnClickListener());
+		
+		barTitle.setText(R.string.title_new_post_share);
 	}
 
 	public class backOnClickListener implements OnClickListener {
 
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		@Override
 		public void onClick(View v) {
 			switch (fgIndex) {
@@ -97,13 +98,14 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				break;
 			case NEW_POST_WRITE:
 				barTitle.setText(R.string.title_new_post_share);
-				transaction.hide(contentsFragment).show(categoryFragment).commit();
+				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(categoryFragment).commit();
 				fgIndex -= 1;
 				fgIndex -= 1;
 				break;
 			case NEW_POST_GROUP:
 				barTitle.setText(R.string.title_new_post_write);
-				transaction.hide(groupsFragment).show(contentsFragment).commit();
+				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.forward_button));
+				getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
 				fgIndex -= 1;
 				break;
 			default:
@@ -157,6 +159,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		
 		private void isGroupSelected() {
 			// TODO GROUP SELECTION
+			// TODO SENDING ALL CONTENTS OF THE NEW POST
 			activityBackStack();
 			
 		}
@@ -176,7 +179,6 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			transaction.hide(groupsFragment);
 			transaction.show(categoryFragment).commit();
 			fgIndex = 0;
-			barTitle.setText(R.string.title_new_post_share);
 		}
 	}
 
