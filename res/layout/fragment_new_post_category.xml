@@ -4,10 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-    <ListView android:id="@+id/list_category"
+    
+    <ListView 
+        android:id="@+id/list_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:divider="@android:color/transparent" />
+        android:divider="@android:color/transparent"
+        android:choiceMode="singleChoice" />
     
 </LinearLayout>

@@ -75,6 +75,6 @@ public class ThoughtFragment extends ListFragment implements AdapterView.OnItemC
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Toast.makeText(getActivity(), "You've clicked me & you are a Somebody-Brilliant. ", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity().getApplicationContext(), "You've clicked me & you are a Somebody-Brilliant. ", Toast.LENGTH_SHORT).show();
 	}
 }

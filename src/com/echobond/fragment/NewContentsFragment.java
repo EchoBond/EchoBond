@@ -1,22 +1,26 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
+import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class NewContentsFragment extends Fragment {
 	
-	private ContentsInterface contentsSelected;
-	private ImageView backButton, forwardButton;
+	private NewPostFragmentsSwitchAsyncTaskCallback contentsSelected;
 	private EditText thoughtsContent, tagsContent;
 	private String thoughtsText, tagsText;
 	
@@ -24,26 +28,46 @@ public class NewContentsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
-		View addContentsView = inflater.inflate(R.layout.fragment_new_post_contents, container, false);
+		View contentsView = inflater.inflate(R.layout.fragment_new_post_contents, container, false);
 		
-		thoughtsContent = (EditText)addContentsView.findViewById(R.id.thoughts_content);
-		tagsContent = (EditText)addContentsView.findViewById(R.id.tags_content);
-		thoughtsText = thoughtsContent.getText().toString();
-		tagsText = tagsContent.getText().toString();
-
-		contentsSelected.getContent(thoughtsText, tagsText);
-		return addContentsView;
+		thoughtsContent = (EditText)contentsView.findViewById(R.id.thoughts_content);
+		tagsContent = (EditText)contentsView.findViewById(R.id.tags_content);
+		thoughtsContent.addTextChangedListener(new MyTextWatcher());
+		tagsContent.addTextChangedListener(new MyTextWatcher());
+		
+		return contentsView;
 	}
 	
-	public interface ContentsInterface {
-		public void getContent(String content, String tags);
+	public class MyTextWatcher implements TextWatcher {
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			thoughtsText = thoughtsContent.getText().toString();
+			tagsText = tagsContent.getText().toString();
+			contentsSelected.getContent(thoughtsText, tagsText);
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			contentsSelected = (ContentsInterface) activity;
+			contentsSelected = (NewPostFragmentsSwitchAsyncTaskCallback) activity;
 		} catch (Exception e) {
 			throw new ClassCastException(activity.toString() + "must implement ContentsInterface. ");
 		}

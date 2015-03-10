@@ -8,12 +8,10 @@ import com.echobond.connector.ResetPassAsyncTask;
 import com.echobond.connector.SignInAsyncTask;
 import com.echobond.connector.SignUpAsyncTask;
 import com.echobond.entity.User;
-import com.echobond.fragment.LoginPageFragment.OnLoginSelectedListener;
-import com.echobond.fragment.SignUpPageFragment.OnSignUpSelectedListener;
 import com.echobond.fragment.LoginPageFragment;
 import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.fragment.StartPageFragment;
-import com.echobond.fragment.StartPageFragment.OnLoginClickListener;
+import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 import com.echobond.R;
@@ -26,20 +24,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.Toast;
-
 /**
  * 
  * @author aohuijun
  * @editor liujunjie
  *
  */
-public class StartPage extends FragmentActivity implements OnLoginClickListener, OnSignUpSelectedListener, OnLoginSelectedListener {
+public class StartPage extends FragmentActivity implements StartPageFragmentsSwitchAsyncTaskCallback {
 	
 	private StartPageFragment startPageFragment;
 	private SignUpPageFragment signUpPageFragment;
 	private LoginPageFragment loginPageFragment;
 	private String preUrl;
 	private int fgIndex = 0;
+    private long exitTime = 0;
 	
 	public static final int BUTTON_TYPE_SIGNUP = 0;
 	public static final int BUTTON_TYPE_SIGNIN = 1;
@@ -125,12 +123,12 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     public void onSignInResult(JSONObject result){
     	try {
     		if(null == result){
-				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
     		}
     		else if(result.getInt("exists") == 0){
-				Toast.makeText(this, getResources().getString(R.string.signin_not_exists), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_not_exists), Toast.LENGTH_LONG).show();
 			} else if(result.getInt("passMatch") == 0){
-				Toast.makeText(this, getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
 			} else {
 				checkFirstUse();
 			}
@@ -142,25 +140,25 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     public void onSignUpResult(JSONObject result){
     	try {
     		if(null == result){
-				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
     		}
     		else{
 				if(result.getInt("exists") == 0){
-					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
 					SPUtil.put(this, "isFirstUse", true);
 					checkFirstUse();
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
-					Toast.makeText(this, getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 0){
-					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();				
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();				
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 1){
-					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();	
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();	
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 0 && result.getInt("email") == 1 && result.getInt("expired") == 0){
-					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_mailed), Toast.LENGTH_LONG).show();	
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_mailed), Toast.LENGTH_LONG).show();	
 				}
     		}
 		} catch (JSONException e) {
@@ -171,7 +169,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     public void onFBSignInResult(JSONObject result){
     	try{
 			if(null == result){
-				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 			}
 			else {
 				if(result.getInt("new") == 0){
@@ -197,14 +195,14 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     public void onResetPassResult(JSONObject result){
 		try{
 			if(null == result){
-				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 			}
 			else if(result.getInt("accExists") == 0){
-				Toast.makeText(this, getResources().getString(R.string.resetpass_not_reg), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.resetpass_not_reg), Toast.LENGTH_LONG).show();
 			} else if(result.getInt("hadReset") == 1 && result.getInt("reset") == 0 && result.getInt("expire") == 0){
-				Toast.makeText(this, getResources().getString(R.string.resetpass_resetting), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.resetpass_resetting), Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(this, getResources().getString(R.string.resetpass_now), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.resetpass_now), Toast.LENGTH_LONG).show();
 			}
 		} catch (JSONException e){
 			e.printStackTrace();
@@ -226,7 +224,6 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 		finish();
     }
     
-    private long exitTime = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	//pressed back key

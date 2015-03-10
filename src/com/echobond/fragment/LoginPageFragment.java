@@ -3,6 +3,7 @@ package com.echobond.fragment;
 import com.echobond.R;
 import com.echobond.activity.StartPage;
 import com.echobond.entity.User;
+import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ public class LoginPageFragment extends Fragment {
 	private EditText loginEmailText, loginPasswordText;
 	private String loginEmailStr, loginPasswordStr;
 	private ImageButton login, forgetPassword;
-	private OnLoginSelectedListener mSelectedListener;
+	private StartPageFragmentsSwitchAsyncTaskCallback mSelectedListener;
 		
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -47,9 +48,9 @@ public class LoginPageFragment extends Fragment {
 				 * Whether the edittext of email and password input is empty. 
 				 */
 				if (loginEmailStr == null || loginEmailStr.equals("")) {
-					Toast.makeText(getActivity(), "Oops! Seems that you forgot to enter your email address account. ;)", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_email), Toast.LENGTH_SHORT).show();
 				} else if (loginPasswordStr == null || loginPasswordStr.equals("")) {
-					Toast.makeText(getActivity(), "You need your password to come back your wonderland. ", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_pw), Toast.LENGTH_SHORT).show();
 				} else {
 					// TODO REGULAR EXPRESSION CHECK
 					User user = new User();
@@ -67,7 +68,7 @@ public class LoginPageFragment extends Fragment {
 			public void onClick(View v) {
 				loginEmailStr = loginEmailText.getText().toString();
 				if (loginEmailStr == null || loginEmailStr.equals("")) {
-					Toast.makeText(getActivity(), "Oops! Seems that you forgot to enter your email address account. ;)", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_email), Toast.LENGTH_SHORT).show();
 				} else {
 					// TODO REGULAR EXPRESSION CHECK
 					User user = new User();
@@ -81,15 +82,11 @@ public class LoginPageFragment extends Fragment {
 		
 	}
 	
-	public interface OnLoginSelectedListener {
-		public void onButtonSelected(int type, User user);
-	}
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mSelectedListener = (OnLoginSelectedListener) activity;
+			mSelectedListener = (StartPageFragmentsSwitchAsyncTaskCallback) activity;
 		} catch (ClassCastException e) {
 			// should never happen in normal cases
 			throw new ClassCastException(activity.toString() + "must implement OnButtonSelectedListener in LoginPageFragment. ");

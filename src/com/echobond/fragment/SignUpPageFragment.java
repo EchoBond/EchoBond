@@ -3,6 +3,7 @@ package com.echobond.fragment;
 import com.echobond.R;
 import com.echobond.activity.StartPage;
 import com.echobond.entity.User;
+import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ public class SignUpPageFragment extends Fragment {
 	private EditText signUpEmailText, signUpPasswordText;
 	private String signUpEmailStr, signUpPasswordStr;
 	private ImageButton signUp;
-	private OnSignUpSelectedListener mSelectedListener;
+	private StartPageFragmentsSwitchAsyncTaskCallback/*OnSignUpSelectedListener*/ mSelectedListener;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -43,9 +44,9 @@ public class SignUpPageFragment extends Fragment {
 				signUpPasswordStr = signUpPasswordText.getText().toString();
 				
 				if (signUpEmailStr == null || signUpEmailStr.equals("")) {
-					Toast.makeText(getActivity(), "Oops! You need an email address to join us. :)", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_email), Toast.LENGTH_SHORT).show();
 				} else if (signUpPasswordStr == null || signUpPasswordStr.equals("")) {
-					Toast.makeText(getActivity(), "You need a password to protect your account. ", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_pw), Toast.LENGTH_SHORT).show();
 				} else {
 					// TODO REGULAR-EXPRESSION CHECK
 					User user = new User();
@@ -59,15 +60,11 @@ public class SignUpPageFragment extends Fragment {
 		return signUpPageView;
 	}
 	
-	public interface OnSignUpSelectedListener {
-		public void onButtonSelected(int type, User user);
-	}
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mSelectedListener = (OnSignUpSelectedListener) activity;
+			mSelectedListener = (StartPageFragmentsSwitchAsyncTaskCallback) activity;
 		} catch (ClassCastException e) {
 			// should never happen in normal cases
 			throw new ClassCastException(activity.toString() + "must implement OnButtonSelectedListener in SignUpPageFragment. ");
