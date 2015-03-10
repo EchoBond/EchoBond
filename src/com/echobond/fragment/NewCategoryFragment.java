@@ -9,6 +9,7 @@ import com.echobond.R;
 import com.echobond.connector.CategoryAsyncTask;
 import com.echobond.entity.Category;
 import com.echobond.intf.CategoryAsyncTaskCallback;
+import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 
@@ -21,25 +22,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
-
 /**
  * 
  * @author Ao Huijun
  * @author Luck
  *
  */
-public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCallback{
+public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCallback {
 
 	private ArrayList<Drawable> bgList;
+	private ArrayList<Category> categories;
 	private ListView categoryList;
 	
-	private CategoryInterface categorySelected;
-	
-	private ArrayList<Category> categories; 
+	private NewPostFragmentsSwitchAsyncTaskCallback categorySelected;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,15 +62,11 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 		return categoryView;
 	}
 	
-	public interface CategoryInterface {
-		public void getCategory(String category);
-	}
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			categorySelected = (CategoryInterface) activity;
+			categorySelected = (NewPostFragmentsSwitchAsyncTaskCallback) activity;
 		} catch (Exception e) {
 			throw new ClassCastException(activity.toString() + "must implement CategoryInterface. ");
 		}
@@ -86,7 +82,7 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 			TypeToken<ArrayList<Category>> token = new TypeToken<ArrayList<Category>>(){};
 			categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", token);
 			ArrayList<HashMap<String, Object>> listItems = new ArrayList<HashMap<String, Object>>();
-			for(int i=0;i < categories.size(); i++){
+			for(int i = 0; i < categories.size(); i++){
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("category", categories.get(i).getName());
 				listItems.add(map);
@@ -97,7 +93,7 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 				
 				@Override
 				public void run() {
-					for(int i=0;i<categoryList.getChildCount();i++){
+					for(int i = 0; i < categoryList.getChildCount(); i++){
 						ViewGroup view = (ViewGroup) categoryList.getChildAt(i);
 						int index = i;
 						if(index >= bgList.size()){
@@ -107,6 +103,18 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 					}
 				}
 			});
+			categoryList.setOnItemClickListener(new CategoryItemClickListener());
+
 		}
+	}
+	
+	public class CategoryItemClickListener implements AdapterView.OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Toast.makeText(getActivity().getApplicationContext(), "c", Toast.LENGTH_SHORT).show();
+		}
+		
 	}
 }

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import com.echobond.R;
 import com.echobond.activity.StartPage;
 import com.echobond.entity.User;
+import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
 import com.echobond.util.GCMUtil;
 import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
@@ -40,7 +41,7 @@ import android.widget.Toast;
  */
 public class StartPageFragment extends Fragment {
 	
-	private OnLoginClickListener mClickListener;
+	private StartPageFragmentsSwitchAsyncTaskCallback mClickListener;
 	private ImageButton loginEmail, signEmail;
 	private LoginButton loginButton;
 
@@ -230,16 +231,11 @@ public class StartPageFragment extends Fragment {
         return startPageView;
 	}
 	
-	public interface OnLoginClickListener {
-		public int onFragmentSelected(int index);
-		public void onButtonSelected(int type, User user);
-	}
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			mClickListener = (OnLoginClickListener) activity;
+			mClickListener = (StartPageFragmentsSwitchAsyncTaskCallback) activity;
 		} catch (ClassCastException e) {
 			// should never happen in normal cases
 			throw new ClassCastException(activity.toString() + "must implement OnLoginClickListener. ");
