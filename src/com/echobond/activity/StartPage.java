@@ -136,7 +136,9 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 			} else if(result.getInt("passMatch") == 0){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
 			} else {
-				login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
+				User user = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
+				recordUser(user);
+				login(user);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -151,8 +153,11 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     		else{
 				if(result.getInt("exists") == 0){
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
-					SPUtil.put(this, "isFirstUse", true);
-					login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
+					User user = (User)JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
+					//just signed up, must be first use
+					SPUtil.put(this, "login", "isFirstUse", true);
+					recordUser(user);
+					login(user);
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
@@ -181,7 +186,9 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 				//make sure it is a valid session instead of a cache
 				Session session = Session.getActiveSession();
 				if(null != session && session.isOpened()){
-					login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
+					User user = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
+					recordFBUser(user);
+					login(user);
 				}
 			}
     	} catch (JSONException e){
@@ -206,6 +213,20 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 		}
     }
 
+    private void recordUser(User user){
+		SPUtil.put(this, "login", "loginUser_type", User.TYPE_EMAIL);
+		SPUtil.put(this, "login","loginUser_id", user.getId());
+		SPUtil.put(this, "login", "loginUser_pass", user.getPassword());
+		SPUtil.put(this, "login", "loginUser_email", user.getEmail());
+    }
+    
+    private void recordFBUser(User user){
+    	SPUtil.put(this, "login", "loginUser_type", User.TYPE_FB);
+    	SPUtil.put(this, "login", "loginUser_id", user.getId());
+    	SPUtil.put(this, "login", "loginUser_FBId", user.getFBId());
+    	SPUtil.put(this, "login", "loginUser_email", user.getEmail());
+    }
+    
     private void login(User user){
     	Intent intent = checkFirstLogin();
 		startActivity(intent);
@@ -213,10 +234,10 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     }
     
     private Intent checkFirstLogin(){
-		boolean isFirstUse = (Boolean) SPUtil.get(this, "isFirstUse", true, Boolean.class);
+		boolean isFirstUse = (Boolean) SPUtil.get(this, "login", "isFirstUse", true, Boolean.class);
 		Class<?> target = null;
 		if (isFirstUse) {
-			SPUtil.put(this, "isFirstUse", false);
+			SPUtil.put(this, "login", "isFirstUse", false);
 			target = IntroPage.class;
 		} else {
 			target = MainPage.class;
@@ -232,22 +253,26 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     }
     
     private void checkReturnUser(){
-    	Integer type = (Integer) SPUtil.get(this, "loginUser_type", User.TYPE_INVALID, Integer.class);
-        String id = (String) SPUtil.get(this, "loginUser_id", null, String.class);
+    	Integer type = (Integer) SPUtil.get(this, "login", "loginUser_type", User.TYPE_INVALID, Integer.class);
+        String id = (String) SPUtil.get(this, "login", "loginUser_id", null, String.class);
         User user = new User();
         if(!type.equals(User.TYPE_INVALID) && null != id){
         	if(type.equals(User.TYPE_EMAIL)){
         		String pass, email;
-        		if((pass=(String) SPUtil.get(this, "loginUser_pass", null, String.class)) != null &&
-        				(email=(String) SPUtil.get(this, "loginUser_pass", null, String.class)) != null){
+        		if((pass=(String) SPUtil.get(this, "login", "loginUser_pass", null, String.class)) != null &&
+        				(email=(String) SPUtil.get(this, "login", "loginUser_email", null, String.class)) != null){
         			user.setEmail(email);
         			user.setPassword(pass);
-//        			new SignInAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user, 
-//        					preUrl + getResources().getString(R.string.url_signin), this);
         			login(user);
         		}
         	} else {
-//        		String FBId = SPUtil.get(this, key, defValue, cls)
+        		String FBId, email;
+        		if((FBId=(String) SPUtil.get(this, "login", "loginUser_FBId", null, String.class)) != null &&
+        				(email=(String) SPUtil.get(this, "login", "loginUser_email", null, String.class)) != null){
+        			user.setEmail(email);
+        			user.setFBId(FBId);
+        			login(user);
+        		}
         	}
         }
     }

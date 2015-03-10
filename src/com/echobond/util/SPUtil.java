@@ -9,8 +9,8 @@ import android.content.SharedPreferences.Editor;
 
 public class SPUtil {
 	@SuppressWarnings("unchecked")
-	public static Object get(Context ctx, String key, Object defValue, Class<?> cls){
-		SharedPreferences pref = ctx.getSharedPreferences(key, Activity.MODE_PRIVATE);
+	public static Object get(Context ctx, String name, String key, Object defValue, Class<?> cls){
+		SharedPreferences pref = ctx.getSharedPreferences(name, Activity.MODE_PRIVATE);
 		Object value = null;
 		if(cls == Integer.class)
 			value = pref.getInt(key, (Integer)defValue);
@@ -28,8 +28,8 @@ public class SPUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static boolean put(Context ctx, String key, Object value){
-		SharedPreferences pref = ctx.getSharedPreferences(key, Activity.MODE_PRIVATE);
+	public static boolean put(Context ctx, String name, String key, Object value){
+		SharedPreferences pref = ctx.getSharedPreferences(name, Activity.MODE_PRIVATE);
 		Editor editor = pref.edit();
 		boolean result = false;
 		if(value.getClass() == Boolean.class){
@@ -46,5 +46,17 @@ public class SPUtil {
 			result = editor.putStringSet(key, (Set<String>) value).commit();
 		}
 		return result;
+	}
+
+	public static boolean remove(Context ctx, String name, String key){
+		SharedPreferences pref = ctx.getSharedPreferences(name, Activity.MODE_PRIVATE);
+		Editor editor = pref.edit();
+		return editor.remove(key).commit();
+	}
+	
+	public static boolean clear(Context ctx, String name){
+		SharedPreferences pref = ctx.getSharedPreferences(name, Activity.MODE_PRIVATE);
+		Editor editor = pref.edit();
+		return editor.clear().commit();
 	}
 }
