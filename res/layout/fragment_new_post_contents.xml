@@ -3,45 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <EditText 
+
+    <EditText
         android:id="@+id/thoughts_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:inputType="textMultiLine"
-        android:hint="@string/hint_thoughts_content"
-        android:singleLine="false"
-        android:gravity="left|top"
+        android:layout_weight="5"
+        android:layout_margin="8dp"
         android:background="@drawable/square_edittext"
-        android:layout_weight="5" />
+        android:gravity="left|top"
+        android:hint="@string/hint_thoughts_content"
+        android:inputType="textMultiLine"
+        android:singleLine="false" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_weight="1" >
+        android:layout_weight="0.6"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <ImageView 
+            android:id="@+id/view_hashtag"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+       	 	android:gravity="center_horizontal"
+            android:contentDescription="@string/none"
+            android:src="@drawable/hashtag_view" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+        	android:gravity="center_horizontal"
+            android:layout_toRightOf="@id/view_hashtag"
+            android:contentDescription="@string/none"
+            android:text="@string/title_new_post_tag"
+            android:textColor="#90ee90"
+            android:textSize="25sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="@string/title_new_post_tag"
-            android:textSize="25sp"
-            android:textColor="#90ee90"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/none" />
-        
+        	android:layout_gravity="bottom"
+            android:layout_alignParentRight="true"
+            android:text="@string/hint_tags_separate"
+            android:textColor="#909090"
+            android:textSize="15sp" />
     </RelativeLayout>
-    <EditText 
+
+    <EditText
         android:id="@+id/tags_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:inputType="textMultiLine"
-        android:hint="@string/hint_tags_content"
-        android:singleLine="false"
-        android:gravity="left|top"
+        android:layout_weight="5"
+        android:layout_margin="8dp"
         android:background="@drawable/square_edittext"
-        android:layout_weight="5" />
+        android:gravity="left|top"
+        android:hint="@string/hint_tags_content"
+        android:inputType="textMultiLine"
+        android:singleLine="false" />
 
 </LinearLayout>

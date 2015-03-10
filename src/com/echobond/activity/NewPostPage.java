@@ -3,12 +3,12 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
+import com.echobond.fragment.NewGroupsFragment;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -34,12 +34,12 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	
 	private NewCategoryFragment categoryFragment;
 	private NewContentsFragment contentsFragment;
+	private NewGroupsFragment groupsFragment;
 	private String categoryString, contentsString = "", tagsString = "";
 
 	private ImageView backButton, forwardButton;
 	private TextView barTitle;
 	private int fgIndex;
-    private long exitTime = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,30 +85,26 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 
 	public class backOnClickListener implements OnClickListener {
 
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		@Override
 		public void onClick(View v) {
 			switch (fgIndex) {
 			case NEW_POST_CATEGORY:
-				Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
-				if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
-					TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-				}else {
-					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					NavUtils.navigateUpTo(NewPostPage.this, upIntent);
-				}
+				activityBackStack();
 				break;
 			case NEW_POST_DRAW:
 				
 				break;
 			case NEW_POST_WRITE:
 				barTitle.setText(R.string.title_new_post_share);
-				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.hide(contentsFragment).show(categoryFragment).commit();
 				fgIndex -= 1;
 				fgIndex -= 1;
 				break;
 			case NEW_POST_GROUP:
-				
+				barTitle.setText(R.string.title_new_post_write);
+				transaction.hide(groupsFragment).show(contentsFragment).commit();
+				fgIndex -= 1;
 				break;
 			default:
 				break;
@@ -119,7 +115,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	}
 	
 	public class forwardOnClickListener implements OnClickListener {
-
+		
 		@Override
 		public void onClick(View v) {
 			switch (fgIndex) {
@@ -133,7 +129,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				isContentsEmpty();
 				break;
 			case NEW_POST_GROUP:
-				
+				isGroupSelected();
 				break;
 			default:
 				break;
@@ -142,8 +138,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 
 		private void isCategorySelected() {
 			barTitle.setText(R.string.title_new_post_write);
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.hide(categoryFragment).show(contentsFragment).commit();
+			getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(contentsFragment).commit();
 			fgIndex += 1;
 			fgIndex += 1;
 		}
@@ -153,32 +148,48 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				Toast.makeText(getApplicationContext(), contentsString + " 同埋 " + tagsString, Toast.LENGTH_LONG).show();
 			}else {
 				Toast.makeText(getApplicationContext(), contentsString + " 同埋 " + tagsString, Toast.LENGTH_LONG).show();
-				Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
-				if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
-					TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-				}else {
-					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					NavUtils.navigateUpTo(NewPostPage.this, upIntent);
-				}
+				barTitle.setText(R.string.title_new_post_group);
+				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.done_button));
+				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(groupsFragment).commit();
+				fgIndex += 1;
 			}
+		}
+		
+		private void isGroupSelected() {
+			// TODO GROUP SELECTION
+			activityBackStack();
+			
 		}
 		
 	}
 	
 	private void initView() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (null == categoryFragment || null == contentsFragment) {
+		if (null == categoryFragment || null == contentsFragment || null == groupsFragment) {
 			categoryFragment = new NewCategoryFragment();
 			contentsFragment = new NewContentsFragment();
+			groupsFragment = new NewGroupsFragment();
 			transaction.add(R.id.new_post_content, categoryFragment);
 			transaction.add(R.id.new_post_content, contentsFragment);
+			transaction.add(R.id.new_post_content, groupsFragment);
 			transaction.hide(contentsFragment);
+			transaction.hide(groupsFragment);
 			transaction.show(categoryFragment).commit();
 			fgIndex = 0;
 			barTitle.setText(R.string.title_new_post_share);
 		}
 	}
 
+	private void activityBackStack() {
+		Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
+		if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
+			TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+		}else {
+			upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			NavUtils.navigateUpTo(NewPostPage.this, upIntent);
+		}
+	}
+	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	//pressed back key
@@ -186,21 +197,18 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
     		//in the start fragment
     		if(fgIndex == 0){
     			// Click it to return to MainPage. 
-    			Intent upIntent = NavUtils.getParentActivityIntent(NewPostPage.this);
-				if (NavUtils.shouldUpRecreateTask(NewPostPage.this, upIntent)) {
-					TaskStackBuilder.create(NewPostPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-				}else {
-					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					NavUtils.navigateUpTo(NewPostPage.this, upIntent);
-				}
+    			activityBackStack();
 				return true;
 			}
         	//in other fragments
-        	else { 
+        	else if (fgIndex == 2){ 
         		getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(categoryFragment).commit();
     			fgIndex -= 1;
     			fgIndex -= 1;
-        	}
+        	}else if (fgIndex == 3) {
+        		getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
+        		fgIndex -= 1;
+			}
     	}
     	return true;
 	}
