@@ -1,6 +1,5 @@
 package com.echobond.entity;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 
 /**
@@ -13,6 +12,12 @@ public class User {
 	public static final int UNVERFIED = 0;
 	public static final int VERIFIED = 1;
 	
+	public static final int TYPE_INVALID = -1;
+	public static final int TYPE_FB = 0;
+	public static final int TYPE_EMAIL = 1;
+	
+	private int type;
+	
 	private String id;
 	private String userName;
 	private String password;
@@ -22,9 +27,9 @@ public class User {
 	private String lastName;
 	private String name;
 	private int timeZone;
-	private Blob avatar;
-	private int genderId;
+	private String avatar;
 	private int age;
+	private String gender;
 	private String birthday;
 	private int countryId;
 	private int homeId;
@@ -39,7 +44,6 @@ public class User {
 	private String locale;
 	private int verified;
 	
-	private Gender gender;
 	private Country country;
 	private Country home;
 	private Language lang;
@@ -47,6 +51,12 @@ public class User {
 	private ArrayList<UserTag> userTags;
 	private ArrayList<Tag> tags;
 	private ArrayList<Group> groups;
+	public int getType(){
+		return type;
+	}
+	public void setType(int type){
+		this.type = type;
+	}
 	public String getId() {
 		return id;
 	}
@@ -101,17 +111,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Blob getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
-	public void setAvatar(Blob avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
-	}
-	public int getGenderId() {
-		return genderId;
-	}
-	public void setGenderId(int genderId) {
-		this.genderId = genderId;
 	}
 	public int getAge() {
 		return age;
@@ -197,10 +201,10 @@ public class User {
 	public void setVerified(int verified) {
 		this.verified = verified;
 	}
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	public Country getCountry() {

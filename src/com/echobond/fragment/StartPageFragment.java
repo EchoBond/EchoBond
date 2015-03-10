@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.StartPage;
-import com.echobond.entity.Gender;
 import com.echobond.entity.User;
 import com.echobond.util.GCMUtil;
 import com.facebook.FacebookException;
@@ -35,7 +34,8 @@ import android.widget.Toast;
 
 /**
  * 
- * @author AO Huijun & LIU Junjie
+ * @author AO Huijun
+ * @author Luck
  *
  */
 public class StartPageFragment extends Fragment {
@@ -87,9 +87,7 @@ public class StartPageFragment extends Fragment {
 			    		fbUser.setName(FBAccount.getString("name"));
 			    		fbUser.setTimeZone(FBAccount.getInt("timezone"));
 			    		fbUser.setLocale(FBAccount.getString("locale"));
-			    		Gender gender = new Gender();
-			    		gender.setName(FBAccount.getString("gender"));
-			    		fbUser.setGender(gender);
+			    		fbUser.setGender(FBAccount.getString("gender"));
 		    		} catch (JSONException e){
 		    			e.printStackTrace();
 		    		}

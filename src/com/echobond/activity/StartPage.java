@@ -15,7 +15,9 @@ import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.fragment.StartPageFragment;
 import com.echobond.fragment.StartPageFragment.OnLoginClickListener;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
+import com.echobond.util.SQLiteDBUtil;
 import com.echobond.R;
 import com.facebook.Session;
 
@@ -40,6 +42,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	private LoginPageFragment loginPageFragment;
 	private String preUrl;
 	private int fgIndex = 0;
+	private SQLiteDBUtil dbUtil;
 	
 	public static final int BUTTON_TYPE_SIGNUP = 0;
 	public static final int BUTTON_TYPE_SIGNIN = 1;
@@ -54,7 +57,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
-        //avoid dead loop of Facebook logout<->login
+        //avoid dead loop of Facebook logout<->login, clear invalid Facebook session
         Session session = Session.getActiveSession();
         if (session != null) {
             if (!session.isClosed()) {
@@ -74,6 +77,8 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 	    	transaction.show(startPageFragment).commit();
         }
         preUrl = HTTPUtil.getInstance().composePreURL(this);
+        initDB();
+        checkReturnUser();
     }
     
 	@Override
@@ -132,7 +137,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 			} else if(result.getInt("passMatch") == 0){
 				Toast.makeText(this, getResources().getString(R.string.signin_wrong_pass), Toast.LENGTH_LONG).show();	
 			} else {
-				checkFirstUse();
+				login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -148,7 +153,7 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 				if(result.getInt("exists") == 0){
 					Toast.makeText(this, getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
 					SPUtil.put(this, "isFirstUse", true);
-					checkFirstUse();
+					login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
 				}
 				if(result.getInt("exists") == 1 && result.getInt("verified") == 1){
 					Toast.makeText(this, getResources().getString(R.string.signup_exst_vrfd), Toast.LENGTH_LONG).show();
@@ -174,19 +179,10 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 				Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 			}
 			else {
-				if(result.getInt("new") == 0){
-					
-				}
-				else {
-					
-				}
 				//make sure it is a valid session instead of a cache
 				Session session = Session.getActiveSession();
 				if(null != session && session.isOpened()){
-					checkFirstUse();
-				}
-				else{
-					
+					login((User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class));
 				}
 			}
     	} catch (JSONException e){
@@ -208,10 +204,16 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 			}
 		} catch (JSONException e){
 			e.printStackTrace();
-		}    	
+		}
     }
 
-    private void checkFirstUse(){
+    private void login(User user){
+    	Intent intent = checkFirstLogin();
+		startActivity(intent);
+		finish();
+    }
+    
+    private Intent checkFirstLogin(){
 		boolean isFirstUse = (Boolean) SPUtil.get(this, "isFirstUse", true, Boolean.class);
 		Class<?> target = null;
 		if (isFirstUse) {
@@ -222,8 +224,33 @@ public class StartPage extends FragmentActivity implements OnLoginClickListener,
 		}
 		Intent intent = new Intent();
 		intent.setClass(StartPage.this, target);
-		startActivity(intent);
-		finish();
+		return intent;
+    }
+    
+    private void initDB(){
+        dbUtil = SQLiteDBUtil.getInstance(this);
+        dbUtil.getWritableDatabase();
+    }
+    
+    private void checkReturnUser(){
+    	Integer type = (Integer) SPUtil.get(this, "loginUser_type", User.TYPE_INVALID, Integer.class);
+        String id = (String) SPUtil.get(this, "loginUser_id", null, String.class);
+        User user = new User();
+        if(!type.equals(User.TYPE_INVALID) && null != id){
+        	if(type.equals(User.TYPE_EMAIL)){
+        		String pass, email;
+        		if((pass=(String) SPUtil.get(this, "loginUser_pass", null, String.class)) != null &&
+        				(email=(String) SPUtil.get(this, "loginUser_pass", null, String.class)) != null){
+        			user.setEmail(email);
+        			user.setPassword(pass);
+//        			new SignInAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user, 
+//        					preUrl + getResources().getString(R.string.url_signin), this);
+        			login(user);
+        		}
+        	} else {
+//        		String FBId = SPUtil.get(this, key, defValue, cls)
+        	}
+        }
     }
     
     private long exitTime = 0;

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="db_name">echobond</string>
     <string-array name="create_tables">
-		<item name="thought">CREATE TABLE `thought` (`id` int(11) NOT NULL,`user_id` varchar(255) NOT NULL,`lang_id` int(255) DEFAULT NULL,`group_id` int(11) DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(0) DEFAULT NULL,`time` varchar(255) NOT NULL,PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;</item>
-		<item name="message">CREATE TABLE `user_msg` (`id` int(11) NOT,`sender_id` varchar(255) NOT NULL,`recver_id` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL,PRIMARY KEY (`id`)) DEFAULT CHARSET=utf8;</item>
+		<item name="thought">CREATE TABLE IF NOT EXISTS `thought` (`id` INTEGER PRIMARY KEY NOT NULL,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
+		<item name="message">CREATE TABLE IF NOT EXISTS `user_msg` (`id` INTEGER PRIMARY KEY NOT NULL,`senderId` varchar(255) NOT NULL,`recverId` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL)</item>
+		<item name="user">CREATE TABLE `user` (`id` varchar(255) PRIMARY KEY NOT NULL,`userName` varchar(255) DEFAULT NULL,`password` varchar(255) DEFAULT NULL,`FBId` varchar(255) DEFAULT NULL,`firstName` varchar(255) DEFAULT NULL,`lastName` varchar(255) DEFAULT NULL,`name` varchar(255) DEFAULT NULL,`timeZone` INTEGER DEFAULT NULL,`email` varchar(255) DEFAULT NULL,`avatar` varchar(255) DEFAULT NULL,`gender` varchar(255) DEFAULT NULL,`age` INTEGER DEFAULT NULL,`birthday` varchar(255) DEFAULT NULL,`countryId` INTEGER DEFAULT NULL,`homeId` INTEGER DEFAULT NULL,`occupation` varchar(255) DEFAULT NULL,`amzExp` varchar(255) DEFAULT NULL,`toDo` varchar(255) DEFAULT NULL,`philosophy` varchar(255) DEFAULT NULL,`friendsDesc` varchar(255) DEFAULT NULL,`interest` varchar(255) DEFAULT NULL,`littleSecret` varchar(255) DEFAULT NULL,`langId` INTEGER DEFAULT NULL,`locale` varchar(255) DEFAULT NULL,`verified` INTEGER NOT NULL DEFAULT 0)</item>
+		<item name="category">CREATE TABLE IF NOT EXISTS `category` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
+		<item name="group">CREATE TABLE IF NOT EXISTS `group` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
+		<item name="tag">CREATE TABLE IF NOT EXISTS `tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
+		<item name="country">CREATE TABLE IF NOT EXISTS `country` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 	</string-array>
 </resources>
