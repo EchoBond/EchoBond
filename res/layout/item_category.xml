@@ -4,16 +4,17 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="10dp"
-    android:gravity="center_vertical"
-    android:clickable="true" >
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical" >
+    
     <TextView 
         android:id="@+id/text_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
         android:padding="10dp"
-        android:text="@string/category_feelings"
         android:textSize="30sp"
         android:textColor="#ffffff"
-        android:clickable="true" />
+        android:focusable="false" />
+    
 </LinearLayout>

@@ -13,10 +13,9 @@
 		android:background="#fff" />
 
     <FrameLayout 
-        android:paddingTop="?android:attr/actionBarSize"
         android:id="@+id/following_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/toolbar_following" >
     </FrameLayout>
 

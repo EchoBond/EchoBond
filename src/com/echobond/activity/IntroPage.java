@@ -48,7 +48,7 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 			
 			@Override
 			public void onClick(View v) {
-				intent.setClass(IntroPage.this, MainPage.class);
+				intent.setClass(IntroPage.this, FollowingPage.class);
 				startActivity(intent);
 				finish();
 			}
@@ -79,7 +79,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 	}
 
 	private void initData() {
-
 		views.add(view1);
 		views.add(view2);
 		views.add(view3);
@@ -89,7 +88,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 	}
 
 	private void initPoint() {
-
 		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.switching_points);
 		points = new ImageView[3];
 		for (int i = 0; i < 3; i++) {
@@ -103,7 +101,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 	}
 
 	private void setAnim() {
-		
 		alphaAnimation = new AlphaAnimation[3];
 		for (int i = 0; i < 3; i++) {
 			alphaAnimation[i] = new AlphaAnimation(0, 1);

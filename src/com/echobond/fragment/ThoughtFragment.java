@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.echobond.R;
-import com.google.android.gms.plus.model.people.Person.Image;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

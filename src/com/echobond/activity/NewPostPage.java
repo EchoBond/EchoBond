@@ -35,7 +35,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	private NewCategoryFragment categoryFragment;
 	private NewContentsFragment contentsFragment;
 	private NewGroupsFragment groupsFragment;
-	private String categoryString, contentsString = "", tagsString = "";
+	private String categoryString = "", contentsString = "", tagsString = "";
 
 	private ImageView backButton, forwardButton;
 	private TextView barTitle;
@@ -139,10 +139,15 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		}
 
 		private void isCategorySelected() {
-			barTitle.setText(R.string.title_new_post_write);
-			getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(contentsFragment).commit();
-			fgIndex += 1;
-			fgIndex += 1;
+			if (categoryString == null || categoryString.equals("")) {
+				Toast.makeText(getApplicationContext(), categoryString + "nothing", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), categoryString, Toast.LENGTH_LONG).show();
+				barTitle.setText(R.string.title_new_post_write);
+				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(contentsFragment).commit();
+				fgIndex += 1;
+				fgIndex += 1;
+			}
 		}
 
 		private void isContentsEmpty() { 

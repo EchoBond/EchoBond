@@ -55,7 +55,7 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 		bgList.add((Drawable) getResources().getDrawable(R.drawable.corners_bg_yellow));
 		bgList.add((Drawable) getResources().getDrawable(R.drawable.corners_bg_cyan));
 		
-		categoryList = (ListView) categoryView.findViewById(R.id.list_category);
+		categoryList = (ListView)categoryView.findViewById(R.id.list_category);
 		
 		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CategoryAsyncTask.CATEGORY_LOAD,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_categories), this);
@@ -104,7 +104,6 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 				}
 			});
 			categoryList.setOnItemClickListener(new CategoryItemClickListener());
-
 		}
 	}
 	
@@ -113,7 +112,9 @@ public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCa
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Toast.makeText(getActivity().getApplicationContext(), "c", Toast.LENGTH_SHORT).show();
+			String category = categories.get(position).getName().toString();
+			Toast.makeText(getActivity().getApplicationContext(), category, Toast.LENGTH_SHORT).show();
+			categorySelected.getCategory(category);
 		}
 		
 	}

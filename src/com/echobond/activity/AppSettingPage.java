@@ -65,7 +65,7 @@ public class AppSettingPage extends ActionBarActivity {
 
 	private void initSettingList() {
 		appSettingTitles = getResources().getStringArray(R.array.app_setting_array);
-		appSettingArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appSettingTitles);	//Need to be fixed. 
+		appSettingArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appSettingTitles); 
 		appSettingListView = (ListView)findViewById(R.id.list_app_setting);
 		appSettingListView.setAdapter(appSettingArrayAdapter);
 		appSettingListView.setOnItemClickListener(new SettingItemClickListener());
