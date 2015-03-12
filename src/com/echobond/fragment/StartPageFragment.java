@@ -194,7 +194,7 @@ public class StartPageFragment extends Fragment {
         signEmail = (ImageButton)startPageView.findViewById(R.id.button_signup_email);
         
         requestReadPermissions();
-        loginButton.setBackgroundResource(R.drawable.continue_facebook);
+        loginButton.setBackgroundResource(R.drawable.button_continue_facebook);
 	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 	    loginButton.setFragment(this);
 	    
