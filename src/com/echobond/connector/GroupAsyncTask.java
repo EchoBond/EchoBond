@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.echobond.activity.MainPage;
 import com.echobond.entity.Group;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
-import com.echobond.intf.GroupAsyncTaskCallback;
+import com.echobond.intf.GroupCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 
@@ -21,21 +20,24 @@ import android.os.AsyncTask;
 /**
  * @version 1.0
  * @author Luck
- * This task is to handle group update in server's DB.
- * This task will be executed whenever a tag is handled.
- * The three specified generic type refers to Params, Progress and Result.
+ * This task is to handle group loading or update in server's DB.
+ * Params (Object): action(int), url(String), activity(PostThoughtAsyncTaskCallback), groups(ArrayList<Group>) / user(User) / null
+ * Progress (Integer)
+ * Result (JSONObject)
  *
  */
 public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private GroupAsyncTaskCallback activity;
+	private GroupCallback activity;
 	public static final int GROUP_UPDATE = 1;
 	public static final int GROUP_LOAD = 2;
+	public static final int GROUP_LOAD_ALL = 3;
+	@SuppressWarnings("unchecked")
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
 		String baseUrl = (String) params[1];
-		activity = (GroupAsyncTaskCallback) params[2];
+		activity = (GroupCallback) params[2];
 		ArrayList<Group> groups = null;
 		JSONObject body = new JSONObject();
 		String url = baseUrl;
@@ -44,9 +46,10 @@ public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 			groups = (ArrayList<Group>) params[3];
 			body = JSONUtil.fromObjectToJSON(groups);
 		} else if(action == GROUP_LOAD){
-			User user = new User();
-			user.setId((String) params[3]);
+			User user = (User) params[3];
 			body = JSONUtil.fromObjectToJSON(user);
+		} else if(action == GROUP_LOAD_ALL){
+			
 		}
 		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
 		RawHttpResponse response = null;

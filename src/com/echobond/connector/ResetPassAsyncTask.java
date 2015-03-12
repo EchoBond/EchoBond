@@ -13,6 +13,15 @@ import com.echobond.util.HTTPUtil;
 
 import android.os.AsyncTask;
 
+/**
+ * 
+ * @author Luck
+ * This task is to handle pass reset in server's DB.
+ * Params (Object): email(String), url(String), activity(StartActivity)
+ * Progress (Integer)
+ * Result (JSONObject)
+ *
+ */
 public class ResetPassAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	private StartPage activity;
 	@Override

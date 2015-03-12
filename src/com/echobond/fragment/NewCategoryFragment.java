@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import com.echobond.R;
 import com.echobond.connector.CategoryAsyncTask;
 import com.echobond.entity.Category;
-import com.echobond.intf.CategoryAsyncTaskCallback;
+import com.echobond.intf.CategoryCallback;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
@@ -33,7 +33,7 @@ import com.google.gson.reflect.TypeToken;
  * @author Luck
  *
  */
-public class NewCategoryFragment extends Fragment implements CategoryAsyncTaskCallback {
+public class NewCategoryFragment extends Fragment implements CategoryCallback {
 
 	private ArrayList<Drawable> bgList;
 	private ArrayList<Category> categories;
