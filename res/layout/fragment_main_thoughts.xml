@@ -1,13 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <ListView 
-        android:id="@android:id/list"
+    <com.echobond.widget.XListView 
+        android:id="@+id/list_thoughts"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </ListView>
+    </com.echobond.widget.XListView>
 
-</RelativeLayout>
+</LinearLayout>
