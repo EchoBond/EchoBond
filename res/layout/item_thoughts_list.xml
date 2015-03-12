@@ -12,7 +12,8 @@
         android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
         android:padding="6dp"  
-        android:layout_marginTop="4dp" />  
+        android:layout_marginTop="4dp"
+/>  
   
     <TextView  
         android:id="@+id/thought_list_title"  
@@ -21,13 +22,13 @@
         android:paddingLeft="4dp"  
         android:paddingRight="4dp"  
         android:textStyle="bold"  
-        android:layout_below="@id/thought_list_pic" />
+        android:layout_below="@id/thought_list_pic"/>
     <TextView  
         android:id="@+id/thought_list_content"  
         android:layout_width="match_parent"  
         android:layout_height="wrap_content"  
         android:layout_alignParentLeft="true"  
-        android:layout_below="@id/thought_list_title"  
+        android:layout_below="@id/thought_list_title"
         android:padding="4dp" />
     <TextView 
         android:id="@+id/thought_list_gender"
@@ -36,5 +37,57 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/thought_list_pic"
         android:padding="4dp" />
+    <TextView 
+        android:id="@+id/thought_list_boosts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thought_list_content"
+        android:padding="4dp" />
+      <LinearLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:weightSum="4"
+            android:gravity="center"
+            android:layout_below="@id/thought_list_boosts" >
+
+            <ImageView
+                android:contentDescription="@string/none"
+                android:id="@+id/thought_list_message"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:layout_weight="0.5" 
+                android:src="@drawable/highfive" />
+
+            <ImageView
+                android:contentDescription="@string/none"
+                android:id="@+id/thought_list_boost"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:layout_weight="0.5"
+                android:src="@drawable/rocket_up"/>
+
+            <ImageView
+                android:contentDescription="@string/none"
+                android:id="@+id/thought_list_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:layout_weight="0.5"
+                android:src="@drawable/comment"/>
+
+            <ImageView
+                android:contentDescription="@string/none"
+                android:id="@+id/thought_list_share"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:layout_weight="0.5"
+                android:src="@drawable/share_orange"/>
+
+    </LinearLayout>
   
 </RelativeLayout>
