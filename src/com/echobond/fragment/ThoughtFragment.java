@@ -9,12 +9,10 @@ import com.echobond.R;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 
-import android.content.Loader.OnLoadCanceledListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +48,6 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 	private SimpleAdapter adapter;
 	private XListView mListView;
 	private Handler handler;
-	private int start = 0;
-	private static int refreshCnt = 0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,14 +60,11 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		
-//		final String[] from = new String[] {"pic", "title", "content"};
-//		final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_content};
 		super.onActivityCreated(savedInstanceState);
 		adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
 		mListView.setAdapter(adapter);
+		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setOnItemClickListener(this);
-//		this.setListAdapter(adapter);
-//		getListView().setOnItemClickListener(this);
 	}
 
 	private List<Map<String, Object>> getSimpleData() {
@@ -93,7 +86,8 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 	}
 	
 	public void onLoad() {
-		
+		mListView.stopRefresh();
+		mListView.stopLoadMore();
 	}
 
 	@Override
@@ -102,7 +96,6 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 			
 			@Override
 			public void run() {
-//				start = ++refreshCnt;
 				adapter = new SimpleAdapter(getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
 				mListView.setAdapter(adapter);
 				onLoad();

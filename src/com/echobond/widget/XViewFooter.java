@@ -53,12 +53,12 @@ import android.widget.TextView;
 		mProgressBar.setVisibility(View.INVISIBLE);
 		if (state == STATE_READY) {
 			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText("Release to load the previous. ");
+			mHintTextView.setText(R.string.hint_xview_footer_ready);
 		} else if (state == STATE_LOADING) {
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText("Load More…");
+			mHintTextView.setText(R.string.hint_xview_footer_normal);
 		}
 	}
 	

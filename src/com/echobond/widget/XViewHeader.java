@@ -76,15 +76,15 @@ import android.widget.TextView;
 		
 		switch (state) {
 		case STATE_NORMAL:
-			mHintTextView.setText("Pull down to refresh. ");
+			mHintTextView.setText(R.string.hint_xview_header_normal);
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
-				mHintTextView.setText("Release to load the new. ");
+				mHintTextView.setText(R.string.hint_xview_header_ready);
 			}
 			break;
 		case STATE_REFRESHING:
-			mHintTextView.setText("Loading…");
+			mHintTextView.setText(R.string.hint_xview_header_loading);
 			break;
 		default:
 			break;

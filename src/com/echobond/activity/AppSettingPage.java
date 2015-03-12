@@ -68,6 +68,7 @@ public class AppSettingPage extends ActionBarActivity {
 		appSettingArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appSettingTitles); 
 		appSettingListView = (ListView)findViewById(R.id.list_app_setting);
 		appSettingListView.setAdapter(appSettingArrayAdapter);
+		appSettingListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		appSettingListView.setOnItemClickListener(new SettingItemClickListener());
 		
 	}

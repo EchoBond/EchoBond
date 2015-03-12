@@ -178,6 +178,7 @@ public class MainPage extends ActionBarActivity {
     	mainDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
     	drawerList = (ListView)findViewById(R.id.setting_drawer);
     	drawerList.setAdapter(settingPageAdapter);
+    	drawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
     	drawerToggle = new ActionBarDrawerToggle(this, mainDrawerLayout, null, 0, 0) {
     		
     		@Override
