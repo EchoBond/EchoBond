@@ -18,9 +18,10 @@ import android.os.AsyncTask;
 /**
  * @version 1.0
  * @author Luck
- * This task is to connect to and update server's DB.
  * This task will be executed in signing up.
- * The three specified generic type refers to Params, Progress and Result.
+ * Params (Object): user(User), url(String), activity(StartPage)
+ * Progress (Integer)
+ * Result (JSONObject)
  *
  */
 public class SignUpAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
@@ -30,11 +31,11 @@ public class SignUpAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		User user = (User) params[0];
-		String baseUrl = (String) params[1];
+		String url = (String) params[1];
 		activity = (StartPage) params[2];
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = JSONUtil.fromObjectToJSON(user);
-		RawHttpRequest request = new RawHttpRequest(baseUrl, method, null, body, true);
+		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
 		RawHttpResponse response = null;
 		JSONObject result = null;
 		try{
