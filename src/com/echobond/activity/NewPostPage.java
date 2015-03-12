@@ -177,12 +177,11 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			t.setTags(tags);
 			t.setCategoryId(categoryId);
 			t.setContent(contentsString);
-			t.setUserId((Integer) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
+			t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
 			t.setGroupId(groupId);
-			new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, HTTPUtil.getInstance().composePreURL(NewPostPage.this), 
+			new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
 					t, NewPostPage.this);
-			activityBackStack();
-			
 		}
 		
 	}
