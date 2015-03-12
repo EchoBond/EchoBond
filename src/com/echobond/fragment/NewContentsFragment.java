@@ -72,4 +72,13 @@ public class NewContentsFragment extends Fragment {
 			throw new ClassCastException(activity.toString() + "must implement ContentsInterface. ");
 		}
 	}
+
+	public String getThoughtsText() {
+		return thoughtsText;
+	}
+
+	public String getTagsText() {
+		return tagsText;
+	}
+	
 }

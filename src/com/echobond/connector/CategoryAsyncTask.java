@@ -14,10 +14,11 @@ import com.echobond.util.HTTPUtil;
 import android.os.AsyncTask;
 
 /**
+ * This task is to handle category loading or update in server's DB.<br>
+ * Params (Object): action(int), user(User), url(String), activity(CategoryAsyncTaskCallback)<br>
  * @version 1.0
  * @author Luck
- * This task is to handle category loading or update in server's DB.
- * Params (Object): action(int), user(User), url(String), activity(CategoryAsyncTaskCallback)
+ * 
  */
 public class CategoryAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 

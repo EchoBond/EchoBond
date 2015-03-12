@@ -1,13 +1,24 @@
 package com.echobond.activity;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import com.echobond.R;
+import com.echobond.connector.PostThoughtAsyncTask;
+import com.echobond.entity.Tag;
+import com.echobond.entity.Thought;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
 import com.echobond.fragment.NewGroupsFragment;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
+import com.echobond.intf.PostThoughtCallback;
+import com.echobond.util.HTTPUtil;
+import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -25,7 +36,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback {
+public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback {
 	
 	public static final int NEW_POST_CATEGORY = 0;
 	public static final int NEW_POST_DRAW = 1;
@@ -35,8 +46,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	private NewCategoryFragment categoryFragment;
 	private NewContentsFragment contentsFragment;
 	private NewGroupsFragment groupsFragment;
-	private String categoryString = "", contentsString = "", tagsString = "";
-
+	private String contentsString = "", tagsString = "";
+	private int categoryId = -1, groupId = -1;
 	private ImageView backButton, forwardButton;
 	private TextView barTitle;
 	private int fgIndex;
@@ -47,12 +58,11 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		setContentView(R.layout.activity_new_post_page);
 		initActionBar();
 		initView();
-		
 	}
 
 	@Override
-	public void getCategory(String category) {
-		this.categoryString = category;
+	public void getCategory(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	@Override
@@ -62,9 +72,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	}
 	
 	@Override
-	public void getGroup() {
-		// TODO Auto-generated method stub
-		
+	public void getGroup(int groupId) {
+		this.groupId = groupId;
 	}
 	
 	private void initActionBar() {
@@ -131,7 +140,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				isContentsEmpty();
 				break;
 			case NEW_POST_GROUP:
-				isGroupSelected();
+				postThought();
 				break;
 			default:
 				break;
@@ -139,10 +148,9 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		}
 
 		private void isCategorySelected() {
-			if (categoryString == null || categoryString.equals("")) {
-				Toast.makeText(getApplicationContext(), categoryString + "nothing", Toast.LENGTH_LONG).show();
+			if (categoryId == -1) {
+				
 			} else {
-				Toast.makeText(getApplicationContext(), categoryString, Toast.LENGTH_LONG).show();
 				barTitle.setText(R.string.title_new_post_write);
 				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(contentsFragment).commit();
 				fgIndex += 1;
@@ -152,9 +160,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 
 		private void isContentsEmpty() { 
 			if (contentsString == null || contentsString.equals("")) {
-				Toast.makeText(getApplicationContext(), contentsString + " 同埋 " + tagsString, Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Sorry but content cannot be empty!", Toast.LENGTH_LONG).show();
 			}else {
-				Toast.makeText(getApplicationContext(), contentsString + " 同埋 " + tagsString, Toast.LENGTH_LONG).show();
 				barTitle.setText(R.string.title_new_post_group);
 				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.done_button));
 				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(groupsFragment).commit();
@@ -162,9 +169,18 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			}
 		}
 		
-		private void isGroupSelected() {
+		private void postThought() {
 			// TODO GROUP SELECTION
 			// TODO SENDING ALL CONTENTS OF THE NEW POST
+			Thought t = new Thought();
+			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
+			t.setTags(tags);
+			t.setCategoryId(categoryId);
+			t.setContent(contentsString);
+			t.setUserId((Integer) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
+			t.setGroupId(groupId);
+			new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, HTTPUtil.getInstance().composePreURL(NewPostPage.this), 
+					t, NewPostPage.this);
 			activityBackStack();
 			
 		}
@@ -197,6 +213,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		}
 	}
 	
+	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	//pressed back key
@@ -219,5 +236,17 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
     	}
     	return true;
 	}
+
+	@Override
+	public void onPostThoughtResult(JSONObject result) {
+		if(null == result){
+			Toast.makeText(this, "Failed posting thought!", Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, "Thought successfully posted!", Toast.LENGTH_LONG).show();
+			activityBackStack();
+		}
+		
+	}
     
+
 }

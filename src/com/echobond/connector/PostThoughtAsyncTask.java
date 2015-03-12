@@ -17,11 +17,11 @@ import android.os.AsyncTask;
 
 /**
  * 
+ * This task is to handle storing thought in server's DB.<br>
+ * Params (Object): url(String), t(Thought), activity(PostThoughtCallback)<br>
+ * Progress (Integer)<br>
+ * Result (JSONObject)<br>
  * @author Luck
- * This task is to handle storing thought in server's DB.
- * Params (Object): url(String), t(Thought), activity(PostThoughtCallback)
- * Progress (Integer)
- * Result (JSONObject)
  *
  */
 public class PostThoughtAsyncTask extends AsyncTask<Object, Integer, JSONObject> {

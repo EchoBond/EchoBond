@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import java.util.ArrayList;
+
 /**
  * 
  * @author Luck
@@ -19,6 +21,17 @@ public class Tag {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public static ArrayList<Tag> str2TagList(String src){
+		ArrayList<Tag> tags = new ArrayList<Tag>();
+		String[] tagNames = src.split(",");
+		for (String name : tagNames) {
+			Tag tag = new Tag();
+			tag.setName(name);
+			tags.add(tag);
+		}
+		return tags;
 	}
 	
 }

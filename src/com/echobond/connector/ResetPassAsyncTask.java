@@ -15,11 +15,11 @@ import android.os.AsyncTask;
 
 /**
  * 
+ * This task is to handle pass reset in server's DB.<br>
+ * Params (Object): email(String), url(String), activity(StartActivity)<br>
+ * Progress (Integer)<br>
+ * Result (JSONObject) <br>
  * @author Luck
- * This task is to handle pass reset in server's DB.
- * Params (Object): email(String), url(String), activity(StartActivity)
- * Progress (Integer)
- * Result (JSONObject)
  *
  */
 public class ResetPassAsyncTask extends AsyncTask<Object, Integer, JSONObject> {

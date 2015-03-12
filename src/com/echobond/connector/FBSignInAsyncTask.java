@@ -16,12 +16,13 @@ import com.echobond.util.JSONUtil;
 import android.os.AsyncTask;
 
 /**
+ * 
+ * This task will be executed in signing up or signing in with an existed FB associated account.<br>
+ * Params (Object): user(User), url(String), activity(StartPage) <br>
+ * Progress (Integer)<br>
+ * Result (JSONObject) <br>
  * @version 1.0
  * @author Luck
- * This task will be executed in signing up or signing in with an existed FB associated account.
- * Params (Object): user(User), url(String), activity(StartPage) 
- * Progress (Integer)
- * Result (JSONObject)
  *
  */
 public class FBSignInAsyncTask extends AsyncTask<Object, Integer, JSONObject> {

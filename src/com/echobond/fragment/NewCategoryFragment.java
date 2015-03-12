@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 /**
@@ -112,10 +113,19 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			String category = categories.get(position).getName().toString();
-			Toast.makeText(getActivity().getApplicationContext(), category, Toast.LENGTH_SHORT).show();
-			categorySelected.getCategory(category);
+			view.setSelected(true);
+			TextView txt = (TextView) view.findViewById(R.id.text_category);
+			categorySelected.getCategory(getCategoryId(txt.getText().toString()));
 		}
 		
+	}
+	
+	private int getCategoryId(String name){
+		int pos = -1;
+		for (Category category : categories) {
+			if(category.getName().equals(name))
+				pos = category.getId();
+		}
+		return pos;
 	}
 }

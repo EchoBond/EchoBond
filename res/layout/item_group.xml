@@ -4,18 +4,17 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="10dp"
-    android:background="@layout/selector_categories"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical" >
     
     <TextView 
-        android:id="@+id/text_category"
+        android:id="@+id/text_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
         android:padding="10dp"
         android:textSize="30sp"
-        android:textColor="#ffffff"
+        android:textColor="@layout/selector_groups"
         android:focusable="false" />
     
 </LinearLayout>

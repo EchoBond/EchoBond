@@ -18,12 +18,13 @@ import com.echobond.util.JSONUtil;
 import android.os.AsyncTask;
 
 /**
+ * 
+ * This task is to handle tag loading and update in server's DB.<br>
+ * Params (Object): action(int), url(String), activity(TagAsyncTaskCallback), tags(ArrayList<Tags>) / user(User) / null<br>
+ * Progress (Integer)<br>
+ * Result (JSONObject)<br>
  * @version 1.0
  * @author Luck
- * This task is to handle tag loading and update in server's DB.
- * Params (Object): action(int), url(String), activity(TagAsyncTaskCallback), tags(ArrayList<Tags>) / user(User) / null
- * Progress (Integer)
- * Result (JSONObject)
  * 
  */
 public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {

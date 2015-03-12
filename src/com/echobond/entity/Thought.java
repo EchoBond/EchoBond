@@ -2,8 +2,6 @@ package com.echobond.entity;
 
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
-
 
 /**
  * 
@@ -15,13 +13,15 @@ public class Thought {
 	private int userId;
 	private int langId;
 	private int groupId;
+	private int categoryId;
 	private String content;
-	private Bitmap image;
+	private String image;
 	private String time;
 
 	private User user;
 	private Language lang;
 	private Group group;
+	private Category category;
 	private ArrayList<Integer> tagIds;
 	private ArrayList<Tag> tags;
 	public int getId() {
@@ -54,10 +54,10 @@ public class Thought {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Bitmap getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(Bitmap image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 	public String getTime() {
@@ -95,6 +95,18 @@ public class Thought {
 	}
 	public void setTags(ArrayList<Tag> tags) {
 		this.tags = tags;
+	}
+	public int getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }
