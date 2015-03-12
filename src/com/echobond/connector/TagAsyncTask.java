@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.echobond.activity.StartPage;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.Tag;
-import com.echobond.intf.TagAsyncTaskCallback;
+import com.echobond.entity.User;
+import com.echobond.intf.TagCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 
@@ -20,28 +20,36 @@ import android.os.AsyncTask;
 /**
  * @version 1.0
  * @author Luck
- * This task is to handle tag update in server's DB.
- * This task will be executed whenever a tag is handled.
- * The three specified generic type refers to Params, Progress and Result.
- *
+ * This task is to handle tag loading and update in server's DB.
+ * Params (Object): action(int), url(String), activity(TagAsyncTaskCallback), tags(ArrayList<Tags>) / user(User) / null
+ * Progress (Integer)
+ * Result (JSONObject)
+ * 
  */
 public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private TagAsyncTaskCallback activity;
+	private TagCallback activity;
 	public static final int TAG_UPDATE = 1;
 	public static final int TAG_LOAD = 2;
+	public static final int TAG_LOAD_ALL = 3;
+	@SuppressWarnings("unchecked")
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		int action = (Integer) params[0];
-		String baseUrl = (String) params[1];
-		activity = (TagAsyncTaskCallback) params[2];
+		String url = (String) params[1];
+		activity = (TagCallback) params[2];
 		ArrayList<Tag> tags = null;
-		String url = baseUrl;
+		User user = null;
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = null;
 		if(action == TAG_UPDATE){
 			tags = (ArrayList<Tag>) params[3];
 			body = JSONUtil.fromObjectToJSON(tags);
+		} else if(action == TAG_LOAD){
+			user = (User) params[3];
+			body = JSONUtil.fromObjectToJSON(user);
+		} else if(action == TAG_LOAD_ALL){
+
 		}
 		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
 		RawHttpResponse response = null;
