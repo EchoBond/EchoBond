@@ -1,5 +1,8 @@
 package com.echobond.util;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +20,26 @@ public class CommUtil {
 		} else return true;
 	}
 
+	public static boolean isThreadRunning(String name){
+		Thread thread = getThreadByName(name);
+		if(null == thread || !thread.isAlive())
+			return false;
+		return true;
+	}
+	
+	public static Thread getThreadByName(String name){
+		Set<Thread> tSet = Thread.getAllStackTraces().keySet();
+		Iterator<Thread> t = tSet.iterator();
+		Thread thread = null;
+		while(t.hasNext()){
+			Thread _thread = t.next();
+			if(_thread.getName().equals(name) && _thread.isAlive()){
+				thread = _thread;
+			}
+		}
+		return thread;
+	}
+	
 	public static boolean isNetworkOnline(Context ctx) {
 		boolean status=false;
 	    try{

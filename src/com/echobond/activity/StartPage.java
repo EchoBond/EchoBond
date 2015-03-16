@@ -14,6 +14,7 @@ import com.echobond.fragment.LoginPageFragment;
 import com.echobond.fragment.SignUpPageFragment;
 import com.echobond.fragment.StartPageFragment;
 import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
+import com.echobond.util.CommUtil;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
@@ -21,6 +22,7 @@ import com.echobond.util.SQLiteDBUtil;
 import com.echobond.R;
 import com.facebook.Session;
 import com.facebook.Session.NewPermissionsRequest;
+import com.facebook.SessionState;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -81,6 +83,10 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
         preUrl = HTTPUtil.getInstance().composePreURL(this);
         initDB();
         checkReturnUser();
+        if(CommUtil.isThreadRunning(StartPageFragment.THREAD_TIMEOUT_NAME)){
+        	CommUtil.getThreadByName(StartPageFragment.THREAD_TIMEOUT_NAME).interrupt();
+        	startPageFragment.getLoginButton().setClickable(false);
+        }
     }
     
 	@Override
@@ -296,6 +302,10 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     	if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
     		//in the start fragment
     		if(fgIndex == 0){
+    			Session session = Session.getActiveSession();
+    			if(session!=null && session.getState().equals(SessionState.OPENING)){
+    				return false;
+    			}
     			// Click twice to leave the app. 
 	    		if ((System.currentTimeMillis() - exitTime) > 2000) {
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_quit), Toast.LENGTH_SHORT).show();

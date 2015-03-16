@@ -11,6 +11,7 @@ import com.echobond.R;
 import com.echobond.activity.StartPage;
 import com.echobond.entity.User;
 import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
+import com.echobond.util.CommUtil;
 import com.echobond.util.GCMUtil;
 import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
@@ -51,6 +52,8 @@ public class StartPageFragment extends Fragment {
 
 	private UiLifecycleHelper uiLifecycleHelper;
 	private JSONObject FBAccount;
+	
+	public static final String THREAD_TIMEOUT_NAME = "thread_timeout";
     
 	private Session.StatusCallback myStatuscallback = new Session.StatusCallback() {
 	    @Override
@@ -106,19 +109,23 @@ public class StartPageFragment extends Fragment {
 		}
 	};
     
-	private Runnable timeOutrunnable = new Runnable() {
+	private Thread timeOutThread = new Thread() {
 		
 		@Override
 		public void run() {
-			if(Session.getActiveSession() != null || !Session.getActiveSession().isOpened()){
-				//an invalid session, must be timed out, restart activity
-				Session.getActiveSession().closeAndClearTokenInformation();
-				Toast.makeText(StartPageFragment.this.getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
-				Intent intent = new Intent();
-				intent.setClass(StartPageFragment.this.getActivity(), StartPage.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				getActivity().finish();
+			if(!interrupted()){
+				//still opening , must be timed out, restart activity
+				if(Session.getActiveSession() != null && Session.getActiveSession().getState() == SessionState.OPENING){
+					if(CommUtil.isThreadRunning(THREAD_TIMEOUT_NAME))
+						return;
+					Session.getActiveSession().closeAndClearTokenInformation();
+					Toast.makeText(StartPageFragment.this.getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+					Intent intent = new Intent();
+					intent.setClass(StartPageFragment.this.getActivity(), StartPage.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					getActivity().finish();
+				}
 			}
 		}
 	};
@@ -172,12 +179,14 @@ public class StartPageFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		uiLifecycleHelper.onSaveInstanceState(outState);
-	}	
+	}
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		if(state == SessionState.OPENING){
-			loginButton.setClickable(false);
-			new Handler().postAtTime(timeOutrunnable, SystemClock.uptimeMillis() + 6000);
+			if(!CommUtil.isThreadRunning(THREAD_TIMEOUT_NAME)){
+				loginButton.setClickable(false);
+				new Handler().postAtTime(timeOutThread, SystemClock.uptimeMillis() + 6000);
+			}
 		}
 		else if (state.isOpened()) {
 			loginButton.setClickable(true);
@@ -229,6 +238,7 @@ public class StartPageFragment extends Fragment {
 		loginButton = (LoginButton) startPageView.findViewById(R.id.button_login_Fb);
         loginEmail = (ImageButton)startPageView.findViewById(R.id.button_signin_email);
         signEmail = (ImageButton)startPageView.findViewById(R.id.button_signup_email);
+        timeOutThread.setName(THREAD_TIMEOUT_NAME);
         
         requestReadPermissions();
         loginButton.setBackgroundResource(R.drawable.button_continue_facebook);
@@ -278,4 +288,13 @@ public class StartPageFragment extends Fragment {
 			throw new ClassCastException(activity.toString() + "must implement OnLoginClickListener. ");
 		}
 	}
+	
+	public Runnable getTimeOutrunnable() {
+		return timeOutThread;
+	}
+	
+	public LoginButton getLoginButton(){
+		return loginButton;
+	}
+	
 }
