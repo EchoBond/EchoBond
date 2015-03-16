@@ -4,6 +4,7 @@ import com.echobond.R;
 import com.echobond.activity.StartPage;
 import com.echobond.entity.User;
 import com.echobond.intf.StartPageFragmentsSwitchAsyncTaskCallback;
+import com.echobond.util.CommUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -47,8 +48,11 @@ public class SignUpPageFragment extends Fragment {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_email), Toast.LENGTH_SHORT).show();
 				} else if (signUpPasswordStr == null || signUpPasswordStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_pw), Toast.LENGTH_SHORT).show();
+				} else if(!CommUtil.isValidEmail(signUpEmailStr)){
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_invalid_email), Toast.LENGTH_SHORT).show();
+				} else if(!CommUtil.isValidPassword(signUpPasswordStr)){
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_invalid_password), Toast.LENGTH_SHORT).show();
 				} else {
-					// TODO REGULAR-EXPRESSION CHECK
 					User user = new User();
 					user.setEmail(signUpEmailStr);
 					user.setPassword(signUpPasswordStr);

@@ -1,5 +1,7 @@
 package com.echobond.activity;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ import com.echobond.util.SPUtil;
 import com.echobond.util.SQLiteDBUtil;
 import com.echobond.R;
 import com.facebook.Session;
+import com.facebook.Session.NewPermissionsRequest;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -186,9 +189,19 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 				//make sure it is a valid session instead of a cache
 				Session session = Session.getActiveSession();
 				if(null != session && session.isOpened()){
-					User user = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
-					recordFBUser(user);
-					login(user);
+					//make sure permissions have been granted
+					if(null != session.getDeclinedPermissions() && session.getDeclinedPermissions().size() > 0){
+						String[] pers = getResources().getString(R.string.facebook_permissions).split(",");
+						ArrayList<String> readPermissions = new ArrayList<String>();
+						for(int i=0;i<pers.length;i++){
+							readPermissions.add(pers[i]);
+						}
+						session.requestNewReadPermissions(new NewPermissionsRequest(this, readPermissions));
+					} else {
+						User user = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
+						recordFBUser(user);
+						login(user);
+					}
 				}
 			}
     	} catch (JSONException e){

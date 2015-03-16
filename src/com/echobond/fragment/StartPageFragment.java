@@ -110,8 +110,16 @@ public class StartPageFragment extends Fragment {
 		
 		@Override
 		public void run() {
-			//Toast.makeText(StartPageFragment.this.getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
-			Session.getActiveSession().closeAndClearTokenInformation();
+			if(Session.getActiveSession() != null || !Session.getActiveSession().isOpened()){
+				//an invalid session, must be timed out, restart activity
+				Session.getActiveSession().closeAndClearTokenInformation();
+				Toast.makeText(StartPageFragment.this.getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Intent intent = new Intent();
+				intent.setClass(StartPageFragment.this.getActivity(), StartPage.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				getActivity().finish();
+			}
 		}
 	};
 	
@@ -169,8 +177,7 @@ public class StartPageFragment extends Fragment {
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		if(state == SessionState.OPENING){
 			loginButton.setClickable(false);
-			new Handler().postAtTime(timeOutrunnable, SystemClock.uptimeMillis() +
-					Integer.parseInt(getResources().getString(R.string.facebook_sso_timeout)));
+			new Handler().postAtTime(timeOutrunnable, SystemClock.uptimeMillis() + 6000);
 		}
 		else if (state.isOpened()) {
 			loginButton.setClickable(true);
@@ -181,6 +188,7 @@ public class StartPageFragment extends Fragment {
 	    	if(null != exception && state == SessionState.CLOSED_LOGIN_FAILED){
 	    		Bundle bd = getActivity().getIntent().getExtras();
 	    		if(null != bd && bd.getBoolean("logout")){
+	    			bd.remove("logout");
 	    		} else {
 	    			Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 	    		}
@@ -204,13 +212,15 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	private void loadUserFBData(Session session){
-    	Request request = new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback);
-    	HttpURLConnection conn = Request.toHttpConnection(request);
-    	conn.setConnectTimeout(1000);
-    	try {
-			conn.connect();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(session != null && session.isOpened()){
+	    	Request request = new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback);
+	    	HttpURLConnection conn = Request.toHttpConnection(request);
+	    	conn.setConnectTimeout(1000);
+	    	try {
+				conn.connect();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
