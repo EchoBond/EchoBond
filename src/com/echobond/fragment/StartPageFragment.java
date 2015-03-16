@@ -1,5 +1,7 @@
 package com.echobond.fragment;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -25,6 +27,8 @@ import com.facebook.widget.LoginButton.OnErrorListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +106,15 @@ public class StartPageFragment extends Fragment {
 		}
 	};
     
+	private Runnable timeOutrunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			//Toast.makeText(StartPageFragment.this.getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Session.getActiveSession().closeAndClearTokenInformation();
+		}
+	};
+	
 	public StartPageFragment(){}
 	
 	@Override
@@ -151,20 +164,27 @@ public class StartPageFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		uiLifecycleHelper.onSaveInstanceState(outState);
-	}
+	}	
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		if(state == SessionState.OPENING){
 			loginButton.setClickable(false);
+			new Handler().postAtTime(timeOutrunnable, SystemClock.uptimeMillis() +
+					Integer.parseInt(getResources().getString(R.string.facebook_sso_timeout)));
 		}
 		else if (state.isOpened()) {
-			loginButton.setClickable(false);
+			loginButton.setClickable(true);
 			loadUserFBData(session);
 	    }
 	    else if(state.isClosed()){
 	    	loginButton.setClickable(true);
-	    	if(null != exception && state == SessionState.CLOSED_LOGIN_FAILED)
-	    		Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+	    	if(null != exception && state == SessionState.CLOSED_LOGIN_FAILED){
+	    		Bundle bd = getActivity().getIntent().getExtras();
+	    		if(null != bd && bd.getBoolean("logout")){
+	    		} else {
+	    			Toast.makeText(getActivity(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+	    		}
+	    	}
     		session.closeAndClearTokenInformation();
 	    }
 	}
@@ -184,7 +204,14 @@ public class StartPageFragment extends Fragment {
 	}
 	
 	private void loadUserFBData(Session session){
-    	new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback).executeAsync();
+    	Request request = new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback);
+    	HttpURLConnection conn = Request.toHttpConnection(request);
+    	conn.setConnectTimeout(1000);
+    	try {
+			conn.connect();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		

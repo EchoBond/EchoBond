@@ -155,7 +155,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_exst_unvrfd_new_mail), Toast.LENGTH_LONG).show();
 					User user = (User)JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
 					//just signed up, must be first use
-					SPUtil.put(this, "login", "isFirstUse", true);
+					SPUtil.put(this, "firstUse", "isFirstUse", true);
 					recordUser(user);
 					login(user);
 				}
@@ -234,10 +234,10 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     }
     
     private Intent checkFirstLogin(){
-		boolean isFirstUse = (Boolean) SPUtil.get(this, "login", "isFirstUse", true, Boolean.class);
+		boolean isFirstUse = (Boolean) SPUtil.get(this, "firstUse", "isFirstUse", true, Boolean.class);
 		Class<?> target = null;
 		if (isFirstUse) {
-			SPUtil.put(this, "login", "isFirstUse", false);
+			SPUtil.put(this, "firstUse", "isFirstUse", false);
 			target = IntroPage.class;
 		} else {
 			target = MainPage.class;

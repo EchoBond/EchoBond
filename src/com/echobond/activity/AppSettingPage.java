@@ -99,6 +99,7 @@ public class AppSettingPage extends ActionBarActivity {
 				intent.setClass(AppSettingPage.this, StartPage.class);
 				//clear activity stack
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				intent.putExtra("logout", true);
 				startActivity(intent);
 				finish();
 				break;
