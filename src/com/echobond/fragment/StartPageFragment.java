@@ -223,13 +223,7 @@ public class StartPageFragment extends Fragment {
 	private void loadUserFBData(Session session){
 		if(session != null && session.isOpened()){
 	    	Request request = new Request(session, getResources().getString(R.string.facebook_root_path), null, HttpMethod.GET, myRequestCallback);
-	    	HttpURLConnection conn = Request.toHttpConnection(request);
-	    	conn.setConnectTimeout(1000);
-	    	try {
-				conn.connect();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	    	request.executeAsync();
 		}
 	}
 	

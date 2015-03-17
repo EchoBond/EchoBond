@@ -2,16 +2,30 @@
 <resources>
     <string name="db_name">echobond</string>
     <string-array name="create_tables">
-		<item name="thought_home">CREATE TABLE IF NOT EXISTS `thought_home` (`id` INTEGER PRIMARY KEY NOT NULL,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
-		<item name="thought_hot">CREATE TABLE IF NOT EXISTS `thought_hot` (`id` INTEGER PRIMARY KEY NOT NULL,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
-		<item name="message">CREATE TABLE IF NOT EXISTS `user_msg` (`id` INTEGER PRIMARY KEY NOT NULL,`senderId` varchar(255) NOT NULL,`recverId` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL)</item>
-		<item name="user">CREATE TABLE `user` (`id` varchar(255) PRIMARY KEY NOT NULL,`userName` varchar(255) DEFAULT NULL,`password` varchar(255) DEFAULT NULL,`FBId` varchar(255) DEFAULT NULL,`firstName` varchar(255) DEFAULT NULL,`lastName` varchar(255) DEFAULT NULL,`name` varchar(255) DEFAULT NULL,`timeZone` INTEGER DEFAULT NULL,`email` varchar(255) DEFAULT NULL,`avatar` varchar(255) DEFAULT NULL,`gender` varchar(255) DEFAULT NULL,`age` INTEGER DEFAULT NULL,`birthday` varchar(255) DEFAULT NULL,`countryId` INTEGER DEFAULT NULL,`homeId` INTEGER DEFAULT NULL,`occupation` varchar(255) DEFAULT NULL,`amzExp` varchar(255) DEFAULT NULL,`toDo` varchar(255) DEFAULT NULL,`philosophy` varchar(255) DEFAULT NULL,`friendsDesc` varchar(255) DEFAULT NULL,`interest` varchar(255) DEFAULT NULL,`littleSecret` varchar(255) DEFAULT NULL,`langId` INTEGER DEFAULT NULL,`locale` varchar(255) DEFAULT NULL,`verified` INTEGER NOT NULL DEFAULT 0)</item>
+        <!-- thought -->
+		<item name="home_thoughts">CREATE TABLE IF NOT EXISTS `home_thoughts` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
+		<item name="hot_thoughts">CREATE TABLE IF NOT EXISTS `hot_thoughts` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
+		<item name="thought_tags">CREATE TABLE IF NOT EXISTS `thought_tags` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL,`tagId` INTEGER NOT NULL,`tag` INTEGER NOT NULL DEFAULT 1</item>
+		<item name="thought_comments">CREATE TABLE IF NOT EXISTS `thought_comments` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL, `replyTo` INTEGER NOT NULL DEFAULT 0,`content` varchar(255) NOT NULL,`time` varchar(255) NOT NULL)</item>
+		<item name="thought_boosts">CREATE TABLE IF NOT EXISTS `thought_boosts` (`id` INTEGER PRIMARY KEY, `thoughtId` INTEGER NOT NULL, `boost` INTEGER NOT NULL DEFAULT 0)</item>
+		
+		<!-- account -->
+		<item name="message">CREATE TABLE IF NOT EXISTS `user_msg` (`id` INTEGER PRIMARY KEY,`senderId` varchar(255) NOT NULL,`recverId` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL, `isRead` INTEGER NOT NULL DEFAULT 0)</item>
+		<item name="user">CREATE TABLE `user` (`id` varchar(255) PRIMARY KEY,`userName` varchar(255) DEFAULT NULL,`password` varchar(255) DEFAULT NULL,`FBId` varchar(255) DEFAULT NULL,`firstName` varchar(255) DEFAULT NULL,`lastName` varchar(255) DEFAULT NULL,`name` varchar(255) DEFAULT NULL,`timeZone` INTEGER DEFAULT NULL,`email` varchar(255) DEFAULT NULL,`avatar` varchar(255) DEFAULT NULL,`gender` varchar(255) DEFAULT NULL,`age` INTEGER DEFAULT NULL,`birthday` varchar(255) DEFAULT NULL,`countryId` INTEGER DEFAULT NULL,`homeId` INTEGER DEFAULT NULL,`occupation` varchar(255) DEFAULT NULL,`amzExp` varchar(255) DEFAULT NULL,`toDo` varchar(255) DEFAULT NULL,`philosophy` varchar(255) DEFAULT NULL,`friendsDesc` varchar(255) DEFAULT NULL,`interest` varchar(255) DEFAULT NULL,`littleSecret` varchar(255) DEFAULT NULL,`langId` INTEGER DEFAULT NULL,`locale` varchar(255) DEFAULT NULL,`verified` INTEGER NOT NULL DEFAULT 0)</item>
+		
+		<!-- value -->
 		<item name="category">CREATE TABLE IF NOT EXISTS `category` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="group">CREATE TABLE IF NOT EXISTS `group` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
-		<item name="tag">CREATE TABLE IF NOT EXISTS `tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="country">CREATE TABLE IF NOT EXISTS `country` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
-		<item name="tag_thought">CREATE TABLE IF NOT EXISTS `thought_home` (`id` INTEGER PRIMARY KEY NOT NULL,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
+		<item name="tag">CREATE TABLE IF NOT EXISTS `tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
+		<item name="user_tag">CREATE TABLE IF NOT EXISTS `user_tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
+				
+		<!-- action -->
+		<item name="follow_group">CREATE TABLE IF NOT EXISTS</item>
+		<item name="like_tag">CREATE TABLE IF NOT EXISTS</item>
+		<item name="tag_self">CREATE TABLE IF NOT EXISTS</item>
 	</string-array>
+	
 	<!-- thought_home -->
 	<string name="add_t_home">
 	    INSERT INTO thought_home (`id`, `userId`, `langId`, `groupId`, `content`, `image`, `time`) 
@@ -31,7 +45,19 @@
 	<!-- message -->
 	<!-- user -->
 	<!-- category -->
+	<string name="add_category">
+	    INSERT INTO category (`id`, `name`) VALUES (?, ?)
+	</string>
 	<!-- group -->
+	<string name="add_group">
+	    INSERT INTO group (`id`, `name`) VALUES (?, ?)
+	</string>
 	<!-- tag -->
+	<string name="add_tag">
+	    INSERT INTO tag (`id`, `name`) VALUES (?, ?)
+	</string>
 	<!-- country -->
+	<string name="add_country">
+	    INSERT INTO country (`id`, `name`, `region`) VALUES (?, ?, ?)
+	</string>
 </resources>
