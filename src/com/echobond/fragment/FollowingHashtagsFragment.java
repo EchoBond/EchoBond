@@ -38,6 +38,7 @@ public class FollowingHashtagsFragment extends Fragment {
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data(), 
 				R.layout.item_following, new String[]{"hashtag"}, new int[]{R.id.text_following});
 		hashtags2Follow.setAdapter(adapter);
+		hashtags2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		hashtags2Follow.setOnItemClickListener(new hashtagSelectedListener());
 		return followingHashtagsView;
 	}

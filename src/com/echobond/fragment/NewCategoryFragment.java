@@ -57,6 +57,7 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 		bgList.add((Drawable) getResources().getDrawable(R.drawable.corners_bg_cyan));
 		
 		categoryList = (ListView)categoryView.findViewById(R.id.list_category);
+		categoryList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		
 		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CategoryAsyncTask.CATEGORY_LOAD,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_categories), this);

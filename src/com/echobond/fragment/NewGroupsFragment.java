@@ -72,6 +72,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			}
 			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			groupList.setAdapter(adapter);
+			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 			groupList.setOnItemClickListener(new GroupItemClickListener());
 		}
 	}

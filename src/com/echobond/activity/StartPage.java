@@ -81,7 +81,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 	    	transaction.show(startPageFragment).commit();
         }
         preUrl = HTTPUtil.getInstance().composePreURL(this);
-        initDB();
+//        initDB();
         checkReturnUser();
         if(CommUtil.isThreadRunning(StartPageFragment.THREAD_TIMEOUT_NAME)){
         	CommUtil.getThreadByName(StartPageFragment.THREAD_TIMEOUT_NAME).interrupt();

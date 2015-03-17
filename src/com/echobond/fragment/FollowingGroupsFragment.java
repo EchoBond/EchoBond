@@ -37,6 +37,7 @@ public class FollowingGroupsFragment extends Fragment {
 		SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), data(), 
 				R.layout.item_following, new String[]{"group"}, new int[]{R.id.text_following});
 		groups2Follow.setAdapter(adapter);
+		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setOnItemClickListener(new groupSelectedListener());
 		return followingGroupsView;
 	}
