@@ -3,61 +3,177 @@
     <string name="db_name">echobond</string>
     <string-array name="create_tables">
         <!-- thought -->
-		<item name="home_thoughts">CREATE TABLE IF NOT EXISTS `home_thoughts` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
-		<item name="hot_thoughts">CREATE TABLE IF NOT EXISTS `hot_thoughts` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL)</item>
-		<item name="thought_tags">CREATE TABLE IF NOT EXISTS `thought_tags` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL,`tagId` INTEGER NOT NULL,`tag` INTEGER NOT NULL DEFAULT 1</item>
-		<item name="thought_comments">CREATE TABLE IF NOT EXISTS `thought_comments` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL, `replyTo` INTEGER NOT NULL DEFAULT 0,`content` varchar(255) NOT NULL,`time` varchar(255) NOT NULL)</item>
-		<item name="thought_boosts">CREATE TABLE IF NOT EXISTS `thought_boosts` (`id` INTEGER PRIMARY KEY, `thoughtId` INTEGER NOT NULL, `boost` INTEGER NOT NULL DEFAULT 0)</item>
+		<item name="home_thought">CREATE TABLE IF NOT EXISTS `home_thought` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL,`boost` INTEGER NOT NULL DEFAULT 0)</item>
+		<item name="hot_thought">CREATE TABLE IF NOT EXISTS `hot_thought` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL,`boost` INTEGER NOT NULL DEFAULT 0)</item>
+		<item name="thought_tag">CREATE TABLE IF NOT EXISTS `thought_tag` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL,`tagId` INTEGER NOT NULL,`tag` INTEGER NOT NULL DEFAULT 1)</item>
+		<item name="thought_comment">CREATE TABLE IF NOT EXISTS `thought_comment` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`thoughtId` INTEGER NOT NULL, `replyTo` INTEGER NOT NULL DEFAULT 0,`content` varchar(255) NOT NULL,`time` varchar(255) NOT NULL)</item>
 		
 		<!-- account -->
 		<item name="message">CREATE TABLE IF NOT EXISTS `user_msg` (`id` INTEGER PRIMARY KEY,`senderId` varchar(255) NOT NULL,`recverId` varchar(255) NOT NULL,`time` varchar(255) NOT NULL,`content` varchar(255) NOT NULL, `isRead` INTEGER NOT NULL DEFAULT 0)</item>
 		<item name="user">CREATE TABLE `user` (`id` varchar(255) PRIMARY KEY,`userName` varchar(255) DEFAULT NULL,`password` varchar(255) DEFAULT NULL,`FBId` varchar(255) DEFAULT NULL,`firstName` varchar(255) DEFAULT NULL,`lastName` varchar(255) DEFAULT NULL,`name` varchar(255) DEFAULT NULL,`timeZone` INTEGER DEFAULT NULL,`email` varchar(255) DEFAULT NULL,`avatar` varchar(255) DEFAULT NULL,`gender` varchar(255) DEFAULT NULL,`age` INTEGER DEFAULT NULL,`birthday` varchar(255) DEFAULT NULL,`countryId` INTEGER DEFAULT NULL,`homeId` INTEGER DEFAULT NULL,`occupation` varchar(255) DEFAULT NULL,`amzExp` varchar(255) DEFAULT NULL,`toDo` varchar(255) DEFAULT NULL,`philosophy` varchar(255) DEFAULT NULL,`friendsDesc` varchar(255) DEFAULT NULL,`interest` varchar(255) DEFAULT NULL,`littleSecret` varchar(255) DEFAULT NULL,`langId` INTEGER DEFAULT NULL,`locale` varchar(255) DEFAULT NULL,`verified` INTEGER NOT NULL DEFAULT 0)</item>
-		
+		<item name="login_user">CREATE TABLE `login_user` (`id` varchar(255) PRIMARY KEY,`userName` varchar(255) DEFAULT NULL,`password` varchar(255) DEFAULT NULL,`FBId` varchar(255) DEFAULT NULL,`firstName` varchar(255) DEFAULT NULL,`lastName` varchar(255) DEFAULT NULL,`name` varchar(255) DEFAULT NULL,`timeZone` INTEGER DEFAULT NULL,`email` varchar(255) DEFAULT NULL,`avatar` varchar(255) DEFAULT NULL,`gender` varchar(255) DEFAULT NULL,`age` INTEGER DEFAULT NULL,`birthday` varchar(255) DEFAULT NULL,`countryId` INTEGER DEFAULT NULL,`homeId` INTEGER DEFAULT NULL,`occupation` varchar(255) DEFAULT NULL,`amzExp` varchar(255) DEFAULT NULL,`toDo` varchar(255) DEFAULT NULL,`philosophy` varchar(255) DEFAULT NULL,`friendsDesc` varchar(255) DEFAULT NULL,`interest` varchar(255) DEFAULT NULL,`littleSecret` varchar(255) DEFAULT NULL,`langId` INTEGER DEFAULT NULL,`locale` varchar(255) DEFAULT NULL,`verified` INTEGER NOT NULL DEFAULT 0)</item>
+				
 		<!-- value -->
 		<item name="category">CREATE TABLE IF NOT EXISTS `category` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="group">CREATE TABLE IF NOT EXISTS `group` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="country">CREATE TABLE IF NOT EXISTS `country` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="tag">CREATE TABLE IF NOT EXISTS `tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
 		<item name="user_tag">CREATE TABLE IF NOT EXISTS `user_tag` (`id` INTEGER PRIMARY KEY, `name` varchar(255))</item>
-				
-		<!-- action -->
-		<item name="follow_group">CREATE TABLE IF NOT EXISTS</item>
-		<item name="like_tag">CREATE TABLE IF NOT EXISTS</item>
-		<item name="tag_self">CREATE TABLE IF NOT EXISTS</item>
+
+		<!-- local user action -->
+		<item name="follow_group">CREATE TABLE IF NOT EXISTS `follow_group` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`groupId` INTEGER NOT NULL,`follow` INTEGER NOT NULL DEFAULT 1)</item>
+		<item name="like_tag">CREATE TABLE IF NOT EXISTS `like_tag` (`id` INTEGER PRIMARY KEY,`userId` varchar(255),`tagId` INTEGER NOT NULL,`tag` INTEGER NOT NULL DEFAULT 1)</item>
+		<item name="tag_self">CREATE TABLE IF NOT EXISTS `tag_self` (`id` INTEGER PRIMARY KEY,`userId` varchar(255),`userTagId` INTEGER,`tag` INTEGER NOT NULL DEFAULT 1)</item>
 	</string-array>
 	
 	<!-- thought_home -->
 	<string name="add_t_home">
-	    INSERT INTO thought_home (`id`, `userId`, `langId`, `groupId`, `content`, `image`, `time`) 
-	    	VALUES (?, ?, ?, ?, ?, ?, ?)
+	    INSERT INTO `home_thought` (`id`, `userId`, `langId`, `categoryId`, `groupId`, `content`, `image`, `time`,`boost`) 
+	    	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 	</string>
 	<string name="load_t_home">
-	    SELECT `id`, `userId`, `langId`, `categoryId`, `groupId`, `content`, `image`, `time` FROM `thought_home` LIMIT ? OFFSET ?
+	    SELECT t.`id`, t.`userId`, u.`userName`, t.`langId`, t.`categoryId`, c.`name`, t.`groupId`, g.`name`, 
+	    	t.`content`, t.`image`, t.`time`, t.`boost`, COUNT(tc.`id`) 
+	    	FROM `home_thought` AS t
+	    LEFT JOIN `user` AS u ON t.`userId` = u.`id`
+	    LEFT JOIN `category` AS c ON t.`categoryId` = c.`id`
+	    LEFT JOIN `group` AS g ON t.`groupId` = g.`id`
+	    LEFT JOIN `thought_comment` AS tc ON t.`id` = tc.`thoughtId`
+	    ORDER BY t.time
+	    LIMIT ? OFFSET ?
 	</string>
+	<string name="load_home_t_tags">
+	    SELECT t.`id`, tt.`tagId`, tg.`name` FROM `home_thought` AS t
+	    LEFT JOIN `thought_tag` AS tt ON t.`id` = tt.`thoughtId`
+	    LEFT JOIN `tag` AS tg ON tt.`tagId` = tg.`id`
+	    WHERE t.`id` = ?
+	</string>
+	<string name="load_home_t_comments">
+	    SELECT tc.`id`,tc.`content` FROM `thought_comment` AS tc
+	    LEFT JOIN `home_thought` AS t ON tc.`thought_id` = t.`id`
+	    WHERE tc.`thoughtId` = ?
+	    LIMIT ? OFFSET ?
+	</string>
+	<string name="boost_home_t">
+	    UPDATE home_thought SET `boost` = `boost` + ?
+	</string>
+	
 	<!-- thought_hot -->
 	<string name="add_t_hot">
-	    INSERT INTO thought_hot (`id`, `userId`, `langId`, `groupId`, `content`, `image`, `time`) 
-	    	VALUES (?, ?, ?, ?, ?, ?, ?)
+	    INSERT INTO `hot_thought`(`id`,`userId`,`langId`,`categoryId`,`groupId`,`content`,`image`,`time`,`boost`) 
+	    	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 	</string>
 	<string name="load_t_hot">
-	    
+	    SELECT t.`id`, t.`userId`, u.`userName`, t.`langId`, t.`categoryId`, c.`name`, t.`groupId`, g.`name`, 
+	    	t.`content`, t.`image`, t.`time`, t.`boost`, COUNT(tc.`id`) 
+	    	FROM `hot_thought` AS t
+	    LEFT JOIN `user` AS u ON t.`userId` = u.`id`
+	    LEFT JOIN `category` AS c ON t.`categoryId` = c.`id`
+	    LEFT JOIN `group` AS g ON t.`groupId` = g.`id`
+	    LEFT JOIN `thought_comment` AS tc ON t.`id` = tc.`thoughtId`
+	    ORDER BY t.time
+	    LIMIT ? OFFSET ?
 	</string>
-	<!-- message -->
+	<string name="load_hot_t_tags">
+	    SELECT t.`id`, tt.`tagId`, tg.`name` FROM `hot_thought` AS t
+	    LEFT JOIN `thought_tag` AS tt ON t.`id` = tt.`thoughtId`
+	    LEFT JOIN `tag` AS tg ON tt.`tagId` = tg.`id`
+	    WHERE t.`id` = ?
+	</string>
+	<string name="load_hot_t_comments">
+	    SELECT tc.`id`,tc.`content` FROM `thought_comment` AS tc
+	    LEFT JOIN `hot_thought` AS t ON tc.`thought_id` = t.`id`
+	    WHERE tc.`thoughtId` = ?
+	    LIMIT ? OFFSET ?
+	</string>
+	
+	<!-- comment -->
+	<string name="add_comment">
+	   INSERT INTO thought_comment(`id`,`userId`,`thoughtId`,`replyTo`,`content`,`time`) VALUES(?,?,?,?,?,?)
+	</string>
+	
 	<!-- user -->
+	<string name="add_user">
+	    INSERT INTO `user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
+	    `gender`,`age`,`birthday`,`countryId`,`homeId`,`occupation`,`amzExp`,`toDo`,`philosophy`,`friendsDesc`,
+	    `interest`,`littleSecret`,`langId`,`locale`,`verified`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</string>
+	<string name="load_user_by_uname">
+	    SELECT * FROM `user` WHERE `userName` = ?
+	</string>
+	<string name="load_user_by_id">
+	    SELECT * FROM `user` WHERE `id` = ?
+	</string>
+	<string name="upd_user">
+	    UPDATE user SET `id`=?,`userName`=?,`password`=?,`FBId`=?,`firstName`=?,`lastName`=?,`name`=?,`timeZone`=?,
+	    `email`=?,`avatar`=?,`gender`=?,`age`=?,`birthday`=?,`countryId`=?,`homeId`=?,`occupation`=?,`amzExp`=?,`toDo`=?,
+	    `philosophy`=?,`friendsDesc`=?,`interest`=?,`littleSecret`=?,`langId`=?,`locale`=?,`verified`=? WHERE `id`=?
+	</string>
+
+	<!-- login user -->
+	<string name="add_luser">
+	    INSERT INTO `login_user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
+	    `gender`,`age`,`birthday`,`countryId`,`homeId`,`occupation`,`amzExp`,`toDo`,`philosophy`,`friendsDesc`,
+	    `interest`,`littleSecret`,`langId`,`locale`,`verified`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	</string>
+	<string name="load_luser_emails">
+	    SELECT `email` FROM `login_user` WHERE `password` != NULL ORDER BY `id`
+	</string>
+	<string name="upd_luser">
+	    UPDATE login_user SET `id`=?,`userName`=?,`password`=?,`FBId`=?,`firstName`=?,`lastName`=?,`name`=?,`timeZone`=?,
+	    `email`=?,`avatar`=?,`gender`=?,`age`=?,`birthday`=?,`countryId`=?,`homeId`=?,`occupation`=?,`amzExp`=?,`toDo`=?,
+	    `philosophy`=?,`friendsDesc`=?,`interest`=?,`littleSecret`=?,`langId`=?,`locale`=?,`verified`=? WHERE `id`=?
+	</string>
+			
 	<!-- category -->
 	<string name="add_category">
 	    INSERT INTO category (`id`, `name`) VALUES (?, ?)
 	</string>
+	<string name="load_category_by_id">
+	    SELECT `id`,`name` FROM category WHERE `id` = ? 
+	</string>
+	<string name="load_category_by_name">
+	    SELECT `id`,`name` FROM category WHERE `name` = ? 
+	</string>
+		
 	<!-- group -->
 	<string name="add_group">
 	    INSERT INTO group (`id`, `name`) VALUES (?, ?)
 	</string>
+	<string name="load_group_by_id">
+	    SELECT `id`,`name` FROM group WHERE `id` = ? 
+	</string>
+	<string name="load_group_by_name">
+	    SELECT `id`,`name` FROM group WHERE `name` = ? 
+	</string>	
+	
+	<!-- user tag -->
+	<string name="add_utag">
+	    INSERT INTO user_tag (`id`, `name`) VALUES (?, ?)
+	</string>
+	<string name="load_utag_by_id">
+	    SELECT `id`,`name` FROM user_tag WHERE `id` = ? 
+	</string>
+	<string name="load_utag_by_name">
+	    SELECT `id`,`name` FROM user_tag WHERE `name` = ? 
+	</string>
+	
 	<!-- tag -->
 	<string name="add_tag">
 	    INSERT INTO tag (`id`, `name`) VALUES (?, ?)
 	</string>
+	<string name="load_tag_by_id">
+	    SELECT `id`,`name` FROM tag WHERE `id` = ? 
+	</string>
+	<string name="load_tag_by_name">
+	    SELECT `id`,`name` FROM tag WHERE `name` = ? 
+	</string>
+	
 	<!-- country -->
 	<string name="add_country">
 	    INSERT INTO country (`id`, `name`, `region`) VALUES (?, ?, ?)
+	</string>
+	<string name="load_country_by_id">
+	    SELECT `id`,`name`,`region` FROM country WHERE `id` = ? 
 	</string>
 </resources>

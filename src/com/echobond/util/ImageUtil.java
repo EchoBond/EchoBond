@@ -2,6 +2,7 @@ package com.echobond.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
@@ -79,4 +80,15 @@ public class ImageUtil {
 		return BitmapFactory.decodeByteArray(imgSrc, 0, imgSrc.length);
 	}
 	
+	/**
+	 * get bitmap from path
+	 * @param path
+	 * @return
+	 */
+	public static Bitmap getBitmapByPath(String path){
+		File file = new File(path);
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+		return bitmap;
+	}
 }

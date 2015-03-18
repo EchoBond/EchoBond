@@ -2,6 +2,10 @@ package com.echobond.entity;
 
 import java.util.ArrayList;
 
+import com.echobond.util.ImageUtil;
+
+import android.graphics.Bitmap;
+
 
 /**
  * 
@@ -15,8 +19,12 @@ public class Thought {
 	private int groupId;
 	private int categoryId;
 	private String content;
+	//local path
 	private String image;
+	//remote path
+	private String remoteImg;
 	private String time;
+	private int boost;
 
 	private User user;
 	private Language lang;
@@ -24,6 +32,11 @@ public class Thought {
 	private Category category;
 	private ArrayList<Integer> tagIds;
 	private ArrayList<Tag> tags;
+	
+	public Bitmap getImgBitmap(){
+		return ImageUtil.getBitmapByPath(image);
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -107,6 +120,18 @@ public class Thought {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	public String getRemoteImg() {
+		return remoteImg;
+	}
+	public void setRemoteImg(String remoteImg) {
+		this.remoteImg = remoteImg;
+	}
+	public int getBoost() {
+		return boost;
+	}
+	public void setBoost(int boost) {
+		this.boost = boost;
 	}
 
 }

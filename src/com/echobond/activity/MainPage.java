@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.echobond.fragment.HotThoughtFragment;
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.ProfileFragment;
@@ -51,7 +52,8 @@ public class MainPage extends ActionBarActivity {
 	
 //	public static final int TAB_NUMBER = 6;
 	public static final int TAB_NUMBER = 4;
-	private ThoughtFragment homeFragment, hitFragment, trendingFragment;
+	private ThoughtFragment homeFragment;
+	private HotThoughtFragment hitFragment, trendingFragment;
 	private LikeMindedFragment likeMindedFragment;
 	private ThoughtFragment notificationFragment;
 	private ProfileFragment profileFragment;
@@ -118,7 +120,7 @@ public class MainPage extends ActionBarActivity {
 	private void initViews() {
 		
 		homeFragment = new ThoughtFragment();
-//		hitFragment = new ThoughtFragment();
+		hitFragment = new HotThoughtFragment();
 //		trendingFragment = new ThoughtFragment();
 		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new ThoughtFragment();
@@ -126,7 +128,7 @@ public class MainPage extends ActionBarActivity {
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
-//		mainFragmentsList.add(hitFragment);
+		mainFragmentsList.add(hitFragment);
 //		mainFragmentsList.add(trendingFragment);
 		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);

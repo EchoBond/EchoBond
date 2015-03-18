@@ -46,9 +46,13 @@ public class JSONUtil {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ArrayList list = gson.fromJson(jArray.toString(), token.getType());
+		return fromJSONArrayToList(jArray, token);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static List fromJSONArrayToList(JSONArray array, TypeToken<?> token){
+		ArrayList list = gson.fromJson(array.toString(), token.getType());
 		return list;
-		
 	}
 	
 }
