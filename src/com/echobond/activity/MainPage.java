@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
 import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.MainFragmentPagerAdapter;
@@ -28,8 +29,6 @@ import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,8 +51,9 @@ public class MainPage extends ActionBarActivity {
 	
 //	public static final int TAB_NUMBER = 6;
 	public static final int TAB_NUMBER = 4;
-	private ThoughtFragment homeFragment;
-	private HotThoughtFragment hitFragment, trendingFragment;
+	private HomeThoughtFragment homeFragment;
+	private HotThoughtFragment hitFragment;
+//	private ThoughtFragment trendingFragment;
 	private LikeMindedFragment likeMindedFragment;
 	private ThoughtFragment notificationFragment;
 	private ProfileFragment profileFragment;
@@ -61,8 +61,9 @@ public class MainPage extends ActionBarActivity {
 	private ArrayList<Fragment> mainFragmentsList;
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
-	private ImageView homeButton, hitButton, trendingButton, likeMindedButton, notificationButton, profileButton,  
-						newPostButton, settingButton, tabSelector;
+	private ImageView homeButton, likeMindedButton, notificationButton, profileButton,  
+						newPostButton, settingButton;
+//	private ImageView hitButton, trendingButton, tabSelector;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -119,18 +120,18 @@ public class MainPage extends ActionBarActivity {
 
 	private void initViews() {
 		
-		homeFragment = new ThoughtFragment();
-		hitFragment = new HotThoughtFragment();
+		homeFragment = new HomeThoughtFragment();
 //		trendingFragment = new ThoughtFragment();
 		likeMindedFragment = new LikeMindedFragment();
+		hitFragment = new HotThoughtFragment();
 		notificationFragment = new ThoughtFragment();
 		profileFragment = new ProfileFragment();
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
-		mainFragmentsList.add(hitFragment);
 //		mainFragmentsList.add(trendingFragment);
 		mainFragmentsList.add(likeMindedFragment);
+		mainFragmentsList.add(hitFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
 		

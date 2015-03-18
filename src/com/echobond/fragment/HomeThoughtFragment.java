@@ -11,9 +11,11 @@ import org.json.JSONObject;
 import com.echobond.R;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.entity.Thought;
+import com.echobond.entity.User;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
+import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
@@ -33,7 +35,7 @@ import android.widget.SimpleAdapter;
  * @author Luck
  *
  */
-public class HotThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback{
+public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback{
 	
 	private final String[] from = new String[] {"pic", "userName", "content"};
 	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_content};
@@ -46,9 +48,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
+		User user = new User();
+		user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
 		new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
-				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,10);		
+				LoadThoughtAsyncTask.LOAD_T_HOME,this,0,10,user);		
 		return thoughtView;
 	}
 	

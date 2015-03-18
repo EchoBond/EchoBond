@@ -11,6 +11,7 @@ import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 
 import android.os.AsyncTask;
 
@@ -44,7 +45,7 @@ public class LoadThoughtAsyncTask extends AsyncTask<Object, Integer, JSONObject>
 			body.put("limit", limit);
 			if(type == LOAD_T_HOME){
 				User user = (User) params[5];
-				body.put("user", user);
+				body.put("user", JSONUtil.fromObjectToJSON(user));
 			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
