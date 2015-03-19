@@ -112,7 +112,7 @@
 
 	<!-- login user -->
 	<string name="add_luser">
-	    INSERT INTO `login_user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
+	    INSERT OR REPLACE INTO `login_user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
 	    `gender`,`age`,`birthday`,`countryId`,`homeId`,`occupation`,`amzExp`,`toDo`,`philosophy`,`friendsDesc`,
 	    `interest`,`littleSecret`,`langId`,`locale`,`verified`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 	</string>

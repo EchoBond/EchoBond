@@ -40,7 +40,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MainPage extends ActionBarActivity {
+public class MainPage extends ActionBarActivity{
 
 	public static final int SETTING_EDIT_PROFILE = 0;
 	public static final int SETTING_APP_SETTING = 1;
@@ -90,7 +90,6 @@ public class MainPage extends ActionBarActivity {
 		initViews();
 		initTabPager();
 		initSettingPage();
-		
 	}
 	
 	private List<Map<String, Object>> getSettingData() {

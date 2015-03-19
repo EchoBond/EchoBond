@@ -18,7 +18,6 @@ import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -46,8 +45,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
-		new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
-				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
+		new LoadThoughtAsyncTask().execute(HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
 				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,10);		
 		return thoughtView;
 	}
