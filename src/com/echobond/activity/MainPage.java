@@ -151,7 +151,7 @@ public class MainPage extends ActionBarActivity {
 		mTabPager = (ViewPager)findViewById(R.id.tabpager);
 		mTabPager.setOnPageChangeListener(new MyOnPageChangeListener());
 		mTabPager.setAdapter(mAdapter);
-		
+		mTabPager.setOffscreenPageLimit(TAB_NUMBER);
 //		tabSelector = (ImageView)findViewById(R.id.tab_button);
 
 		homeButton = (ImageView)findViewById(R.id.home_button);
