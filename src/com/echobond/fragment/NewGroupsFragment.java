@@ -15,6 +15,7 @@ import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,7 +39,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View groupsView = inflater.inflate(R.layout.fragment_new_post_groups, container, false);
 		groupList = (ListView) groupsView.findViewById(R.id.list_group);
-		new GroupAsyncTask().execute(GroupAsyncTask.GROUP_LOAD_ALL, 
+		new GroupAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,GroupAsyncTask.GROUP_LOAD_ALL, 
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_groups),
 				this);
 

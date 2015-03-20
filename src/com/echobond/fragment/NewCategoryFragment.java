@@ -16,6 +16,7 @@ import com.echobond.util.JSONUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,7 +39,6 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 	private ArrayList<Drawable> bgList;
 	private ArrayList<Category> categories;
 	private ListView categoryList;
-	private long time;
 	private NewPostFragmentsSwitchAsyncTaskCallback categorySelected;
 	
 	@Override
@@ -57,8 +57,7 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 		
 		categoryList = (ListView)categoryView.findViewById(R.id.list_category);
 		categoryList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		time = System.currentTimeMillis();
-		new CategoryAsyncTask().execute(CategoryAsyncTask.CATEGORY_LOAD,
+		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,CategoryAsyncTask.CATEGORY_LOAD,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_categories), this);
 		return categoryView;
 	}
@@ -77,7 +76,6 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 	@SuppressLint("NewApi")
 	@Override
 	public void onCategoryResult(JSONObject result) {
-		Toast.makeText(getActivity(), System.currentTimeMillis()-time+"", Toast.LENGTH_LONG).show();
 		if(null == result){
 			Toast.makeText(getActivity(), "Failed loading categories", Toast.LENGTH_LONG).show();
 		} else {

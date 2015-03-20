@@ -50,8 +50,8 @@ public class HTTPUtil {
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.setUseCaches(false);
-			conn.setConnectTimeout(3000);
-			conn.setReadTimeout(3000);
+			conn.setConnectTimeout(1000);
+			conn.setReadTimeout(1000);
 			//headers settings
 			setRequestHeaders(conn, request.getHeaders());
 			//method setting
