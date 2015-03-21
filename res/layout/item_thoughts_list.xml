@@ -38,10 +38,21 @@
         android:padding="4dp" />
     <TextView 
         android:id="@+id/thought_list_boosts"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/thought_list_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="boosts"
         android:padding="4dp" />
+    <TextView 
+        android:id="@+id/thought_list_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thought_list_content"
+        android:layout_toRightOf="@id/thought_list_boosts"
+        android:text="comments"
+        android:padding="4dp"/>
     
     <LinearLayout
         android:id="@+id/row1"
