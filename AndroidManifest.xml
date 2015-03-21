@@ -12,7 +12,11 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- for notification -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    
+    <!-- cache images -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    
     <!-- package name specified permissions -->
     <permission
         android:name="com.echobond.permission.C2D_MESSAGE"

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="db_name">echobond</string>
+    <string name="tbl_home_t">home_thought</string>
+    <string name="tbl_hot_t">hot_thought</string>
+    <string name="tbl_t_tag">thought_tag</string>
+    <string name="tbl_t_cmt">thought_comment</string>
+    <string name="tbl_msg">message</string>
+    <string name="tbl_usr">user</string>
+    <string name="tbl_lusr">login_user</string>
+    <string name="tbl_ctgr">category</string>
+    <string name="tbl_grp">group</string>
+    <string name="tbl_country">country</string>
+    <string name="tbl_tag">tag</string>
+    <string name="tbl_utag">user_tag</string>
+    <string name="tbl_flwgrp">follow_group</string>
+    <string name="tbl_ltag">like_tag</string>
+    <string name="tbl_tag_slf">tag_self</string>
     <string-array name="create_tables">
         <!-- thought -->
 		<item name="home_thought">CREATE TABLE IF NOT EXISTS `home_thought` (`id` INTEGER PRIMARY KEY,`userId` varchar(255) NOT NULL,`langId` INTEGER DEFAULT NULL,`categoryId` INTEGER DEFAULT NULL,`groupId` INTEGER DEFAULT NULL,`content` varchar(255) NOT NULL,`image` varchar(255) DEFAULT NULL,`time` varchar(255) NOT NULL,`boost` INTEGER NOT NULL DEFAULT 0)</item>

@@ -33,6 +33,8 @@ public class Thought {
 	private ArrayList<Integer> tagIds;
 	private ArrayList<Tag> tags;
 	
+	private ArrayList<Comment> comments;
+	
 	public Bitmap getImgBitmap(){
 		return ImageUtil.getBitmapByPath(image);
 	}
@@ -133,5 +135,12 @@ public class Thought {
 	public void setBoost(int boost) {
 		this.boost = boost;
 	}
+	public ArrayList<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(ArrayList<Comment> comments) {
+		this.comments = comments;
+	}
+
 
 }

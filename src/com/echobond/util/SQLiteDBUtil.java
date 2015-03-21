@@ -11,6 +11,7 @@ import com.echobond.R;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -43,32 +44,32 @@ public class SQLiteDBUtil extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 	}
 	
-	public void insert(String table, JSONObject obj){
+	public long insert(String table, JSONObject obj){
 		SQLiteDatabase db = getWritableDatabase();
-		db.insert(table, null, bindValues(obj));
+		return db.insert(table, null, bindValues(obj));
 	}
 
-	public void update(String table, JSONObject obj, String where, String[] whereArgs){
+	public int update(String table, JSONObject obj, String where, String[] whereArgs){
 		SQLiteDatabase db = getWritableDatabase();
-		db.update(table, bindValues(obj), where, whereArgs);
+		return db.update(table, bindValues(obj), where, whereArgs);
 	}
 	
-	public void delete(String table, JSONObject obj, String where, String[] whereArgs){
+	public int delete(String table, JSONObject obj, String where, String[] whereArgs){
 		SQLiteDatabase db = getWritableDatabase();
-		db.delete(table, where, whereArgs);
+		return db.delete(table, where, whereArgs);
 	}
 	
-	public void query(String table, boolean distinct, String columns[], String where, String[] whereArgs, String groupBy, String having, String orderBy, String limit){
+	public Cursor query(String table, boolean distinct, String columns[], String where, String[] whereArgs, String groupBy, String having, String orderBy, String limit){
 		SQLiteDatabase db = getReadableDatabase();
-		db.query(distinct, table, columns, where, whereArgs, groupBy, having, orderBy, limit);
+		return db.query(distinct, table, columns, where, whereArgs, groupBy, having, orderBy, limit);
 	}
 	
-	public void query(String table, String[] columns, String where, String[] whereArgs, String limit){
-		query(table, true, columns, where, whereArgs, null, null, null, limit);
+	public Cursor query(String table, String[] columns, String where, String[] whereArgs, String limit){
+		return query(table, true, columns, where, whereArgs, null, null, null, limit);
 	}
 	
-	public void query(String table, String[] columns, String where, String[] whereArgs){
-		query(table, columns, where, whereArgs, null);
+	public Cursor query(String table, String[] columns, String where, String[] whereArgs){
+		return query(table, columns, where, whereArgs, null);
 	}
 	
 	private ContentValues bindValues(JSONObject obj){

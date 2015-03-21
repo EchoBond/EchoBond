@@ -35,8 +35,8 @@ import android.widget.SimpleAdapter;
  */
 public class HotThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback{
 	
-	private final String[] from = new String[] {"pic", "userName", "content"};
-	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_content};
+	private final String[] from = new String[] {"pic", "userName", "boosts", "comments", "content"};
+	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_boosts, R.id.thought_list_comments, R.id.thought_list_content};
 	private SimpleAdapter adapter;
 	private XListView mListView;
 	private Handler handler;
@@ -123,6 +123,8 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 					thoughtMap.put("pic", getResources().getDrawable(R.drawable.logo_welcome));
 				}
 				thoughtMap.put("userName", t.getUser().getUserName());
+				thoughtMap.put("boosts", t.getBoost() + " boosts");
+				thoughtMap.put("comments", t.getComments().size() + " comments");
 				thoughtMap.put("content", t.getContent());
 				thoughtList.add(thoughtMap);
 			}
