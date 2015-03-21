@@ -74,7 +74,6 @@ public class LoginPageFragment extends Fragment {
 				if (loginEmailStr == null || loginEmailStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_email), Toast.LENGTH_SHORT).show();
 				} else {
-					// TODO REGULAR EXPRESSION CHECK
 					User user = new User();
 					user.setEmail(loginEmailStr);
 					mSelectedListener.onButtonSelected(StartPage.BUTTON_TYPE_FGTPW, user);

@@ -160,7 +160,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 
 		private void isContentsEmpty() { 
 			if (contentsString == null || contentsString.equals("")) {
-				Toast.makeText(getApplicationContext(), "Sorry but content cannot be empty!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_LONG).show();
 			}else {
 				barTitle.setText(R.string.title_new_post_group);
 				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.done_button));
@@ -170,8 +170,6 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		}
 		
 		private void postThought() {
-			// TODO GROUP SELECTION
-			// TODO SENDING ALL CONTENTS OF THE NEW POST
 			Thought t = new Thought();
 			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
 			t.setTags(tags);
@@ -239,9 +237,9 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	@Override
 	public void onPostThoughtResult(JSONObject result) {
 		if(null == result){
-			Toast.makeText(this, "Failed posting thought!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_failed_post), Toast.LENGTH_LONG).show();
 		} else {
-			Toast.makeText(this, "Thought successfully posted!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_successful_post), Toast.LENGTH_LONG).show();
 			activityBackStack();
 		}
 		

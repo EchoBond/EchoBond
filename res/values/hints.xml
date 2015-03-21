@@ -23,6 +23,9 @@
     <string name="signup_exst_unvrfd_mailed">We have already sent you an activation email, please check it. </string>
     
     <string name="network_issue">Unable to connect to server, please check your network connectivity. </string>
+    <string name="hint_new_post_empty_content">Sorry but content cannot be empty! </string>
+    <string name="hint_new_post_failed_post">Failed in posting thought! </string>
+    <string name="hint_new_post_successful_post">Thought successfully posted! </string>
     <string name="hint_quit">Click once more to quit. </string>
     
 </resources>

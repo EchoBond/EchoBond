@@ -27,7 +27,7 @@ public class SignUpPageFragment extends Fragment {
 	private EditText signUpEmailText, signUpPasswordText;
 	private String signUpEmailStr, signUpPasswordStr;
 	private ImageButton signUp;
-	private StartPageFragmentsSwitchAsyncTaskCallback/*OnSignUpSelectedListener*/ mSelectedListener;
+	private StartPageFragmentsSwitchAsyncTaskCallback mSelectedListener;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
