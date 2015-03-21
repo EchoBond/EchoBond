@@ -12,10 +12,11 @@
     <!-- NAME OF THE ACTIVITIES -->
     <string name="title_activity_login_page">LoginPage</string>
     <string name="title_activity_intro_page">IntroPage</string>
+    <string name="title_activity_following_page">FollowingPage</string>
     <string name="title_activity_main_page">MainPage</string>
     <string name="title_activity_search_page">SearchPage</string>
-    <string name="title_activity_app_setting_page">AppSettingPage</string>
     <string name="title_activity_new_post_page">NewPostPage</string>
+    <string name="title_activity_app_setting_page">AppSettingPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -34,15 +35,14 @@
     
     <!-- REFRESH AND LOAD CONTENT -->
     <string name="hint_xview_header_normal">Pull down to load new posts. </string>
-    <string name="hint_xview_header_ready">Release to get new posts. </string>
+    <string name="hint_xview_header_ready">Release to get new posts… </string>
     <string name="hint_xview_header_loading">Loading…</string>
-    <string name="hint_xview_footer_normal">Drag or click to load MORE…</string>
-    <string name="hint_xview_footer_ready">Release to load the previous. </string>
+    <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
+    <string name="hint_xview_footer_ready">Release to load MORE… </string>
     
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
     <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_following_page">FollowingPage</string>
 
 </resources>

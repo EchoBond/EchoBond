@@ -47,13 +47,14 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_content};
 	private SimpleAdapter adapter;
 	private XListView mListView;
-	private Handler handler;
+	private Handler handler = new Handler();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
+		mListView.setPullLoadEnable(true);
 		return thoughtView;
 	}
 	
@@ -64,6 +65,7 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 		adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
 		mListView.setAdapter(adapter);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		mListView.setXListViewListener(this);
 		mListView.setOnItemClickListener(this);
 	}
 

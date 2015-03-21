@@ -37,30 +37,36 @@ import android.widget.TextView;
 		initView(context);
 	}
 	
+	/**
+	 * 
+	 * @param context
+	 * @param attrs
+	 */
 	public XViewHeader(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView(context);
 	}
 
-	private void initView(Context context) {
+	private void initView(Context context) { 
+		//	set the initial height as 0
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0);
 		mContainer = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.refresh_pull_down, null);
 		addView(mContainer, params);
 		setGravity(Gravity.BOTTOM);
 		
-		mHintTextView = (TextView)findViewById(R.id.pulldown_header_text);
+		mHintTextView = (TextView)findViewById(R.id.pulldown_header_textview);
 		mProgressBar = (ProgressBar)findViewById(R.id.pulldown_header_loading);
 		
-		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f, 
-				Animation.RELATIVE_TO_SELF, 0.5f, 
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f, 
-				Animation.RELATIVE_TO_SELF, 0.5f, 
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
-		mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
-		mRotateUpAnim.setFillAfter(true);
-		mRotateDownAnim.setFillAfter(true);
+//		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f, 
+//				Animation.RELATIVE_TO_SELF, 0.5f, 
+//				Animation.RELATIVE_TO_SELF, 0.5f);
+//		mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f, 
+//				Animation.RELATIVE_TO_SELF, 0.5f, 
+//				Animation.RELATIVE_TO_SELF, 0.5f);
+//		mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
+//		mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
+//		mRotateUpAnim.setFillAfter(true);
+//		mRotateDownAnim.setFillAfter(true);
 	}
 
 	public void setState(int state) {
@@ -68,7 +74,7 @@ import android.widget.TextView;
 			return;
 		}
 		
-		if (state == STATE_REFRESHING) {
+		if (state == STATE_REFRESHING) {	// get the loading status
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			mProgressBar.setVisibility(View.INVISIBLE);
@@ -102,7 +108,7 @@ import android.widget.TextView;
 	}
 	
 	public int getVisibleHeight() {
-		return mContainer.getHeight();
+		return mContainer.getLayoutParams().height;
 	}
 	
 }
