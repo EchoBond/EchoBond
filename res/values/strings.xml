@@ -22,6 +22,7 @@
     <string name="title_new_post_share">Share Anything</string>
     <string name="title_new_post_draw">Draw Your Mind</string>
     <string name="title_new_post_write">Write Your Thought</string>
+    <string name="title_new_post_grouptitle">GROUPS</string>
     <string name="title_new_post_tag">TAGS</string>
     <string name="title_new_post_group">Put It in A Group</string>
 
@@ -45,8 +46,8 @@
     <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
 
-    <string name="thought_boosts">boosts</string>
+    <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
-    <string name="thought_comments">comments</string>
+    <string name="thought_comments"> comments</string>
     
 </resources>
