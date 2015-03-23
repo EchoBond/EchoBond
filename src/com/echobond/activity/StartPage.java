@@ -18,7 +18,6 @@ import com.echobond.util.CommUtil;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
-import com.echobond.util.SQLiteDBUtil;
 import com.echobond.R;
 import com.facebook.Session;
 import com.facebook.Session.NewPermissionsRequest;
@@ -44,7 +43,6 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 	private LoginPageFragment loginPageFragment;
 	private String preUrl;
 	private int fgIndex = 0;
-	private SQLiteDBUtil dbUtil;
     private long exitTime = 0;
 
 	
@@ -81,7 +79,6 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 	    	transaction.show(startPageFragment).commit();
         }
         preUrl = HTTPUtil.getInstance().composePreURL(this);
-        initDB();
         checkReturnUser();
         if(CommUtil.isThreadRunning(StartPageFragment.THREAD_TIMEOUT_NAME)){
         	CommUtil.getThreadByName(StartPageFragment.THREAD_TIMEOUT_NAME).interrupt();
@@ -264,11 +261,6 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 		Intent intent = new Intent();
 		intent.setClass(StartPage.this, target);
 		return intent;
-    }
-    
-    private void initDB(){
-        dbUtil = SQLiteDBUtil.getInstance(this);
-        dbUtil.getWritableDatabase();
     }
     
     private void checkReturnUser(){

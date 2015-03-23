@@ -61,6 +61,14 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- content providers -->
+        <provider android:name="com.echobond.dao.HomeThoughtDAO"
+            android:authorities="com.echobond.contentprovider.homethought"
+            android:exported="false"/>
+        <provider android:name="com.echobond.dao.HotThoughtDAO"
+            android:authorities="com.echobond.contentprovider.hotthought"
+            android:exported="false"/>
+        
         <activity
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"

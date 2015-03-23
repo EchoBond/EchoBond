@@ -45,4 +45,8 @@
     <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="thought_boosts">boosts</string>
+    <string name="thought_sep">|</string>
+    <string name="thought_comments">comments</string>
+    
 </resources>

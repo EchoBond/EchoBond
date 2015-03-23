@@ -2,11 +2,11 @@ package com.echobond.dao;
 
 import android.content.Context;
 
-import com.echobond.util.SQLiteDBUtil;
+import com.echobond.db.MyDBHelper;
 
 public class ImageDAO {
 	private Context ctx;
-	private SQLiteDBUtil dbUtil;
+	private MyDBHelper dbUtil;
 	public Context getCtx() {
 		return ctx;
 	}

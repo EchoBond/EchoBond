@@ -43,7 +43,17 @@
         android:layout_below="@id/thought_list_content"
         android:ellipsize="end"
         android:lines="1"
-        android:text="boosts"
+        android:text=""
+        android:padding="4dp" />
+    <TextView 
+        android:id="@+id/thought_list_boosts_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/thought_list_boosts"
+        android:layout_below="@id/thought_list_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/thought_boosts"
         android:padding="4dp" />
     <TextView 
         android:id="@+id/thought_list_seperator"
@@ -52,8 +62,8 @@
         android:lines="1"
         android:ellipsize="end"
         android:layout_below="@id/thought_list_content"
-        android:layout_toRightOf="@id/thought_list_boosts"
-        android:text="|"
+        android:layout_toRightOf="@id/thought_list_boosts_txt"
+        android:text="@string/thought_sep"
         android:padding="2dp"/>
     <TextView 
         android:id="@+id/thought_list_comments"
@@ -61,7 +71,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/thought_list_content"
         android:layout_toRightOf="@id/thought_list_seperator"
-        android:text="comments"
+        android:text=""
+        android:padding="4dp"/>    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thought_list_content"
+        android:layout_toRightOf="@id/thought_list_comments"
+        android:text="@string/thought_comments"
         android:padding="4dp"/>
     
     <LinearLayout
