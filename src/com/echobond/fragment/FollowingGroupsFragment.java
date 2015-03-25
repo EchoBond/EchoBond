@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.echobond.R;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -29,7 +30,10 @@ public class FollowingGroupsFragment extends Fragment {
 	private String[] testGroups = {"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE", 
 			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr", "laoliu", 
 			"HSBC", "Swire", "RCLee", "Starr", "laoliu", 
-			"HSBC", "Swire", "RCLee", "Starr", "laoliu"};
+			"HSBC", "Swire", "RCLee", "Starr", "laoliu", 
+			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE",
+			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE",
+			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE"};
 	private GridView groups2Follow;
 	
 	@Override
@@ -38,7 +42,7 @@ public class FollowingGroupsFragment extends Fragment {
 		
 		View followingGroupsView = inflater.inflate(R.layout.fragment_following_groups, container, false);
 		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
-		SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), data(), 
+		mySimpleAdapter adapter = new mySimpleAdapter(this.getActivity(), data(), 
 				R.layout.item_following, new String[]{"group"}, new int[]{R.id.text_following});
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -47,7 +51,7 @@ public class FollowingGroupsFragment extends Fragment {
 			
 			@Override
 			public void run() {
-				onGroupResult();
+//				onGroupResult();
 			}
 		}, 1000);
 		return followingGroupsView;
@@ -63,22 +67,31 @@ public class FollowingGroupsFragment extends Fragment {
 		return groupsList;
 	}
 	
+	public class mySimpleAdapter extends SimpleAdapter {
+
+		public mySimpleAdapter(Context context,
+				List<? extends Map<String, ?>> data, int resource,
+				String[] from, int[] to) {
+			super(context, data, resource, from, to);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = super.getView(position, convertView, parent);
+			int colorPos = position % (3 * colorBgd.length);
+			view.setBackgroundColor(colorBgd[colorPos/3]);
+			return view;
+		}
+	}
+	
 	public class groupSelectedListener implements AdapterView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Toast.makeText(getActivity().getApplicationContext(), "Clicked. ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity().getApplicationContext(), "You've clicked position " + position, Toast.LENGTH_SHORT).show();
 		}
 	}
-	private void onGroupResult() {
-		for (int i = 0; i < groups2Follow.getChildCount(); i++) {
-			ViewGroup view = (ViewGroup)groups2Follow.getChildAt(i);
-			int index = i;
-			if (index >= 3*colorBgd.length) {
-				index = index % (3*colorBgd.length);
-			}
-			view.setBackgroundColor(colorBgd[index/3]);
-		}
-	}
+
 }

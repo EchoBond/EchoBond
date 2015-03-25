@@ -77,7 +77,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				map.put("group", groups.get(i).getName());
 				listItems.add(map);
 			}
-//			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
+			MySimpleAdapter adapter2 = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			groupList.setAdapter(adapter);
 			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -85,35 +85,35 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 		}
 	}
 	
-//	public class MySimpleAdapter extends SimpleAdapter {
-//
-//		private LayoutInflater mInflater;
-//		
-//		public MySimpleAdapter(Context context,
-//				List<? extends Map<String, ?>> data, int resource,
-//				String[] from, int[] to) {
-//			super(context, data, resource, from, to);
-//			// TODO Auto-generated constructor stub
-//		}
-//		
-//		@SuppressLint("InflateParams") @Override
-//		public View getView(int position, View convertView, ViewGroup parent) {
-//			ViewHolder holder = new ViewHolder();
-//			if (convertView == null) {
-//				convertView = mInflater.inflate(R.layout.item_group, null);
-//				holder.groupName = (TextView)convertView.findViewById(R.id.text_group);
-//				convertView.setTag(holder);
-//			}else {
-//				holder = (ViewHolder)convertView.getTag();
-//			}
-//			holder.groupName.setText(groups.get(position).getName());
-//			return convertView;
-//		}
-//		
-//		class ViewHolder {
-//			TextView groupName;
-//		}
-//	}
+	public class MySimpleAdapter extends SimpleAdapter {
+
+		private LayoutInflater mInflater;
+		
+		public MySimpleAdapter(Context context,
+				List<? extends Map<String, ?>> data, int resource,
+				String[] from, int[] to) {
+			super(context, data, resource, from, to);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@SuppressLint("InflateParams") @Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = new ViewHolder();
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.item_group, null);
+				holder.groupName = (TextView)convertView.findViewById(R.id.text_group);
+				convertView.setTag(holder);
+			}else {
+				holder = (ViewHolder)convertView.getTag();
+			}
+			holder.groupName.setText(groups.get(position).getName());
+			return convertView;
+		}
+		
+		class ViewHolder {
+			TextView groupName;
+		}
+	}
 	
 	public class GroupItemClickListener implements AdapterView.OnItemClickListener {
 

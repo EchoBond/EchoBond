@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.echobond.R;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import android.widget.Toast;
  */
 public class FollowingHashtagsFragment extends Fragment {
 	
+	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private String[] testHashTags = {"Inspiring", "ChitChat", "Hip", "France", "India", "Hong Kong", "Honkey", 
 			"Football", "Dragon Boat", "Nerd", "Punk", "Vintage", "Politics", "Equality", "LGBT", "Fun", "Philo", "Random"};
 	private GridView hashtags2Follow;
@@ -35,13 +37,14 @@ public class FollowingHashtagsFragment extends Fragment {
 		
 		View followingHashtagsView = inflater.inflate(R.layout.fragment_following_hashtags, container, false);
 		hashtags2Follow = (GridView)followingHashtagsView.findViewById(R.id.grid_hashtags);
-		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data(), 
+		mySimpleAdapter adapter = new mySimpleAdapter(getActivity(), data(), 
 				R.layout.item_following, new String[]{"hashtag"}, new int[]{R.id.text_following});
 		hashtags2Follow.setAdapter(adapter);
 		hashtags2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		hashtags2Follow.setOnItemClickListener(new hashtagSelectedListener());
 		return followingHashtagsView;
 	}
+	
 	private List<Map<String, Object>> data() {
 		List<Map<String, Object>> hashtagsList = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < testHashTags.length; i++) {
@@ -52,12 +55,31 @@ public class FollowingHashtagsFragment extends Fragment {
 		return hashtagsList;
 	}
 	
+	public class mySimpleAdapter extends SimpleAdapter {
+
+		public mySimpleAdapter(Context context,
+				List<? extends Map<String, ?>> data, int resource,
+				String[] from, int[] to) {
+			super(context, data, resource, from, to);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = super.getView(position, convertView, parent);
+			int colorPos = position % (3 * colorBgd.length);
+			view.setBackgroundColor(colorBgd[colorPos/3]);
+			return view;
+		}
+		
+	}
+	
 	public class hashtagSelectedListener implements OnItemClickListener {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			Toast.makeText(getActivity().getApplicationContext(), "Clicked. ", Toast.LENGTH_SHORT).show();
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Toast.makeText(getActivity().getApplicationContext(), "You've clicked position " + position, Toast.LENGTH_SHORT).show();
 		}
 		
 	}
