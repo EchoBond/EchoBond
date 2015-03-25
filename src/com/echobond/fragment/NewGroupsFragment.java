@@ -96,6 +96,12 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			// TODO Auto-generated constructor stub
 		}
 		
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return super.getItem(position);
+		}
+		
 		@SuppressLint("InflateParams") @Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();

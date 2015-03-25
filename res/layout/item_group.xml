@@ -11,9 +11,8 @@
         android:id="@+id/text_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        android:padding="10dp"
-        android:textSize="30sp"
+        android:padding="3dp"
+        android:textSize="20sp"
         android:textColor="@layout/selector_groups"
         android:focusable="false" />
     
