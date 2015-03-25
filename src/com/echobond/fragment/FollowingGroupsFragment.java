@@ -7,7 +7,9 @@ import java.util.Map;
 
 import com.echobond.R;
 
+import android.R.integer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,8 +26,9 @@ import android.widget.Toast;
  */
 public class FollowingGroupsFragment extends Fragment {
 	
+	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private String[] testGroups = {"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE", 
-			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr"};
+			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr", "laoliu", "HSBC", "Swire", "RCLee", "Starr", "laoliu", "HSBC", "Swire", "RCLee", "Starr", "laoliu"};
 	private GridView groups2Follow;
 	
 	@Override
@@ -39,6 +42,13 @@ public class FollowingGroupsFragment extends Fragment {
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setOnItemClickListener(new groupSelectedListener());
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				onGroupResult();
+			}
+		}, 1000);
 		return followingGroupsView;
 	}
 
@@ -58,6 +68,16 @@ public class FollowingGroupsFragment extends Fragment {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			Toast.makeText(getActivity().getApplicationContext(), "Clicked. ", Toast.LENGTH_SHORT).show();
+		}
+	}
+	private void onGroupResult() {
+		for (int i = 0; i < groups2Follow.getChildCount(); i++) {
+			ViewGroup view = (ViewGroup)groups2Follow.getChildAt(i);
+			int index = i;
+			if (index >= 3*colorBgd.length) {
+				index = index % (3*colorBgd.length);
+			}
+			view.setBackgroundColor(colorBgd[index/3]);
 		}
 	}
 }

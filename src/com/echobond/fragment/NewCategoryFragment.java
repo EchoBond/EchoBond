@@ -97,7 +97,7 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 						ViewGroup view = (ViewGroup) categoryList.getChildAt(i);
 						int index = i;
 						if(index >= bgList.size()){
-							index = bgList.size()%index;
+							index = index%bgList.size();
 						}
 						view.getChildAt(0).setBackground(bgList.get(index));
 					}
