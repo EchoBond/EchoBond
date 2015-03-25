@@ -2,6 +2,9 @@ package com.echobond.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.Inflater;
 
 import org.json.JSONObject;
 
@@ -14,11 +17,15 @@ import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +67,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 	@SuppressWarnings("unchecked")
 	public void onGroupResult(JSONObject result) {
 		if(null == result){
-			Toast.makeText(getActivity(), "Failed loading groups", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity().getApplicationContext(), "Failed loading groups", Toast.LENGTH_LONG).show();
 		} else {
 			TypeToken<ArrayList<Group>> token = new TypeToken<ArrayList<Group>>(){};
 			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", token);
@@ -70,12 +77,43 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				map.put("group", groups.get(i).getName());
 				listItems.add(map);
 			}
+//			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			groupList.setAdapter(adapter);
 			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 			groupList.setOnItemClickListener(new GroupItemClickListener());
 		}
 	}
+	
+//	public class MySimpleAdapter extends SimpleAdapter {
+//
+//		private LayoutInflater mInflater;
+//		
+//		public MySimpleAdapter(Context context,
+//				List<? extends Map<String, ?>> data, int resource,
+//				String[] from, int[] to) {
+//			super(context, data, resource, from, to);
+//			// TODO Auto-generated constructor stub
+//		}
+//		
+//		@SuppressLint("InflateParams") @Override
+//		public View getView(int position, View convertView, ViewGroup parent) {
+//			ViewHolder holder = new ViewHolder();
+//			if (convertView == null) {
+//				convertView = mInflater.inflate(R.layout.item_group, null);
+//				holder.groupName = (TextView)convertView.findViewById(R.id.text_group);
+//				convertView.setTag(holder);
+//			}else {
+//				holder = (ViewHolder)convertView.getTag();
+//			}
+//			holder.groupName.setText(groups.get(position).getName());
+//			return convertView;
+//		}
+//		
+//		class ViewHolder {
+//			TextView groupName;
+//		}
+//	}
 	
 	public class GroupItemClickListener implements AdapterView.OnItemClickListener {
 

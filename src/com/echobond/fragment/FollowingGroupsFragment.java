@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.echobond.R;
 
-import android.R.integer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -28,7 +27,9 @@ public class FollowingGroupsFragment extends Fragment {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private String[] testGroups = {"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE", 
-			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr", "laoliu", "HSBC", "Swire", "RCLee", "Starr", "laoliu", "HSBC", "Swire", "RCLee", "Starr", "laoliu"};
+			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr", "laoliu", 
+			"HSBC", "Swire", "RCLee", "Starr", "laoliu", 
+			"HSBC", "Swire", "RCLee", "Starr", "laoliu"};
 	private GridView groups2Follow;
 	
 	@Override

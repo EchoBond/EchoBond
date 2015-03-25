@@ -26,7 +26,7 @@ public class XListView extends ListView implements OnScrollListener {
 	private static final int SCROLLBACK_FOOTER = 1;
 	
 	private static final int SCROLL_DURATION = 400;
-	private static final int PULL_LOAD_MORE_DELTA = 50;	// the height to trigger load
+	private static final int PULL_LOAD_MORE_DELTA = 10;	// the height to trigger load
 	private static final float OFFSET_RADIO = 1.8f;
 	
 	private float mLastY = -1;	// save event y
@@ -105,7 +105,7 @@ public class XListView extends ListView implements OnScrollListener {
 		super.setAdapter(adapter);
 	}
 	
-	@Override
+	@SuppressLint("ClickableViewAccessibility") @Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (mLastY == -1) {
 			mLastY = ev.getRawY();
@@ -118,7 +118,7 @@ public class XListView extends ListView implements OnScrollListener {
 		case MotionEvent.ACTION_MOVE:
 			final float deltaY = ev.getRawY() - mLastY;
 			mLastY = ev.getRawY();
-			System.out.println("数据监测：" + getFirstVisiblePosition() + "---->"
+			System.out.println("testing: " + getFirstVisiblePosition() + "---->"
 					 + getLastVisiblePosition());
 			if (getFirstVisiblePosition() == 0 && (mHeaderView.getVisibleHeight() > 0 || deltaY > 0)) {
 				// the first item is showing, header has shown or pull down
