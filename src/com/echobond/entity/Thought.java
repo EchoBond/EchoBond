@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.echobond.util.ImageUtil;
 
+import android.content.ContentValues;
 import android.graphics.Bitmap;
 
 
@@ -37,6 +38,20 @@ public class Thought {
 	
 	public Bitmap getImgBitmap(){
 		return ImageUtil.getBitmapByPath(image);
+	}
+	
+	public ContentValues putValues(){
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("user_id", userId);
+		values.put("lang_id", langId);
+		values.put("group_id", groupId);
+		values.put("category_id", categoryId);
+		values.put("content", content);
+		values.put("image", image);
+		values.put("time", time);
+		values.put("boost", boost);
+		return values;
 	}
 	
 	public int getId() {

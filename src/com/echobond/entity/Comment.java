@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import android.content.ContentValues;
+
 public class Comment {
 	private int id;
 	private String userId;
@@ -7,6 +9,16 @@ public class Comment {
 	private int replyTo;
 	private String content;
 	private String time;
+	public ContentValues putValues(){
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("user_id", userId);
+		values.put("thought_id", thoughtId);
+		values.put("reply_to", replyTo);
+		values.put("content", content);
+		values.put("time", time);
+		return values;
+	}
 	public int getId() {
 		return id;
 	}

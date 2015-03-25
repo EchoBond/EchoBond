@@ -2,6 +2,8 @@ package com.echobond.entity;
 
 import java.util.ArrayList;
 
+import android.content.ContentValues;
+
 /**
  * 
  * @author Luck
@@ -51,6 +53,35 @@ public class User {
 	private ArrayList<UserTag> userTags;
 	private ArrayList<Tag> tags;
 	private ArrayList<Group> groups;
+	
+	public ContentValues putValues(){
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("username", userName);
+		values.put("password", password);
+		values.put("email", email);
+		values.put("fb_id", FBId);
+		values.put("first_name", firstName);
+		values.put("last_name", lastName);
+		values.put("name", name);
+		values.put("time_zone", timeZone);
+		values.put("avatar", avatar);
+		values.put("age", gender);
+		values.put("gender", birthday);
+		values.put("country_id", countryId);
+		values.put("home_id", homeId);
+		values.put("occupation", occupation);
+		values.put("amz_exp", amzExp);
+		values.put("to_do", toDo);
+		values.put("philosophy", philosophy);
+		values.put("friends_desc", friendsDesc);
+		values.put("interest", interest);
+		values.put("little_secret", littleSecret);
+		values.put("lang_id", langId);
+		values.put("verified", verified);
+		return values;
+	}
+	
 	public int getType(){
 		return type;
 	}

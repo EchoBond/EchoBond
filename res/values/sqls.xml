@@ -2,17 +2,21 @@
 <resources>
     <!-- database/table names -->
     <string name="db_name">echobond</string>
+    <!-- thought related -->
     <string name="tbl_home_t">home_thought</string>
     <string name="tbl_hot_t">hot_thought</string>
     <string name="tbl_t_tag">thought_tag</string>
     <string name="tbl_t_cmt">thought_comment</string>
+	<!-- user related -->
     <string name="tbl_msg">message</string>
     <string name="tbl_usr">user</string>
     <string name="tbl_lusr">login_user</string>
+    <!-- values related -->
     <string name="tbl_ctgr">category</string>
     <string name="tbl_grp">group</string>
     <string name="tbl_country">country</string>
     <string name="tbl_tag">tag</string>
+    <!-- user actions -->
     <string name="tbl_utag">user_tag</string>
     <string name="tbl_flwgrp">follow_group</string>
     <string name="tbl_ltag">like_tag</string>
@@ -35,7 +39,6 @@
 	    CREATE TABLE IF NOT EXISTS `hot_thought`( 
 	    	`_id` INTEGER PRIMARY KEY,
 	    	`user_id` varchar(255) NOT NULL,
-	    	`user_name` varchar(255) NOT NULL,
 	    	`lang_id` INTEGER DEFAULT NULL,
 	    	`category_id` INTEGER DEFAULT NULL,
 	    	`group_id` INTEGER DEFAULT NULL,
@@ -124,7 +127,7 @@
 			`little_secret` varchar(255) DEFAULT NULL,
 			`lang_id` INTEGER DEFAULT NULL,
 			`locale` varchar(255) DEFAULT NULL,
-			`verified` INTEGER NOT NULL DEFAULT 0) 	    
+			`verified` INTEGER NOT NULL DEFAULT 0)
    	</string>
    	<string name="sql_c_category">
 		CREATE TABLE IF NOT EXISTS `category`(
@@ -186,6 +189,7 @@
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
 	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
+	    GROUP BY t.`_id`
 	    ORDER BY t.`_id` DESC
 	    LIMIT ? OFFSET ?
 	</string>
@@ -210,16 +214,26 @@
 	    INSERT INTO `hot_thought`(`_id`,`user_id`,`lang_id`,`category_id`,`group_id`,`content`,`image`,
 	    	`time`,`boost`) VALUES (?,?,?,?,?,?,?,?,?);
 	</string>
-	<string name="load_t_hot">
+	<string name="sql_s_t_hot">
+	    <!-- 
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
-	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`id`) AS num_of_cmt
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt
 	    FROM `hot_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
 	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
 	    ORDER BY t.`_id` DESC
-	    LIMIT ? OFFSET ?
+	    LIMIT ? OFFSET ?-->
+	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt
+	    FROM `hot_thought` AS t
+	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
+	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
+	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
+	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
+	    GROUP BY t.`_id`
+	    ORDER BY t.`_id` DESC
 	</string>
 	<string name="load_hot_t_tags">
 	    SELECT t.`_id`, tt.`tag_id`, tg.`name` FROM `hot_thought` AS t
@@ -227,7 +241,7 @@
 	    LEFT JOIN `tag` AS tg ON tt.`tag_id` = tg.`_id`
 	    WHERE t.`_id` = ?
 	</string>
-	<string name="load_hot_t_comments">
+	<string name="load_hot_t_cmt">
 	    SELECT tc.`_id`,tc.`content` FROM `thought_comment` AS tc
 	    LEFT JOIN `hot_thought` AS t ON tc.`thought_id` = t.`_id`
 	    WHERE tc.`thought_id` = ?
@@ -235,20 +249,24 @@
 	</string>
 	
 	<!-- comment -->
-	<string name="add_comment">
+	<string name="sql_i_cmt">
 	   INSERT INTO thought_comment(`_id`,`user_id`,`thought_id`,`reply_to`,`content`,`time`) VALUES(?,?,?,?,?,?)
+	</string>
+	<string name="sql_s_cmt">
+	    SELECT * FROM `thought_comment` WHERE `thought_id` = ?
 	</string>
 	
 	<!-- user -->
 	<string name="add_user">
-	    INSERT INTO `user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
-	    `gender`,`age`,`birthday`,`countryId`,`homeId`,`occupation`,`amzExp`,`toDo`,`philosophy`,`friendsDesc`,
-	    `interest`,`littleSecret`,`langId`,`locale`,`verified`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+	    INSERT INTO `user`(`id`,`user_name`,`password`,`fb_Id`,`first_name`,`last_name`,`name`,`time_zone`,
+	    `email`,`avatar`,`gender`,`age`,`birthday`,`country_id`,`home_id`,`occupation`,`amz_exp`,`to_do`,
+	    `philosophy`,`friends_desc`,`interest`,`little_secret`,`lang_id`,`locale`,`verified`) 
+	    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 	</string>
-	<string name="load_user_by_uname">
+	<string name="sql_s_usr_uname">
 	    SELECT * FROM `user` WHERE `userName` = ?
 	</string>
-	<string name="load_user_by_id">
+	<string name="sql_s_usr_id">
 	    SELECT * FROM `user` WHERE `id` = ?
 	</string>
 	<string name="upd_user">

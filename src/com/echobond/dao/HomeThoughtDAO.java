@@ -1,17 +1,18 @@
 package com.echobond.dao;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 import com.echobond.db.HomeThoughtDB;
-import com.echobond.entity.Thought;
 
 public class HomeThoughtDAO extends ContentProvider{
 	
 	public static final String PROVIDER_NAME = "com.echobond.contentprovider.homethought";
+	//content://authority/path/id
 	public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME+"/homeThought");
 	private static final int HOMETHOUGHT = 1;
 	private static final UriMatcher uriMatcher;
@@ -20,9 +21,6 @@ public class HomeThoughtDAO extends ContentProvider{
 		uriMatcher.addURI(PROVIDER_NAME, "homeThought", HOMETHOUGHT);
 	}
 	private HomeThoughtDB dbUtil;
-	public void addThought(Thought t){
-		
-	}
 
 	public void close(){
 		if(null != dbUtil){
@@ -31,7 +29,7 @@ public class HomeThoughtDAO extends ContentProvider{
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 	@Override
@@ -41,9 +39,26 @@ public class HomeThoughtDAO extends ContentProvider{
 	}
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		if(uriMatcher.match(uri) == HOMETHOUGHT){
+			dbUtil.addHomeThought(values);
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
+		return uri;
 	}
+	
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		if(uriMatcher.match(uri) == HOMETHOUGHT){
+			for (ContentValues contentValues : values) {
+				dbUtil.addHomeThought(contentValues);
+			}
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
+		return 0;
+	}
+	
 	@Override
 	public boolean onCreate() {
 		dbUtil = HomeThoughtDB.getInstance(getContext());
@@ -56,13 +71,14 @@ public class HomeThoughtDAO extends ContentProvider{
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
 			cursor = dbUtil.getHomeThoughts();
+			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;
 	}
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 }

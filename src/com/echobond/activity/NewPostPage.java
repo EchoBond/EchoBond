@@ -2,10 +2,13 @@ package com.echobond.activity;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.connector.PostThoughtAsyncTask;
+import com.echobond.dao.HomeThoughtDAO;
+import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
 import com.echobond.fragment.NewCategoryFragment;
@@ -14,6 +17,7 @@ import com.echobond.fragment.NewGroupsFragment;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.PostThoughtCallback;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
@@ -240,6 +244,15 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_failed_post), Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_successful_post), Toast.LENGTH_LONG).show();
+			try {
+				Thought t = (Thought) JSONUtil.fromJSONToObject(result.getJSONObject("thought"), Thought.class);
+				// thought
+				getContentResolver().insert(HomeThoughtDAO.CONTENT_URI, t.putValues());
+				// thought tags
+				new ThoughtTagDAO(this).addThoughtTags(t.getId(),t.getTags());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			activityBackStack();
 		}
 		

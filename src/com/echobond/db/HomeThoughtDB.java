@@ -1,7 +1,5 @@
 package com.echobond.db;
 
-import java.util.Date;
-
 import com.echobond.R;
 
 import android.content.ContentValues;
@@ -25,13 +23,6 @@ public class HomeThoughtDB extends MyDBHelper {
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_home_t);
-//		ContentValues values = new ContentValues();
-//		values.put("_id", 2);
-//		values.put("user_id", "123");
-//		values.put("content", "666");
-//		values.put("time", new Date().toString());
-//		getWritableDatabase().delete(tblName, "1=1", null);
-//		getWritableDatabase().insert(tblName, null, values);
 	}
 
 	@Override
@@ -42,6 +33,10 @@ public class HomeThoughtDB extends MyDBHelper {
 	public Cursor getHomeThoughts(){
 		Cursor cursor = query(ctx.getResources().getString(R.string.sql_s_t_home), new String[]{"10","0"});
 		return cursor;
+	}
+	
+	public long addHomeThought(ContentValues values){
+		return replace(tblName, values);
 	}
 	
 }

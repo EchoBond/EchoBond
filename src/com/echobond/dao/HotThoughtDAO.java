@@ -1,14 +1,13 @@
 package com.echobond.dao;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 import com.echobond.db.HotThoughtDB;
-import com.echobond.entity.Thought;
-
 public class HotThoughtDAO extends ContentProvider{
 	
 	public static final String PROVIDER_NAME = "com.echobond.contentprovider.hotthought";
@@ -17,13 +16,9 @@ public class HotThoughtDAO extends ContentProvider{
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(PROVIDER_NAME, "homeThought", HOTTHOUGHT);
+		uriMatcher.addURI(PROVIDER_NAME, "hotThought", HOTTHOUGHT);
 	}
 	private HotThoughtDB dbUtil;
-	public void addThought(Thought t){
-		
-	}
-
 	public void close(){
 		if(null != dbUtil){
 			dbUtil.close();
@@ -41,9 +36,27 @@ public class HotThoughtDAO extends ContentProvider{
 	}
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		if(uriMatcher.match(uri) == HOTTHOUGHT){
+			dbUtil.addHotThought(values);
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
+		return uri;
 	}
+	
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		if(uriMatcher.match(uri) == HOTTHOUGHT){
+			for (ContentValues contentValues : values) {
+				dbUtil.addHotThought(contentValues);
+			}
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
+		return 0;
+	}
+	
+	
 	@Override
 	public boolean onCreate() {
 		dbUtil = HotThoughtDB.getInstance(getContext());
@@ -56,13 +69,26 @@ public class HotThoughtDAO extends ContentProvider{
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == HOTTHOUGHT){
 			cursor = dbUtil.getHotThoughts();
+			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;
 	}
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Auto-generated method stub
+		if(uriMatcher.match(uri) == HOTTHOUGHT){
+			dbUtil.addHotThought(values);
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
 		return 0;
+	}
+	
+	public long addHotThought(ContentValues values){
+		if(null == dbUtil){
+			dbUtil = HotThoughtDB.getInstance(getContext());
+		}
+		long id = dbUtil.addHotThought(values);	
+		return id;
 	}
 }

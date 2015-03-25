@@ -54,12 +54,32 @@ public abstract class MyDBHelper extends SQLiteOpenHelper {
 		return db.insert(table, null, bindValues(obj));
 	}
 
+	protected long insert(String table, ContentValues values){
+		SQLiteDatabase db = getWritableDatabase();
+		return db.insert(table, null, values);
+	}
+	
+	protected long replace(String table, JSONObject obj){
+		SQLiteDatabase db = getWritableDatabase();
+		return db.replace(table, null, bindValues(obj));
+	}
+	
+	protected long replace(String table, ContentValues values){
+		SQLiteDatabase db = getWritableDatabase();
+		return db.replace(table, null, values);
+	}
+	
 	protected int update(String table, JSONObject obj, String where, String[] whereArgs){
 		SQLiteDatabase db = getWritableDatabase();
 		return db.update(table, bindValues(obj), where, whereArgs);
 	}
 	
-	protected int delete(String table, JSONObject obj, String where, String[] whereArgs){
+	protected int update(String table, ContentValues values, String where, String[] whereArgs){
+		SQLiteDatabase db = getWritableDatabase();
+		return db.update(table, values, where, whereArgs);
+	}
+	
+	protected int delete(String table, String where, String[] whereArgs){
 		SQLiteDatabase db = getWritableDatabase();
 		return db.delete(table, where, whereArgs);
 	}
