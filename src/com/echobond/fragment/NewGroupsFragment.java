@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 import org.json.JSONObject;
 
@@ -79,7 +78,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			}
 			MySimpleAdapter adapter2 = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
 			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
-			groupList.setAdapter(adapter);
+			groupList.setAdapter(adapter2);
 			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 			groupList.setOnItemClickListener(new GroupItemClickListener());
 		}
@@ -93,7 +92,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				List<? extends Map<String, ?>> data, int resource,
 				String[] from, int[] to) {
 			super(context, data, resource, from, to);
-			// TODO Auto-generated constructor stub
+			this.mInflater = LayoutInflater.from(context);
 		}
 		
 		@Override

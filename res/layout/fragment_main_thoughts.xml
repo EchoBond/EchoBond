@@ -8,7 +8,8 @@
     <com.echobond.widget.XListView 
         android:id="@+id/list_thoughts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:focusable="false" >
     </com.echobond.widget.XListView>
 
 </LinearLayout>

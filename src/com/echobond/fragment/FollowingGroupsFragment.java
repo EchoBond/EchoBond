@@ -8,6 +8,8 @@ import java.util.Map;
 import com.echobond.R;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -47,13 +49,7 @@ public class FollowingGroupsFragment extends Fragment {
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setOnItemClickListener(new groupSelectedListener());
-		new Handler().postDelayed(new Runnable() {
-			
-			@Override
-			public void run() {
-//				onGroupResult();
-			}
-		}, 1000);
+
 		return followingGroupsView;
 	}
 
@@ -90,6 +86,7 @@ public class FollowingGroupsFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			view.setSelected(true);
 			Toast.makeText(getActivity().getApplicationContext(), "You've clicked position " + position, Toast.LENGTH_SHORT).show();
 		}
 	}
