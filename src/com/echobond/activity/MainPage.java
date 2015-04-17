@@ -58,7 +58,7 @@ public class MainPage extends ActionBarActivity{
 	private HomeThoughtFragment homeFragment;
 	private HotThoughtFragment hitFragment;
 //	private ThoughtFragment trendingFragment;
-	private LikeMindedFragment likeMindedFragment;
+//	private LikeMindedFragment likeMindedFragment;
 	private NotificationFragment notificationFragment;
 	private ProfileFragment profileFragment;
 	
@@ -124,17 +124,17 @@ public class MainPage extends ActionBarActivity{
 	private void initViews() {
 		
 		homeFragment = new HomeThoughtFragment();
-//		trendingFragment = new ThoughtFragment();
 		hitFragment = new HotThoughtFragment();
-		likeMindedFragment = new LikeMindedFragment();
+//		trendingFragment = new ThoughtFragment();
+//		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new NotificationFragment();
 		profileFragment = new ProfileFragment();
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
-//		mainFragmentsList.add(trendingFragment);
 		mainFragmentsList.add(hitFragment);
-		mainFragmentsList.add(likeMindedFragment);
+//		mainFragmentsList.add(trendingFragment);
+//		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
 		
@@ -160,7 +160,7 @@ public class MainPage extends ActionBarActivity{
 		homeButton = (ImageView)findViewById(R.id.home_button);
 		hitButton = (ImageView)findViewById(R.id.hit_button);
 //		trendingButton = (ImageView)findViewById(R.id.trend_button);
-		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
+//		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
 		notificationButton = (ImageView)findViewById(R.id.notification_button);
 		profileButton = (ImageView)findViewById(R.id.profile_button);
 		
@@ -169,9 +169,9 @@ public class MainPage extends ActionBarActivity{
 		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
 		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
 //		trendingButton.setOnClickListener(new FragmentChangeOnClickListener(2));
-		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(2));
-		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(3));
-		profileButton.setOnClickListener(new FragmentChangeOnClickListener(4));
+//		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(2));
+		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(2));
+		profileButton.setOnClickListener(new FragmentChangeOnClickListener(3));
 		
 	}
 	
@@ -296,13 +296,13 @@ public class MainPage extends ActionBarActivity{
 				if (currentIndex == 1) {
 //					animation = new TranslateAnimation(offset[1], 0, 0, 0);
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}else if (currentIndex == 2) {
+				}/*else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[2], 0, 0, 0);
 					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}else if (currentIndex == 3) {
+				}*/else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[3], 0, 0, 0);
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-				}else if (currentIndex == 4) {
+				}else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
@@ -311,32 +311,32 @@ public class MainPage extends ActionBarActivity{
 				if (currentIndex == 0) {
 //					animation = new TranslateAnimation(offset[0], 1, 0, 0);
 					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-				}else if (currentIndex == 2) {
+				}/*else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[2], 1, 0, 0);
 					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}else if (currentIndex == 3) {
+				}*/else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[3], 1, 0, 0);
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-				}else if (currentIndex == 4) {
-					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
-				}
-				break;
-			case 2:
-				likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button_selected));
-				if (currentIndex == 0) {
-//					animation = new TranslateAnimation(offset[0], 2, 0, 0);
-					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-				}else if (currentIndex == 1) {
-//					animation = new TranslateAnimation(offset[1], 2, 0, 0);
-					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
 				}else if (currentIndex == 3) {
-//					animation = new TranslateAnimation(offset[3], 2, 0, 0);
-					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-				}else if (currentIndex == 4) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
-			case 3:
+//			case 2:
+//				likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button_selected));
+//				if (currentIndex == 0) {
+////					animation = new TranslateAnimation(offset[0], 2, 0, 0);
+//					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
+//				}else if (currentIndex == 1) {
+////					animation = new TranslateAnimation(offset[1], 2, 0, 0);
+//					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
+//				}else if (currentIndex == 3) {
+////					animation = new TranslateAnimation(offset[3], 2, 0, 0);
+//					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
+//				}else if (currentIndex == 4) {
+//					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
+//				}
+//				break;
+			case 2:
 				notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button_selected));
 				if (currentIndex == 0) {
 //					animation = new TranslateAnimation(offset[0], 3, 0, 0);
@@ -344,14 +344,14 @@ public class MainPage extends ActionBarActivity{
 				}else if (currentIndex == 1) {
 //					animation = new TranslateAnimation(offset[1], 3, 0, 0);
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}else if (currentIndex == 2) {
+				}/*else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[2], 3, 0, 0);
 					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}else if (currentIndex == 4) {
+				}*/else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
-			case 4:
+			case 3:
 				profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button_selected));
 				if (currentIndex == 0) {
 //					animation = new TranslateAnimation(offset[0], 3, 0, 0);
@@ -359,10 +359,10 @@ public class MainPage extends ActionBarActivity{
 				}else if (currentIndex == 1) {
 //					animation = new TranslateAnimation(offset[1], 3, 0, 0);
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}else if (currentIndex == 2) {
+				}/*else if (currentIndex == 2) {
 //					animation = new TranslateAnimation(offset[2], 3, 0, 0);
 					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}else if (currentIndex == 3) {
+				}*/else if (currentIndex == 2) {
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
 				}
 				break;

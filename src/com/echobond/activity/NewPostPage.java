@@ -14,6 +14,7 @@ import com.echobond.entity.Thought;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
 import com.echobond.fragment.NewGroupsFragment;
+import com.echobond.fragment.NewPostFragment;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.PostThoughtCallback;
 import com.echobond.util.HTTPUtil;
@@ -43,11 +44,12 @@ import android.widget.Toast;
 public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback {
 	
 	public static final int NEW_POST_CATEGORY = 0;
-	public static final int NEW_POST_DRAW = 1;
+	public static final int NEW_POST_PIC = 1;
 	public static final int NEW_POST_WRITE = 2;
 	public static final int NEW_POST_GROUP = 3;
 	
 	private NewCategoryFragment categoryFragment;
+	private NewPostFragment postFragment;
 	private NewContentsFragment contentsFragment;
 	private NewGroupsFragment groupsFragment;
 	private String contentsString = "", tagsString = "";
@@ -106,13 +108,14 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			case NEW_POST_CATEGORY:
 				activityBackStack();
 				break;
-			case NEW_POST_DRAW:
-				
+			case NEW_POST_PIC:
+				barTitle.setText(R.string.title_new_post_share);
+				getSupportFragmentManager().beginTransaction().hide(postFragment).show(categoryFragment).commit();
+				fgIndex -= 1;
 				break;
 			case NEW_POST_WRITE:
-				barTitle.setText(R.string.title_new_post_share);
-				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(categoryFragment).commit();
-				fgIndex -= 1;
+				barTitle.setText(R.string.title_new_post_pic);
+				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(postFragment).commit();
 				fgIndex -= 1;
 				break;
 			case NEW_POST_GROUP:
@@ -137,8 +140,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			case NEW_POST_CATEGORY:
 				isCategorySelected();
 				break;
-			case NEW_POST_DRAW:
-				
+			case NEW_POST_PIC:
+				createPost();
 				break;
 			case NEW_POST_WRITE:
 				isContentsEmpty();
@@ -155,13 +158,18 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			if (categoryId == -1) {
 				
 			} else {
-				barTitle.setText(R.string.title_new_post_write);
-				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(contentsFragment).commit();
-				fgIndex += 1;
+				barTitle.setText(R.string.title_new_post_pic);
+				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
 				fgIndex += 1;
 			}
 		}
 
+		private void createPost() {
+			barTitle.setText(R.string.title_new_post_write);
+			getSupportFragmentManager().beginTransaction().hide(postFragment).show(contentsFragment).commit();
+			fgIndex += 1;
+		}
+		
 		private void isContentsEmpty() { 
 			if (contentsString == null || contentsString.equals("")) {
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_LONG).show();
@@ -192,12 +200,15 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		if (null == categoryFragment || null == contentsFragment || null == groupsFragment) {
 			categoryFragment = new NewCategoryFragment();
+			postFragment = new NewPostFragment();
 			contentsFragment = new NewContentsFragment();
 			groupsFragment = new NewGroupsFragment();
 			transaction.add(R.id.new_post_content, categoryFragment);
+			transaction.add(R.id.new_post_content, postFragment);
 			transaction.add(R.id.new_post_content, contentsFragment);
 			transaction.add(R.id.new_post_content, groupsFragment);
 			transaction.hide(contentsFragment);
+			transaction.hide(postFragment);
 			transaction.hide(groupsFragment);
 			transaction.show(categoryFragment).commit();
 			fgIndex = 0;
@@ -226,9 +237,11 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				return true;
 			}
         	//in other fragments
-        	else if (fgIndex == 2){ 
-        		getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(categoryFragment).commit();
+    		else if (fgIndex == 1) {
+    			getSupportFragmentManager().beginTransaction().hide(postFragment).show(categoryFragment).commit();
     			fgIndex -= 1;
+			}else if (fgIndex == 2) { 
+        		getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(postFragment).commit();
     			fgIndex -= 1;
         	}else if (fgIndex == 3) {
         		getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();

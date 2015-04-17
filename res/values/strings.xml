@@ -20,7 +20,7 @@
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
-    <string name="title_new_post_draw">Draw Your Mind</string>
+    <string name="title_new_post_pic">Create A Post</string>
     <string name="title_new_post_write">Write Your Thought</string>
     <string name="title_new_post_grouptitle">GROUPS</string>
     <string name="title_new_post_tag">TAGS</string>

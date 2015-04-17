@@ -76,7 +76,7 @@
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/main_trending_button" />  -->
+	                android:src="@drawable/main_trending_button" />
 	            <ImageView 
 	                android:contentDescription="@string/none"
 	                android:id="@+id/like_minded_button"
@@ -84,7 +84,7 @@
 	                android:layout_height="match_parent"
 	                android:clickable="true"
 	                android:layout_weight="1"
-	                android:src="@drawable/main_like_minded_button" />
+	                android:src="@drawable/main_like_minded_button" />  -->
 	            <ImageView 
 	                android:contentDescription="@string/none"
 	                android:id="@+id/notification_button"

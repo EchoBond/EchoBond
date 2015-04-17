@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <EditText 
+        android:id="@+id/thought_poster_words"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="50sp"
+        android:inputType="textMultiLine"
+        android:gravity="left|bottom"
+        android:layout_weight="4" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:padding="10dp" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/thought_backgrond_colorchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/thoughts_background_colorchange"
+            android:layout_gravity="center_vertical" />
+        
+    </LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:padding="10dp" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/thought_text_colorchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/thoughts_text_colorchange"
+            android:layout_gravity="center_vertical" />
+        
+    </LinearLayout>
+    
+</LinearLayout>
