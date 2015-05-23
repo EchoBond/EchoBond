@@ -65,7 +65,7 @@ public class ImageUtil {
 	 */  
 	public static String Bitmap2StrByBase64(Bitmap bit){  
 	   ByteArrayOutputStream bos=new ByteArrayOutputStream();  
-	   bit.compress(CompressFormat.JPEG, 40, bos);//100=no compresssion
+	   bit.compress(CompressFormat.JPEG, 100, bos); //100=no compresssion
 	   byte[] bytes=bos.toByteArray();  
 	   return Base64.encodeToString(bytes, Base64.DEFAULT);  
 	}

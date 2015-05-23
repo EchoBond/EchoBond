@@ -16,7 +16,7 @@ import android.os.AsyncTask;
 
 /**
  * This task is to handle image loading or update in server's DB.<br>
- * Params (Object): action(int), url(String), activity(ImageAsyncTaskCallback), bm(Bitmap) / path(String)<br>
+ * Params (Object): action(int), url(String), activity(ImageAsyncTaskCallback), type(String), bm(Bitmap) / path(String)<br>
  * @version 1.0
  * @author Luck
  * 
@@ -27,20 +27,25 @@ public class ImageAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	private int action;
 	public static final int IMAGE_UPLOAD = 1;
 	public static final int IMAGE_DOWNLOAD = 2;
+	public static final String IMAGE_AVATAR = "avatar";
+	public static final String IMAGE_THUMB = "thumbnail";
+	public static final String IMAGE_ORIGIN = "image";
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		this.action = (Integer) params[0];
 		String url = (String) params[1];
 		activity = (ImageCallback) params[2];
+		String type = (String) params[3];
 		JSONObject body = new JSONObject();
 		try{
+			body.put("type", type);
 			switch (action) {
 			case IMAGE_UPLOAD:
-				Bitmap bm = (Bitmap) params[3];
-				body.put("bitmap", bm);
+				String image = (String) params[4];
+				body.put("image", image);
 				break;
 			case IMAGE_DOWNLOAD:
-				String path = (String) params[3];
+				String path = (String) params[4];
 				body.put("path", path);
 			default:
 				break;
