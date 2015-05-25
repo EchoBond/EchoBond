@@ -30,7 +30,7 @@
 	    <RelativeLayout 
 	        android:id="@+id/main_bottom"
 	        android:layout_width="match_parent"
-	        android:layout_height="48dp"
+	        android:layout_height="55dp"
 	        android:layout_alignParentBottom="true"
 	        android:orientation="vertical" >
 	        <!--  <ImageView 

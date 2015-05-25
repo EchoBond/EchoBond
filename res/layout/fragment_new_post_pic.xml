@@ -4,45 +4,203 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <EditText 
-        android:id="@+id/thought_poster_words"
+    <LinearLayout 
+        android:id="@+id/thought_poster_picview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textSize="50sp"
-        android:inputType="textMultiLine"
-        android:gravity="left|bottom"
-        android:layout_weight="4" />
+        android:orientation="vertical"
+        android:layout_weight="4.8" >
+        <EditText 
+        	android:id="@+id/thought_poster_words"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        	android:textSize="48sp"
+        	android:inputType="textMultiLine"
+        	android:gravity="start|bottom" />
+    </LinearLayout>
     
     <LinearLayout 
+        android:id="@+id/thought_poster_selection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:layout_weight="1"
-        android:padding="10dp" >
+        android:layout_weight="1" >
         <ImageView 
             android:contentDescription="@string/none"
-            android:id="@+id/thought_backgrond_colorchange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/thought_changepostcolor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/thoughts_background_colorchange"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/thought_changetextcolor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/thoughts_text_colorchange"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
         
     </LinearLayout>
 
     <LinearLayout 
+        android:id="@+id/thought_poster_colorG1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1"
         android:padding="10dp" >
         <ImageView 
+            android:id="@+id/thought_poster_color0"
             android:contentDescription="@string/none"
-            android:id="@+id/thought_text_colorchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/thoughts_text_colorchange"
-            android:layout_gravity="center_vertical" />
+            android:src="@drawable/color_selection_0"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color1"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_1"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color2"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_2"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color3"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_3"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color4"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_4"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color5"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_5"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
         
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/thought_poster_colorG2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:padding="10dp" >
+        <ImageView 
+            android:id="@+id/thought_poster_color6"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_6"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color7"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_7"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color8"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_8"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_color9"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_9"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_colora"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_a"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
+        <ImageView 
+            android:id="@+id/thought_poster_colorb"
+            android:contentDescription="@string/none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/color_selection_b"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
     </LinearLayout>
     
 </LinearLayout>

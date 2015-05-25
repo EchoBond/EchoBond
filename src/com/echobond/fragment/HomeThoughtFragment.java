@@ -135,11 +135,10 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			ImageView commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
 			ImageView shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
 			
-			String ctt = contentView.getText().toString();
-			messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE, ctt));
-			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST, ctt));
-			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT, ctt));
-			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE, ctt));
+			messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE));
+			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
+			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
+			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
 			
 			return super.getView(position, convertView, parent);
 		}
@@ -148,33 +147,31 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	public class FunctionOnClickListener implements OnClickListener {
 
 		private int buttonIndex = 1;
-		private String ctt;
-		public FunctionOnClickListener(int i, String ctt) {	
+		public FunctionOnClickListener(int i) {	
 			buttonIndex = i;
-			this.ctt = ctt;
 		}
 
 		@Override
 		public void onClick(View v) {
-//			switch (buttonIndex) {
-//			case MESSAGE:
-//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. " + ctt, Toast.LENGTH_SHORT).show();
-//				break;
-//			case BOOST:
-//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. " + ctt, Toast.LENGTH_SHORT).show();
-//				break;
-//			case COMMENT:
-//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. " + ctt, Toast.LENGTH_SHORT).show();
-//				break;
-//			case SHARE:
-//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! " + ctt, Toast.LENGTH_SHORT).show();
-//				break;
-//			default:
-//				break;
-//			}
 			RelativeLayout l = (RelativeLayout) v.getParent().getParent();
 			TextView t = (TextView) l.findViewById(R.id.thought_list_id);
 			Toast.makeText(getActivity().getApplicationContext(), t.getText(), Toast.LENGTH_SHORT).show();
+			switch (buttonIndex) {
+			case MESSAGE:
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
+				break;
+			case BOOST:
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
+				break;
+			case COMMENT:
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
+				break;
+			case SHARE:
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
 			
 		}
 		
