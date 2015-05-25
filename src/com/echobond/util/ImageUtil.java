@@ -63,11 +63,12 @@ public class ImageUtil {
 	 * @param bit 
 	 * @return 
 	 */  
-	public static String Bitmap2StrByBase64(Bitmap bit){  
-	   ByteArrayOutputStream bos=new ByteArrayOutputStream();  
-	   bit.compress(CompressFormat.JPEG, 100, bos); //100=no compresssion
-	   byte[] bytes=bos.toByteArray();  
-	   return Base64.encodeToString(bytes, Base64.DEFAULT);  
+	public static String bmToStr(Bitmap bit){
+		
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();  
+		bit.compress(CompressFormat.JPEG, 100, bos); //100=no compresssion
+		byte[] bytes=bos.toByteArray();
+		return Base64.encodeToString(bytes, Base64.DEFAULT);
 	}
 	
 	/**
@@ -75,8 +76,10 @@ public class ImageUtil {
 	 * @param src
 	 * @return
 	 */
-	public static Bitmap Str2Bitmap(String src){
+	public static Bitmap strToBm(String src){
+		/* String->bytes */
 		byte[] imgSrc = Base64.decode(src, Base64.DEFAULT);
+		/* bytes->Bitmap */
 		return BitmapFactory.decodeByteArray(imgSrc, 0, imgSrc.length);
 	}
 	

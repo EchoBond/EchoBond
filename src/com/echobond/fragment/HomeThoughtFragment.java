@@ -20,6 +20,7 @@ import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
+import com.google.android.gms.drive.internal.k;
 import com.google.gson.reflect.TypeToken;
 
 import android.annotation.SuppressLint;
@@ -41,6 +42,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -154,22 +156,25 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 
 		@Override
 		public void onClick(View v) {
-			switch (buttonIndex) {
-			case MESSAGE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. " + ctt, Toast.LENGTH_SHORT).show();
-				break;
-			case BOOST:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. " + ctt, Toast.LENGTH_SHORT).show();
-				break;
-			case COMMENT:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. " + ctt, Toast.LENGTH_SHORT).show();
-				break;
-			case SHARE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! " + ctt, Toast.LENGTH_SHORT).show();
-				break;
-			default:
-				break;
-			}
+//			switch (buttonIndex) {
+//			case MESSAGE:
+//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. " + ctt, Toast.LENGTH_SHORT).show();
+//				break;
+//			case BOOST:
+//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. " + ctt, Toast.LENGTH_SHORT).show();
+//				break;
+//			case COMMENT:
+//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. " + ctt, Toast.LENGTH_SHORT).show();
+//				break;
+//			case SHARE:
+//				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! " + ctt, Toast.LENGTH_SHORT).show();
+//				break;
+//			default:
+//				break;
+//			}
+			RelativeLayout l = (RelativeLayout) v.getParent().getParent();
+			TextView t = (TextView) l.findViewById(R.id.thought_list_id);
+			Toast.makeText(getActivity().getApplicationContext(), t.getText(), Toast.LENGTH_SHORT).show();
 			
 		}
 		
