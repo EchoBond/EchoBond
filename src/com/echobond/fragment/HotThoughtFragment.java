@@ -15,7 +15,6 @@ import com.echobond.dao.UserDAO;
 import com.echobond.entity.Thought;
 import com.echobond.fragment.HomeThoughtFragment.FunctionOnClickListener;
 import com.echobond.fragment.HomeThoughtFragment.ThoughtAdapter;
-import com.echobond.fragment.HomeThoughtFragment.ViewHolder;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;

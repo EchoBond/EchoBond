@@ -50,19 +50,15 @@ import android.widget.Toast;
  */
 public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback, LoaderCallbacks<Cursor>{
 	
-	private final String[] from = new String[] {"image", "username", "boost", "num_of_cmt", "content"};
+	private final String[] from = new String[] {"image", "username", "boost", "num_of_cmt", "content", "_id"};
 	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_boostsnum, R.id.thought_list_commentsnum, 
-			R.id.thought_list_content};
+			R.id.thought_list_content, R.id.thought_list_id};
 	private SimpleCursorAdapter adapter;
 	private ThoughtAdapter adapter2;
 	private XListView mListView;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
 	private ThoughtTagDAO thoughtTagDAO;
-	public final class ViewHolder {
-		public TextView titleView, contentView, boostsNum, commentsNum;
-		public ImageView postFigure, messageButton, boostButton, commentButton, shareButton;
-	}
 	private static final int MESSAGE = 1;
 	private static final int BOOST = 2;
 	private static final int COMMENT = 3;
@@ -92,7 +88,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		lastLoadTime = 0;
 		commentDAO = new CommentDAO(getActivity());
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
-		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);	//
+		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);
 		return thoughtView;
 	}
 	
@@ -111,53 +107,65 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			// TODO Auto-generated method stub
 			return super.getCount();
 		}
+
+		@Override
+		public void bindView(View arg0, Context arg1, Cursor arg2) {
+			// TODO Auto-generated method stub
+			super.bindView(arg0, arg1, arg2);
+		}
 		
 		@SuppressLint("InflateParams") 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = new ViewHolder();
 			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_thoughts_list, null);
-				holder.postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
-				holder.titleView = (TextView)convertView.findViewById(R.id.thought_list_title);
-				holder.contentView = (TextView)convertView.findViewById(R.id.thought_list_content);
-				holder.boostsNum = (TextView)convertView.findViewById(R.id.thought_list_boostsnum);
-				holder.commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
-				holder.messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
-				holder.boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);
-				holder.commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
-				holder.shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
-				convertView.setTag(holder);
-			}else {
-				holder = (ViewHolder)convertView.getTag();
 			}
-			holder.messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE));
-			holder.boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
-			holder.commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
-			holder.shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
-			return convertView;
+			
+			TextView titleView = (TextView)convertView.findViewById(R.id.thought_list_title);
+			TextView contentView = (TextView)convertView.findViewById(R.id.thought_list_content);
+			TextView boostsNum = (TextView)convertView.findViewById(R.id.thought_list_boostsnum);
+			TextView commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
+			TextView thoughtIdView = (TextView)convertView.findViewById(R.id.thought_list_id);
+			
+			ImageView postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
+			ImageView messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
+			ImageView boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);
+			ImageView commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
+			ImageView shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
+			
+			String ctt = contentView.getText().toString();
+			messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE, ctt));
+			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST, ctt));
+			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT, ctt));
+			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE, ctt));
+			
+			return super.getView(position, convertView, parent);
 		}
 	}
 	
 	public class FunctionOnClickListener implements OnClickListener {
 
 		private int buttonIndex = 1;
-		public FunctionOnClickListener(int i) {	buttonIndex = i;	}
+		private String ctt;
+		public FunctionOnClickListener(int i, String ctt) {	
+			buttonIndex = i;
+			this.ctt = ctt;
+		}
 
 		@Override
 		public void onClick(View v) {
 			switch (buttonIndex) {
 			case MESSAGE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. " + ctt, Toast.LENGTH_SHORT).show();
 				break;
 			case BOOST:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. " + ctt, Toast.LENGTH_SHORT).show();
 				break;
 			case COMMENT:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. " + ctt, Toast.LENGTH_SHORT).show();
 				break;
 			case SHARE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! " + ctt, Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
