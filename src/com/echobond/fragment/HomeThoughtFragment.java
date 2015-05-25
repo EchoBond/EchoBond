@@ -79,7 +79,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
 		adapter = new SimpleCursorAdapter(getActivity(), R.layout.item_thoughts_list, null, from, to, 0); 
 		adapter2 = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, from, to, 0);
-		mListView.setAdapter(adapter);
+		mListView.setAdapter(adapter2);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setOnItemClickListener(this);
 		mListView.setXListViewListener(this);
@@ -114,7 +114,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
-			if (convertView != null) {
+			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_thoughts_list, null);
 				holder.messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
 				holder.boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);
@@ -250,12 +250,12 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-		adapter.swapCursor(cursor);
+		adapter2.swapCursor(cursor);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		adapter.swapCursor(null);
+		adapter2.swapCursor(null);
 	}
 	
 }
