@@ -108,11 +108,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 			return super.getCount();
 		}
 		
-		@SuppressLint("InflateParams") @SuppressWarnings("null")
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
-			if (convertView != null) {
+			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_thoughts_list, null);
 				holder.messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
 				holder.boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);

@@ -41,6 +41,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 /**
  * 
@@ -59,7 +60,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private CommentDAO commentDAO;
 	private ThoughtTagDAO thoughtTagDAO;
 	public final class ViewHolder {
-		public ImageView messageButton, boostButton, commentButton, shareButton;
+		public TextView titleView, contentView, boostsNum, commentsNum;
+		public ImageView postFigure, messageButton, boostButton, commentButton, shareButton;
 	}
 	private static final int MESSAGE = 1;
 	private static final int BOOST = 2;
@@ -110,12 +112,17 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			return super.getCount();
 		}
 		
-		@SuppressLint("InflateParams") @SuppressWarnings("null")
+		@SuppressLint("InflateParams") 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
 			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_thoughts_list, null);
+				holder.postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
+				holder.titleView = (TextView)convertView.findViewById(R.id.thought_list_title);
+				holder.contentView = (TextView)convertView.findViewById(R.id.thought_list_content);
+				holder.boostsNum = (TextView)convertView.findViewById(R.id.thought_list_boostsnum);
+				holder.commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
 				holder.messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
 				holder.boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);
 				holder.commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
@@ -141,16 +148,16 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		public void onClick(View v) {
 			switch (buttonIndex) {
 			case MESSAGE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
 				break;
 			case BOOST:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
 				break;
 			case COMMENT:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
 				break;
 			case SHARE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
