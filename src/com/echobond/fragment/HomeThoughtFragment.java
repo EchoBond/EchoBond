@@ -20,13 +20,18 @@ import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
-import com.google.android.gms.drive.internal.k;
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,13 +40,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,15 +58,17 @@ import android.widget.Toast;
  */
 public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback, LoaderCallbacks<Cursor>{
 	
+	/*
 	private final String[] from = new String[] {"image", "username", "boost", "num_of_cmt", "content", "_id"};
 	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_boostsnum, R.id.thought_list_commentsnum, 
 			R.id.thought_list_content, R.id.thought_list_id};
-	private SimpleCursorAdapter adapter;
+	*/
 	private ThoughtAdapter adapter2;
 	private XListView mListView;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
 	private ThoughtTagDAO thoughtTagDAO;
+	private static final int POST = 0;
 	private static final int MESSAGE = 1;
 	private static final int BOOST = 2;
 	private static final int COMMENT = 3;
@@ -75,10 +83,11 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
-		
+		DisplayImageOptions opt = new DisplayImageOptions.Builder().cacheInMemory(true).build();
+		ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(getActivity()).defaultDisplayImageOptions(opt).build();
+		ImageLoader.getInstance().init(conf);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.item_thoughts_list, null, from, to, 0); 
-		adapter2 = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, from, to, 0);
+		adapter2 = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, 0);
 		mListView.setAdapter(adapter2);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setOnItemClickListener(this);
@@ -94,14 +103,19 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		return thoughtView;
 	}
 	
-	public class ThoughtAdapter extends SimpleCursorAdapter {
+	public class ThoughtAdapter extends CursorAdapter {
 
 		private LayoutInflater inflater;
-		
-		public ThoughtAdapter(Context context, int layout, Cursor c,
-				String[] from, int[] to, int flags) {
-			super(context, layout, c, from, to, flags);
+		private int layout;
+		public ThoughtAdapter(Context context, int layout, Cursor c, int flags) {
+			super(context, c, flags);
+			this.layout = layout;
 			this.inflater = LayoutInflater.from(context);
+		}
+		
+		@Override
+		public boolean isEnabled(int position) {
+			return false;
 		}
 		
 		@Override
@@ -111,17 +125,18 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		}
 
 		@Override
-		public void bindView(View arg0, Context arg1, Cursor arg2) {
-			// TODO Auto-generated method stub
-			super.bindView(arg0, arg1, arg2);
+		public View newView(Context context, Cursor cursor, ViewGroup parent) {
+			View view = inflater.inflate(layout, parent, false);
+			return view;
 		}
 		
-		@SuppressLint("InflateParams") 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if (convertView == null) {
-				convertView = inflater.inflate(R.layout.item_thoughts_list, null);
-			}
+		public void bindView(View convertView, Context ctx, Cursor c) {
+			String id = c.getString(c.getColumnIndex("_id"));
+			String title = c.getString(c.getColumnIndex("username"));
+			String content = c.getString(c.getColumnIndex("content"));
+			int boost = c.getInt(c.getColumnIndex("boost"));
+			int cmt = c.getInt(c.getColumnIndex("num_of_cmt"));
 			
 			TextView titleView = (TextView)convertView.findViewById(R.id.thought_list_title);
 			TextView contentView = (TextView)convertView.findViewById(R.id.thought_list_content);
@@ -129,21 +144,82 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			TextView commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
 			TextView thoughtIdView = (TextView)convertView.findViewById(R.id.thought_list_id);
 			
+			titleView.setText(title);
+			contentView.setText(content);
+			boostsNum.setText(boost+"");
+			commentsNum.setText(cmt+"");
+			thoughtIdView.setText(id);
+			
 			ImageView postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
 			ImageView messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
 			ImageView boostButton = (ImageView)convertView.findViewById(R.id.thought_list_boost);
 			ImageView commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
 			ImageView shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
 			
+			postFigure.setOnClickListener(new FunctionOnClickListener(POST));
 			messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE));
 			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
 			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
 			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
-			
-			return super.getView(position, convertView, parent);
+			DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+			ImageLoader.getInstance().displayImage("http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png", postFigure, options, new SimpleImageLoadingListener(){
+				@Override
+				public void onLoadingStarted(String imageUri, View view) {
+					RelativeLayout layout = (RelativeLayout) view.getParent();
+					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
+					spinner.setVisibility(View.VISIBLE);
+					spinner.setProgress(10);
+				}
+
+				@Override
+				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+					String message = null;
+					switch (failReason.getType()) {
+						case IO_ERROR:
+							message = "Input/Output error";
+							break;
+						case DECODING_ERROR:
+							message = "Image can't be decoded";
+							break;
+						case NETWORK_DENIED:
+							message = "Downloads are denied";
+							break;
+						case OUT_OF_MEMORY:
+							message = "Out Of Memory error";
+							break;
+						case UNKNOWN:
+							message = "Unknown error";
+							break;
+					}
+					Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+					RelativeLayout layout = (RelativeLayout) view.getParent();
+					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
+					spinner.setVisibility(View.INVISIBLE);
+				}
+
+				@Override
+				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+					RelativeLayout layout = (RelativeLayout) view.getParent();
+					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
+					spinner.setVisibility(View.INVISIBLE);
+				}
+			}, new ImageLoadingProgressListener() {
+				
+				/**
+				 * Will only be called when cacheInDisk is enabled
+				 */
+				@Override
+				public void onProgressUpdate(String imageUri, View view, int current,
+						int total) {
+					RelativeLayout layout = (RelativeLayout) view.getParent();
+					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
+					spinner.setProgress(Math.round(100.0f * current / total));
+				}
+			});
 		}
+
 	}
-	
+
 	public class FunctionOnClickListener implements OnClickListener {
 
 		private int buttonIndex = 1;
@@ -153,10 +229,15 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 
 		@Override
 		public void onClick(View v) {
-			RelativeLayout l = (RelativeLayout) v.getParent().getParent();
-			TextView t = (TextView) l.findViewById(R.id.thought_list_id);
-			Toast.makeText(getActivity().getApplicationContext(), t.getText(), Toast.LENGTH_SHORT).show();
+			RelativeLayout root;
+			if(null != v.getParent().getParent() && v.getParent().getParent() instanceof RelativeLayout)
+				root = (RelativeLayout) v.getParent().getParent();
+			else root = (RelativeLayout) v.getParent();
+			TextView t = (TextView) root.findViewById(R.id.thought_list_id);
 			switch (buttonIndex) {
+			case POST:
+				Toast.makeText(getActivity(), "id="+t.getText(), Toast.LENGTH_SHORT).show();
+				break;
 			case MESSAGE:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
 				break;
@@ -172,9 +253,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			default:
 				break;
 			}
-			
 		}
-		
 	}
 	
 	@Override
