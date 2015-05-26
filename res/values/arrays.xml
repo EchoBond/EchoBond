@@ -21,4 +21,18 @@
         <item>Deactivate Account</item>
     </string-array>
     
+    <string-array name="color_array">
+        <item name="color_white">#FFFFFF</item>
+        <item name="color_dark_read">#990303</item>
+        <item name="color_bright_read">#FA5968</item>
+        <item name="color_pink">#FCD4D4</item>
+        <item name="color_yellow">#FBED21</item>
+        <item name="color_orange">#FABE28</item>
+        <item name="color_black">#000000</item>
+	    <item name="color_cyan">#3BAFDA</item>
+	    <item name="color_mint">#31CDBB</item>
+	    <item name="color_purple">#967ADC</item>
+	    <item name="color_horizon">#A1DBB2</item>
+	    <item name="color_green">#A0D468</item>
+    </string-array>
 </resources>

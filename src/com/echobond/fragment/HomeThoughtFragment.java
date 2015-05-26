@@ -67,7 +67,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_boostsnum, R.id.thought_list_commentsnum, 
 			R.id.thought_list_content, R.id.thought_list_id};
 	*/
-	private ThoughtAdapter adapter2;
+	private ThoughtAdapter adapter;
 	private XListView mListView;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
@@ -94,8 +94,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(getActivity()).defaultDisplayImageOptions(opt).build();
 		ImageLoader.getInstance().init(conf);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
-		adapter2 = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, 0);
-		mListView.setAdapter(adapter2);
+		adapter = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, 0);
+		mListView.setAdapter(adapter);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setOnItemClickListener(this);
 		mListView.setXListViewListener(this);
@@ -387,12 +387,12 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-		adapter2.swapCursor(cursor);
+		adapter.swapCursor(cursor);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		adapter2.swapCursor(null);
+		adapter.swapCursor(null);
 	}
 	
 }

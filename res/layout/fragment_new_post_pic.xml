@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/thought_poster_picview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,11 +13,21 @@
         <EditText 
         	android:id="@+id/thought_poster_words"
         	android:layout_width="match_parent"
-        	android:layout_height="match_parent"
+        	android:layout_height="wrap_content"
         	android:textSize="48sp"
         	android:inputType="textMultiLine"
-        	android:gravity="start|bottom" />
-    </LinearLayout>
+        	android:gravity="start|bottom"
+        	android:layout_alignParentBottom="true" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/thought_poster_typeview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/poster_type_feelings"
+            android:layout_above="@id/thought_poster_words"
+            android:background="#000" />
+
+    </RelativeLayout>
     
     <LinearLayout 
         android:id="@+id/thought_poster_selection"
@@ -33,8 +43,8 @@
             android:src="@drawable/thoughts_background_colorchange"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp" />
         <ImageView 
@@ -45,18 +55,19 @@
             android:src="@drawable/thoughts_text_colorchange"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp" />
         
     </LinearLayout>
 
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/thought_poster_colorG1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layout_weight="1"
         android:padding="10dp" >
         <ImageView 
@@ -80,7 +91,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color0"
+            android:layout_toEndOf="@id/thought_poster_color0" />
         <ImageView 
             android:id="@+id/thought_poster_color2"
             android:contentDescription="@string/none"
@@ -91,7 +104,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color1"
+            android:layout_toEndOf="@id/thought_poster_color1" />
         <ImageView 
             android:id="@+id/thought_poster_color3"
             android:contentDescription="@string/none"
@@ -102,7 +117,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color2"
+            android:layout_toEndOf="@id/thought_poster_color2" />
         <ImageView 
             android:id="@+id/thought_poster_color4"
             android:contentDescription="@string/none"
@@ -113,7 +130,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color3"
+            android:layout_toEndOf="@id/thought_poster_color3" />
         <ImageView 
             android:id="@+id/thought_poster_color5"
             android:contentDescription="@string/none"
@@ -124,15 +143,18 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color4"
+            android:layout_toEndOf="@id/thought_poster_color4" />
         
-    </LinearLayout>
+    </RelativeLayout>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/thought_poster_colorG2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layout_weight="1"
         android:padding="10dp" >
         <ImageView 
@@ -156,7 +178,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color6"
+            android:layout_toEndOf="@id/thought_poster_color6" />
         <ImageView 
             android:id="@+id/thought_poster_color8"
             android:contentDescription="@string/none"
@@ -167,7 +191,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color7"
+            android:layout_toEndOf="@id/thought_poster_color7" />
         <ImageView 
             android:id="@+id/thought_poster_color9"
             android:contentDescription="@string/none"
@@ -178,7 +204,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color8"
+            android:layout_toEndOf="@id/thought_poster_color8" />
         <ImageView 
             android:id="@+id/thought_poster_colora"
             android:contentDescription="@string/none"
@@ -189,7 +217,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_color9"
+            android:layout_toEndOf="@id/thought_poster_color9" />
         <ImageView 
             android:id="@+id/thought_poster_colorb"
             android:contentDescription="@string/none"
@@ -200,7 +230,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
-    </LinearLayout>
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@id/thought_poster_colora"
+            android:layout_toEndOf="@id/thought_poster_colora" />
+    </RelativeLayout>
     
 </LinearLayout>
