@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.echobond.ImagePage;
 import com.echobond.R;
 import com.echobond.activity.MainPage;
+import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
 import com.echobond.dao.HomeThoughtDAO;
@@ -14,6 +16,7 @@ import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
 import com.echobond.entity.Thought;
 import com.echobond.entity.User;
+import com.echobond.intf.BoostCallback;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
@@ -30,6 +33,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -56,7 +60,7 @@ import android.widget.Toast;
  * @author Luck
  *
  */
-public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback, LoaderCallbacks<Cursor>{
+public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback, BoostCallback, LoaderCallbacks<Cursor>{
 	
 	/*
 	private final String[] from = new String[] {"image", "username", "boost", "num_of_cmt", "content", "_id"};
@@ -78,6 +82,9 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private static final int LIMIT_INCREMENT = 10;
 	private static final long LOAD_INTERVAL = 2000;
 	private long lastLoadTime;
+	private View lastClick;
+	private static final int BOOST_UNBOOST = 0;
+	private static final int BOOST_BOOST = 1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +104,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		userDAO = new UserDAO(getActivity());
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
+		lastClick = null;
 		commentDAO = new CommentDAO(getActivity());
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
 		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);
@@ -234,15 +242,23 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				root = (RelativeLayout) v.getParent().getParent();
 			else root = (RelativeLayout) v.getParent();
 			TextView t = (TextView) root.findViewById(R.id.thought_list_id);
+			Integer id = Integer.parseInt(t.getText().toString());
 			switch (buttonIndex) {
 			case POST:
-				Toast.makeText(getActivity(), "id="+t.getText(), Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.setClass(HomeThoughtFragment.this.getActivity(), ImagePage.class);
+				intent.putExtra("url", "http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png");
+				startActivity(intent);
 				break;
 			case MESSAGE:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
 				break;
 			case BOOST:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
+				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
+						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
+				lastClick = v;
 				break;
 			case COMMENT:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
@@ -334,6 +350,31 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		}
 	}
 
+	@Override
+	public void onBoostResult(JSONObject result) {
+		if(null != result){			
+			try {
+				ImageView view = (ImageView) lastClick;
+				Integer action =  (Integer) result.get("action");
+				switch(action){
+				case BOOST_UNBOOST:
+					view.setImageResource(R.drawable.thoughts_rocket_up_normal);
+					break;
+				case BOOST_BOOST:
+					view.setImageResource(R.drawable.thoughts_rocket_up_boost);
+					break;
+				default:
+					break;
+				}
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();			
+		}
+	}
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){

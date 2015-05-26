@@ -14,6 +14,7 @@
 
     <!-- user action -->
     <string name="url_rc_usr_action">RecordUserActionServlet</string>
+    <string name="url_boost_thought">BoostThoughtServlet</string>
     
     <!-- post thought -->
     <string name="url_post_thought">PostThoughtServlet</string>

@@ -12,11 +12,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- for notification -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    
+
     <!-- cache images -->
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
-    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <!-- package name specified permissions -->
     <permission
         android:name="com.echobond.permission.C2D_MESSAGE"
@@ -32,9 +31,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:largeHeap="true">
-		
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
+
         <!-- package name specified receiver -->
         <receiver
             android:name=".gcm.GcmBroadcastReceiver"
@@ -62,13 +61,15 @@
             android:value="@integer/google_play_services_version" />
 
         <!-- content providers -->
-        <provider android:name="com.echobond.dao.HomeThoughtDAO"
+        <provider
+            android:name=".dao.HomeThoughtDAO"
             android:authorities="com.echobond.contentprovider.homethought"
-            android:exported="false"/>
-        <provider android:name="com.echobond.dao.HotThoughtDAO"
+            android:exported="false" />
+        <provider
+            android:name=".dao.HotThoughtDAO"
             android:authorities="com.echobond.contentprovider.hotthought"
-            android:exported="false"/>
-        
+            android:exported="false" />
+
         <activity
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"
@@ -111,8 +112,12 @@
                 android:value="com.echobond.activity.MainPage" />
         </activity>
         <activity
-            android:name="com.echobond.activity.FollowingPage"
+            android:name=".activity.FollowingPage"
             android:label="@string/title_activity_following_page" >
+        </activity>
+        <activity
+            android:name=".ImagePage"
+            android:label="@string/title_activity_image_page" >
         </activity>
     </application>
 

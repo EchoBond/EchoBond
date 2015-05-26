@@ -33,21 +33,20 @@
     <string name="category_interest">Interest</string>
     <string name="category_plan">Plan</string>
     <string name="category_other">Other</string>
-    
+
     <!-- REFRESH AND LOAD CONTENT -->
     <string name="hint_xview_header_normal">Pull down to load new posts. </string>
     <string name="hint_xview_header_ready">Release to get new posts… </string>
     <string name="hint_xview_header_loading">Loading…</string>
     <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
-    
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
     <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
-
     <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
-    
+    <string name="title_activity_image_page">ImagePage</string>
+
 </resources>
