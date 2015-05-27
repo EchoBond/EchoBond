@@ -2,7 +2,6 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,14 +14,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class NewPostFragment extends Fragment {
 	
-	private RelativeLayout relativeLayout;
+	private RelativeLayout postLayout;
 	private String[] colors;
 	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
 	private ImageView postChange, textChange;
 	private EditText postText;
+	private int modeSelected;
+	private final static int CHANGE_BACKGROUND = 0;
+	private final static int CHANGE_TEXT = 1;
 	
 	private final static int WHITE = 0;
 	private final static int DARK_RED = 1;
@@ -41,6 +47,8 @@ public class NewPostFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View postView = inflater.inflate(R.layout.fragment_new_post_pic, container, false);
+		
+		postLayout = (RelativeLayout)postView.findViewById(R.id.thought_poster_picview);
 		colors = getResources().getStringArray(R.array.color_array);
 		postText = (EditText)postView.findViewById(R.id.thought_poster_words);
 		
@@ -60,42 +68,62 @@ public class NewPostFragment extends Fragment {
 		colorA = (ImageView)postView.findViewById(R.id.thought_poster_colora);
 		colorB = (ImageView)postView.findViewById(R.id.thought_poster_colorb);
 		
-		postChange.setOnClickListener(new selectedMode());
-		textChange.setOnClickListener(new selectedMode());
+		modeSelected = CHANGE_BACKGROUND;
+		postChange.setImageResource(R.drawable.thoughts_background_colorchange_selected);
+		postChange.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				modeSelected = CHANGE_BACKGROUND;
+				postChange.setImageResource(R.drawable.thoughts_background_colorchange_selected);
+				textChange.setImageResource(R.drawable.thoughts_text_colorchange_normal);
+				Toast.makeText(getActivity().getApplicationContext(), "Please select poster's background color. ", Toast.LENGTH_SHORT).show();
+			}
+		});
+		textChange.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				modeSelected = CHANGE_TEXT;
+				textChange.setImageResource(R.drawable.thoughts_text_colorchange_selected);
+				postChange.setImageResource(R.drawable.thoughts_background_colorchange_nomal);
+				Toast.makeText(getActivity().getApplicationContext(), "Please select poster's text color. ", Toast.LENGTH_SHORT).show();
+			}
+		});
 		
-		color0.setOnClickListener(new selectedColor(WHITE));
-		color1.setOnClickListener(new selectedColor(DARK_RED));
-		color2.setOnClickListener(new selectedColor(BRIGHT_RED));
-		color3.setOnClickListener(new selectedColor(PINK));
-		color4.setOnClickListener(new selectedColor(YELLOW));
-		color5.setOnClickListener(new selectedColor(ORANGE));
-		color6.setOnClickListener(new selectedColor(BLACK));
-		color7.setOnClickListener(new selectedColor(CYAN));
-		color8.setOnClickListener(new selectedColor(MINT));
-		color9.setOnClickListener(new selectedColor(PURPLE));
-		colorA.setOnClickListener(new selectedColor(HORIZON));
-		colorB.setOnClickListener(new selectedColor(GREEN));
+		color0.setOnClickListener(new SelectedColor(WHITE, modeSelected));
+		color1.setOnClickListener(new SelectedColor(DARK_RED, modeSelected));
+		color2.setOnClickListener(new SelectedColor(BRIGHT_RED, modeSelected));
+		color3.setOnClickListener(new SelectedColor(PINK, modeSelected));
+		color4.setOnClickListener(new SelectedColor(YELLOW, modeSelected));
+		color5.setOnClickListener(new SelectedColor(ORANGE, modeSelected));
+		color6.setOnClickListener(new SelectedColor(BLACK, modeSelected));
+		color7.setOnClickListener(new SelectedColor(CYAN, modeSelected));
+		color8.setOnClickListener(new SelectedColor(MINT, modeSelected));
+		color9.setOnClickListener(new SelectedColor(PURPLE, modeSelected));
+		colorA.setOnClickListener(new SelectedColor(HORIZON, modeSelected));
+		colorB.setOnClickListener(new SelectedColor(GREEN, modeSelected));
+		
 		return postView;
 	}
 	
-	public class selectedMode implements OnClickListener {
+	public class SelectedColor implements OnClickListener {
 
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			Toast.makeText(getActivity().getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+		private int colorIndex, selection;
+		public SelectedColor(int i, int s) {
+			colorIndex = i;
+			selection = s;
 		}
-		
-	}
-	
-	public class selectedColor implements OnClickListener {
-
-		private int colorIndex = WHITE;
-		public selectedColor(int i) {	colorIndex = i;}
 
 		@Override
 		public void onClick(View v) {
-			postText.setTextColor(Color.parseColor(colors[colorIndex]));
+			if (selection == CHANGE_BACKGROUND) {
+				postLayout.setBackgroundColor(Color.parseColor(colors[colorIndex]));
+			}
+			if (selection == CHANGE_TEXT){
+				postText.setTextColor(Color.parseColor(colors[colorIndex]));
+			}
+			
 		}
 		
 	}
