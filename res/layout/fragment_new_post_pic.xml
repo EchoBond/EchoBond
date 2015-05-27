@@ -14,6 +14,7 @@
         	android:id="@+id/thought_poster_words"
         	android:layout_width="match_parent"
         	android:layout_height="wrap_content"
+        	android:textStyle="bold"
         	android:textSize="48sp"
         	android:inputType="textMultiLine"
         	android:gravity="start|bottom"
@@ -24,8 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/poster_type_feelings"
-            android:layout_above="@id/thought_poster_words"
-            android:background="#000" />
+            android:layout_above="@id/thought_poster_words" />
 
     </RelativeLayout>
     
@@ -40,7 +40,7 @@
             android:id="@+id/thought_changepostcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/thoughts_background_colorchange"
+            android:src="@drawable/thoughts_background_colorchange_nomal"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:layout_marginLeft="30dp"
@@ -52,7 +52,7 @@
             android:id="@+id/thought_changetextcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/thoughts_text_colorchange"
+            android:src="@drawable/thoughts_text_colorchange_normal"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:layout_marginLeft="10dp"

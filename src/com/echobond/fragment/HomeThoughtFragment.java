@@ -169,6 +169,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
 			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
 			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
+			
 			DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
 			ImageLoader.getInstance().displayImage("http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png", postFigure, options, new SimpleImageLoadingListener(){
 				@Override
