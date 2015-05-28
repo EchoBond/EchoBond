@@ -70,18 +70,22 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	}
 
 	@Override
-	public void getCategory(int categoryId) {
+	public void selectCategory(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	public int getCategoryId() {
+		return categoryId;
+	}
+
 	@Override
-	public void getContent(String content, String tags) {
+	public void passContent(String content, String tags) {
 		this.contentsString = content;
 		this.tagsString = tags;
 	}
 	
 	@Override
-	public void getGroup(int groupId) {
+	public void selectGroup(int groupId) {
 		this.groupId = groupId;
 	}
 	
@@ -162,6 +166,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				
 			} else {
 				barTitle.setText(R.string.title_new_post_pic);
+				postFragment.setCategoryType();
 				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
 				fgIndex += 1;
 			}
@@ -187,7 +192,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		private void postThought() {
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
-			//	TODO: store the image and test
+			ImageUtil.saveBitmap(post, "textfile");
 			
 			Thought t = new Thought();
 			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
@@ -278,5 +283,4 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		
 	}
     
-
 }

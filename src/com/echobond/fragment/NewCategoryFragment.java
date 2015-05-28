@@ -114,7 +114,7 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 				long id) {
 			view.setSelected(true);
 			TextView txt = (TextView) view.findViewById(R.id.text_category);
-			categorySelected.getCategory(getCategoryId(txt.getText().toString()));
+			categorySelected.selectCategory(getCategoryId(txt.getText().toString()));
 		}
 		
 	}

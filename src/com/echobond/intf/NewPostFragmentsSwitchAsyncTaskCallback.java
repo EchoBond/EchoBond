@@ -1,7 +1,7 @@
 package com.echobond.intf;
 
 public interface NewPostFragmentsSwitchAsyncTaskCallback {
-	public void getCategory(int category);
-	public void getContent(String content, String tags);
-	public void getGroup(int group);
+	public void selectCategory(int category);
+	public void passContent(String content, String tags);
+	public void selectGroup(int group);
 }

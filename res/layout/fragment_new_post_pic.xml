@@ -22,9 +22,8 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/thought_poster_typeview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/poster_type_feelings"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_above="@id/thought_poster_words" />
 
     </RelativeLayout>

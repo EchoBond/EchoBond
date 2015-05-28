@@ -1,5 +1,6 @@
 package com.echobond.util;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,14 +30,21 @@ public class ImageUtil {
 		return b;
 	}
 	
-	public boolean saveBitmap(Bitmap bitmap, String fileName){
-		File file = new File(Environment.getExternalStorageDirectory().getPath()+"/testbitmap/"+fileName+".jpg");
+	/**
+	 * save the generated bitmap
+	 * @param bitmap
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean saveBitmap(Bitmap bitmap, String fileName){
+		File file = new File(Environment.MEDIA_MOUNTED+"/testbitmap/"+fileName+".jpg");
 		FileOutputStream fos = null;
 		try{
 			fos = new FileOutputStream(file);
+			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-			fos.flush();
-			fos.close();
+			bos.flush();
+			bos.close();
 		} catch (FileNotFoundException e){
 			e.printStackTrace();
 			return false;

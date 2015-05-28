@@ -127,7 +127,7 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				long id) {
 			view.setSelected(true);
 			String group = ((TextView)view.findViewById(R.id.text_group)).getText().toString();
-			callback.getGroup(getGroupId(group));
+			callback.selectGroup(getGroupId(group));
 		}
 	}
 	

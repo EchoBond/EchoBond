@@ -44,7 +44,7 @@ public class NewContentsFragment extends Fragment {
 		public void afterTextChanged(Editable s) {
 			thoughtsText = thoughtsContent.getText().toString();
 			tagsText = tagsContent.getText().toString();
-			contentsSelected.getContent(thoughtsText, tagsText);
+			contentsSelected.passContent(thoughtsText, tagsText);
 		}
 
 		@Override
