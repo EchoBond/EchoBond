@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -186,6 +187,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
 			t.setTags(tags);
 			t.setCategoryId(categoryId);
+			RelativeLayout postLayout = postFragment.getPostLayout();
+			postLayout.setDrawingCacheEnabled(true);
 			t.setContent(contentsString);
 			t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
 			t.setGroupId(groupId);

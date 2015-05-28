@@ -12,6 +12,11 @@ import android.util.Base64;
 
 public class ImageUtil {
 	
+	public static Bitmap generateBitmap() {
+		
+		return null;
+	}
+	
 	/**
 	 * compress bitmap
 	 * @param src
