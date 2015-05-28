@@ -9,12 +9,21 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.View;
 
 public class ImageUtil {
 	
-	public static Bitmap generateBitmap() {
-		
-		return null;
+	/**
+	 * generate bitmap from view
+	 * @param v
+	 * @return
+	 */
+	public static Bitmap generateBitmap(View v) {
+		v.setDrawingCacheEnabled(true);
+		v.buildDrawingCache();
+		Bitmap b = v.getDrawingCache();
+		v.destroyDrawingCache();
+		return b;
 	}
 	
 	/**

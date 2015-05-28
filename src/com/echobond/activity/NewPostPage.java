@@ -18,11 +18,13 @@ import com.echobond.fragment.NewPostFragment;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.PostThoughtCallback;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.ImageUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -183,12 +185,14 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		}
 		
 		private void postThought() {
+			RelativeLayout postLayout = postFragment.getPostLayout();
+			Bitmap post = ImageUtil.generateBitmap(postLayout);
+			//	TODO: store the image and test
+			
 			Thought t = new Thought();
 			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
 			t.setTags(tags);
 			t.setCategoryId(categoryId);
-			RelativeLayout postLayout = postFragment.getPostLayout();
-			postLayout.setDrawingCacheEnabled(true);
 			t.setContent(contentsString);
 			t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
 			t.setGroupId(groupId);
