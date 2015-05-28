@@ -6,6 +6,9 @@
     <string name="url_sub">Echobond_API</string>
     <string name="url_port">80</string>
     
+    <!-- GCM -->
+    <string name="url_gcm_reg">GCMRegServlet</string>
+    
     <!-- login -->
     <string name="url_signup">SignUpServlet</string>
     <string name="url_signin">SignInServlet</string>

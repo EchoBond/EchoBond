@@ -17,8 +17,8 @@ import com.echobond.util.JSONUtil;
 import android.os.AsyncTask;
 
 /**
- * This task is to handle category loading or update in server's DB.<br>
- * Params (Object): action(int), user(User), url(String), activity(CategoryAsyncTaskCallback)<br>
+ * This task is to handle boost of thought updates in server's DB.<br>
+ * Params (Object): url(String), activity(BoostAsyncTaskCallback), thoughtId, userId<br>
  * @version 1.0
  * @author Luck
  * 

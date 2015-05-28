@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
@@ -12,6 +14,7 @@ import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.NotificationFragment;
 import com.echobond.fragment.ProfileFragment;
 import com.echobond.fragment.ThoughtFragment;
+import com.echobond.intf.GCMCallback;
 import com.echobond.R;
 
 import android.app.ActionBar;
@@ -41,7 +44,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MainPage extends ActionBarActivity{
+public class MainPage extends ActionBarActivity implements GCMCallback{
 
 	public static final int SETTING_EDIT_PROFILE = 0;
 	public static final int SETTING_APP_SETTING = 1;
@@ -397,4 +400,10 @@ public class MainPage extends ActionBarActivity{
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+    
+    @Override
+    public void onRegFinished(JSONObject result) {
+    	// TODO Auto-generated method stub
+    	
+    }
 }

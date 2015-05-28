@@ -3,11 +3,14 @@ package com.echobond.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
 
@@ -24,6 +27,24 @@ public class ImageUtil {
 		Bitmap b = v.getDrawingCache();
 		v.destroyDrawingCache();
 		return b;
+	}
+	
+	public boolean saveBitmap(Bitmap bitmap, String fileName){
+		File file = new File(Environment.getExternalStorageDirectory().getPath()+"/testbitmap/"+fileName+".jpg");
+		FileOutputStream fos = null;
+		try{
+			fos = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+			fos.flush();
+			fos.close();
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	/**

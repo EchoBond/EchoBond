@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.echobond.ImagePage;
 import com.echobond.R;
+import com.echobond.activity.ImagePage;
 import com.echobond.activity.MainPage;
 import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
@@ -169,7 +169,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
 			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
 			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
-			
 			DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
 			ImageLoader.getInstance().displayImage("http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png", postFigure, options, new SimpleImageLoadingListener(){
 				@Override

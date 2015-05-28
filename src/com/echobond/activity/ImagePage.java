@@ -1,5 +1,8 @@
-package com.echobond;
+package com.echobond.activity;
 
+import com.echobond.R;
+import com.echobond.R.id;
+import com.echobond.R.layout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
