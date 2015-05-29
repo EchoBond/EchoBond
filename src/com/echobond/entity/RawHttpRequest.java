@@ -64,5 +64,8 @@ public class RawHttpRequest {
 	public void setParams(String params) {
 		this.params = params;
 	}
+	public void setParams(Object params){
+		this.params = params;
+	}
 	
 }

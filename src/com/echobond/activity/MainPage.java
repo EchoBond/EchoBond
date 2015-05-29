@@ -15,6 +15,7 @@ import com.echobond.fragment.NotificationFragment;
 import com.echobond.fragment.ProfileFragment;
 import com.echobond.fragment.ThoughtFragment;
 import com.echobond.intf.GCMCallback;
+import com.echobond.util.GCMUtil;
 import com.echobond.R;
 
 import android.app.ActionBar;
@@ -97,6 +98,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		initViews();
 		initTabPager();
 		initSettingPage();
+		GCMUtil.getInstance().registerDevice(this);
 	}
 	
 	private List<Map<String, Object>> getSettingData() {

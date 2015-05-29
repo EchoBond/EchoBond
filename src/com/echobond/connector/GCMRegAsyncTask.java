@@ -39,17 +39,14 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
     	//GCM configs
     	String regId = "";
     	String senderId = context.getResources().getString(R.string.gcm_sender_id);
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
-        Context ctx = context.getApplicationContext();
+        Context appContext = context.getApplicationContext();
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(appContext);
         //HTTP
         String method = RawHttpRequest.HTTP_METHOD_POST;
         JSONObject body = new JSONObject();
         RawHttpRequest request = new RawHttpRequest(url, method, null, null, true);
         RawHttpResponse response = null;
         try {
-            if (gcm == null) {
-                gcm = GoogleCloudMessaging.getInstance(ctx);
-            }
             regId = gcm.register(senderId);
 
             // You should send the registration ID to your server over HTTP,
@@ -59,6 +56,7 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
             body.put("userId", (String)SPUtil.get(context, "login", "loginUser_id", "", String.class));
             body.put("email", (String)SPUtil.get(context, "login", "loginUser_email", "", String.class));
             body.put("regId", regId);
+            request.setParams(body);
             response = HTTPUtil.getInstance().send(request);
 
             // Persist the regID - no need to register again.

@@ -54,7 +54,7 @@ public class GCMUtil {
 	    // Check if app was updated; if so, it must clear the registration ID
 	    // since the existing regID is not guaranteed to work with the new
 	    // app version.
-	    int regVersion = (Integer) SPUtil.get(context, "system", "app_version", "", String.class);
+	    int regVersion = (Integer) SPUtil.get(context, "system", "app_version", 1, Integer.class);
 	    int currentVersion = getAppVersion(context);
 	    if (regVersion != currentVersion) {
 	        return "";
@@ -78,7 +78,7 @@ public class GCMUtil {
 	
     //get registration id from SharedPreference or register device in gcm
 	public void registerDevice(MainPage mainPage){
-	    String regId = getRegId(mainPage);
+	    String regId = getRegId(mainPage.getApplicationContext());
 	    if (regId.isEmpty()) {
 	    	String url = HTTPUtil.getInstance().composePreURL(mainPage) + mainPage.getResources().getString(R.string.url_gcm_reg);
 	    	new GCMRegAsyncTask().execute(mainPage, url);
