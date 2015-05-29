@@ -1,7 +1,5 @@
 package com.echobond.gcm;
 
-import java.util.Set;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,13 +14,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
+/**
+ * Intent service to handle incoming GCM messages, to be waked up when they arrive
+ * @author Luck
+ *
+ */
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
-    private static final String TAG = "GCM";
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 

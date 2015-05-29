@@ -1,6 +1,5 @@
 package com.echobond.util;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -8,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -36,16 +36,14 @@ public class ImageUtil {
 	 * @param fileName
 	 * @return
 	 */
+	@SuppressLint("NewApi")
 	public static boolean saveBitmap(Bitmap bitmap, String fileName){
-		
 		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator + fileName+".jpg");
 		FileOutputStream fos = null;
 		try{
 			fos = new FileOutputStream(file);
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-			bos.flush();
-			bos.close();
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+			fos.close();
 		} catch (FileNotFoundException e){
 			e.printStackTrace();
 			return false;
