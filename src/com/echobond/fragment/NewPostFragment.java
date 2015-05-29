@@ -162,5 +162,9 @@ public class NewPostFragment extends Fragment {
 	public RelativeLayout getPostLayout() {
 		return postLayout;
 	}
+
+	public EditText getPostText() {
+		return postText;
+	}
 	
 }

@@ -22,6 +22,7 @@ import com.echobond.util.ImageUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,7 +36,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -190,7 +191,9 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			}
 		}
 		
-		private void postThought() {
+		@SuppressLint("NewApi") private void postThought() {
+			EditText postText = postFragment.getPostText();
+			postText.setBackground(null);
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
 			ImageUtil.saveBitmap(post, "testfile");
