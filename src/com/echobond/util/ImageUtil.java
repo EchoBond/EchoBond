@@ -24,9 +24,9 @@ public class ImageUtil {
 	 */
 	public static Bitmap generateBitmap(View v) {
 		v.setDrawingCacheEnabled(true);
-		v.buildDrawingCache();
-		Bitmap b = v.getDrawingCache();
-		v.destroyDrawingCache();
+		v.buildDrawingCache(true);
+		Bitmap b = Bitmap.createBitmap(v.getDrawingCache());
+		v.setDrawingCacheEnabled(false);
 		return b;
 	}
 	
@@ -37,7 +37,8 @@ public class ImageUtil {
 	 * @return
 	 */
 	public static boolean saveBitmap(Bitmap bitmap, String fileName){
-		File file = new File(Environment.MEDIA_MOUNTED+"/testbitmap/"+fileName+".jpg");
+		
+		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator + fileName+".jpg");
 		FileOutputStream fos = null;
 		try{
 			fos = new FileOutputStream(file);

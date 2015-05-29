@@ -35,6 +35,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -192,7 +193,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		private void postThought() {
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
-			ImageUtil.saveBitmap(post, "textfile");
+			ImageUtil.saveBitmap(post, "testfile");
 			
 			Thought t = new Thought();
 			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
