@@ -75,10 +75,13 @@ public class HomeThoughtDAO extends ContentProvider{
 		}
 		return cursor;
 	}
+	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		
+		if(uriMatcher.match(uri) == HOMETHOUGHT){
+			dbUtil.updateHomeThought(values, selection, selectionArgs);
+		}
 		return 0;
 	}
 }

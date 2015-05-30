@@ -13,11 +13,13 @@ import com.echobond.dao.HotThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
 import com.echobond.entity.Thought;
+import com.echobond.entity.User;
 import com.echobond.fragment.HomeThoughtFragment.FunctionOnClickListener;
 import com.echobond.fragment.HomeThoughtFragment.ThoughtAdapter;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
+import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
@@ -173,9 +175,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 	public void onRefresh() {
 		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
+			User user = new User();
+			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));			
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
-				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit);
+				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit, user);
 		} else {
 			onLoadFinished();
 		}
@@ -186,9 +190,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			currentLimit += LIMIT_INCREMENT;
+			User user = new User();
+			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));			
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
-				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit);
+				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit,user);
 		} else {
 			onLoadFinished();
 		}

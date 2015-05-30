@@ -38,5 +38,8 @@ public class HomeThoughtDB extends MyDBHelper {
 	public long addHomeThought(ContentValues values){
 		return replace(tblName, values);
 	}
+	public int updateHomeThought(ContentValues values, String where, String[] whereArgs){
+		return update(tblName, values, where, whereArgs);
+	}
 	
 }

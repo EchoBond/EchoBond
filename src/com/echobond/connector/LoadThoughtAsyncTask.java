@@ -18,7 +18,7 @@ import android.os.AsyncTask;
 /**
  * 
  * This task is to handle loading thoughts from server's DB.<br>
- * Params (Object): url(String), type(int), activity(LoadThoughtCallback), offset(int), limit(int), null / user(User)<br>
+ * Params (Object): url(String), type(int), activity(LoadThoughtCallback), offset(int), limit(int), user(User)<br>
  * Progress (Integer)<br>
  * Result (JSONObject)<br>
  * @author Luck
@@ -37,16 +37,14 @@ public class LoadThoughtAsyncTask extends AsyncTask<Object, Integer, JSONObject>
 		activity = (LoadThoughtCallback) params[2];
 		int offset = (Integer) params[3];
 		int limit = (Integer)params[4];
+		User user = (User) params[5];
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = new JSONObject();
 		try {
 			body.put("type", type);
 			body.put("offset", offset);
 			body.put("limit", limit);
-			if(type == LOAD_T_HOME){
-				User user = (User) params[5];
-				body.put("user", JSONUtil.fromObjectToJSON(user));
-			}
+			body.put("user", JSONUtil.fromObjectToJSON(user));
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}

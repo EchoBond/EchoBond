@@ -24,6 +24,7 @@ public class Thought {
 	private String time;
 	private int boost;
 
+	private int isUserBoost;
 	private User user;
 	private Language lang;
 	private Group group;
@@ -48,6 +49,7 @@ public class Thought {
 		values.put("image", image);
 		values.put("time", time);
 		values.put("boost", boost);
+		values.put("isUserBoost", isUserBoost);
 		return values;
 	}
 	
@@ -147,6 +149,11 @@ public class Thought {
 	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
 	}
-
+	public int getIsUserBoost() {
+		return isUserBoost;
+	}
+	public void setIsUserBoost(int isUserBoost) {
+		this.isUserBoost = isUserBoost;
+	}
 
 }

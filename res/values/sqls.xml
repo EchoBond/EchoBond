@@ -33,7 +33,8 @@
 	    	`content` varchar(255) NOT NULL,
 	    	`image` varchar(255) DEFAULT NULL,
 	    	`time` varchar(255) NOT NULL,
-	    	`boost` INTEGER NOT NULL DEFAULT 0)
+	    	`boost` INTEGER NOT NULL DEFAULT 0,
+	    	`isUserBoost` INTEGER NOT NULL DEFAULT 0)
 	</string>
    	<string name="sql_c_hot_t">
 	    CREATE TABLE IF NOT EXISTS `hot_thought`( 
@@ -45,7 +46,8 @@
 	    	`content` varchar(255) NOT NULL,
 	    	`image` varchar(255) DEFAULT NULL,
 	    	`time` varchar(255) NOT NULL,
-	    	`boost` INTEGER NOT NULL DEFAULT 0)
+	    	`boost` INTEGER NOT NULL DEFAULT 0,
+	    	`isUserBoost` INTEGER NOT NULL DEFAULT 0)
 	</string>
    	<string name="sql_c_t_tags">
    	   	CREATE TABLE IF NOT EXISTS `thought_tag`(
@@ -183,7 +185,7 @@
 	</string>
 	<string name="sql_s_t_home">
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
-	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
 	    FROM `home_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
@@ -217,7 +219,7 @@
 	<string name="sql_s_t_hot">
 	    <!-- 
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
-	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
 	    FROM `hot_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
@@ -226,7 +228,7 @@
 	    ORDER BY t.`_id` DESC
 	    LIMIT ? OFFSET ?-->
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
-	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
 	    FROM `hot_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`

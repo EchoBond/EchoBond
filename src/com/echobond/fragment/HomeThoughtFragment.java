@@ -32,6 +32,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -83,9 +84,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private static final int LIMIT_INCREMENT = 10;
 	private static final long LOAD_INTERVAL = 2000;
 	private long lastLoadTime;
-	private View lastClick;
-	private static final int BOOST_UNBOOST = 0;
-	private static final int BOOST_BOOST = 1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,7 +103,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		userDAO = new UserDAO(getActivity());
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
-		lastClick = null;
 		commentDAO = new CommentDAO(getActivity());
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
 		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);
@@ -147,6 +144,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			String path = c.getString(c.getColumnIndex("image"));
 			int boost = c.getInt(c.getColumnIndex("boost"));
 			int cmt = c.getInt(c.getColumnIndex("num_of_cmt"));
+			int isUserBoost = c.getInt(c.getColumnIndex("isUserBoost")); 
 			
 			TextView titleView = (TextView)convertView.findViewById(R.id.thought_list_title);
 			TextView contentView = (TextView)convertView.findViewById(R.id.thought_list_content);
@@ -154,6 +152,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			TextView commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
 			TextView thoughtIdView = (TextView)convertView.findViewById(R.id.thought_list_id);
 			TextView imagePathView = (TextView) convertView.findViewById(R.id.thought_list_image);
+			TextView isUserBoostView = (TextView) convertView.findViewById(R.id.thought_list_isUserBoost);
 			
 			titleView.setText(title);
 			contentView.setText(content);
@@ -161,6 +160,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			commentsNum.setText(cmt+"");
 			thoughtIdView.setText(id);
 			imagePathView.setText(path);
+			isUserBoostView.setText(isUserBoost+"");
 			
 			ImageView postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
 			ImageView messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
@@ -173,6 +173,12 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
 			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
 			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
+			
+			if(isUserBoost == 1){
+				boostButton.setImageResource(R.drawable.thoughts_rocket_up_boost);
+			} else {
+				boostButton.setImageResource(R.drawable.thoughts_rocket_up_normal);
+			}
 			
 			String fileName;
 			if(null == imagePathView.getText().toString() || imagePathView.getText().toString().isEmpty()){
@@ -285,7 +291,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
 						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
-				lastClick = v;
 				break;
 			case COMMENT:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
@@ -381,19 +386,18 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	public void onBoostResult(JSONObject result) {
 		if(null != result){			
 			try {
-				ImageView view = (ImageView) lastClick;
-				Integer action =  (Integer) result.get("action");
-				switch(action){
-				case BOOST_UNBOOST:
-					view.setImageResource(R.drawable.thoughts_rocket_up_normal);
-					break;
-				case BOOST_BOOST:
-					view.setImageResource(R.drawable.thoughts_rocket_up_boost);
-					break;
-				default:
-					break;
-				}
-				
+				Integer action =  result.getInt("action");
+				Integer id = result.getInt("id");
+				Integer totalBoost = result.getInt("total");
+				ContentValues values = new ContentValues();
+				values.put("isUserBoost", action);
+				values.put("boost", totalBoost);
+				String where = "_id="+id;
+				ContentResolver resolver = getActivity().getContentResolver();
+				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
+				Cursor cursor = resolver.query(HomeThoughtDAO.CONTENT_URI, null, null, null, null);
+				adapter.swapCursor(cursor);
+				adapter.notifyDataSetChanged();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
