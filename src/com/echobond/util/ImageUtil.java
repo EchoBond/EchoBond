@@ -101,7 +101,7 @@ public class ImageUtil {
 	}
 	
 	/** 
-	 * Bitmap->Base64 String via Base32 
+	 * Bitmap->Base64 String via Base64
 	 * @param bit 
 	 * @return 
 	 */  
@@ -110,17 +110,17 @@ public class ImageUtil {
 		ByteArrayOutputStream bos=new ByteArrayOutputStream();  
 		bit.compress(CompressFormat.JPEG, 100, bos); //100=no compresssion
 		byte[] bytes=bos.toByteArray();
-		return Base64.encodeToString(bytes, Base64.DEFAULT);
+		return Base64.encodeToString(bytes, Base64.URL_SAFE);
 	}
 	
 	/**
-	 * Base64 String->Bitmap via Base32
+	 * Base64 String->Bitmap via Base64
 	 * @param src
 	 * @return
 	 */
 	public static Bitmap strToBm(String src){
 		/* String->bytes */
-		byte[] imgSrc = Base64.decode(src, Base64.DEFAULT);
+		byte[] imgSrc = Base64.decode(src, Base64.URL_SAFE);
 		/* bytes->Bitmap */
 		return BitmapFactory.decodeByteArray(imgSrc, 0, imgSrc.length);
 	}

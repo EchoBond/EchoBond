@@ -20,10 +20,7 @@ public class Thought {
 	private int groupId;
 	private int categoryId;
 	private String content;
-	//local path
 	private String image;
-	//remote path
-	private String remoteImg;
 	private String time;
 	private int boost;
 
@@ -137,12 +134,6 @@ public class Thought {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-	public String getRemoteImg() {
-		return remoteImg;
-	}
-	public void setRemoteImg(String remoteImg) {
-		this.remoteImg = remoteImg;
 	}
 	public int getBoost() {
 		return boost;

@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.connector.ImageUploadAsyncTask;
 import com.echobond.connector.PostThoughtAsyncTask;
 import com.echobond.dao.HomeThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
@@ -15,6 +16,7 @@ import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
 import com.echobond.fragment.NewGroupsFragment;
 import com.echobond.fragment.NewPostFragment;
+import com.echobond.intf.ImageCallback;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.PostThoughtCallback;
 import com.echobond.util.HTTPUtil;
@@ -46,7 +48,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback {
+public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback, ImageCallback {
 	
 	public static final int NEW_POST_CATEGORY = 0;
 	public static final int NEW_POST_PIC = 1;
@@ -197,17 +199,11 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
 			ImageUtil.saveBitmap(post, "testfile");
-			
-			Thought t = new Thought();
-			ArrayList<Tag> tags = Tag.str2TagList(tagsString);
-			t.setTags(tags);
-			t.setCategoryId(categoryId);
-			t.setContent(contentsString);
-			t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
-			t.setGroupId(groupId);
-			new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
-					HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
-					t, NewPostPage.this);
+			String userId = (String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class);
+			String email = (String) SPUtil.get(NewPostPage.this, "login", "loginUser_email", null, String.class);
+			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_up_img),
+					ImageUtil.bmToStr(post), NewPostPage.this, userId, email);
 		}
 		
 	}
@@ -284,6 +280,34 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			}
 			activityBackStack();
 		}
+		
+	}
+
+	@Override
+	public void onUploadImage(JSONObject result) {
+		try{
+			if(null != result && ((String)result.get("result")).equals("1")){
+				String image = (String) result.get("path");
+				Thought t = new Thought();
+				ArrayList<Tag> tags = Tag.str2TagList(tagsString);
+				t.setTags(tags);
+				t.setImage(image);
+				t.setCategoryId(categoryId);
+				t.setContent(contentsString);
+				t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
+				t.setGroupId(groupId);		
+				new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+						HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
+						t, NewPostPage.this);
+			}
+		} catch (JSONException e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onDownloadImage(JSONObject result) {
+		// TODO Auto-generated method stub
 		
 	}
     

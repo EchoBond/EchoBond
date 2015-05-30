@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -143,6 +144,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			String id = c.getString(c.getColumnIndex("_id"));
 			String title = c.getString(c.getColumnIndex("username"));
 			String content = c.getString(c.getColumnIndex("content"));
+			String path = c.getString(c.getColumnIndex("image"));
 			int boost = c.getInt(c.getColumnIndex("boost"));
 			int cmt = c.getInt(c.getColumnIndex("num_of_cmt"));
 			
@@ -151,12 +153,14 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			TextView boostsNum = (TextView)convertView.findViewById(R.id.thought_list_boostsnum);
 			TextView commentsNum = (TextView)convertView.findViewById(R.id.thought_list_commentsnum);
 			TextView thoughtIdView = (TextView)convertView.findViewById(R.id.thought_list_id);
+			TextView imagePathView = (TextView) convertView.findViewById(R.id.thought_list_image);
 			
 			titleView.setText(title);
 			contentView.setText(content);
 			boostsNum.setText(boost+"");
 			commentsNum.setText(cmt+"");
 			thoughtIdView.setText(id);
+			imagePathView.setText(path);
 			
 			ImageView postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
 			ImageView messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
@@ -169,8 +173,22 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
 			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
 			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
-			DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-			ImageLoader.getInstance().displayImage("http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png", postFigure, options, new SimpleImageLoadingListener(){
+			
+			String fileName;
+			if(null == imagePathView.getText().toString() || imagePathView.getText().toString().isEmpty()){
+				fileName = "no_image";
+			} else {
+				fileName = imagePathView.getText().toString();
+			}
+			String url = HTTPUtil.getInstance().composePreURL(getActivity()) 
+					+ getResources().getString(R.string.url_down_img)
+					+ "?path=" + fileName;
+			DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.cacheInMemory(true)
+				.cacheOnDisk(true)
+				.imageScaleType(ImageScaleType.EXACTLY)
+				.build();
+			ImageLoader.getInstance().displayImage(url, postFigure, options, new SimpleImageLoadingListener(){
 				@Override
 				public void onLoadingStarted(String imageUri, View view) {
 					RelativeLayout layout = (RelativeLayout) view.getParent();
@@ -241,13 +259,22 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			if(null != v.getParent().getParent() && v.getParent().getParent() instanceof RelativeLayout)
 				root = (RelativeLayout) v.getParent().getParent();
 			else root = (RelativeLayout) v.getParent();
-			TextView t = (TextView) root.findViewById(R.id.thought_list_id);
-			Integer id = Integer.parseInt(t.getText().toString());
+			TextView idView = (TextView) root.findViewById(R.id.thought_list_id);			
+			Integer id = Integer.parseInt(idView.getText().toString());
+			TextView imageView = (TextView) root.findViewById(R.id.thought_list_image);
+			String image = imageView.getText().toString();
 			switch (buttonIndex) {
 			case POST:
 				Intent intent = new Intent();
 				intent.setClass(HomeThoughtFragment.this.getActivity(), ImagePage.class);
-				intent.putExtra("url", "http://www.echobond.com/Echobond_API/ImageDownloadServlet?path=eow.png");
+				String fileName;
+				if(null == image || image.isEmpty())
+					fileName = "no_image";
+				else fileName = image;
+				String url = HTTPUtil.getInstance().composePreURL(getActivity())
+						+ getResources().getString(R.string.url_down_img)
+						+ "?path=" + fileName;
+				intent.putExtra("url", url);
 				startActivity(intent);
 				break;
 			case MESSAGE:

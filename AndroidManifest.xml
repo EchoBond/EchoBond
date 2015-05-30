@@ -125,7 +125,7 @@
             android:label="@string/title_activity_following_page" >
         </activity>
         <activity
-            android:name=".ImagePage"
+            android:name=".activity.ImagePage"
             android:label="@string/title_activity_image_page" >
         </activity>
     </application>
