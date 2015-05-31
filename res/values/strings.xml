@@ -17,6 +17,7 @@
     <string name="title_activity_search_page">SearchPage</string>
     <string name="title_activity_new_post_page">NewPostPage</string>
     <string name="title_activity_app_setting_page">AppSettingPage</string>
+    <string name="title_activity_image_page">ImagePage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -47,6 +48,5 @@
     <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
-    <string name="title_activity_image_page">ImagePage</string>
-
+    
 </resources>
