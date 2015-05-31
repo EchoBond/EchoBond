@@ -32,19 +32,20 @@ public class MessageChildFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View messageChildView = inflater.inflate(R.layout.fragment_child_message, container, false);
-		for (int i = 0; i < 30; i++) {
-			testStrings[i] = "message " + i;
+		for (int i = 1; i < 30; i++) {
+			testStrings[i] = "Message " + i;
 		}
 		messagesList = (XListView)messageChildView.findViewById(R.id.list_messages);
 		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_following, new String[]{"msg"}, new int[]{R.id.text_following});
 		messagesList.setAdapter(mAdapter);
+		messagesList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		messagesList.setOnItemClickListener(new ClickListener());
 		
 		return messageChildView;
 	}
 	private List<Map<String, Object>> data() {
 		List<Map<String, Object>> ntcList = new ArrayList<Map<String,Object>>();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i < 30; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("msg", testStrings[i]);
 			ntcList.add(map);

@@ -10,10 +10,8 @@ import org.json.JSONObject;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
-import com.echobond.fragment.LikeMindedFragment;
 import com.echobond.fragment.NotificationFragment;
 import com.echobond.fragment.ProfileFragment;
-import com.echobond.fragment.ThoughtFragment;
 import com.echobond.intf.GCMCallback;
 import com.echobond.util.GCMUtil;
 import com.echobond.R;
@@ -50,9 +48,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	public static final int SETTING_EDIT_PROFILE = 0;
 	public static final int SETTING_APP_SETTING = 1;
 	public static final int SETTING_FOLLOWING = 2;
-	public static final int SETTING_THIS_APP_SUCKS = 3;
-	public static final int SETTING_TERMS_OF_SERVICES = 4;
-	public static final int SETTING_CONTACT_US = 5;
+	public static final int SETTING_INVITE_FRIENDS = 3;
+	public static final int SETTING_THIS_APP_SUCKS = 4;
+	public static final int SETTING_TERMS_OF_SERVICES = 5;
+	public static final int SETTING_CONTACT_US = 6;
 	
 	public static final int LOADER_HOME = 0;
 	public static final int LOADER_HOT = 1;
@@ -69,9 +68,8 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	private ArrayList<Fragment> mainFragmentsList;
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
-	private ImageView homeButton, hitButton, likeMindedButton, notificationButton, profileButton,  
+	private ImageView homeButton, hitButton, notificationButton, profileButton,  
 						newPostButton, settingButton;
-//	private ImageView hitButton, trendingButton, tabSelector;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -81,8 +79,9 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	private DrawerLayout mainDrawerLayout;
 	private ListView drawerList;
 	private int[] settingIcons = new int[]{
-			R.drawable.setting_edit_profile, R.drawable.setting_app_setting, R.drawable.setting_following_blue, 
-			R.drawable.setting_sucks_comment, R.drawable.setting_terms_of_service, R.drawable.setting_contact};
+			R.drawable.setting_edit_profile, R.drawable.setting_app_setting, R.drawable.setting_following, 
+			R.drawable.setting_invite_friends, R.drawable.setting_sucks_comment, R.drawable.setting_terms_of_service, 
+			R.drawable.setting_contact};
 	private String[] settingTitles;
 	private SimpleAdapter settingPageAdapter;
 	private boolean isOpened = false;
@@ -130,7 +129,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		
 		homeFragment = new HomeThoughtFragment();
 		hitFragment = new HotThoughtFragment();
-//		trendingFragment = new ThoughtFragment();
 //		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new NotificationFragment();
 		profileFragment = new ProfileFragment();
@@ -138,7 +136,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
 		mainFragmentsList.add(hitFragment);
-//		mainFragmentsList.add(trendingFragment);
 //		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
@@ -164,7 +161,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 
 		homeButton = (ImageView)findViewById(R.id.home_button);
 		hitButton = (ImageView)findViewById(R.id.hit_button);
-//		trendingButton = (ImageView)findViewById(R.id.trend_button);
 //		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
 		notificationButton = (ImageView)findViewById(R.id.notification_button);
 		profileButton = (ImageView)findViewById(R.id.profile_button);
@@ -173,7 +169,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		
 		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
 		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
-//		trendingButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 //		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		profileButton.setOnClickListener(new FragmentChangeOnClickListener(3));
@@ -255,14 +250,17 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 			case SETTING_FOLLOWING:
 				Toast.makeText(getApplicationContext(), settingTitles[2], Toast.LENGTH_SHORT).show();
 				break;
-			case SETTING_THIS_APP_SUCKS:
+			case SETTING_INVITE_FRIENDS:
 				Toast.makeText(getApplicationContext(), settingTitles[3], Toast.LENGTH_SHORT).show();
 				break;
-			case SETTING_TERMS_OF_SERVICES:
+			case SETTING_THIS_APP_SUCKS:
 				Toast.makeText(getApplicationContext(), settingTitles[4], Toast.LENGTH_SHORT).show();
 				break;
-			case SETTING_CONTACT_US:
+			case SETTING_TERMS_OF_SERVICES:
 				Toast.makeText(getApplicationContext(), settingTitles[5], Toast.LENGTH_SHORT).show();
+				break;
+			case SETTING_CONTACT_US:
+				Toast.makeText(getApplicationContext(), settingTitles[6], Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;

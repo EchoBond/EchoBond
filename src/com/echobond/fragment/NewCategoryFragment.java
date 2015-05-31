@@ -113,7 +113,7 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			view.setSelected(true);
-			TextView txt = (TextView) view.findViewById(R.id.text_category);
+			TextView txt = (TextView)view.findViewById(R.id.text_category);
 			categorySelected.selectCategory(getCategoryId(txt.getText().toString()));
 		}
 		

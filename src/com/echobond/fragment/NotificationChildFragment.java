@@ -32,12 +32,13 @@ public class NotificationChildFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View notificationChildView = inflater.inflate(R.layout.fragment_child_notification, container, false);
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i < 30; i++) {
 			testStrings[i] = "Notification " + i;
 		}
 		notificationList = (XListView)notificationChildView.findViewById(R.id.list_notification);
 		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_following, new String[]{"ntc"}, new int[]{R.id.text_following});
 		notificationList.setAdapter(mAdapter);
+		notificationList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		notificationList.setOnItemClickListener(new ClickListener());
 		
 		return notificationChildView;
@@ -45,7 +46,7 @@ public class NotificationChildFragment extends Fragment {
 
 	private List<Map<String, Object>> data() {
 		List<Map<String, Object>> ntcList = new ArrayList<Map<String,Object>>();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i < 30; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("ntc", testStrings[i]);
 			ntcList.add(map);

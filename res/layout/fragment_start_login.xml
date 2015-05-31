@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="${relativePackage}.${activityClass}" >
 
     <ImageView
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/email_signin_view"
         android:layout_toRightOf="@id/email_signin_view"
+        android:layout_toEndOf="@id/email_signin_view"
         android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
         android:inputType="textEmailAddress"
         android:singleLine="true"
@@ -34,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/signin_password_view"
+        android:layout_toEndOf="@id/signin_password_view"
         android:layout_below="@id/email_signin_view"
         android:layout_alignBottom="@id/signin_password_view"
         android:inputType="textPassword"
