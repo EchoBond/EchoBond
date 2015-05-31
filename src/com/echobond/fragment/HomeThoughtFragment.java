@@ -24,11 +24,8 @@ import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -89,9 +86,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
-		DisplayImageOptions opt = new DisplayImageOptions.Builder().cacheInMemory(true).build();
-		ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(getActivity()).defaultDisplayImageOptions(opt).build();
-		ImageLoader.getInstance().init(conf);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
 		adapter = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, 0);
 		mListView.setAdapter(adapter);
@@ -106,6 +100,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		commentDAO = new CommentDAO(getActivity());
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
 		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);
+		
 		return thoughtView;
 	}
 	
@@ -189,12 +184,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			String url = HTTPUtil.getInstance().composePreURL(getActivity()) 
 					+ getResources().getString(R.string.url_down_img)
 					+ "?path=" + fileName;
-			DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.cacheInMemory(true)
-				.cacheOnDisk(true)
-				.imageScaleType(ImageScaleType.EXACTLY)
-				.build();
-			ImageLoader.getInstance().displayImage(url, postFigure, options, new SimpleImageLoadingListener(){
+			ImageLoader.getInstance().displayImage(url, postFigure, null, new SimpleImageLoadingListener(){
 				@Override
 				public void onLoadingStarted(String imageUri, View view) {
 					RelativeLayout layout = (RelativeLayout) view.getParent();

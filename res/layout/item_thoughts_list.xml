@@ -2,19 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
     android:descendantFocusability="blocksDescendants" >
     <ImageView  
         android:contentDescription="@string/none"
         android:id="@+id/thought_list_pic"  
-        android:layout_width="wrap_content"  
-        android:layout_height="200dp"
+        android:layout_width="match_parent"  
+        android:layout_height="330dp"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerInside"
-        android:padding="6dp"  
-        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
         android:clickable="true" />  
-  
     <TextView  
         android:id="@+id/thought_list_title"  
         android:layout_width="wrap_content"  
