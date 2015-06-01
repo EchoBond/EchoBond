@@ -48,11 +48,11 @@ public class FollowingPage extends ActionBarActivity {
 		
 		backButton = (ImageView)findViewById(R.id.button_left_side);
 		backButton.setOnClickListener(new backOnClickListener());
-		backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_button));
+		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 		backButton.setVisibility(View.GONE);
 		
 		doneButton = (ImageView)findViewById(R.id.button_right_side);
-		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.done_button));
+		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

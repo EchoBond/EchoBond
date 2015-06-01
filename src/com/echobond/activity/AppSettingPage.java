@@ -43,7 +43,7 @@ public class AppSettingPage extends ActionBarActivity {
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
 		backButton = (ImageView)findViewById(R.id.button_left_side);
-		backButton.setImageResource(R.drawable.back_button);
+		backButton.setImageResource(R.drawable.button_back);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

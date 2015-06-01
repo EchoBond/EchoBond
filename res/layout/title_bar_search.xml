@@ -21,7 +21,7 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/none"
-            android:src="@drawable/search_button"
+            android:src="@drawable/button_search"
             android:clickable="true" />
         
     </RelativeLayout>
@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/none"
-            android:inputType="text" />
+            android:inputType="text"
+            android:imeOptions="actionSearch" />
         
     </RelativeLayout>
 

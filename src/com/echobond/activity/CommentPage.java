@@ -3,6 +3,7 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.dao.CommentDAO;
+import com.echobond.widget.CommentDialog;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
@@ -48,7 +49,17 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		
 		ImageLoader loader = ImageLoader.getInstance();
 		loader.displayImage(getIntent().getStringExtra("url"), image);
-					
+		
+		commentButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				CommentDialog dialog = new CommentDialog(CommentPage.this);
+				dialog.show();
+			}
+		});
+		
 		commentsList.setAdapter(adapter);
 		commentsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 	}

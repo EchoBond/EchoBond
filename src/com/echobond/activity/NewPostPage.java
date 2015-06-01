@@ -103,8 +103,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 		backButton = (ImageView)findViewById(R.id.button_left_side);
 		forwardButton = (ImageView)findViewById(R.id.button_right_side);
 		
-		backButton.setImageDrawable(getResources().getDrawable(R.drawable.back_button));
-		forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.forward_button));
+		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
+		forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_forward));
 		backButton.setOnClickListener(new backOnClickListener());
 		forwardButton.setOnClickListener(new forwardOnClickListener());
 		
@@ -131,7 +131,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				break;
 			case NEW_POST_GROUP:
 				barTitle.setText(R.string.title_new_post_write);
-				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.forward_button));
+				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_forward));
 				getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
 				fgIndex -= 1;
 				break;
@@ -187,7 +187,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_LONG).show();
 			}else {
 				barTitle.setText(R.string.title_new_post_group);
-				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.done_button));
+				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(groupsFragment).commit();
 				fgIndex += 1;
 			}

@@ -18,6 +18,7 @@
     <string name="title_activity_new_post_page">NewPostPage</string>
     <string name="title_activity_app_setting_page">AppSettingPage</string>
     <string name="title_activity_image_page">ImagePage</string>
+    <string name="title_activity_comment_page">CommentPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -41,6 +42,8 @@
     <string name="hint_xview_header_loading">Loading…</string>
     <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
+    
+    <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
     <string name="hint_tags_separate">separate by commas</string>
@@ -48,6 +51,6 @@
     <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
-    <string name="title_activity_comment_page">CommentPage</string>
+    <string name="comment_title">Say Something Nice :)</string>
 
 </resources>
