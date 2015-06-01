@@ -6,8 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.CommentPage;
 import com.echobond.activity.ImagePage;
-import com.echobond.activity.MainPage;
+import com.echobond.application.MyApp;
 import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
@@ -60,12 +61,7 @@ import android.widget.Toast;
  *
  */
 public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemClickListener, IXListViewListener, LoadThoughtCallback, BoostCallback, LoaderCallbacks<Cursor>{
-	
-	/*
-	private final String[] from = new String[] {"image", "username", "boost", "num_of_cmt", "content", "_id"};
-	private final int[] to = new int[] {R.id.thought_list_pic, R.id.thought_list_title, R.id.thought_list_boostsnum, R.id.thought_list_commentsnum, 
-			R.id.thought_list_content, R.id.thought_list_id};
-	*/
+
 	private ThoughtAdapter adapter;
 	private XListView mListView;
 	private UserDAO userDAO;
@@ -97,9 +93,9 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		userDAO = new UserDAO(getActivity());
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
-		commentDAO = new CommentDAO(getActivity());
+		commentDAO = new CommentDAO();
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
-		getLoaderManager().initLoader(MainPage.LOADER_HOME, null, this);
+		getLoaderManager().initLoader(MyApp.LOADER_HOME, null, this);
 		
 		return thoughtView;
 	}
@@ -283,7 +279,18 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
 				break;
 			case COMMENT:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your contact. ", Toast.LENGTH_SHORT).show();
+				Intent intent2 = new Intent();
+				intent2.setClass(HomeThoughtFragment.this.getActivity(), CommentPage.class);
+				String fileName2;
+				if(null == image || image.isEmpty())
+					fileName2 = "no_image";
+				else fileName2 = image;
+				String url2 = HTTPUtil.getInstance().composePreURL(getActivity())
+						+ getResources().getString(R.string.url_down_img)
+						+ "?path=" + fileName2;
+				intent2.putExtra("url", url2);
+				intent2.putExtra("id", id);
+				startActivity(intent2);
 				break;
 			case SHARE:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
@@ -399,7 +406,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
-		case MainPage.LOADER_HOME:
+		case MyApp.LOADER_HOME:
 			Uri uri = HomeThoughtDAO.CONTENT_URI;
 			return new CursorLoader(getActivity(), uri, null, null, null, null);
 		}

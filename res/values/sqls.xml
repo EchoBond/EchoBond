@@ -61,6 +61,7 @@
 		CREATE TABLE IF NOT EXISTS `thought_comment`(
 			`_id` INTEGER PRIMARY KEY,
 			`user_id` varchar(255) NOT NULL,
+			`username` varchar(255) NOT NULL,
 			`thought_id` INTEGER NOT NULL,
 			`reply_to` INTEGER NOT NULL DEFAULT 0,
 			`content` varchar(255) NOT NULL,
@@ -202,7 +203,7 @@
 	    WHERE t.`_id` = ?
 	</string>
 	<string name="load_home_t_comments">
-	    SELECT tc.`_id`,tc.`content` FROM `thought_comment` AS tc
+	    SELECT tc.`_id`,tc.`user_id`,tc.`username`,tc.`content` FROM `thought_comment` AS tc
 	    LEFT JOIN `home_thought` AS t ON tc.`thought_id` = t.`_id`
 	    WHERE tc.`thought_id` = ?
 	    LIMIT ? OFFSET ?
@@ -255,7 +256,7 @@
 	   INSERT INTO thought_comment(`_id`,`user_id`,`thought_id`,`reply_to`,`content`,`time`) VALUES(?,?,?,?,?,?)
 	</string>
 	<string name="sql_s_cmt">
-	    SELECT * FROM `thought_comment` WHERE `thought_id` = ?
+	    SELECT * FROM `thought_comment` WHERE `thought_id` = ? ORDER BY `time` DESC
 	</string>
 	
 	<!-- user -->

@@ -53,9 +53,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	public static final int SETTING_TERMS_OF_SERVICES = 5;
 	public static final int SETTING_CONTACT_US = 6;
 	
-	public static final int LOADER_HOME = 0;
-	public static final int LOADER_HOT = 1;
-	
 //	public static final int TAB_NUMBER = 6;
 	public static final int TAB_NUMBER = 5;
 	private HomeThoughtFragment homeFragment;

@@ -48,5 +48,6 @@
     <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
-    
+    <string name="title_activity_comment_page">CommentPage</string>
+
 </resources>

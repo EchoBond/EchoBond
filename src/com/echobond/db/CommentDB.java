@@ -12,14 +12,22 @@ public class CommentDB extends MyDBHelper {
 	
 	/*Singleton pattern implementation*/
 	private static CommentDB INSTANCE;
-	public static CommentDB getInstance(Context ctx){
+	private static Context ctx;
+	public static CommentDB getInstance(Context context){
 		if(null == INSTANCE){
-			INSTANCE = new CommentDB(ctx.getApplicationContext());
+			ctx = context;
+			INSTANCE = new CommentDB();
+		}
+		return INSTANCE;
+	}
+	public static CommentDB getInstance(){
+		if(null == INSTANCE){
+			INSTANCE = new CommentDB();
 		}
 		return INSTANCE;
 	}
 	
-	public CommentDB(Context ctx){
+	public CommentDB(){
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_t_cmt);

@@ -1,5 +1,6 @@
 package com.echobond.application;
 
+import com.echobond.db.CommentDB;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -7,10 +8,16 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import android.app.Application;
 
-public class MyApplication extends Application {
+public class MyApp extends Application {
+
+	public static final int LOADER_HOME = 0;
+	public static final int LOADER_HOT = 1;
+	public static final int LOADER_COMMENT = 2;
+	
 	@Override
 	public void onCreate() {
 		initUIL();
+		initDB();
 	}
 	@Override
 	public void onTerminate() {
@@ -33,6 +40,9 @@ public class MyApplication extends Application {
 			.defaultDisplayImageOptions(opt)
 			.build();
 		ImageLoader.getInstance().init(conf);		
+	}
+	private void initDB(){
+		CommentDB.getInstance(this);
 	}
 	
 }

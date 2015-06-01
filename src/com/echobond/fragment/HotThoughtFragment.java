@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.MainPage;
+import com.echobond.application.MyApp;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
 import com.echobond.dao.HotThoughtDAO;
@@ -87,9 +88,9 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		userDAO = new UserDAO(getActivity());
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
-		commentDAO = new CommentDAO(getActivity());
+		commentDAO = new CommentDAO();
 		thoughtTagDAO = new ThoughtTagDAO(getActivity());
-		getLoaderManager().initLoader(MainPage.LOADER_HOT, null, this);
+		getLoaderManager().initLoader(MyApp.LOADER_HOT, null, this);
 		return thoughtView;
 	}
 	
@@ -236,7 +237,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
-		case MainPage.LOADER_HOT:
+		case MyApp.LOADER_HOT:
 			Uri uri = HotThoughtDAO.CONTENT_URI;
 			return new CursorLoader(getActivity(), uri, null, null, null, null);
 		}

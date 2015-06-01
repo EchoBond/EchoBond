@@ -5,6 +5,7 @@ import android.content.ContentValues;
 public class Comment {
 	private int id;
 	private String userId;
+	private String userName;
 	private int thoughtId;
 	private int replyTo;
 	private String content;
@@ -13,6 +14,7 @@ public class Comment {
 		ContentValues values = new ContentValues();
 		values.put("_id", id);
 		values.put("user_id", userId);
+		values.put("username", userName);
 		values.put("thought_id", thoughtId);
 		values.put("reply_to", replyTo);
 		values.put("content", content);
@@ -54,6 +56,12 @@ public class Comment {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }
