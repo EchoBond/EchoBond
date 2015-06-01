@@ -37,8 +37,10 @@ public class CommentDialog extends AlertDialog {
 			@Override
 			public void onClick(View v) {
 				// TODO SEND COMMENTS(String comment)
+				comment = commentText.getText().toString();
 				Toast.makeText(activity.getApplicationContext(), "Sent. ", Toast.LENGTH_SHORT).show();
-				dismiss();
+				commentText.setText(null);
+				cancel();
 			}
 		});
 		
@@ -46,7 +48,7 @@ public class CommentDialog extends AlertDialog {
 	}
 
 	public String getComment() {
-		return commentText.getText().toString();
+		return comment;
 	}
 	
 }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cursor>{
 
+	private CommentDialog dialog;
 	private ImageView image, commentButton;
 	private TextView titleText, contentText, idText;
 	private ListView commentsList;
@@ -35,6 +36,7 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment_page);
 		
+		dialog = new CommentDialog(CommentPage.this);
 		idText = (TextView) findViewById(R.id.comment_page_thought_id);
 		image = (ImageView)findViewById(R.id.comment_page_image);
 		titleText = (TextView)findViewById(R.id.comment_page_title);
@@ -55,13 +57,19 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				CommentDialog dialog = new CommentDialog(CommentPage.this);
 				dialog.show();
 			}
 		});
 		
 		commentsList.setAdapter(adapter);
 		commentsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		dialog = null;
 	}
 	
 	public class CommentsAdapter extends CursorAdapter {
