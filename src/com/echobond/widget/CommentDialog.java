@@ -38,6 +38,7 @@ public class CommentDialog extends AlertDialog {
 			public void onClick(View v) {
 				// TODO SEND COMMENTS(String comment)
 				Toast.makeText(activity.getApplicationContext(), "Sent. ", Toast.LENGTH_SHORT).show();
+				dismiss();
 			}
 		});
 		
