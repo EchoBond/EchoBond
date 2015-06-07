@@ -36,7 +36,7 @@ public class NotificationChildFragment extends Fragment {
 			testStrings[i] = "Notification " + i;
 		}
 		notificationList = (XListView)notificationChildView.findViewById(R.id.list_notification);
-		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_following, new String[]{"ntc"}, new int[]{R.id.text_following});
+		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_notification, new String[]{"ntc"}, new int[]{R.id.item_notification_text});
 		notificationList.setAdapter(mAdapter);
 		notificationList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		notificationList.setOnItemClickListener(new ClickListener());

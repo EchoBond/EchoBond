@@ -12,7 +12,7 @@
         android:text="@string/comment_title"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:layout_margin="10dp" />
+        android:layout_margin="6dp" />
     
     <LinearLayout 
         android:layout_below="@id/dialog_comment_title"
@@ -38,8 +38,8 @@
 	        <ImageView 
 		        android:id="@+id/dialog_comment_send"
 		        android:contentDescription="@string/none"
-		        android:layout_width="35dp"
-		        android:layout_height="35dp"
+		        android:layout_width="40dp"
+		        android:layout_height="40dp"
 		        android:layout_centerHorizontal="true"
 		        android:scaleType="fitCenter"
 		        android:src="@drawable/button_send"

@@ -36,7 +36,7 @@ public class MessageChildFragment extends Fragment {
 			testStrings[i] = "Message " + i;
 		}
 		messagesList = (XListView)messageChildView.findViewById(R.id.list_messages);
-		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_following, new String[]{"msg"}, new int[]{R.id.text_following});
+		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_message, new String[]{"msg"}, new int[]{R.id.item_message_text});
 		messagesList.setAdapter(mAdapter);
 		messagesList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		messagesList.setOnItemClickListener(new ClickListener());
