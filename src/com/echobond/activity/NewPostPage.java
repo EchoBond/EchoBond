@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.connector.ImageUploadAsyncTask;
 import com.echobond.connector.PostThoughtAsyncTask;
 import com.echobond.dao.HomeThoughtDAO;
@@ -199,8 +200,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
 			ImageUtil.saveBitmap(post, "testfile");
-			String userId = (String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class);
-			String email = (String) SPUtil.get(NewPostPage.this, "login", "loginUser_email", null, String.class);
+			String userId = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
+			String email = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
 			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_up_img),
 					ImageUtil.bmToStr(post), NewPostPage.this, userId, email);
@@ -294,7 +295,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 				t.setImage(image);
 				t.setCategoryId(categoryId);
 				t.setContent(contentsString);
-				t.setUserId((String) SPUtil.get(NewPostPage.this, "login", "loginUser_id", null, String.class));
+				t.setUserId((String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 				t.setGroupId(groupId);		
 				new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 

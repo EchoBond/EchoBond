@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.echobond.application.MyApp;
 import com.echobond.connector.FBSignInAsyncTask;
 import com.echobond.connector.ResetPassAsyncTask;
 import com.echobond.connector.SignInAsyncTask;
@@ -230,17 +231,17 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     }
 
     private void recordUser(User user){
-		SPUtil.put(this, "login", "loginUser_type", User.TYPE_EMAIL);
-		SPUtil.put(this, "login","loginUser_id", user.getId());
-		SPUtil.put(this, "login", "loginUser_pass", user.getPassword());
-		SPUtil.put(this, "login", "loginUser_email", user.getEmail());
+		SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_TYPE, User.TYPE_EMAIL);
+		SPUtil.put(this, MyApp.PREF_TYPE_LOGIN,MyApp.LOGIN_ID, user.getId());
+		SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, user.getPassword());
+		SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, user.getEmail());
     }
     
     private void recordFBUser(User user){
-    	SPUtil.put(this, "login", "loginUser_type", User.TYPE_FB);
-    	SPUtil.put(this, "login", "loginUser_id", user.getId());
-    	SPUtil.put(this, "login", "loginUser_FBId", user.getFBId());
-    	SPUtil.put(this, "login", "loginUser_email", user.getEmail());
+    	SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_TYPE, User.TYPE_FB);
+    	SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, user.getId());
+    	SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_FBId, user.getFBId());
+    	SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, user.getEmail());
     }
     
     private void login(User user){
@@ -264,22 +265,22 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     }
     
     private void checkReturnUser(){
-    	Integer type = (Integer) SPUtil.get(this, "login", "loginUser_type", User.TYPE_INVALID, Integer.class);
-        String id = (String) SPUtil.get(this, "login", "loginUser_id", null, String.class);
+    	Integer type = (Integer) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_TYPE, User.TYPE_INVALID, Integer.class);
+        String id = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
         User user = new User();
         if(!type.equals(User.TYPE_INVALID) && null != id){
         	if(type.equals(User.TYPE_EMAIL)){
         		String pass, email;
-        		if((pass=(String) SPUtil.get(this, "login", "loginUser_pass", null, String.class)) != null &&
-        				(email=(String) SPUtil.get(this, "login", "loginUser_email", null, String.class)) != null){
+        		if((pass=(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, null, String.class)) != null &&
+        				(email=(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class)) != null){
         			user.setEmail(email);
         			user.setPassword(pass);
         			login(user);
         		}
         	} else {
         		String FBId, email;
-        		if((FBId=(String) SPUtil.get(this, "login", "loginUser_FBId", null, String.class)) != null &&
-        				(email=(String) SPUtil.get(this, "login", "loginUser_email", null, String.class)) != null){
+        		if((FBId=(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_FBId, null, String.class)) != null &&
+        				(email=(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class)) != null){
         			user.setEmail(email);
         			user.setFBId(FBId);
         			login(user);

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.MainPage;
+import com.echobond.application.MyApp;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 import com.echobond.util.HTTPUtil;
@@ -53,14 +54,14 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
             // so it can use GCM/HTTP or CCS to send messages to your app.
             // The request to your server should be authenticated if your app
             // is using accounts.
-            body.put("userId", (String)SPUtil.get(context, "login", "loginUser_id", "", String.class));
-            body.put("email", (String)SPUtil.get(context, "login", "loginUser_email", "", String.class));
+            body.put("userId", (String)SPUtil.get(context, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+            body.put("email", (String)SPUtil.get(context, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, "", String.class));
             body.put("regId", regId);
             request.setParams(body);
             response = HTTPUtil.getInstance().send(request);
 
             // Persist the regID - no need to register again.
-            SPUtil.put(context, "system", "GCM_reg_id", regId);
+            SPUtil.put(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_GCM_ID, regId);
         } catch (Exception ex) {
         	ex.printStackTrace();
         }

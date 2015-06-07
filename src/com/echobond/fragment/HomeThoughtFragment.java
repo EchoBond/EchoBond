@@ -25,6 +25,7 @@ import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -133,6 +134,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			String title = c.getString(c.getColumnIndex("username"));
 			String content = c.getString(c.getColumnIndex("content"));
 			String path = c.getString(c.getColumnIndex("image"));
+			String userId = c.getString(c.getColumnIndex("user_id"));
 			int boost = c.getInt(c.getColumnIndex("boost"));
 			int cmt = c.getInt(c.getColumnIndex("num_of_cmt"));
 			int isUserBoost = c.getInt(c.getColumnIndex("isUserBoost")); 
@@ -144,6 +146,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			TextView thoughtIdView = (TextView)convertView.findViewById(R.id.thought_list_id);
 			TextView imagePathView = (TextView) convertView.findViewById(R.id.thought_list_image);
 			TextView isUserBoostView = (TextView) convertView.findViewById(R.id.thought_list_isUserBoost);
+			TextView userIdView = (TextView) convertView.findViewById(R.id.thought_list_poster_id);
 			
 			titleView.setText(title);
 			contentView.setText(content);
@@ -152,6 +155,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			thoughtIdView.setText(id);
 			imagePathView.setText(path);
 			isUserBoostView.setText(isUserBoost+"");
+			userIdView.setText(userId);
 			
 			ImageView postFigure = (ImageView)convertView.findViewById(R.id.thought_list_pic);
 			ImageView messageButton = (ImageView)convertView.findViewById(R.id.thought_list_message);
@@ -172,15 +176,17 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			}
 			
 			String fileName;
-			if(null == imagePathView.getText().toString() || imagePathView.getText().toString().isEmpty()){
+/*			if(null == imagePathView.getText().toString() || imagePathView.getText().toString().isEmpty()){
 				fileName = "no_image";
 			} else {
 				fileName = imagePathView.getText().toString();
-			}
+			}*/
+			fileName = imagePathView.getText().toString();
 			String url = HTTPUtil.getInstance().composePreURL(getActivity()) 
 					+ getResources().getString(R.string.url_down_img)
 					+ "?path=" + fileName;
-			ImageLoader.getInstance().displayImage(url, postFigure, null, new SimpleImageLoadingListener(){
+			DisplayImageOptions opt = new DisplayImageOptions.Builder().showImageOnFail(R.drawable.no_image).cacheInMemory(true).cacheOnDisk(true).build();
+			ImageLoader.getInstance().displayImage(url, postFigure, opt, new SimpleImageLoadingListener(){
 				@Override
 				public void onLoadingStarted(String imageUri, View view) {
 					RelativeLayout layout = (RelativeLayout) view.getParent();
@@ -191,6 +197,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 
 				@Override
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+					/*
 					String message = null;
 					switch (failReason.getType()) {
 						case IO_ERROR:
@@ -210,6 +217,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 							break;
 					}
 					Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+					*/
 					RelativeLayout layout = (RelativeLayout) view.getParent();
 					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
 					spinner.setVisibility(View.INVISIBLE);
@@ -254,20 +262,22 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			TextView idView = (TextView) root.findViewById(R.id.thought_list_id);			
 			Integer id = Integer.parseInt(idView.getText().toString());
 			TextView imageView = (TextView) root.findViewById(R.id.thought_list_image);
-			String image = imageView.getText().toString();
+			String postPath = imageView.getText().toString();
+			TextView titleView = (TextView) root.findViewById(R.id.thought_list_title);
+			String userName = titleView.getText().toString();
+			TextView contentView = (TextView) root.findViewById(R.id.thought_list_content);
+			String content = contentView.getText().toString();
+			TextView userIdView = (TextView) root.findViewById(R.id.thought_list_poster_id);
+			String userId = userIdView.getText().toString();
 			switch (buttonIndex) {
 			case POST:
-				Intent intent = new Intent();
-				intent.setClass(HomeThoughtFragment.this.getActivity(), ImagePage.class);
-				String fileName;
-				if(null == image || image.isEmpty())
-					fileName = "no_image";
-				else fileName = image;
-				String url = HTTPUtil.getInstance().composePreURL(getActivity())
+				Intent imageIntent = new Intent();
+				imageIntent.setClass(HomeThoughtFragment.this.getActivity(), ImagePage.class);
+				String imageUrl = HTTPUtil.getInstance().composePreURL(getActivity())
 						+ getResources().getString(R.string.url_down_img)
-						+ "?path=" + fileName;
-				intent.putExtra("url", url);
-				startActivity(intent);
+						+ "?path=" + postPath;
+				imageIntent.putExtra("url", imageUrl);
+				startActivity(imageIntent);
 				break;
 			case MESSAGE:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
@@ -276,21 +286,24 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
-						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
+						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 				break;
 			case COMMENT:
-				Intent intent2 = new Intent();
-				intent2.setClass(HomeThoughtFragment.this.getActivity(), CommentPage.class);
-				String fileName2;
-				if(null == image || image.isEmpty())
-					fileName2 = "no_image";
-				else fileName2 = image;
-				String url2 = HTTPUtil.getInstance().composePreURL(getActivity())
+				Intent commentIntent = new Intent();
+				commentIntent.setClass(HomeThoughtFragment.this.getActivity(), CommentPage.class);
+				String posterAvatar = userId;
+				String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity())
 						+ getResources().getString(R.string.url_down_img)
-						+ "?path=" + fileName2;
-				intent2.putExtra("url", url2);
-				intent2.putExtra("id", id);
-				startActivity(intent2);
+						+ "?path=" + posterAvatar;
+				String postUrl = HTTPUtil.getInstance().composePreURL(getActivity())
+						+ getResources().getString(R.string.url_down_img)
+						+ "?path=" + postPath;
+				commentIntent.putExtra("avatarUrl", avatarUrl);
+				commentIntent.putExtra("postUrl", postUrl);
+				commentIntent.putExtra("id", id);
+				commentIntent.putExtra("userName", userName);
+				commentIntent.putExtra("content", content);
+				startActivity(commentIntent);
 				break;
 			case SHARE:
 				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
@@ -322,7 +335,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
-			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
+			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_thoughts), 
 					LoadThoughtAsyncTask.LOAD_T_HOME, this, 0, currentLimit, user);
@@ -336,7 +349,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
-			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));
+			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 			currentLimit += LIMIT_INCREMENT;
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts), 
@@ -403,6 +416,9 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		}
 	}
 	
+	/**
+	 * will auto query once upon creation!
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){

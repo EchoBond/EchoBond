@@ -52,8 +52,13 @@ public class CommentDAO extends ContentProvider{
 	}
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		if(uriMatcher.match(uri) == COMMENT){
+			Comment cmt = new Comment();
+			cmt.loadValues(values);
+			addComment(cmt);
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return uri;
 	}
 	@Override
 	public boolean onCreate() {

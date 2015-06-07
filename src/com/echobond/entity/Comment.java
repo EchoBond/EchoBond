@@ -21,6 +21,17 @@ public class Comment {
 		values.put("time", time);
 		return values;
 	}
+	public void loadValues(ContentValues values){
+		if(null != values){
+			id = values.getAsInteger("_id");
+			userId = values.getAsString("user_id");
+			userName = values.getAsString("username");
+			thoughtId = values.getAsInteger("thought_id");
+			replyTo = values.getAsInteger("reply_to");
+			content = values.getAsString("content");
+			time = values.getAsString("time");
+		}
+	}
 	public int getId() {
 		return id;
 	}

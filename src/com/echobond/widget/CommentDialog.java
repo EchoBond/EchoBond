@@ -1,6 +1,7 @@
 package com.echobond.widget;
 
 import com.echobond.R;
+import com.echobond.activity.CommentPage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class CommentDialog extends AlertDialog {
 
@@ -38,7 +38,7 @@ public class CommentDialog extends AlertDialog {
 			public void onClick(View v) {
 				// TODO SEND COMMENTS(String comment)
 				comment = commentText.getText().toString();
-				Toast.makeText(activity.getApplicationContext(), "Sent. ", Toast.LENGTH_SHORT).show();
+				((CommentPage)activity).onDialogConfirmed(comment);
 				commentText.setText(null);
 				cancel();
 			}

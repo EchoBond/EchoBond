@@ -177,7 +177,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
-			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));			
+			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));			
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
 				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit, user);
@@ -192,7 +192,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 			lastLoadTime = System.currentTimeMillis();
 			currentLimit += LIMIT_INCREMENT;
 			User user = new User();
-			user.setId((String) SPUtil.get(getActivity(), "login", "loginUser_id", null, String.class));			
+			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));			
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts),
 				LoadThoughtAsyncTask.LOAD_T_HOT,this,0,currentLimit,user);

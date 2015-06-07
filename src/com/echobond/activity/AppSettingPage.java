@@ -1,6 +1,7 @@
 package com.echobond.activity;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
@@ -95,7 +96,7 @@ public class AppSettingPage extends ActionBarActivity {
 				Toast.makeText(getApplicationContext(), appSettingTitles[4], Toast.LENGTH_SHORT).show();
 				break;
 			case 5:
-				SPUtil.clear(AppSettingPage.this, "login");
+				SPUtil.clear(AppSettingPage.this, MyApp.PREF_TYPE_LOGIN);
 				intent.setClass(AppSettingPage.this, StartPage.class);
 				//clear activity stack
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

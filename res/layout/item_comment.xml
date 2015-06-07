@@ -28,5 +28,15 @@
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:textSize="20sp" />
+    <TextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/comment_person_title"
+        android:layout_toEndOf="@id/comment_person_title"
+        android:layout_below="@id/comment_content"
+        android:layout_alignBaseline="@id/comment_person_title"
+        android:textSize="15sp"
+        android:layout_marginLeft="10dp"/>
 
 </RelativeLayout>

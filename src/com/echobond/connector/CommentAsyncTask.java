@@ -17,7 +17,7 @@ import android.os.AsyncTask;
 
 /**
  * This task is to handle comment of thought updates in server's DB.<br>
- * Params (Object): url(String), activity(CommentAsyncTaskCallback), comment (Comment)<br>
+ * Params (Object): action(int), url(String), activity(CommentAsyncTaskCallback), null/comment (Comment)<br>
  * @version 1.0
  * @author Luck
  * 
@@ -29,12 +29,18 @@ public class CommentAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	public static final Integer SEND_COMMENT = 1;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
-		String url = (String) params[0];
-		activity =  (CommentCallback) params[1];
-		Comment cmt = (Comment) params[2];
+		Integer action = (Integer) params[0];
+		String url = (String) params[1];
+		activity =  (CommentCallback) params[2];
+		
 		JSONObject body = new JSONObject();
 		try {
-			body.put("comment", JSONUtil.fromObjectToJSON(cmt));
+			if(action == SEND_COMMENT){
+				Comment cmt = (Comment) params[3];
+				body.put("comment", JSONUtil.fromObjectToJSON(cmt));
+			} else {
+				
+			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
