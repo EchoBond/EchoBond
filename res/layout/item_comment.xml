@@ -34,9 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/comment_person_title"
         android:layout_toEndOf="@id/comment_person_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_below="@id/comment_content"
         android:layout_alignBaseline="@id/comment_person_title"
-        android:textSize="15sp"
-        android:layout_marginLeft="10dp"/>
+        android:textSize="15sp" />
 
 </RelativeLayout>

@@ -7,16 +7,22 @@ import java.util.Map;
 
 import com.echobond.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 /**
  * 
@@ -34,6 +40,7 @@ public class FollowingGroupsFragment extends Fragment {
 			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE",
 			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE"};
 	private GridView groups2Follow;
+	private MySimpleAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -41,11 +48,13 @@ public class FollowingGroupsFragment extends Fragment {
 		
 		View followingGroupsView = inflater.inflate(R.layout.fragment_following_groups, container, false);
 		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
-		mySimpleAdapter adapter = new mySimpleAdapter(this.getActivity(), data(), 
-				R.layout.item_following, new String[]{"group"}, new int[]{R.id.text_following});
+		adapter = new MySimpleAdapter(this.getActivity(), data(), 
+				R.layout.item_following, new String[]{"group"}, new int[]{R.id.item_following_text});
+		MySimpleAdapter2 adapter2 = new MySimpleAdapter2(this.getActivity(), R.layout.item_following, null, 0);
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		groups2Follow.setOnItemClickListener(new groupSelectedListener());
+		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
+//		groups2Follow.setOnItemClickListener(new groupSelectedListener());
 
 		return followingGroupsView;
 	}
@@ -60,17 +69,56 @@ public class FollowingGroupsFragment extends Fragment {
 		return groupsList;
 	}
 	
-	public class mySimpleAdapter extends SimpleAdapter {
-
-		public mySimpleAdapter(Context context,
+	public class MySimpleAdapter extends SimpleAdapter {
+		
+		private LayoutInflater mInflater;
+		public ViewHolder holder;
+		
+		class ViewHolder {
+			ImageView selection;
+			RelativeLayout groupLayout;
+		}
+		
+		public MySimpleAdapter(Context context,
 				List<? extends Map<String, ?>> data, int resource,
 				String[] from, int[] to) {
 			super(context, data, resource, from, to);
-			// TODO Auto-generated constructor stub
+			this.mInflater = LayoutInflater.from(context);
 		}
 		
+		@SuppressLint("InflateParams") 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			holder = new ViewHolder();
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.item_following, null);
+				holder.selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
+				holder.groupLayout = (RelativeLayout)convertView.findViewById(R.id.item_following_view);
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder)convertView.getTag();
+			}
+			holder.selection.setImageResource(R.drawable.button_back);
+			groups2Follow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					if (view.isSelected()) {
+						holder.selection.setImageResource(R.drawable.button_back);
+						view.setSelected(false);
+						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
+					} 
+					if (!view.isSelected()) {
+						holder.selection.setImageResource(R.drawable.button_done);
+						view.setSelected(true);
+						groups2Follow.setSelection(position);
+						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
+
 			View view = super.getView(position, convertView, parent);
 			int colorPos = position % (3 * colorBgd.length);
 			view.setBackgroundColor(colorBgd[colorPos/3]);
@@ -78,13 +126,48 @@ public class FollowingGroupsFragment extends Fragment {
 		}
 	}
 	
+	public class MySimpleAdapter2 extends CursorAdapter {
+
+		private LayoutInflater mInflater;
+		private int layout;
+		
+		public MySimpleAdapter2(Context context, int layout, Cursor c, int flags) {
+			super(context, c, flags);
+			this.layout = layout;
+			this.mInflater = LayoutInflater.from(context);
+		}
+		
+		@Override
+		public View newView(Context ctx, Cursor c, ViewGroup parent) {
+			View view = mInflater.inflate(layout, parent, false);
+			return view;
+		}
+		
+		@Override
+		public void bindView(View convertView, Context ctx, Cursor c) {
+			ImageView selectionView = (ImageView)convertView.findViewById(R.id.item_following_selected);
+			TextView groupView = (TextView)convertView.findViewById(R.id.item_following_text);
+			
+			groupView.setText(testGroups[groups2Follow.getPositionForView(convertView)]);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = super.getView(position, convertView, parent);
+			int colorPos = position % (3 * colorBgd.length);
+			view.setBackgroundColor(colorBgd[colorPos/3]);
+			return view;
+		}
+		
+	}
+	
 	public class groupSelectedListener implements AdapterView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			view.setSelected(true);
-			Toast.makeText(getActivity().getApplicationContext(), "You've clicked position " + position, Toast.LENGTH_SHORT).show();
+			String s = groups2Follow.getItemAtPosition(position).toString();
+			Toast.makeText(getActivity().getApplicationContext(), "Position " + position + ": " + s, Toast.LENGTH_SHORT).show();
 		}
 	}
 

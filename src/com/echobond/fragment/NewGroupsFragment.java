@@ -23,8 +23,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +74,9 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				map.put("group", groups.get(i).getName());
 				listItems.add(map);
 			}
-			MySimpleAdapter adapter2 = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
-			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
-			groupList.setAdapter(adapter2);
+			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, 
+					new String[]{"group"}, new int[]{R.id.text_group});
+			groupList.setAdapter(adapter);
 			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 			groupList.setOnItemClickListener(new GroupItemClickListener());
 		}
@@ -101,14 +99,15 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			return super.getItem(position);
 		}
 		
-		@SuppressLint("InflateParams") @Override
+		@SuppressLint("InflateParams") 
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = new ViewHolder();
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.item_group, null);
 				holder.groupName = (TextView)convertView.findViewById(R.id.text_group);
 				convertView.setTag(holder);
-			}else {
+			} else {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			holder.groupName.setText(groups.get(position).getName());

@@ -28,7 +28,10 @@ public class FollowingHashtagsFragment extends Fragment {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private String[] testHashTags = {"Inspiring", "ChitChat", "Hip", "France", "India", "Hong Kong", "Honkey", 
-			"Football", "Dragon Boat", "Nerd", "Punk", "Vintage", "Politics", "Equality", "LGBT", "Fun", "Philo", "Random"};
+			"Football", "Dragon Boat", "Nerd", "Punk", "Vintage", "Politics", "Equality", "LGBT", "Fun", "Philo", "Random", 
+			"Dragon Boat", "Nerd", "Punk", "Vintage", "Politics", 
+			"Football", "Dragon Boat", "Nerd", "Punk", "Vintage", "Politics", 
+			"Football", "Dragon Boat", "Nerd", "Punk", "Vintage", "Politics"};
 	private GridView hashtags2Follow;
 	
 	@Override
@@ -38,7 +41,7 @@ public class FollowingHashtagsFragment extends Fragment {
 		View followingHashtagsView = inflater.inflate(R.layout.fragment_following_hashtags, container, false);
 		hashtags2Follow = (GridView)followingHashtagsView.findViewById(R.id.grid_hashtags);
 		mySimpleAdapter adapter = new mySimpleAdapter(getActivity(), data(), 
-				R.layout.item_following, new String[]{"hashtag"}, new int[]{R.id.text_following});
+				R.layout.item_following, new String[]{"hashtag"}, new int[]{R.id.item_following_text});
 		hashtags2Follow.setAdapter(adapter);
 		hashtags2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		hashtags2Follow.setOnItemClickListener(new hashtagSelectedListener());
@@ -79,7 +82,7 @@ public class FollowingHashtagsFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Toast.makeText(getActivity().getApplicationContext(), "You've clicked position " + position, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity().getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
 		}
 		
 	}
