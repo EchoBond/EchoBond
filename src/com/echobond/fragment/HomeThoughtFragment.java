@@ -176,13 +176,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			} else {
 				boostButton.setImageResource(R.drawable.thoughts_rocket_up_normal);
 			}
-			
 			String fileName;
-/*			if(null == imagePathView.getText().toString() || imagePathView.getText().toString().isEmpty()){
-				fileName = "no_image";
-			} else {
-				fileName = imagePathView.getText().toString();
-			}*/
 			fileName = imagePathView.getText().toString();
 			String url = HTTPUtil.getInstance().composePreURL(getActivity()) 
 					+ getResources().getString(R.string.url_down_img)
@@ -387,7 +381,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
 				updateListView();
 				/* Update HotThought if this thought is also there */
-				values.put("action", "update");
 				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -423,6 +416,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	
 	private void updateListView(){
 		Cursor cursor = getActivity().getContentResolver().query(HomeThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", DEFAULT_OFFSET+""}, null);
+		adapter.getCursor().close();
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

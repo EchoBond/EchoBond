@@ -40,8 +40,10 @@ public class HomeThoughtDAO extends ContentProvider{
 	public Uri insert(Uri uri, ContentValues values) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
 			HomeThoughtDB.getInstance().addHomeThought(values);
+			/* don't update here, update manually
 			ContentResolver resolver = getContext().getContentResolver();
 			resolver.notifyChange(uri, null);
+			*/
 		}
 		return uri;
 	}
@@ -80,6 +82,8 @@ public class HomeThoughtDAO extends ContentProvider{
 			String[] selectionArgs) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
 			HomeThoughtDB.getInstance().updateHomeThought(values, selection, selectionArgs);
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
 		}
 		return 0;
 	}
