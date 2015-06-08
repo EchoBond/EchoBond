@@ -218,16 +218,6 @@
 	    	`time`,`boost`) VALUES (?,?,?,?,?,?,?,?,?);
 	</string>
 	<string name="sql_s_t_hot">
-	    <!-- 
-	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
-	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
-	    FROM `hot_thought` AS t
-	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
-	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
-	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
-	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
-	    ORDER BY t.`_id` DESC
-	    LIMIT ? OFFSET ?-->
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
 	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
 	    FROM `hot_thought` AS t
@@ -236,7 +226,8 @@
 	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
 	    GROUP BY t.`_id`
-	    ORDER BY t.`_id` DESC
+	    ORDER BY t.`boost` DESC, t.`_id` DESC
+	    LIMIT ? OFFSET ?
 	</string>
 	<string name="load_hot_t_tags">
 	    SELECT t.`_id`, tt.`tag_id`, tg.`name` FROM `hot_thought` AS t
