@@ -12,14 +12,22 @@ public class HomeThoughtDB extends MyDBHelper {
 	
 	/*Singleton pattern implementation*/
 	private static HomeThoughtDB INSTANCE;
-	public static HomeThoughtDB getInstance(Context ctx){
+	private static Context ctx;
+	public static HomeThoughtDB getInstance(Context context){
 		if(null == INSTANCE){
-			INSTANCE = new HomeThoughtDB(ctx.getApplicationContext());
+			ctx = context;
+			INSTANCE = new HomeThoughtDB();
+		}
+		return INSTANCE;
+	}
+	public static HomeThoughtDB getInstance(){
+		if(null == INSTANCE){
+			INSTANCE = new HomeThoughtDB();
 		}
 		return INSTANCE;
 	}
 	
-	public HomeThoughtDB(Context ctx){
+	public HomeThoughtDB(){
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_home_t);
@@ -30,8 +38,8 @@ public class HomeThoughtDB extends MyDBHelper {
 		// TODO Auto-generated method stub
 	}
 	
-	public Cursor getHomeThoughts(){
-		Cursor cursor = query(ctx.getResources().getString(R.string.sql_s_t_home), new String[]{"10","0"});
+	public Cursor getHomeThoughts(String[] args){
+		Cursor cursor = query(ctx.getResources().getString(R.string.sql_s_t_home), args);
 		return cursor;
 	}
 	

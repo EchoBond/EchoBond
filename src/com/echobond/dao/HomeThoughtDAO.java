@@ -20,11 +20,10 @@ public class HomeThoughtDAO extends ContentProvider{
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "homeThought", HOMETHOUGHT);
 	}
-	private HomeThoughtDB dbUtil;
 
 	public void close(){
-		if(null != dbUtil){
-			dbUtil.close();
+		if(null != HomeThoughtDB.getInstance()){
+			HomeThoughtDB.getInstance().close();
 		}
 	}
 	@Override
@@ -40,7 +39,7 @@ public class HomeThoughtDAO extends ContentProvider{
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
-			dbUtil.addHomeThought(values);
+			HomeThoughtDB.getInstance().addHomeThought(values);
 			ContentResolver resolver = getContext().getContentResolver();
 			resolver.notifyChange(uri, null);
 		}
@@ -51,26 +50,26 @@ public class HomeThoughtDAO extends ContentProvider{
 	public int bulkInsert(Uri uri, ContentValues[] values) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
 			for (ContentValues contentValues : values) {
-				dbUtil.addHomeThought(contentValues);
+				HomeThoughtDB.getInstance().addHomeThought(contentValues);
 			}
+			/* don't update here, update manually
 			ContentResolver resolver = getContext().getContentResolver();
 			resolver.notifyChange(uri, null);
+			*/
 		}
 		return 0;
 	}
 	
 	@Override
 	public boolean onCreate() {
-		dbUtil = HomeThoughtDB.getInstance(getContext());
-		dbUtil.getReadableDatabase();
-		return true;
+		return false;
 	}
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
-			cursor = dbUtil.getHomeThoughts();
+			cursor = HomeThoughtDB.getInstance().getHomeThoughts(selectionArgs);
 			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;
@@ -80,7 +79,7 @@ public class HomeThoughtDAO extends ContentProvider{
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
-			dbUtil.updateHomeThought(values, selection, selectionArgs);
+			HomeThoughtDB.getInstance().updateHomeThought(values, selection, selectionArgs);
 		}
 		return 0;
 	}

@@ -13,6 +13,7 @@ import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
 import com.echobond.dao.HomeThoughtDAO;
+import com.echobond.dao.HotThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
 import com.echobond.entity.Thought;
@@ -74,6 +75,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private static final int COMMENT = 3;
 	private static final int SHARE = 4;
 	private int currentLimit;
+	private static final int DEFAULT_OFFSET = 0;
 	private static final int LIMIT_INIT = 10;
 	private static final int LIMIT_INCREMENT = 10;
 	private static final long LOAD_INTERVAL = 2000;
@@ -197,27 +199,6 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 
 				@Override
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-					/*
-					String message = null;
-					switch (failReason.getType()) {
-						case IO_ERROR:
-							message = "Input/Output error";
-							break;
-						case DECODING_ERROR:
-							message = "Image can't be decoded";
-							break;
-						case NETWORK_DENIED:
-							message = "Downloads are denied";
-							break;
-						case OUT_OF_MEMORY:
-							message = "Out Of Memory error";
-							break;
-						case UNKNOWN:
-							message = "Unknown error";
-							break;
-					}
-					Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-					*/
 					RelativeLayout layout = (RelativeLayout) view.getParent();
 					ProgressBar spinner = (ProgressBar) layout.findViewById(R.id.thought_list_spinner);
 					spinner.setVisibility(View.INVISIBLE);
@@ -280,10 +261,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your message. ", Toast.LENGTH_SHORT).show();
 				break;
-			case BOOST:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your boost. ", Toast.LENGTH_SHORT).show();
+			case BOOST:				
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
 						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
@@ -305,8 +284,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				commentIntent.putExtra("content", content);
 				startActivity(commentIntent);
 				break;
-			case SHARE:
-				Toast.makeText(getActivity().getApplicationContext(), "Thank you for your sharing! ", Toast.LENGTH_SHORT).show();
+			case SHARE:				
 				break;
 			default:
 				break;
@@ -338,7 +316,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_thoughts), 
-					LoadThoughtAsyncTask.LOAD_T_HOME, this, 0, currentLimit, user);
+					LoadThoughtAsyncTask.LOAD_T_HOME, this, DEFAULT_OFFSET, currentLimit, user);
 		} else {
 			onLoadFinished();
 		}
@@ -353,7 +331,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			currentLimit += LIMIT_INCREMENT;
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts), 
-					LoadThoughtAsyncTask.LOAD_T_HOME, this, 0, currentLimit, user);
+					LoadThoughtAsyncTask.LOAD_T_HOME, this, DEFAULT_OFFSET, currentLimit, user);
 		} else {
 			onLoadFinished();
 		}
@@ -385,6 +363,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			}
 			/* Inserting thoughts */
 			getActivity().getContentResolver().bulkInsert(HomeThoughtDAO.CONTENT_URI, contentValues);
+			/* Update UI */
+			updateListView();
 			onLoadFinished();
 		} else {
 			onLoadFinished();
@@ -405,9 +385,10 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				String where = "_id="+id;
 				ContentResolver resolver = getActivity().getContentResolver();
 				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
-				Cursor cursor = resolver.query(HomeThoughtDAO.CONTENT_URI, null, null, null, null);
-				adapter.swapCursor(cursor);
-				adapter.notifyDataSetChanged();
+				updateListView();
+				/* Update HotThought if this thought is also there */
+				values.put("action", "update");
+				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -424,7 +405,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		switch(loader){
 		case MyApp.LOADER_HOME:
 			Uri uri = HomeThoughtDAO.CONTENT_URI;
-			return new CursorLoader(getActivity(), uri, null, null, null, null);
+			String[] args = new String[]{currentLimit+"", DEFAULT_OFFSET+""};
+			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}
 		return null;
 	}
@@ -437,6 +419,12 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		adapter.swapCursor(null);
+	}
+	
+	private void updateListView(){
+		Cursor cursor = getActivity().getContentResolver().query(HomeThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", DEFAULT_OFFSET+""}, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();
 	}
 	
 }

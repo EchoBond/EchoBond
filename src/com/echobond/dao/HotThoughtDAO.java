@@ -77,7 +77,17 @@ public class HotThoughtDAO extends ContentProvider{
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		if(uriMatcher.match(uri) == HOTTHOUGHT){
-			dbUtil.addHotThought(values);
+			if(values.containsKey("action")){
+				String action = (String)values.get("action");
+				values.remove("action");
+				if("update".equals(action)){
+					dbUtil.updateHotThought(values, selection, selectionArgs);
+				} else {
+					addHotThought(values);
+				}
+			} else {
+				addHotThought(values);
+			}
 			ContentResolver resolver = getContext().getContentResolver();
 			resolver.notifyChange(uri, null);
 		}

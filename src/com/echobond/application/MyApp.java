@@ -1,7 +1,7 @@
 package com.echobond.application;
 
 import com.echobond.db.CommentDB;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.echobond.db.HomeThoughtDB;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -81,6 +81,7 @@ public class MyApp extends Application {
 	}
 	private void initDB(){
 		CommentDB.getInstance(this);
+		HomeThoughtDB.getInstance(this);
 	}
 	
 }

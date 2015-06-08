@@ -34,9 +34,14 @@ public class HotThoughtDB extends MyDBHelper {
 		Cursor cursor = query(ctx.getResources().getString(R.string.sql_s_t_hot),null);// new String[]{"10","0"});
 		return cursor;
 	}
-	
+		
 	public long addHotThought(ContentValues values){
 		return replace(tblName, values);
 	}
+	
+	public int updateHotThought(ContentValues values, String where, String whereArgs[]){
+		return update(tblName, values, where, whereArgs);
+	}
+
 	
 }
