@@ -12,7 +12,7 @@
             android:id="@+id/thoughts_group_logoview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="8dp"
             android:gravity="center_vertical"
             android:contentDescription="@string/none"
             android:src="@drawable/thoughts_group_logoview" />
@@ -21,10 +21,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/thoughts_group_logoview"
+            android:layout_toEndOf="@id/thoughts_group_logoview" 
             android:padding="10dp"
             android:gravity="center_vertical"
             android:text="@string/title_new_post_grouptitle"
-            android:textColor="#8cd19d"
+            android:textColor="#8980da"
             android:textStyle="bold"
             android:textSize="25sp" />
         <ImageView 
@@ -32,10 +33,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" 
             android:padding="10dp"
             android:gravity="center_vertical"
             android:contentDescription="@string/none"
-            android:src="@drawable/button_search" />
+            android:src="@drawable/button_search"
+            android:clickable="true" />
     </RelativeLayout>
     
     <ListView 
@@ -43,6 +46,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:layout_gravity="center"
+	    android:layout_margin="8dp"
 	    android:divider="@android:color/transparent"
 	    android:choiceMode="singleChoice" />
 

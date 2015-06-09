@@ -35,7 +35,9 @@ public class SearchPage extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_page);
 		initActionBar();
-		initCategoryList();
+		initCategoriesList();
+		initGroupsList();
+		initHashtagsList();
 	}
 
 	private void initActionBar() {
@@ -62,7 +64,7 @@ public class SearchPage extends ActionBarActivity {
 		
 	}
 	
-	private void initCategoryList() {
+	private void initCategoriesList() {
 		cgList = new ArrayList<Drawable>();
 		cgList.add(getResources().getDrawable(R.drawable.corners_bg_blue));
 		cgList.add(getResources().getDrawable(R.drawable.corners_bg_red));
@@ -75,4 +77,14 @@ public class SearchPage extends ActionBarActivity {
 		categoryListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 	}
 
+	private void initGroupsList() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initHashtagsList() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

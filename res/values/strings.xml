@@ -27,6 +27,10 @@
     <string name="title_new_post_grouptitle">GROUPS</string>
     <string name="title_new_post_tag">TAGS</string>
     <string name="title_new_post_group">Put It in A Group</string>
+    
+    <!-- NAME OF THE TITLES IN SEARCHING PAGE -->
+    <string name="search_page_category">Explore Great Ideas</string>
+    <string name="search_page_following">You are following…</string>
 
     <!-- LIST OF THE CATEGORY -->
     <string name="category_feelings">Feelings</string>

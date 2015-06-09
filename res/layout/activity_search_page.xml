@@ -1,4 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,17 +17,39 @@
     
     <ScrollView 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:fillViewport="true" >
         
         <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
             
-            <TextView 
-		        android:id="@+id/search_page_categoryview"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" />
+            <RelativeLayout 
+                android:id="@+id/search_page_category_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <ImageView 
+                    android:contentDescription="@string/none"
+                    android:id="@+id/search_page_category_logo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="10dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/search_page_category" />
+                <TextView 
+		        	android:id="@+id/search_page_categoryview"
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_toRightOf="@id/search_page_category_logo"
+		        	android:layout_toEndOf="@id/search_page_category_logo"
+		        	android:layout_centerVertical="true"
+		        	android:text="@string/search_page_category"
+		        	android:textSize="25sp"
+		        	android:textColor="#fcaf42"
+		        	android:textStyle="bold" />
+            </RelativeLayout>
+            
 		    <ListView 
 		        android:id="@+id/search_page_category"
 		        android:layout_width="match_parent"
@@ -33,15 +57,105 @@
 		        android:layout_gravity="center"
 		        android:divider="@android:color/transparent" />
 		    
-		    <TextView 
-		        android:id="@+id/search_page_groupsview"
+		    <RelativeLayout 
+		        android:id="@+id/search_page_following_title"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" />
+		        android:layout_height="wrap_content" >
+		        <ImageView 
+		            android:contentDescription="@string/none"
+		            android:id="@+id/search_page_following_logo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="10dp"
+                    android:layout_centerVertical="true"
+		            android:src="@drawable/main_profile_button" />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/search_page_following_logo"
+		            android:layout_toEndOf="@id/search_page_following_logo"
+		            android:layout_centerVertical="true"
+		            android:text="@string/search_page_following"
+		            android:textSize="25sp"
+		            android:textColor="#f8ea20"
+		            android:textStyle="bold" />
+		    </RelativeLayout>
 		    
-		    <TextView 
-		        android:id="@+id/search_page_tagsview"
+		    <RelativeLayout 
+		        android:id="@+id/search_page_groups_title"
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" />
+		        android:layout_height="wrap_content" >
+		        <ImageView 
+		            android:contentDescription="@string/none"
+		            android:id="@+id/search_page_groups_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerVertical="true"
+		            android:src="@drawable/thoughts_group_logoview" />
+		        <TextView 
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/search_page_groups_logo"
+			        android:layout_toEndOf="@id/search_page_groups_logo"
+			        android:layout_centerVertical="true"
+			        android:text="@string/title_new_post_grouptitle"
+			        android:textSize="18sp"
+			        android:textColor="#8980da"
+			        android:textStyle="bold" />
+		    </RelativeLayout>
+		    <ListView 
+		        android:id="@+id/search_page_group"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:divider="@android:color/transparent" />
+		    
+		    <RelativeLayout 
+		        android:id="@+id/search_page_hashtags_title"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content" >
+		        <ImageView 
+		            android:contentDescription="@string/none"
+		            android:id="@+id/search_page_hashtags_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerVertical="true"
+		            android:src="@drawable/hashtag_view" />
+		        <TextView 
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/search_page_hashtags_logo"
+			        android:layout_toEndOf="@id/search_page_hashtags_logo"
+			        android:layout_centerVertical="true"
+			        android:text="@string/title_new_post_tag"
+			        android:textSize="18sp"
+			        android:textColor="#8cd19d"
+			        android:textStyle="bold" />
+		    </RelativeLayout>
+		    <ListView 
+		        android:id="@+id/search_page_hashtag"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+		        android:divider="@android:color/transparent" />
 		    
         </LinearLayout>
 
