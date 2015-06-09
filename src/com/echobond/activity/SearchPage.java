@@ -3,11 +3,14 @@ package com.echobond.activity;
 import java.util.ArrayList;
 
 import com.echobond.R;
+import com.echobond.connector.CategoryAsyncTask;
 import com.echobond.entity.Category;
+import com.echobond.util.HTTPUtil;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -75,6 +78,8 @@ public class SearchPage extends ActionBarActivity {
 		
 		categoryListView = (ListView)findViewById(R.id.search_page_category);
 		categoryListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CategoryAsyncTask.CATEGORY_LOAD, 
+//				HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_load_categories), this);
 	}
 
 	private void initGroupsList() {

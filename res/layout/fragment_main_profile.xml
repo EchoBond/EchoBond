@@ -1,41 +1,65 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-
-    <ImageView  
-        android:contentDescription="@string/none"
-        android:id="@+id/profile_pic"  
-        android:layout_width="wrap_content"  
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:scaleType="fitXY"
-        android:padding="6dp" />  
-  
-    <TextView  
-        android:id="@+id/profile_title"  
-        android:layout_width="wrap_content"  
-        android:layout_height="wrap_content"  
-        android:paddingLeft="4dp"  
-        android:paddingRight="4dp"  
-        android:textStyle="bold"  
-        android:layout_below="@id/profile_pic"/>
-    <TextView  
-        android:id="@+id/profile_content"  
-        android:layout_width="match_parent"  
-        android:layout_height="wrap_content"  
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"  
-        android:layout_below="@id/profile_title"
-        android:padding="4dp" />
-    <TextView 
-        android:id="@+id/profile_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/profile_pic"
-        android:padding="4dp" />
     
-</RelativeLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    	android:orientation="vertical" >
+        
+		<RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+		
+		    <ImageView  
+		        android:contentDescription="@string/none"
+		        android:id="@+id/profile_pic"  
+		        android:layout_width="match_parent"  
+		        android:layout_height="300dp"
+		        android:layout_centerHorizontal="true"
+		        android:scaleType="fitXY"
+		        android:padding="6dp" />  
+		  
+		    <TextView  
+		        android:id="@+id/profile_title"  
+		        android:layout_width="wrap_content"  
+		        android:layout_height="wrap_content"  
+		        android:paddingLeft="4dp"  
+		        android:paddingRight="4dp"  
+		        android:textStyle="bold"  
+		        android:layout_below="@id/profile_pic"/>
+		    <TextView  
+		        android:id="@+id/profile_content"  
+		        android:layout_width="match_parent"  
+		        android:layout_height="wrap_content"  
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentStart="true"  
+		        android:layout_below="@id/profile_title"
+		        android:padding="4dp" />
+		    <TextView 
+		        android:id="@+id/profile_gender"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentEnd="true"
+		        android:layout_below="@id/profile_pic"
+		        android:padding="4dp" />
+		    
+		</RelativeLayout>
+		        
+	    <FrameLayout  
+	        android:id="@+id/profile_frame"  
+	        android:layout_width="match_parent"  
+	        android:layout_height="wrap_content" />  
+	  
+	    <android.support.v4.app.FragmentTabHost  
+	        android:id="@+id/profile_tabhost"  
+	        android:layout_width="match_parent"  
+	        android:layout_height="wrap_content"/> 
+		        
+	</LinearLayout>
+</ScrollView>

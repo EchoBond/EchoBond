@@ -27,7 +27,7 @@
     <string name="title_new_post_grouptitle">GROUPS</string>
     <string name="title_new_post_tag">TAGS</string>
     <string name="title_new_post_group">Put It in A Group</string>
-    
+
     <!-- NAME OF THE TITLES IN SEARCHING PAGE -->
     <string name="search_page_category">Explore Great Ideas</string>
     <string name="search_page_following">You are following…</string>
@@ -46,7 +46,7 @@
     <string name="hint_xview_header_loading">Loading…</string>
     <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
-    
+
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
@@ -56,5 +56,6 @@
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
+    <string name="title_activity_chat_page">ChatPage</string>
 
 </resources>

@@ -194,7 +194,8 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			}
 		}
 		
-		@SuppressLint("NewApi") private void postThought() {
+		@SuppressLint("NewApi") 
+		private void postThought() {
 			EditText postText = postFragment.getPostText();
 			postText.setBackground(null);
 			RelativeLayout postLayout = postFragment.getPostLayout();

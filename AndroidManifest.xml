@@ -140,6 +140,10 @@
             android:name=".activity.CommentPage"
             android:label="@string/title_activity_comment_page" >
         </activity>
+        <activity
+            android:name="com.echobond.activity.ChatPage"
+            android:label="@string/title_activity_chat_page" >
+        </activity>
     </application>
 
 </manifest>

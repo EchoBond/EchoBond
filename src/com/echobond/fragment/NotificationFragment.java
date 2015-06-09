@@ -27,8 +27,8 @@ public class NotificationFragment extends Fragment {
 		Bundle b1 = new Bundle(), b2 = new Bundle();
 		b1.putInt("Tab1", 1);
 		b2.putInt("Tab2", 2);
-		tabHost.addTab(tabHost.newTabSpec("notification").setIndicator("Notification"), NotificationChildFragment.class, null);
-		tabHost.addTab(tabHost.newTabSpec("messages").setIndicator("Messages"), MessageChildFragment.class, null);
+		tabHost.addTab(tabHost.newTabSpec("notification").setIndicator("Notification"), NotificationChildFragment.class, b1);
+		tabHost.addTab(tabHost.newTabSpec("messages").setIndicator("Messages"), MessageChildFragment.class, b2);
 		
 		return tabHost;
 	}
