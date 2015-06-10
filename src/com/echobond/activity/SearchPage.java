@@ -1,6 +1,9 @@
 package com.echobond.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.echobond.R;
 import com.echobond.connector.CategoryAsyncTask;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 /**
  * 
  * @author aohuijun
@@ -31,7 +35,9 @@ public class SearchPage extends ActionBarActivity {
 	private EditText searchBar;
 	private ArrayList<Drawable> cgList;
 	private ArrayList<Category> categories;
-	private ListView categoryListView;
+	private ListView categoriesListView, groupsListView, hashtagsListView;
+	private String[] group = new String[20];
+	private String[] hashtag = new String[20];
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,7 @@ public class SearchPage extends ActionBarActivity {
 		getSupportActionBar().setCustomView(R.layout.title_bar_search);
 		
 		searchBar = (EditText)findViewById(R.id.searchBar);
-		backButton = (ImageView)findViewById(R.id.searchBackBtn);
+		backButton = (ImageView)findViewById(R.id.search_button_back);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -76,20 +82,44 @@ public class SearchPage extends ActionBarActivity {
 		cgList.add(getResources().getDrawable(R.drawable.corners_bg_yellow));
 		cgList.add(getResources().getDrawable(R.drawable.corners_bg_cyan));
 		
-		categoryListView = (ListView)findViewById(R.id.search_page_category);
-		categoryListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		categoriesListView = (ListView)findViewById(R.id.search_page_category);
+		categoriesListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 //		new CategoryAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CategoryAsyncTask.CATEGORY_LOAD, 
 //				HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_load_categories), this);
 	}
 
 	private void initGroupsList() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < group.length; i++) {
+			group[i] = "Group " + i;
+		}
+		SimpleAdapter groupAdapter = new SimpleAdapter(this, data("group"), R.layout.item_group, new String[]{"group"}, new int[]{R.id.text_group});
+		groupsListView = (ListView)findViewById(R.id.search_page_group);
+		groupsListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		groupsListView.setAdapter(groupAdapter);
 	}
 
 	private void initHashtagsList() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < group.length; i++) {
+			hashtag[i] = "Hashtag " + i;
+		}
+		SimpleAdapter hashtagAdapter = new SimpleAdapter(this, data("hashtag"), R.layout.item_group, new String[]{"hashtag"}, new int[]{R.id.text_group});
+		hashtagsListView = (ListView)findViewById(R.id.search_page_hashtag);
+		hashtagsListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		hashtagsListView.setAdapter(hashtagAdapter);
+	}
+	
+	private List<Map<String, Object>> data(String type) {
+		List<Map<String, Object>> testList = new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < group.length; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (type == "group") {
+				map.put("group", group[i]);
+			} else {
+				map.put("hashtag", hashtag[i]);
+			}
+			testList.add(map);
+		}
+		return testList;
 	}
 	
 }

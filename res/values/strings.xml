@@ -19,6 +19,7 @@
     <string name="title_activity_app_setting_page">AppSettingPage</string>
     <string name="title_activity_image_page">ImagePage</string>
     <string name="title_activity_comment_page">CommentPage</string>
+    <string name="title_activity_chat_page">ChatPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -56,6 +57,5 @@
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
-    <string name="title_activity_chat_page">ChatPage</string>
 
 </resources>

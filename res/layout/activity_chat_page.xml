@@ -4,25 +4,44 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <ListView 
+    <android.support.v7.widget.Toolbar 
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar_chat_page"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="?android:attr/actionBarSize"
+        app:contentInsetStart="0dp"
+        android:background="#fff" />
+    
     <LinearLayout 
+        android:id="@+id/chat_page_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:padding="10dp"
         android:orientation="horizontal" >
         <EditText 
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="5"
-	        android:inputType="text" />
+	        android:layout_gravity="center_vertical"
+	        android:inputType="textMultiLine"
+	        android:singleLine="false"
+	        android:background="@drawable/square_edittext" />
         <ImageView 
             android:contentDescription="@string/none"
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/button_send" />
     </LinearLayout>
     
-
+    <ListView 
+        android:id="@+id/chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_chat_page"
+        android:layout_above="@id/chat_page_input"
+        android:divider="@android:color/transparent" />
+    
 </RelativeLayout>

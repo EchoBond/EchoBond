@@ -8,7 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" 
         android:id="@+id/toolbar_setting"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="?android:attr/actionBarSize"
         app:contentInsetStart="0dp"
         android:background="#fff" />
     

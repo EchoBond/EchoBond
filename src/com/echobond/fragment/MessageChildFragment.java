@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.echobond.R;
+import com.echobond.activity.ChatPage;
 import com.echobond.widget.XListView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,14 +45,15 @@ public class MessageChildFragment extends Fragment {
 		
 		return messageChildView;
 	}
+	
 	private List<Map<String, Object>> data() {
-		List<Map<String, Object>> ntcList = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> msgList = new ArrayList<Map<String,Object>>();
 		for (int i = 1; i < 30; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("msg", testStrings[i]);
-			ntcList.add(map);
+			msgList.add(map);
 		}
-		return ntcList;
+		return msgList;
 	}
 	
 	public class ClickListener implements AdapterView.OnItemClickListener {
@@ -59,6 +62,9 @@ public class MessageChildFragment extends Fragment {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			Toast.makeText(getActivity().getApplicationContext(), "Message " + position, Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), ChatPage.class);
+			startActivity(intent);
 		}
 	}
 }

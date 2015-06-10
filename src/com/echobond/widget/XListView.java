@@ -105,7 +105,8 @@ public class XListView extends ListView implements OnScrollListener {
 		super.setAdapter(adapter);
 	}
 	
-	@SuppressLint("ClickableViewAccessibility") @Override
+	@SuppressLint("ClickableViewAccessibility") 
+	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (mLastY == -1) {
 			mLastY = ev.getRawY();

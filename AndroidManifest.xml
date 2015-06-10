@@ -143,6 +143,9 @@
         <activity
             android:name="com.echobond.activity.ChatPage"
             android:label="@string/title_activity_chat_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.MainPage" />
         </activity>
     </application>
 

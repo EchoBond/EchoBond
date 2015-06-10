@@ -11,14 +11,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" 
 	    android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="?android:attr/actionBarSize"
         app:contentInsetStart="0dp"
         android:background="#fff" />
     
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true" >
+        android:focusable="false" >
         
         <LinearLayout 
             android:layout_width="match_parent"
@@ -49,11 +49,10 @@
 		        	android:textColor="#fcaf42"
 		        	android:textStyle="bold" />
             </RelativeLayout>
-            
 		    <ListView 
 		        android:id="@+id/search_page_category"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:layout_height="300dp"
 		        android:layout_gravity="center"
 		        android:divider="@android:color/transparent" />
 		    
@@ -111,8 +110,8 @@
 		    </RelativeLayout>
 		    <ListView 
 		        android:id="@+id/search_page_group"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:layout_height="300dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginRight="10dp"
@@ -149,8 +148,8 @@
 		    </RelativeLayout>
 		    <ListView 
 		        android:id="@+id/search_page_hashtag"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:layout_height="300dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginRight="10dp"
