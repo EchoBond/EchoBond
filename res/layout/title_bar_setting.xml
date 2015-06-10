@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
     android:orientation="horizontal" >
 
     <ImageView
@@ -9,8 +9,12 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:contentDescription="@string/none"
         android:clickable="true" />
 
@@ -21,6 +25,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_toRightOf="@id/button_left_side"
+        android:layout_toEndOf="@id/button_left_side"
         android:textColor="#ffa500"
         android:textSize="25sp"
         android:layout_centerVertical="true"
@@ -31,8 +36,12 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="0dp"
+        android:paddingStart="0dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:contentDescription="@string/none"
         android:clickable="true" />
 

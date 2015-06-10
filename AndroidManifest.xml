@@ -141,7 +141,7 @@
             android:label="@string/title_activity_comment_page" >
         </activity>
         <activity
-            android:name="com.echobond.activity.ChatPage"
+            android:name=".activity.ChatPage"
             android:label="@string/title_activity_chat_page" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

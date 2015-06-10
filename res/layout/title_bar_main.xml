@@ -5,79 +5,54 @@
     android:layout_height="?android:attr/actionBarSize"
     android:orientation="horizontal"
     android:baselineAligned="false" >
-
-    <RelativeLayout
-        android:id="@+id/search_view_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <ImageView
-            android:id="@+id/search_button_view"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/none"
-            android:src="@drawable/button_search" />
+    
+    <ImageView
+        android:id="@+id/search_button_view"
+       	android:layout_width="0dp"
+       	android:layout_height="match_parent"
+       	android:layout_weight="1"
+       	android:padding="5dp"
+       	android:layout_gravity="center_vertical"
+       	android:contentDescription="@string/none"
+       	android:src="@drawable/button_search" />
         
-    </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/search_bar_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:paddingBottom="1dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp" >
-
+        android:layout_weight="5"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp" >
         <EditText
             android:id="@+id/search_bar_view"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/none"
             android:clickable="true"
             android:focusableInTouchMode="false"
             android:inputType="none" />
-        
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/button_new_post"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <ImageView
-            android:id="@+id/button_setting"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/none"
-            android:src="@drawable/setting_button"
-            android:clickable="true" />
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:contentDescription="@string/none"
+        android:src="@drawable/main_add_button"
+        android:clickable="true" />
         
-        <ImageView
-            android:id="@+id/button_new_post"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@id/button_setting"
-            android:layout_toStartOf="@id/button_setting"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" 
-            android:contentDescription="@string/none"
-            android:src="@drawable/main_add_button"
-            android:clickable="true" />
+    <ImageView
+        android:id="@+id/button_setting"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:contentDescription="@string/none"
+        android:src="@drawable/setting_button"
+        android:clickable="true" />
         
-    </RelativeLayout>
-
 </LinearLayout>

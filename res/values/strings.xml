@@ -57,5 +57,6 @@
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
+    <string name="view_thoughts">View Thoughts</string>
 
 </resources>
