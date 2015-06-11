@@ -9,7 +9,11 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class NotificationFragment extends Fragment {
 	
 	private FragmentTabHost tabHost;
