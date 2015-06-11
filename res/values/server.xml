@@ -26,6 +26,10 @@
     <string name="url_upd_tags">UpdateTagsServlet</string>
     <string name="url_load_groups">LoadGroupsServlet</string>
     <string name="url_load_categories">LoadCategoriesServlet</string>
+
+    <!-- user msg -->
+    <string name="url_load_msg">LoadUserMsgServlet</string>
+    <string name="url_send_msg">SendUserMsgServlet</string>
     
     <!-- load / search posts -->
     <string name="url_load_thoughts">LoadThoughtsServlet</string>

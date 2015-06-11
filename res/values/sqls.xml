@@ -8,7 +8,7 @@
     <string name="tbl_t_tag">thought_tag</string>
     <string name="tbl_t_cmt">thought_comment</string>
 	<!-- user related -->
-    <string name="tbl_msg">message</string>
+    <string name="tbl_msg">user_msg</string>
     <string name="tbl_usr">user</string>
     <string name="tbl_lusr">login_user</string>
     <!-- values related -->
@@ -244,10 +244,23 @@
 	
 	<!-- comment -->
 	<string name="sql_i_cmt">
-	   INSERT INTO thought_comment(`_id`,`user_id`,`thought_id`,`reply_to`,`content`,`time`) VALUES(?,?,?,?,?,?)
+	   	INSERT INTO thought_comment(`_id`,`user_id`,`thought_id`,`reply_to`,`content`,`time`) VALUES(?,?,?,?,?,?)
 	</string>
 	<string name="sql_s_cmt">
 	    SELECT * FROM `thought_comment` WHERE `thought_id` = ? ORDER BY `time` DESC
+	</string>
+	
+	<!-- chat -->
+	<string name="sql_i_msg">
+	    INSERT INTO `user_msg`(`_id`,`sender_id`,`recver_id`,`time`,`content`) VALUES (?,?,?,?,?)
+	</string>
+	<string name="sql_s_count_msg">
+	    SELECT COUNT(`id`) AS num_of_msg FROM `user_msg` 
+	    WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?)
+	</string>
+	<string name="sql_s_msg">
+		SELECT * FROM `user_msg` WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?) 
+		<!-- ORDER BY `time` ASC LIMIT ? OFFSET ?-->	    
 	</string>
 	
 	<!-- user -->

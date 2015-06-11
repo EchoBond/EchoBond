@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import android.content.ContentValues;
+
 /**
  * 
  * @author Luck
@@ -14,6 +16,15 @@ public class UserMsg {
 	
 	private User sender;
 	private User recver;
+	public ContentValues putValues() {
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("sender_id", senderId);
+		values.put("recver_id", recverId);
+		values.put("time", time);
+		values.put("content", content);
+		return values;
+	}
 	public int getId() {
 		return id;
 	}

@@ -1,5 +1,6 @@
 package com.echobond.application;
 
+import com.echobond.db.ChatDB;
 import com.echobond.db.CommentDB;
 import com.echobond.db.HomeThoughtDB;
 import com.echobond.db.HotThoughtDB;
@@ -34,6 +35,7 @@ public class MyApp extends Application {
 	public static final int LOADER_HOME = 0;
 	public static final int LOADER_HOT = 1;
 	public static final int LOADER_COMMENT = 2;
+	public static final int LOADER_CHAT = 3;
 	
 	@Override
 	public void onCreate() {
@@ -84,6 +86,7 @@ public class MyApp extends Application {
 		CommentDB.getInstance(this);
 		HomeThoughtDB.getInstance(this);
 		HotThoughtDB.getInstance(this);
+		ChatDB.getInstance(this);
 	}
 	
 }

@@ -86,7 +86,11 @@
             android:name=".dao.CommentDAO"
             android:authorities="com.echobond.contentprovider.comment"
             android:exported="false" />
-
+        <provider
+            android:name=".dao.ChatDAO"
+            android:authorities="com.echobond.contentprovider.chat"
+            android:exported="false" />
+        
         <activity
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"
