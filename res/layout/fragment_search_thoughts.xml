@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        <RelativeLayout 
+            android:id="@+id/search_thoughts_category_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <ImageView 
+                android:contentDescription="@string/none"
+                android:id="@+id/search_thoughts_category_logo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/search_page_category" />
+            <TextView 
+                android:id="@+id/search_thoughts_categoryview"
+      			android:layout_width="wrap_content"
+      			android:layout_height="wrap_content"
+      			android:layout_toRightOf="@id/search_thoughts_category_logo"
+      			android:layout_toEndOf="@id/search_thoughts_category_logo"
+      			android:layout_centerVertical="true"
+      			android:text="@string/search_page_category"
+      			android:textSize="25sp"
+      			android:textColor="#fcaf42"
+      			android:textStyle="bold" />
+        </RelativeLayout>
+        
+        <LinearLayout 
+            android:id="@+id/search_thoughts_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView 
+                android:id="@+id/search_category_feeling"
+    			android:layout_width="match_parent"
+    			android:layout_height="wrap_content" 
+    			android:layout_margin="5dp"
+    			android:padding="12dp"
+    			android:gravity="center"
+    			android:text="@string/category_feelings"
+    			android:textSize="40sp"
+    			android:textColor="#fff"
+    			android:textStyle="bold"
+    			android:background="@drawable/corners_bg_blue"
+    			android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_category_idea"
+    			android:layout_width="match_parent"
+    			android:layout_height="wrap_content"
+			    android:layout_margin="5dp"
+			    android:padding="12dp"
+			    android:gravity="center"
+			    android:text="@string/category_good_idea"
+			    android:textSize="40sp"
+			    android:textColor="#fff"
+			    android:textStyle="bold"
+			    android:background="@drawable/corners_bg_red"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_category_dream"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_margin="5dp"
+			    android:padding="12dp"
+			    android:gravity="center"
+			    android:text="@string/category_dream"
+			    android:textSize="40sp"
+			    android:textColor="#fff"
+			    android:textStyle="bold"
+			    android:background="@drawable/corners_bg_orange"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_category_interest"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_margin="5dp"
+			    android:padding="12dp"
+			    android:gravity="center"
+			    android:text="@string/category_interest"
+			    android:textSize="40sp"
+			    android:textColor="#fff"
+			    android:textStyle="bold"
+			    android:background="@drawable/corners_bg_green"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_category_plan"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_margin="5dp"
+			    android:padding="12dp"
+			    android:gravity="center"
+			    android:text="@string/category_plan"
+			    android:textSize="40sp"
+			    android:textColor="#fff"
+			    android:textStyle="bold"
+			    android:background="@drawable/corners_bg_yellow"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_category_others"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_margin="5dp"
+			    android:padding="12dp"
+			    android:gravity="center"
+			    android:text="@string/category_other"
+			    android:textSize="40sp"
+			    android:textColor="#fff"
+			    android:textStyle="bold"
+			    android:background="@drawable/corners_bg_cyan"
+			    android:clickable="true" />
+        </LinearLayout>
+        
+        <RelativeLayout 
+            android:id="@+id/search_thoughts_following_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+		    <ImageView 
+          		android:contentDescription="@string/none"
+          		android:id="@+id/search_thoughts_following_logo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+          		android:src="@drawable/main_profile_button" />
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/search_thoughts_following_logo"
+		        android:layout_toEndOf="@id/search_thoughts_following_logo"
+		        android:layout_centerVertical="true"
+		        android:text="@string/search_page_following"
+		        android:textSize="25sp"
+		        android:textColor="#f8ea20"
+		        android:textStyle="bold" />
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:id="@+id/search_thoughts_groups_title"
+	      	android:layout_width="match_parent"
+	      	android:layout_height="wrap_content" >
+	      	<ImageView 
+	      	    android:contentDescription="@string/none"
+	          	android:id="@+id/search_thoughts_groups_logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerVertical="true"
+          		android:src="@drawable/thoughts_group_logoview" />
+	      	<TextView 
+	      	    android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+		       	android:layout_toRightOf="@id/search_thoughts_groups_logo"
+		       	android:layout_toEndOf="@id/search_thoughts_groups_logo"
+		       	android:layout_centerVertical="true"
+		       	android:text="@string/title_new_post_grouptitle"
+		       	android:textSize="18sp"
+		       	android:textColor="#8980da"
+		       	android:textStyle="bold" />
+        </RelativeLayout>
+
+  		<LinearLayout 
+  		    android:id="@+id/search_thoughts_groups_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView 
+                android:id="@+id/search_thoughts_group1"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_good_idea"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_group2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_group3"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_other"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_group4"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_group5"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+  		</LinearLayout>
+  		
+  		<RelativeLayout
+  		    android:id="@+id/search_thoughts_hashtags_title"
+	      	android:layout_width="match_parent"
+      		android:layout_height="wrap_content" >
+	      	<ImageView 
+	      	    android:contentDescription="@string/none"
+	          	android:id="@+id/search_thoughts_hashtags_logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerVertical="true"
+          		android:src="@drawable/hashtag_view" />
+      		<TextView 
+		       	android:layout_width="wrap_content"
+		       	android:layout_height="wrap_content"
+		       	android:layout_toRightOf="@id/search_thoughts_hashtags_logo"
+		       	android:layout_toEndOf="@id/search_thoughts_hashtags_logo"
+		       	android:layout_centerVertical="true"
+		       	android:text="@string/title_new_post_tag"
+		       	android:textSize="18sp"
+		       	android:textColor="#8cd19d"
+		       	android:textStyle="bold" />
+  		</RelativeLayout>
+
+	  	<LinearLayout 
+	  	    android:id="@+id/search_thoughts_hashtags_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TextView 
+                android:id="@+id/search_thoughts_tag1"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_good_idea"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_tag2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_tag3"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_other"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_tag4"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+            <TextView 
+                android:id="@+id/search_thoughts_tag5"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingLeft="35dp"
+			    android:paddingStart="35dp"
+			    android:paddingRight="0dp"
+			    android:paddingEnd="0dp"
+			    android:paddingTop="5dp"
+			    android:paddingBottom="5dp"
+			    android:text="@string/category_feelings"
+			    android:textSize="24sp"
+			    android:textStyle="bold"
+			    android:clickable="true" />
+	  	</LinearLayout>
+    
+    </LinearLayout>
+
+</ScrollView>    
+

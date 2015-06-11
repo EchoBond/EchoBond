@@ -23,10 +23,10 @@ public class NotificationFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 //		View notificationView = inflater.inflate(R.layout.fragment_main_notification, container, false);
-//		tabHost = (FragmentTabHost)notificationView.findViewById(android.R.id.tabhost);
+//		tabHost = (FragmentTabHost)notificationView.findViewById(R.id.ntc_tabs);
 		tabHost = new FragmentTabHost(getActivity());
 		inflater.inflate(R.layout.fragment_main_notification, tabHost);
-		tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+		tabHost.setup(getActivity(), getChildFragmentManager(), R.id.ntc_container);
 
 		Bundle b1 = new Bundle(), b2 = new Bundle();
 		b1.putInt("Tab1", 1);
