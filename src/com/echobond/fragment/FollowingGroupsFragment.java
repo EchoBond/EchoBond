@@ -106,12 +106,12 @@ public class FollowingGroupsFragment extends Fragment {
 						int position, long id) {
 					// TODO Auto-generated method stub
 					if (view.isSelected()) {
-						holder.selection.setImageResource(R.drawable.button_back);
+						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 						view.setSelected(false);
 						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
 					} 
 					if (!view.isSelected()) {
-						holder.selection.setImageResource(R.drawable.button_done);
+						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 						view.setSelected(true);
 						groups2Follow.setSelection(position);
 						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();

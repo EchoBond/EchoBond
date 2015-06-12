@@ -63,7 +63,7 @@ public class MessageChildFragment extends Fragment {
 				long id) {
 			Toast.makeText(getActivity().getApplicationContext(), "Message " + position, Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent();
-			intent.setClass(getActivity(), ChatPage.class);
+			intent.setClass(getActivity(), ChatPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
 			startActivity(intent);
 		}
 	}

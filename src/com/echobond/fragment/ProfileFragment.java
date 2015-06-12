@@ -77,6 +77,7 @@ public class ProfileFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				Toast.makeText(getActivity().getApplicationContext(), "Navigate to ThoughtsFragment.class: TO BE DONE", Toast.LENGTH_SHORT).show();
+				// TODO create a new fragment/activity
 			}
 		});
 		

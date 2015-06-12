@@ -20,6 +20,7 @@ import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Context;
@@ -119,6 +120,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			this.layout = layout;
 		}
 
+		@SuppressLint("NewApi") 
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
 			Integer id = c.getInt(c.getColumnIndex("_id"));
@@ -147,11 +149,11 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			if(userId.equals(senderId)){
 				ImageLoader.getInstance().displayImage(url, hostImageView);
 				chatContentView.setGravity(Gravity.END);
-				chatContentView.setBackgroundColor(R.drawable.square_edittext_green);
+				chatContentView.setBackground(getResources().getDrawable(R.drawable.square_edittext_green));	// new API
 			} else {
 				ImageLoader.getInstance().displayImage(url, guestImageView);
 				chatContentView.setGravity(Gravity.START);
-				chatContentView.setBackgroundColor(R.drawable.square_edittext_red);
+				chatContentView.setBackground(getResources().getDrawable(R.drawable.square_edittext_red));		// new API
 			}
 			
 		}
