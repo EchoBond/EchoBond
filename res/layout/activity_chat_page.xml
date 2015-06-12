@@ -27,7 +27,7 @@
 	        android:layout_gravity="bottom"
 	        android:inputType="textMultiLine"
 	        android:singleLine="false"
-	        android:background="@drawable/square_edittext" />
+	        android:background="@drawable/square_edittext_lightgrey" />
         <ImageView 
             android:id="@+id/chat_msg_send"
             android:contentDescription="@string/none"

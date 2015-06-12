@@ -270,7 +270,7 @@
 		    android:textSize="20sp"
 		    android:textStyle="bold"
 		    android:textColor="@android:color/holo_blue_bright"
-		    android:background="@drawable/square_edittext"
+		    android:background="@drawable/square_edittext_lightgrey"
 		    android:clickable="true" />
 	</LinearLayout>
 </ScrollView>

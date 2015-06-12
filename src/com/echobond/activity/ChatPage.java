@@ -36,6 +36,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,8 +146,12 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 					+ "?path=" + senderId;
 			if(userId.equals(senderId)){
 				ImageLoader.getInstance().displayImage(url, hostImageView);
+				chatContentView.setGravity(Gravity.END);
+				chatContentView.setBackgroundColor(R.drawable.square_edittext_green);
 			} else {
 				ImageLoader.getInstance().displayImage(url, guestImageView);
+				chatContentView.setGravity(Gravity.START);
+				chatContentView.setBackgroundColor(R.drawable.square_edittext_red);
 			}
 			
 		}

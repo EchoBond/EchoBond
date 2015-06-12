@@ -15,7 +15,8 @@
         app:contentInsetStart="0dp"
         android:background="#fff" />
     
-    <TabHost 
+    <android.support.v4.app.FragmentTabHost 
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <LinearLayout 
@@ -31,6 +32,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </TabHost>
+    </android.support.v4.app.FragmentTabHost>
         
 </LinearLayout>
