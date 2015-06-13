@@ -77,13 +77,19 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		adapter = new ChatListAdapter(this, R.layout.item_chat, null, 0);
 		chatListView = (XListView)findViewById(R.id.chat_list);
 		chatListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		chatListView.setXListViewListener(this);
+		chatListView.setPullLoadEnable(false);
+		chatListView.setPullRefreshEnable(true);
 		chatListView.setAdapter(adapter);
 		userId = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		
 		guestId = getIntent().getStringExtra("guestId");
 		guestId = "1423913904795";
+		
 		currentLimit = LIMIT_INIT;
-		onRefresh();
+		
+		getSupportLoaderManager().initLoader(MyApp.LOADER_CHAT, null, this);
+		
 	}
 
 	private void initActionBar() {
@@ -128,7 +134,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			String recverId = c.getString(c.getColumnIndex("recver_id"));
 			String time = c.getString(c.getColumnIndex("time"));
 			String content = c.getString(c.getColumnIndex("content"));
-			
+						
 			ImageView hostImageView = (ImageView)convertView.findViewById(R.id.item_chat_hostpic);
 			ImageView guestImageView = (ImageView)convertView.findViewById(R.id.item_chat_guestpic);
 			TextView chatContentView = (TextView)convertView.findViewById(R.id.item_chat_content);
@@ -136,6 +142,12 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			TextView idView = (TextView) convertView.findViewById(R.id.item_chat_id);
 			TextView senderView = (TextView) convertView.findViewById(R.id.item_chat_sender_id);
 			TextView recverView = (TextView) convertView.findViewById(R.id.item_chat_recver_id);
+
+			if(senderId.equals(userId)){				
+				//TODO Align right
+			} else {
+				//TODO Align left
+			}			
 			
 			chatContentView.setText(content);
 			chatTimeView.setText(time);
@@ -194,7 +206,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		switch(loader){
 		case MyApp.LOADER_CHAT:
 			Uri uri = ChatDAO.CONTENT_URI;
-			String[] args = new String[]{currentLimit+"", DEFAULT_OFFSET+""};
+			String[] args = new String[]{userId, guestId, guestId, userId, currentLimit+"", DEFAULT_OFFSET+""};
 			return new CursorLoader(this, uri, null, null, args, null);
 		}
 		return null;
@@ -234,10 +246,11 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			}
 			getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
 			Cursor cursor = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, 
-					new String[]{userId, guestId, guestId, userId/*, currentLimit+"", DEFAULT_OFFSET+""*/}, null);
+					new String[]{userId, guestId, guestId, userId, currentLimit+"", DEFAULT_OFFSET+""}, null);
 			adapter.swapCursor(cursor);
 			adapter.notifyDataSetChanged();
 		}
+		onLoadFinished();
 	}
 
 	@Override
@@ -259,7 +272,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public void onLoadMore() {
-		onRefresh();
+		
 	}
 	
 	public void onLoadFinished() {

@@ -50,4 +50,8 @@ public class ChatDB extends MyDBHelper {
 		return query(ctx.getResources().getString(R.string.sql_s_msg), args);
 	}
 	
+	public Cursor loadMsgList(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_msg_list), args);
+	}
+	
 }

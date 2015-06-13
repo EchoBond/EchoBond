@@ -70,6 +70,7 @@
 	<string name="sql_c_msg">
 	    CREATE TABLE IF NOT EXISTS `user_msg`(
 	    	`_id` INTEGER PRIMARY KEY,
+	    	`username` varchar(255) NOT NULL,
 	    	`sender_id` varchar(255) NOT NULL,
 	    	`recver_id` varchar(255) NOT NULL,
 	    	`time` varchar(255) NOT NULL,
@@ -259,8 +260,28 @@
 	    WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?)
 	</string>
 	<string name="sql_s_msg">
-		SELECT * FROM `user_msg` WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?) 
-		<!-- ORDER BY `time` ASC LIMIT ? OFFSET ?-->	    
+		SELECT * FROM (
+	    	SELECT * FROM `user_msg` WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?) 
+				ORDER BY `time` ASC LIMIT ? OFFSET ?) AS msg ORDER BY `time` DESC	    
+	</string>
+	<string name="sql_s_msg_list">
+		SELECT msg.* FROM `user_msg` AS msg 
+		JOIN 
+		(SELECT usr, with_usr, MAX(time) AS msg_time FROM (
+	    	SELECT `sender_id` AS usr, `recver_id` AS with_usr, `time` FROM `user_msg` 
+	    	UNION
+	    	SELECT `recver_id` AS usr, `sender_id` AS `with_usr`, `time` FROM `user_msg` 
+	    	) AS ud GROUP BY usr, with_usr
+	  	) AS maxud 
+	  	ON (msg.time=maxud.msg_time AND maxud.usr IN (msg.sender_id,msg.recver_id))
+		WHERE usr = ? ORDER BY `time` DESC
+	    <!-- this queries all
+		SELECT * FROM `user_msg` AS msg WHERE `time` IN (
+			SELECT MAX(`time`) FROM `user_msg`
+				WHERE `sender_id` = msg.sender_id AND `recver_id` = msg.recver_id
+				OR `sender_id` = msg.recver_id and `recver_id` = msg.sender_id
+		) ORDER BY `time` DESC
+		-->		
 	</string>
 	
 	<!-- user -->

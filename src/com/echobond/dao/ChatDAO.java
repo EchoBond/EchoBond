@@ -62,7 +62,14 @@ public class ChatDAO extends ContentProvider{
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == CHAT){
-			cursor = ChatDB.getInstance().loadMsg(selectionArgs);
+			//load messages
+			if(selectionArgs.length > 1){
+				cursor = ChatDB.getInstance().loadMsg(selectionArgs);
+			}
+			//load message list
+			else {
+				cursor = ChatDB.getInstance().loadMsgList(selectionArgs);		
+			}
 			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;

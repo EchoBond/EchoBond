@@ -7,7 +7,7 @@
     <ImageView 
         android:id="@+id/item_chat_guestpic"
         android:contentDescription="@string/none"
-        android:layout_width="0dp"
+        android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_weight="1"
         android:padding="5dp" />
@@ -30,7 +30,7 @@
     <ImageView 
         android:id="@+id/item_chat_hostpic"
         android:contentDescription="@string/none"
-        android:layout_width="0dp"
+        android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_weight="1"
         android:padding="5dp" />

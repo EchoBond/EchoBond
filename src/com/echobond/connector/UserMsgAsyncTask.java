@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 /**
  * This task is to handle msg load or updates in server's DB.<br>
  * Params (Object): url(String), activity(UserMsgCallback), action(int), <br>
- * user(User), guest(User), limit(int), offset(int) / msg(UserMsg)<br>
+ * user(User), guest(User), limit(int), offset(int) / msg(UserMsg) / user(User), limit(int), offset(int)
  * @version 1.0
  * @author Luck
  * 
@@ -29,6 +29,7 @@ public class UserMsgAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	private UserMsgCallback activity;
 	public static final Integer MSG_LOAD = 1;
 	public static final Integer MSG_SEND = 2;
+	public static final Integer MSG_LOAD_ALL = 3;
 	private Integer action = 0;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
@@ -46,9 +47,16 @@ public class UserMsgAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 				body.put("guest", JSONUtil.fromObjectToJSON(guest));
 				body.put("limit", limit);
 				body.put("offset", offset);
-			} else {
+			} else if(action.equals(MSG_SEND)){
 				UserMsg msg = (UserMsg) params[3];
 				body.put("msg", msg);
+			} else {
+				User user = (User) params[3];
+				Integer limit = (Integer) params[4];
+				Integer offset = (Integer) params[5];
+				body.put("user", JSONUtil.fromObjectToJSON(user));
+				body.put("limit", limit);
+				body.put("offset", offset);				
 			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
