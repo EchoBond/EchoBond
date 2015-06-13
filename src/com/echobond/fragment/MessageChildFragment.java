@@ -50,6 +50,7 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 	private XListView messagesList;
 	private MsgListCursorAdapter adapter;
 	private String userId;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,11 +91,14 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 			
 			TextView contentView = (TextView) view.findViewById(R.id.item_message_text);
 			TextView titleView = (TextView) view.findViewById(R.id.item_message_title);
+			TextView timeView = (TextView)view.findViewById(R.id.item_message_time);
 			ImageView avatarView = (ImageView) view.findViewById(R.id.item_message_pic);
 			TextView guestIdView = (TextView) view.findViewById(R.id.item_message_guestId);
 			
 			contentView.setText(content);
 			titleView.setText(userName);
+			timeView.setText(time);
+			
 			if(senderId.equals(userId)){
 				guestIdView.setText(recverId);
 			} else {

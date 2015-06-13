@@ -146,7 +146,8 @@
         </activity>
         <activity
             android:name=".activity.ChatPage"
-            android:label="@string/title_activity_chat_page" >
+            android:label="@string/title_activity_chat_page"
+            android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.MainPage" />

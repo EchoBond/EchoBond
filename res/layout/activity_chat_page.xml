@@ -27,6 +27,7 @@
 	        android:layout_gravity="bottom"
 	        android:inputType="textMultiLine"
 	        android:singleLine="false"
+	        android:maxLines="4"
 	        android:background="@drawable/square_edittext_lightgrey" />
         <ImageView 
             android:id="@+id/chat_msg_send"
@@ -44,6 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar_chat_page"
         android:layout_above="@id/chat_page_input"
-        android:divider="@android:color/transparent" />
+        android:divider="@android:color/transparent"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
     
 </RelativeLayout>

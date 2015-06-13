@@ -42,9 +42,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -84,7 +85,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		userId = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		
 		guestId = getIntent().getStringExtra("guestId");
-		guestId = "1423913904795";
+		guestId = "1423912193061";
 		
 		currentLimit = LIMIT_INIT;
 		
@@ -134,7 +135,9 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			String recverId = c.getString(c.getColumnIndex("recver_id"));
 			String time = c.getString(c.getColumnIndex("time"));
 			String content = c.getString(c.getColumnIndex("content"));
-						
+			
+			LinearLayout contentLayout = (LinearLayout)convertView.findViewById(R.id.item_chat_content_layout);
+			LinearLayout timeLayout = (LinearLayout)convertView.findViewById(R.id.item_chat_time_layout);
 			ImageView hostImageView = (ImageView)convertView.findViewById(R.id.item_chat_hostpic);
 			ImageView guestImageView = (ImageView)convertView.findViewById(R.id.item_chat_guestpic);
 			TextView chatContentView = (TextView)convertView.findViewById(R.id.item_chat_content);
@@ -158,14 +161,16 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			String url = HTTPUtil.getInstance().composePreURL(ChatPage.this)
 					+ getResources().getString(R.string.url_down_img)
 					+ "?path=" + senderId;
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if(userId.equals(senderId)){
 				ImageLoader.getInstance().displayImage(url, hostImageView);
-				chatContentView.setGravity(Gravity.END);
-				chatContentView.setBackground(getResources().getDrawable(R.drawable.square_edittext_green));	// new API
+				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_green));		// new API
+				params.gravity = Gravity.END;
+				contentLayout.setLayoutParams(params);
+				timeLayout.setLayoutParams(params);
 			} else {
 				ImageLoader.getInstance().displayImage(url, guestImageView);
-				chatContentView.setGravity(Gravity.START);
-				chatContentView.setBackground(getResources().getDrawable(R.drawable.square_edittext_red));		// new API
+				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_red));		// new API
 			}
 			
 		}
@@ -176,29 +181,6 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			return view;
 		}
 		
-	}
-	
-	public class testAdapter extends ArrayAdapter<Object> {
-
-		public testAdapter(Context context, int resource) {
-			super(context, resource);
-			// TODO Auto-generated constructor stub
-		}
-		
-	}
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			Intent upIntent = NavUtils.getParentActivityIntent(ChatPage.this);
-			if (NavUtils.shouldUpRecreateTask(ChatPage.this, upIntent)) {
-				TaskStackBuilder.create(ChatPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-			}else {
-				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				NavUtils.navigateUpTo(ChatPage.this, upIntent);
-			}
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -278,5 +260,20 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	public void onLoadFinished() {
 		chatListView.stopRefresh();
 		chatListView.stopLoadMore();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			Intent upIntent = NavUtils.getParentActivityIntent(ChatPage.this);
+			if (NavUtils.shouldUpRecreateTask(ChatPage.this, upIntent)) {
+				TaskStackBuilder.create(ChatPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+			}else {
+				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				NavUtils.navigateUpTo(ChatPage.this, upIntent);
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }
