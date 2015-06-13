@@ -1,5 +1,8 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -8,12 +11,16 @@ import com.echobond.application.MyApp;
 import com.echobond.connector.UserMsgAsyncTask;
 import com.echobond.dao.ChatDAO;
 import com.echobond.entity.User;
+import com.echobond.entity.UserMsg;
 import com.echobond.intf.UserMsgCallback;
 import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
+import com.google.gson.reflect.TypeToken;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,12 +37,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -57,7 +61,6 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		messagesList = (XListView)messageChildView.findViewById(R.id.list_messages);
 		messagesList.setAdapter(adapter);
 		messagesList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		//messagesList.setOnItemClickListener(new ClickListener());
 		messagesList.setXListViewListener(this);
 		userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		getLoaderManager().initLoader(MyApp.LOADER_MSG_LIST, null, this);
@@ -103,22 +106,10 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 
 		@Override
 		public View newView(Context ctx, Cursor c, ViewGroup parent) {
-			View view = inflater.inflate(layout, parent);
+			View view = inflater.inflate(layout, parent, false);
 			return view;
 		}
 		
-	}
-	
-	public class ClickListener implements AdapterView.OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			Toast.makeText(getActivity().getApplicationContext(), "Message " + position, Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent();
-			intent.setClass(getActivity(), ChatPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
-			startActivity(intent);
-		}
 	}
 
 	@Override
@@ -156,6 +147,11 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 	public void onLoadMore() {
 		onLoadMore();
 	}
+	
+	public void onLoadFinished(){
+		messagesList.stopLoadMore();
+		messagesList.stopRefresh();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -174,10 +170,29 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadResult(JSONObject result) {
 		if(null != result){
-			
-		}		
+			TypeToken<ArrayList<UserMsg>> token = new TypeToken<ArrayList<UserMsg>>(){};
+			ArrayList<UserMsg> msgList = new ArrayList<UserMsg>();
+			try {
+				msgList = (ArrayList<UserMsg>) JSONUtil.fromJSONArrayToList(result.getJSONArray("msgList"), token);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			ContentValues[] values = new ContentValues[msgList.size()];
+			int i = 0;
+			for (UserMsg msg : msgList) {
+				values[i++] = msg.putValues();
+			}
+			getActivity().getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
+			String[] args = new String[]{userId};
+			Cursor cursor = getActivity().getContentResolver().query(ChatDAO.CONTENT_URI, null, null, args, null);
+			//adapter.getCursor().close();
+			adapter.swapCursor(cursor);
+			adapter.notifyDataSetChanged();
+		}
+		onLoadFinished();
 	}
 }

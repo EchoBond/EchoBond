@@ -13,6 +13,7 @@ public class UserMsg {
 	private String recverId;
 	private String time;
 	private String content;
+	private String userName;
 	
 	private User sender;
 	private User recver;
@@ -23,6 +24,7 @@ public class UserMsg {
 		values.put("recver_id", recverId);
 		values.put("time", time);
 		values.put("content", content);
+		values.put("username", userName);
 		return values;
 	}
 	public int getId() {
@@ -66,6 +68,12 @@ public class UserMsg {
 	}
 	public void setRecver(User recver) {
 		this.recver = recver;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

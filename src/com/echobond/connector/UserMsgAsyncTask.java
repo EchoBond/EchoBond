@@ -86,9 +86,9 @@ public class UserMsgAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-		if(action.equals(MSG_LOAD))
-			activity.onLoadResult(result);
-		else activity.onSendResult(result);
+		if(action.equals(MSG_SEND))
+			activity.onSendResult(result);
+		else activity.onLoadResult(result);
 	}
 	
 	@Override
