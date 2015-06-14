@@ -61,6 +61,19 @@
 		       	android:textSize="18sp"
 		       	android:textColor="#8980da"
 		       	android:textStyle="bold" />
+	      	<ImageView 
+                android:contentDescription="@string/none"
+                android:id="@+id/search_people_groups_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/search_page_group_more" />
         </RelativeLayout>
 
   		<LinearLayout 
@@ -167,6 +180,19 @@
 		       	android:textSize="18sp"
 		       	android:textColor="#8cd19d"
 		       	android:textStyle="bold" />
+      		<ImageView 
+                android:contentDescription="@string/none"
+                android:id="@+id/search_people_hashtags_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/search_page_tags_more" />
   		</RelativeLayout>
 
 	  	<LinearLayout 

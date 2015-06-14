@@ -9,6 +9,6 @@
 	    android:contentDescription="@string/none"
 	    android:layout_width="match_parent"
 	    android:layout_height="330dp"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:scaleType="fitXY" />
 </RelativeLayout>

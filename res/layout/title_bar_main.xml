@@ -27,10 +27,11 @@
             android:id="@+id/search_bar_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/none"
             android:clickable="true"
             android:focusableInTouchMode="false"
-            android:inputType="none" />
+            android:inputType="none"
+            android:hint="@string/hint_search"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
@@ -48,11 +49,11 @@
         android:id="@+id/button_setting"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:layout_gravity="center_vertical"
         android:padding="5dp"
         android:contentDescription="@string/none"
-        android:src="@drawable/setting_button"
+        android:src="@drawable/button_more"
         android:clickable="true" />
         
 </LinearLayout>

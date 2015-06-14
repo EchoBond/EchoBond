@@ -3,6 +3,7 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.fragment.SearchPeopleFragment;
 import com.echobond.fragment.SearchThoughtsFragment;
+import com.echobond.intf.ViewMoreSwitchCallback;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -15,17 +16,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 /**
  * 
  * @author aohuijun
  *
  */
-public class SearchPage extends ActionBarActivity {
+public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallback {
 	
 	private ImageView backButton;
 	private EditText searchBar;
 	private String searchText;
 	private FragmentTabHost tabHost;
+	private int fgtype = -1;
+
+	public final static int THOUGHT_GROUP = 0;
+	public final static int THOUGHT_TAG = 1;
+	public final static int PEOPLE_GROUP = 2;
+	public final static int PEOPLE_TAG = 3;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,29 @@ public class SearchPage extends ActionBarActivity {
 		tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
 		tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
 		tabHost.setCurrentTab(0);
+	}
+
+	@Override
+	public int onTypeSelected(int type) {
+		this.fgtype = type;
+		switch (fgtype) {
+		case THOUGHT_GROUP:
+			Toast.makeText(getApplicationContext(), "thoughts' more groups", Toast.LENGTH_SHORT).show();
+			break;
+		case THOUGHT_TAG:
+			Toast.makeText(getApplicationContext(), "thoughts' more tags", Toast.LENGTH_SHORT).show();
+			break;
+		case PEOPLE_GROUP:
+			Toast.makeText(getApplicationContext(), "people's more groups", Toast.LENGTH_SHORT).show();
+			break;
+		case PEOPLE_TAG:
+			Toast.makeText(getApplicationContext(), "people's more tags", Toast.LENGTH_SHORT).show();
+			break;
+			
+		default:
+			break;
+		}
+		return fgtype;
 	}
 	
 }

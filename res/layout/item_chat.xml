@@ -39,7 +39,8 @@
 		        android:id="@+id/item_chat_content"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_margin="5dp" />
+		        android:layout_margin="5dp"
+		        android:textSize="16sp" />
         </LinearLayout>
         <LinearLayout 
             android:id="@+id/item_chat_time_layout"
@@ -49,7 +50,8 @@
 		        android:id="@+id/item_chat_time"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:layout_margin="5dp" />
+		        android:layout_margin="5dp"
+		        android:textSize="12sp" />
         </LinearLayout>
 	    
     </LinearLayout>

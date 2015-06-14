@@ -234,7 +234,7 @@ public class StartPageFragment extends Fragment {
         timeOutThread.setName(THREAD_TIMEOUT_NAME);
         
         requestReadPermissions();
-        loginButton.setBackgroundResource(R.drawable.button_continue_facebook);
+        loginButton.setBackgroundResource(R.drawable.button_facebook_login);
 	    loginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 	    loginButton.setFragment(this);
 	    

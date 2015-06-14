@@ -98,23 +98,21 @@ public class FollowingGroupsFragment extends Fragment {
 			} else {
 				holder = (ViewHolder)convertView.getTag();
 			}
-			holder.selection.setImageResource(R.drawable.button_back);
 			groups2Follow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-					// TODO Auto-generated method stub
+					// TODO Fix bugs
 					if (view.isSelected()) {
 						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 						view.setSelected(false);
-						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity().getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
 					} 
 					if (!view.isSelected()) {
 						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 						view.setSelected(true);
-						groups2Follow.setSelection(position);
-						Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity().getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
 					}
 				}
 			});

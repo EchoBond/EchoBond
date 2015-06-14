@@ -16,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 /**
  * 
  * @author aohuijun

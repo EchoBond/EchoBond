@@ -45,6 +45,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 /**
@@ -66,6 +67,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	private static final int LIMIT_INCREMENT = 10;
 	private static final long LOAD_INTERVAL = 2000;
 	private long lastLoadTime;
+	private long sendTime = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,13 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 					msgObj.setSenderId(userId);
 					msgObj.setRecverId(guestId);
 					msgObj.setContent(msg);
-					new UserMsgAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, ChatPage.this, UserMsgAsyncTask.MSG_SEND, msgObj);
+					if ((System.currentTimeMillis() - sendTime) < 1000) {
+						Toast.makeText(getApplicationContext(), "Too frequent to speak. ", Toast.LENGTH_SHORT).show();
+					} else {
+						new UserMsgAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, ChatPage.this, UserMsgAsyncTask.MSG_SEND, msgObj);
+						msgInputText.setText(null);
+					}
+					sendTime = System.currentTimeMillis();
 				}
 			}
 		});
@@ -157,16 +165,24 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			String url = HTTPUtil.getInstance().composePreURL(ChatPage.this)
 					+ getResources().getString(R.string.url_down_img)
 					+ "?path=" + senderId;
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if(userId.equals(senderId)){
 				ImageLoader.getInstance().displayImage(url, hostImageView);
+				guestImageView.setImageDrawable(null);
 				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_green));		// new API
+				
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				params.gravity = Gravity.END;
 				contentLayout.setLayoutParams(params);
 				timeLayout.setLayoutParams(params);
 			} else {
 				ImageLoader.getInstance().displayImage(url, guestImageView);
+				hostImageView.setImageDrawable(null);
 				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_red));		// new API
+				
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				params.gravity = Gravity.START;
+				contentLayout.setLayoutParams(params);
+				timeLayout.setLayoutParams(params);
 			}			
 		}
 

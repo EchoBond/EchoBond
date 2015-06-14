@@ -37,7 +37,7 @@
             android:padding="10dp"
             android:gravity="center_vertical"
             android:contentDescription="@string/none"
-            android:src="@drawable/button_search"
+            android:src="@drawable/search_page_group_more"
             android:clickable="true" />
     </RelativeLayout>
     

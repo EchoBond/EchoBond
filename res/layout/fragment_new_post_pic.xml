@@ -15,11 +15,12 @@
         	android:id="@+id/thought_poster_words"
         	android:layout_width="match_parent"
         	android:layout_height="wrap_content"
+        	android:layout_alignParentBottom="true"
         	android:textStyle="bold"
         	android:textSize="48sp"
         	android:inputType="textMultiLine"
-        	android:gravity="start|bottom"
-        	android:layout_alignParentBottom="true" />
+        	android:hint="@string/hint_poster"
+        	android:gravity="start|bottom" />
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/thought_poster_typeview"

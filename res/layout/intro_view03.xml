@@ -1,16 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/intro_page_background" >
     
-    <ImageView 
-        android:contentDescription="@string/none"
-        android:id="@+id/button_enter"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/button_enter"
-        android:clickable="true"
-        android:layout_centerInParent="true" />
-
+    <LinearLayout 
+        android:id="@+id/intro_line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:gravity="center"
+        android:orientation="horizontal" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:src="@drawable/poster_type_goodideas" />
+        <ImageView 
+            android:contentDescription="@string/none"
+	        android:id="@+id/button_enter"
+	        android:layout_width="185dp"
+	        android:layout_height="65dp"
+	        android:layout_margin="2dp"
+	        android:scaleType="fitCenter"
+	        android:src="@drawable/button_bonding"
+	        android:clickable="true" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:src="@drawable/poster_type_interests" />
+    </LinearLayout>
+        
+    <LinearLayout 
+        android:id="@+id/intro_line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/intro_line2"
+        android:orientation="horizontal"
+        android:gravity="center" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:src="@drawable/poster_type_feelings" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:src="@drawable/poster_type_dream" />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/intro_line3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/intro_line2"
+        android:orientation="horizontal"
+        android:gravity="center" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:src="@drawable/poster_type_others" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:src="@drawable/poster_type_plans" />
+    </LinearLayout>
 </RelativeLayout>

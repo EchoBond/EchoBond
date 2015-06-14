@@ -27,5 +27,7 @@
     <string name="hint_new_post_failed_post">Failed in posting thought! </string>
     <string name="hint_new_post_successful_post">Thought successfully posted! </string>
     <string name="hint_quit">Click once more to quit. </string>
+    <string name="hint_search">Search any thoughts or people. </string>
+    <string name="hint_poster">Click to input…</string>
     
 </resources>

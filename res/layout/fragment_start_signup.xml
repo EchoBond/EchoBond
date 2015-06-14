@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,8 +10,7 @@
         android:id="@+id/email_signup_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/email_logo"
-        android:layout_marginTop="200dp" />  
+        android:src="@drawable/email_logo" />  
     <EditText
         android:id="@+id/email_signup_input"
         android:layout_width="match_parent"
