@@ -7,6 +7,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.echobond.R;
 import com.echobond.activity.MainPage;
+import com.echobond.application.MyApp;
 import com.echobond.connector.GCMRegAsyncTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -14,6 +15,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 public class GCMUtil {
 
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+	private final static int GCM_REG_EXPIRE_DAY = 30;
 	
 	private static class GCMUtilHolder{
 		public static GCMUtil INSTANCE = new GCMUtil();
@@ -50,14 +52,19 @@ public class GCMUtil {
 	 *         registration ID.
 	 */
 	private String getRegId(Context context) {
-		String regId = (String) SPUtil.get(context, "system", "GCM_reg_id", "", String.class);
+		String regId = (String) SPUtil.get(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_GCM_ID, "", String.class);
 	    // Check if app was updated; if so, it must clear the registration ID
 	    // since the existing regID is not guaranteed to work with the new
 	    // app version.
-	    int regVersion = (Integer) SPUtil.get(context, "system", "app_version", 1, Integer.class);
+	    int regVersion = (Integer) SPUtil.get(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_APP_VERSION, 1, Integer.class);
 	    int currentVersion = getAppVersion(context);
+	    int regDate = Integer.parseInt(((String) SPUtil.get(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_GCM_REG_TIME, 
+	    		"2000-1-1", String.class)).replace("-", ""));
+	    int today = Integer.parseInt(CommUtil.getDateAsString(null).replace("-", ""));
 	    if (regVersion != currentVersion) {
 	        return "";
+	    } else if(today - regDate > GCM_REG_EXPIRE_DAY){
+	    	return "";
 	    }
 	    return regId;
 	}

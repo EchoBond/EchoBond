@@ -47,7 +47,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -85,7 +84,6 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		userId = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		
 		guestId = getIntent().getStringExtra("guestId");
-		guestId = "1423912193061";
 		
 		currentLimit = LIMIT_INIT;
 		
@@ -109,8 +107,12 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			public void onClick(View arg0) {
 				String msg = msgInputText.getText().toString();
 				if (msg != null && !msg.equals("")) {
-					Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-					msgInputText.setText(null);
+					String url = HTTPUtil.getInstance().composePreURL(ChatPage.this) + getResources().getString(R.string.url_send_msg);
+					UserMsg msgObj = new UserMsg();
+					msgObj.setSenderId(userId);
+					msgObj.setRecverId(guestId);
+					msgObj.setContent(msg);
+					new UserMsgAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, ChatPage.this, UserMsgAsyncTask.MSG_SEND, msgObj);
 				}
 			}
 		});
@@ -145,12 +147,6 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			TextView idView = (TextView) convertView.findViewById(R.id.item_chat_id);
 			TextView senderView = (TextView) convertView.findViewById(R.id.item_chat_sender_id);
 			TextView recverView = (TextView) convertView.findViewById(R.id.item_chat_recver_id);
-
-			if(senderId.equals(userId)){				
-				//TODO Align right
-			} else {
-				//TODO Align left
-			}			
 			
 			chatContentView.setText(content);
 			chatTimeView.setText(time);
@@ -171,8 +167,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			} else {
 				ImageLoader.getInstance().displayImage(url, guestImageView);
 				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_red));		// new API
-			}
-			
+			}			
 		}
 
 		@Override
@@ -206,8 +201,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public void onSendResult(JSONObject result) {
-		
-		
+				
 	}
 
 	@SuppressWarnings("unchecked")

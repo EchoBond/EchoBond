@@ -29,14 +29,16 @@ public class MyApp extends Application {
 	public static final String PREF_TYPE_SYSTEM = "system";
 	public static final String SYS_APP_VERSION = "app_version";
 	public static final String SYS_GCM_ID = "GCM_reg_id";
-
-	
+	public static final String SYS_GCM_REG_TIME = "GCM_reg_time";
 	
 	public static final int LOADER_HOME = 0;
 	public static final int LOADER_HOT = 1;
 	public static final int LOADER_COMMENT = 2;
 	public static final int LOADER_CHAT = 3;
 	public static final int LOADER_MSG_LIST = 4;
+	public static final int LOADER_GROUP = 5;
+	public static final int LOADER_TAG = 6;
+	public static final int LOADER_USER_TAG = 7;
 	
 	@Override
 	public void onCreate() {

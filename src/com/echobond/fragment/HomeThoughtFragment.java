@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.ChatPage;
 import com.echobond.activity.CommentPage;
 import com.echobond.activity.ImagePage;
 import com.echobond.application.MyApp;
@@ -255,6 +256,15 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:
+				/*String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+				if(localId.equals(userId)){
+					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
+				} else {*/
+					Intent chatIntent = new Intent();
+					chatIntent.setClass(HomeThoughtFragment.this.getActivity(), ChatPage.class);
+					chatIntent.putExtra("guestId", userId);
+					startActivity(chatIntent);
+				//}
 				break;
 			case BOOST:				
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 

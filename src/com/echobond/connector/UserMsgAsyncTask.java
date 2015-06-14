@@ -49,7 +49,7 @@ public class UserMsgAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 				body.put("offset", offset);
 			} else if(action.equals(MSG_SEND)){
 				UserMsg msg = (UserMsg) params[3];
-				body.put("msg", msg);
+				body.put("msg", JSONUtil.fromObjectToJSON(msg));
 			} else {
 				User user = (User) params[3];
 				Integer limit = (Integer) params[4];

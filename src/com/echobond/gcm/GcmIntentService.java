@@ -1,10 +1,15 @@
 package com.echobond.gcm;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.StartPage;
+import com.echobond.entity.UserMsg;
+import com.echobond.util.JSONUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.annotation.SuppressLint;
@@ -82,14 +87,29 @@ public class GcmIntentService extends IntentService {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, StartPage.class), 0);
-
+        String text = "";
+        JSONObject msgJSON = null;
+		/* extraction */
+        try {
+			msgJSON = data.getJSONObject("msg");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        UserMsg msg = (UserMsg) JSONUtil.fromJSONToObject(msgJSON, UserMsg.class);
+        text += msg.getUserName() + ": " + msg.getContent() + "\n" + msg.getTime();
+        /* decoding */
+		try {
+			text = URLDecoder.decode(text,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentTitle("You've New Message")
         .setStyle(new NotificationCompat.BigTextStyle()
-        .bigText(data.toString())).setAutoCancel(true)
-        .setContentText(data.toString());
+        .bigText(text)).setAutoCancel(true)
+        .setContentText(text);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -105,6 +125,11 @@ public class GcmIntentService extends IntentService {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, StartPage.class), 0);
 
+        try {
+			msg = URLDecoder.decode(msg, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.ic_launcher)

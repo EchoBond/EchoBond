@@ -1,5 +1,7 @@
 package com.echobond.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -57,5 +59,30 @@ public class CommUtil {
 	        return false;
 	    }
 	    return status;
-	    }
+    }
+	
+	public static String getDateAsString(String pattern){
+		if(null == pattern || pattern.isEmpty()){
+			pattern = "yyyy-MM-dd";
+		}
+		return dateToString(new Date(), pattern);
+	}
+	public static String getTimeAsString(String pattern){
+		if(null == pattern || pattern.isEmpty()){
+			pattern = "HH:mm:ss";
+		}
+		return dateToString(new Date(), pattern);		
+	}
+	public static String getDateTimeAsString(String pattern){
+		if(null == pattern || pattern.isEmpty()){
+			pattern = "yyyy-MM-dd HH:mm:ss";
+		}
+		return dateToString(new Date(), pattern);
+	}
+	public static String dateToString(Date date, String pattern){
+		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
+		sdf.applyPattern(pattern);
+		return sdf.format(date);		
+	}
+	
 }

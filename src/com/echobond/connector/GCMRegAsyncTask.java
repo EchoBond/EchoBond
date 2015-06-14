@@ -8,6 +8,7 @@ import com.echobond.activity.MainPage;
 import com.echobond.application.MyApp;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
+import com.echobond.util.CommUtil;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -62,6 +63,7 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
             // Persist the regID - no need to register again.
             SPUtil.put(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_GCM_ID, regId);
+            SPUtil.put(context, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_GCM_REG_TIME, CommUtil.getDateAsString(null));
         } catch (Exception ex) {
         	ex.printStackTrace();
         }

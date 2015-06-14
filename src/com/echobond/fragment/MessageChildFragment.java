@@ -19,6 +19,7 @@ import com.echobond.util.SPUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,7 +39,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 /**
  * 
@@ -84,6 +84,10 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		@Override
 		public void bindView(View view, Context ctx, Cursor c) {
 			String content = c.getString(c.getColumnIndex("content"));
+			if(content.length() > 10){
+				content = content.substring(0, 10);
+				content += "...";
+			}			
 			String senderId = c.getString(c.getColumnIndex("sender_id"));
 			String recverId = c.getString(c.getColumnIndex("recver_id"));
 			String userName = c.getString(c.getColumnIndex("username"));
@@ -105,6 +109,9 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 				guestIdView.setText(senderId);
 			}
 			
+			String url = HTTPUtil.getInstance().composePreURL(MessageChildFragment.this.getActivity())
+					+ getResources().getString(R.string.url_down_img) + "?path=" + guestIdView.getText().toString();
+			ImageLoader.getInstance().displayImage(url, avatarView);
 			view.setOnClickListener(MessageChildFragment.this);
 		}
 
@@ -159,7 +166,6 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 
 	@Override
 	public void onClick(View v) {
-		LinearLayout root = (LinearLayout) v;
 		TextView guestIdView = (TextView) v.findViewById(R.id.item_message_guestId);
 		
 		Intent intent = new Intent();
@@ -193,7 +199,6 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 			getActivity().getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
 			String[] args = new String[]{userId};
 			Cursor cursor = getActivity().getContentResolver().query(ChatDAO.CONTENT_URI, null, null, args, null);
-			//adapter.getCursor().close();
 			adapter.swapCursor(cursor);
 			adapter.notifyDataSetChanged();
 		}
