@@ -94,7 +94,8 @@
 			`birthday` varchar(255) DEFAULT NULL,
 			`country_id` INTEGER DEFAULT NULL,
 			`home_id` INTEGER DEFAULT NULL,
-			`occupation` varchar(255) DEFAULT NULL,
+			`bio` varchar(255) DEFAULT NULL,
+			`sth_interesting` varchar(255) DEFAULT NULL,
 			`amz_exp` varchar(255) DEFAULT NULL,
 			`to_do` varchar(255) DEFAULT NULL,
 			`philosophy` varchar(255) DEFAULT NULL,
@@ -287,7 +288,7 @@
 	<!-- user -->
 	<string name="add_user">
 	    INSERT INTO `user`(`id`,`user_name`,`password`,`fb_Id`,`first_name`,`last_name`,`name`,`time_zone`,
-	    `email`,`avatar`,`gender`,`age`,`birthday`,`country_id`,`home_id`,`occupation`,`amz_exp`,`to_do`,
+	    `email`,`avatar`,`gender`,`age`,`birthday`,`country_id`,`home_id`,`bio`,`sth_interesting`,`amz_exp`,`to_do`,
 	    `philosophy`,`friends_desc`,`interest`,`little_secret`,`lang_id`,`locale`,`verified`) 
 	    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 	</string>

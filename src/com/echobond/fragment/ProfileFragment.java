@@ -1,7 +1,19 @@
 package com.echobond.fragment;
 
-import com.echobond.R;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.echobond.R;
+import com.echobond.application.MyApp;
+import com.echobond.connector.UsersAsyncTask;
+import com.echobond.entity.User;
+import com.echobond.intf.UserAsyncTaskCallback;
+import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
+import com.echobond.util.SPUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,13 +27,14 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	
 	private ImageView profileFigureView;
 	private TextView profileTitle, profileBio, profileGentle;
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
 					profileDesc, profileHeart, profileSec, profileLang, profileTag; 
 	private TextView viewThoughtsButton;
+	/*
 	private String[] testString = {
 			"I speak Chinese! Have spent 5 years in Beijing.", 
 			"Have performed sexophone across India. Went to Grand Canyon!", 
@@ -33,7 +46,7 @@ public class ProfileFragment extends Fragment {
 			"didn’t know Santa Claus was a myth by 13 years old", 
 			"English, Hindi, Mandarin.", 
 			"#hkust #sexophone #india #beijing #mandarin #engineering #tech start up #hong kong #cooking #hiking #travelling #music #exchange #language exchange #party #chinese culture"
-	};
+	};*/
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,21 +69,16 @@ public class ProfileFragment extends Fragment {
 		profileTag = (TextView)profileView.findViewById(R.id.profile_about_tag_text);
 		
 		viewThoughtsButton = (TextView)profileView.findViewById(R.id.profile_view_thoughts);
-		
-		profileFigureView.setImageResource(R.drawable.default_avatar);
-		profileTitle.setText(getResources().getString(R.string.app_name));
-		profileBio.setText(getResources().getString(R.string.hello_world));
-		
-		profileDNA.setText(testString[0]);
-		profileTrophy.setText(testString[1]);
-		profileTodo.setText(testString[2]);
-		profilePhilo.setText(testString[3]);
-		profileEarth.setText(testString[4]);
-		profileDesc.setText(testString[5]);
-		profileHeart.setText(testString[6]);
-		profileSec.setText(testString[7]);
-		profileLang.setText(testString[8]);
-		profileTag.setText(testString[9]);
+				
+		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_users);
+		User user = new User();
+		user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
+				UsersAsyncTask.USER_LOAD_BY_ID, user);
+		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
+				getResources().getString(R.string.url_down_img) + 
+				"?path=" + SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);
 		
 		viewThoughtsButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -82,6 +90,36 @@ public class ProfileFragment extends Fragment {
 		});
 		
 		return profileView;
+		
+	}
+
+	@Override
+	public void onLoadUsersResult(JSONObject result) {
+		if(null != result){
+			try {
+				JSONObject userJSON = (JSONObject) result.get("user");
+				User user = (User) JSONUtil.fromJSONToObject(userJSON, User.class);
+				profileGentle.setText("");
+				profileTitle.setText(user.getUserName());
+				profileBio.setText(user.getBio());
+				profileDNA.setText(user.getSthInteresting());
+				profileTrophy.setText(user.getAmzExp());
+				profileTodo.setText(user.getToDo());
+				profilePhilo.setText(user.getPhilosophy());
+				profileEarth.setText("");
+				profileDesc.setText(user.getFriendsDesc());
+				profileHeart.setText(user.getInterest());
+				profileSec.setText(user.getLittleSecret());
+				profileLang.setText(user.getLocale());
+				profileTag.setText(user.getBio());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void onUpdateUserResult(JSONObject result) {
 		
 	}
 }

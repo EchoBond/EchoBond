@@ -35,7 +35,8 @@ public class User {
 	private String birthday;
 	private int countryId;
 	private int homeId;
-	private String occupation;
+	private String bio;
+	private String sthInteresting;
 	private String amzExp;
 	private String toDo;
 	private String philosophy;
@@ -70,7 +71,8 @@ public class User {
 		values.put("gender", birthday);
 		values.put("country_id", countryId);
 		values.put("home_id", homeId);
-		values.put("occupation", occupation);
+		values.put("bio", bio);
+		values.put("sth_interesting", sthInteresting);
 		values.put("amz_exp", amzExp);
 		values.put("to_do", toDo);
 		values.put("philosophy", philosophy);
@@ -172,11 +174,17 @@ public class User {
 	public void setHomeId(int homeId) {
 		this.homeId = homeId;
 	}
-	public String getOccupation() {
-		return occupation;
+	public String getBio() {
+		return bio;
 	}
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+	public String getSthInteresting() {
+		return sthInteresting;
+	}
+	public void setSthInteresting(String sthInteresting) {
+		this.sthInteresting = sthInteresting;
 	}
 	public String getAmzExp() {
 		return amzExp;
