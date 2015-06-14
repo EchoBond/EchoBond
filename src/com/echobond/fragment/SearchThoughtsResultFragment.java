@@ -1,5 +1,7 @@
 package com.echobond.fragment;
 
+import com.echobond.R;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -15,8 +17,9 @@ public class SearchThoughtsResultFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		return super.onCreateView(inflater, container, savedInstanceState);
+		View searchThoughtsResultView = inflater.inflate(R.layout.fragment_search_result_thoughts, container, false);
+		
+		return searchThoughtsResultView;
 	}
 	
 }
