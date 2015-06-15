@@ -158,6 +158,9 @@
         <activity
             android:name="com.echobond.activity.ViewMorePage"
             android:label="@string/title_activity_view_more_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.SearchPage" />
         </activity>
     </application>
 

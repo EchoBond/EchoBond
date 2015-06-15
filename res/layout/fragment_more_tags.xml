@@ -10,6 +10,7 @@
         android:id="@+id/more_tags_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:clickable="true" />
 
 </LinearLayout>
