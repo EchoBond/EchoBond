@@ -28,7 +28,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	private EditText searchBar;
 	private String searchText;
 	private FragmentTabHost tabHost;
-	private int fgtype = -1;
+	private int fgType = -1;
 
 	public final static int THOUGHT_GROUP = 0;
 	public final static int THOUGHT_TAG = 1;
@@ -78,8 +78,11 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 
 	@Override
 	public int onTypeSelected(int type) {
-		this.fgtype = type;
-		switch (fgtype) {
+		this.fgType = type;
+		Intent intent = new Intent();
+		intent.setClass(this, ViewMorePage.class);
+		
+		switch (fgType) {
 		case THOUGHT_GROUP:
 			Toast.makeText(getApplicationContext(), "thoughts' more groups", Toast.LENGTH_SHORT).show();
 			break;
@@ -96,7 +99,9 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		default:
 			break;
 		}
-		return fgtype;
+		intent.putExtra("type", fgType);
+		startActivity(intent);
+		return fgType;
 	}
 	
 }

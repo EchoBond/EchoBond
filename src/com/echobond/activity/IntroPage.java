@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 /**
  * 
  * @author aohuijun
@@ -56,7 +56,8 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 		
 	}
 
-	@SuppressLint("InflateParams") private void initView() {
+	@SuppressLint("InflateParams") 
+	private void initView() {
 
 		views = new ArrayList<View>();
 		viewPager = (ViewPager)findViewById(R.id.introViewPager);
@@ -78,6 +79,40 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 
 	}
 
+	public class IntroViewPagerAdapter extends PagerAdapter {
+		
+		private ArrayList<View> views;
+		
+		public IntroViewPagerAdapter (ArrayList<View> views) {this.views = views;}
+
+		@Override
+		public int getCount() {
+
+			if (views != null) {
+				return views.size();
+			}
+			return 0;
+		}
+		
+		@Override
+		public Object instantiateItem(View view, int position) {
+			((ViewPager) view).addView(views.get(position), 0);
+			return views.get(position);
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object arg1) {
+
+			return (view == arg1);
+		}
+		
+		@Override
+		public void destroyItem(View view, int position, Object arg2) {
+			((ViewPager) view).removeView(views.get(position));
+		}
+		
+	}
+	
 	private void initData() {
 		views.add(view1);
 		views.add(view2);

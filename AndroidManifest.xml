@@ -90,7 +90,7 @@
             android:name=".dao.ChatDAO"
             android:authorities="com.echobond.contentprovider.chat"
             android:exported="false" />
-        
+
         <activity
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"
@@ -151,6 +151,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.MainPage" />
+        </activity>
+        <activity
+            android:name="com.echobond.activity.ViewMorePage"
+            android:label="@string/title_activity_view_more_page" >
         </activity>
     </application>
 
