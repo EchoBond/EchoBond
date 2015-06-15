@@ -1,5 +1,15 @@
 package com.echobond.application;
 
+import com.echobond.activity.AppSettingPage;
+import com.echobond.activity.ChatPage;
+import com.echobond.activity.CommentPage;
+import com.echobond.activity.FollowingPage;
+import com.echobond.activity.ImagePage;
+import com.echobond.activity.IntroPage;
+import com.echobond.activity.MainPage;
+import com.echobond.activity.NewPostPage;
+import com.echobond.activity.SearchPage;
+import com.echobond.activity.StartPage;
 import com.echobond.db.ChatDB;
 import com.echobond.db.CommentDB;
 import com.echobond.db.HomeThoughtDB;
@@ -14,9 +24,11 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
 
-public class MyApp extends Application {
+public class MyApp extends Application implements Application.ActivityLifecycleCallbacks{
 
 	public static final String PREF_TYPE_LOGIN = "login";
 	public static final String LOGIN_FIRST = "firstUse";
@@ -40,10 +52,28 @@ public class MyApp extends Application {
 	public static final int LOADER_TAG = 6;
 	public static final int LOADER_USER_TAG = 7;
 	
+	public static final int ACTIVITY_NULL = -1;
+	public static final int ACTIVITY_APP_SETTING = 0;
+	public static final int ACTIVITY_CHAT_PAGE = 1;
+	public static final int ACTIVITY_COMMENT_PAGE = 2;
+	public static final int ACTIVITY_FOLLOWING_PAGE = 3;
+	public static final int ACTIVITY_IMAGE_PAGE = 4;
+	public static final int ACTIVITY_INTRO_PAGE = 5;
+	public static final int ACTIVITY_MAIN_PAGE = 6;
+	public static final int ACTIVITY_NEW_POST_PAGE = 7;
+	public static final int ACTIVITY_SEARCH_PAGE = 8;
+	public static final int ACTIVITY_START_PAGE = 9;
+		
+	private static int currentActivityIndex;
+	private static Activity currentActivity;
+	
 	@Override
 	public void onCreate() {
 		initUIL();
 		initDB();
+		currentActivityIndex = ACTIVITY_NULL;
+		currentActivity = null;
+		registerActivityLifecycleCallbacks(this);
 	}
 	@Override
 	public void onTerminate() {
@@ -52,7 +82,6 @@ public class MyApp extends Application {
 	
 	@Override
 	public void onLowMemory() {
-		// TODO Auto-generated method stub
 		super.onLowMemory();
 	}
 	
@@ -90,6 +119,99 @@ public class MyApp extends Application {
 		HomeThoughtDB.getInstance(this);
 		HotThoughtDB.getInstance(this);
 		ChatDB.getInstance(this);
+	}
+	@Override
+	public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+		setCurrentActivity(activity);
+		setCurrentActivityIndex(activity);
+	}
+	@Override
+	public void onActivityDestroyed(Activity activity) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onActivityPaused(Activity activity) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onActivityResumed(Activity activity) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void onActivityStarted(Activity activity) {
+		setCurrentActivity(activity);
+		setCurrentActivityIndex(activity);
+	}
+	@Override
+	public void onActivityStopped(Activity activity) {
+	}
+	
+	private void setCurrentActivity(Activity activity){
+		currentActivity = activity;
+	}
+	
+	private void setCurrentActivityIndex(Activity activity){
+		if(null == activity){
+			currentActivityIndex = -1;
+		} else if(activity instanceof AppSettingPage){
+			currentActivityIndex = ACTIVITY_APP_SETTING;
+		} else if(activity instanceof ChatPage){
+			currentActivityIndex = ACTIVITY_CHAT_PAGE;
+		} else if(activity instanceof CommentPage){
+			currentActivityIndex = ACTIVITY_COMMENT_PAGE;
+		} else if(activity instanceof FollowingPage){
+			currentActivityIndex = ACTIVITY_FOLLOWING_PAGE;
+		} else if(activity instanceof ImagePage){
+			currentActivityIndex = ACTIVITY_IMAGE_PAGE;
+		} else if(activity instanceof IntroPage){
+			currentActivityIndex = ACTIVITY_INTRO_PAGE;
+		} else if(activity instanceof MainPage){
+			currentActivityIndex = ACTIVITY_MAIN_PAGE;
+		} else if(activity instanceof NewPostPage){
+			currentActivityIndex = ACTIVITY_NEW_POST_PAGE;
+		} else if(activity instanceof SearchPage){
+			currentActivityIndex = ACTIVITY_SEARCH_PAGE;
+		} else if(activity instanceof StartPage){
+			currentActivityIndex = ACTIVITY_START_PAGE;
+		}		
+	}
+	
+	public static int getCurrentActivityIndex(){
+		return currentActivityIndex;
+	}
+	
+	public static Activity getCurrentActivity(){
+		if(null == currentActivity){
+			return currentActivity;
+		} else if(currentActivity instanceof AppSettingPage){
+			return (AppSettingPage)currentActivity;
+		} else if(currentActivity instanceof ChatPage){
+			return (ChatPage)currentActivity;
+		} else if(currentActivity instanceof CommentPage){
+			return (CommentPage)currentActivity;
+		} else if(currentActivity instanceof FollowingPage){
+			return (FollowingPage)currentActivity;
+		} else if(currentActivity instanceof ImagePage){
+			return (ImagePage)currentActivity;
+		} else if(currentActivity instanceof IntroPage){
+			return (IntroPage)currentActivity;
+		} else if(currentActivity instanceof MainPage){
+			return (MainPage)currentActivity;
+		} else if(currentActivity instanceof NewPostPage){
+			return (NewPostPage)currentActivity;
+		} else if(currentActivity instanceof SearchPage){
+			return (SearchPage)currentActivity;
+		} else if(currentActivity instanceof StartPage){
+			return (StartPage)currentActivity;
+		}
+		return currentActivity;
 	}
 	
 }

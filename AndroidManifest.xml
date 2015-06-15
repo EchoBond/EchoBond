@@ -4,6 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- package name specified permissions -->
+    <permission
+        android:name="com.echobond.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />    
+    
     <!-- basic permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- for register and receive msg from GCM -->
@@ -16,10 +21,7 @@
     <!-- cache images -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!-- package name specified permissions -->
-    <permission
-        android:name="com.echobond.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+
 
     <uses-permission android:name="com.echobond.permission.C2D_MESSAGE" />
 
@@ -95,7 +97,8 @@
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Light.NoTitleBar" 
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

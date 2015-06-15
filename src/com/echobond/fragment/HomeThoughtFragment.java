@@ -263,6 +263,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(HomeThoughtFragment.this.getActivity(), ChatPage.class);
 					chatIntent.putExtra("guestId", userId);
+					chatIntent.putExtra("userName", userName);
 					startActivity(chatIntent);
 				//}
 				break;

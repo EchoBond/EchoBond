@@ -264,6 +264,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(HotThoughtFragment.this.getActivity(), ChatPage.class);
 					chatIntent.putExtra("guestId", userId);
+					chatIntent.putExtra("userName", userName);
 					startActivity(chatIntent);
 				}
 				break;

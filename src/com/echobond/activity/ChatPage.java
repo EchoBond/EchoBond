@@ -22,9 +22,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,6 +36,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,11 +58,14 @@ import android.widget.TextView;
  */
 public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Cursor>, UserMsgCallback, IXListViewListener{
 	
+	private Toolbar toolbar;
+	private TextView titleView;
 	private XListView chatListView;
 	private EditText msgInputText;
 	private ImageView msgSendView;
 	private String userId;
 	private String guestId;
+	private String userName;
 	private ChatListAdapter adapter;
 	private int currentLimit;
 	private static final int DEFAULT_OFFSET = 0;
@@ -69,13 +75,22 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	private long lastLoadTime;
 	private long sendTime = 0;
 	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateUI();
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_page);
 		initActionBar();
 		initSendingMsg();
-		
+		toolbar = (Toolbar) findViewById(R.id.toolbar_chat_page);
+		titleView = (TextView) toolbar.findViewById(R.id.title_name);
 		adapter = new ChatListAdapter(this, R.layout.item_chat, null, 0);
 		chatListView = (XListView)findViewById(R.id.chat_list);
 		chatListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -86,13 +101,31 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		userId = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		
 		guestId = getIntent().getStringExtra("guestId");
+		userName = getIntent().getStringExtra("userName");
+		
+		titleView.setText("Talking with "+userName);
 		
 		currentLimit = LIMIT_INIT;
 		
 		getSupportLoaderManager().initLoader(MyApp.LOADER_CHAT, null, this);
-		
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("chatWith"+guestId));
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
+		guestId = getIntent().getStringExtra("guestId");
+		userName = getIntent().getStringExtra("userName");
+		titleView.setText(userName);
+		updateUI();
+	}
+	
 	private void initActionBar() {
 		Toolbar chatToolbar = (Toolbar)findViewById(R.id.toolbar_chat_page);
 		setSupportActionBar(chatToolbar);
@@ -217,16 +250,30 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public void onSendResult(JSONObject result) {
-				
+		if(null != result){
+			try {
+				if("0".equals(result.getString("success"))){
+					Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_SHORT).show();
+					return;
+				}
+				JSONObject msgJSON = result.getJSONObject("msg");
+				UserMsg msg = (UserMsg) JSONUtil.fromJSONToObject(msgJSON, UserMsg.class);
+				ContentValues values = msg.putValues();				
+				getContentResolver().insert(ChatDAO.CONTENT_URI, values);
+				updateUI();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}			
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadResult(JSONObject result) {
 		if(null != result){
-			TypeToken<ArrayList<UserMsg>> token = new TypeToken<ArrayList<UserMsg>>(){};
 			ArrayList<UserMsg> msgs = null;
 			try {
+				TypeToken<ArrayList<UserMsg>> token = new TypeToken<ArrayList<UserMsg>>(){};				
 				msgs = (ArrayList<UserMsg>) JSONUtil.fromJSONArrayToList(result.getJSONArray("msgList"), token);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -237,10 +284,8 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 				values[i++] = msg.putValues();
 			}
 			getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
-			Cursor cursor = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, 
-					new String[]{userId, guestId, guestId, userId, currentLimit+"", DEFAULT_OFFSET+""}, null);
-			adapter.swapCursor(cursor);
-			adapter.notifyDataSetChanged();
+			updateUI();
+			chatListView.smoothScrollToPositionFromTop(LIMIT_INCREMENT, 5);
 		}
 		onLoadFinished();
 	}
@@ -286,4 +331,20 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	private void updateUI(){
+		Cursor cursor = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, 
+				new String[]{userId, guestId, guestId, userId, currentLimit+"", DEFAULT_OFFSET+""}, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();		
+	}
+
+	public String getGuestId() {
+		return guestId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	
 }

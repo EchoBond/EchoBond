@@ -167,10 +167,12 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 	@Override
 	public void onClick(View v) {
 		TextView guestIdView = (TextView) v.findViewById(R.id.item_message_guestId);
+		TextView userNameView = (TextView) v.findViewById(R.id.item_message_title);
 		
 		Intent intent = new Intent();
 		intent.setClass(getActivity(), ChatPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
 		intent.putExtra("guestId", guestIdView.getText().toString());
+		intent.putExtra("userName", userNameView.getText().toString());
 		startActivity(intent);
 	}
 

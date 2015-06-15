@@ -1,5 +1,8 @@
 package com.echobond.entity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import android.content.ContentValues;
 
 /**
@@ -23,8 +26,13 @@ public class UserMsg {
 		values.put("sender_id", senderId);
 		values.put("recver_id", recverId);
 		values.put("time", time);
-		values.put("content", content);
-		values.put("username", userName);
+		try {
+			values.put("content", URLDecoder.decode(content, "UTF-8"));
+			values.put("username", URLDecoder.decode(userName, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return values;
 	}
 	public int getId() {

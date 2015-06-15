@@ -263,10 +263,10 @@
 	<string name="sql_s_msg">
 		SELECT * FROM (
 	    	SELECT * FROM `user_msg` WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?) 
-				ORDER BY `time` ASC LIMIT ? OFFSET ?) AS msg ORDER BY `time` DESC	    
+				ORDER BY `time` DESC LIMIT ? OFFSET ?) AS msg ORDER BY `time` ASC    
 	</string>
 	<string name="sql_s_msg_list">
-		SELECT msg.* FROM `user_msg` AS msg 
+		SELECT msg._id, msg.sender_id, msg.recver_id, msg.time, msg.content, msg.username FROM `user_msg` AS msg 
 		JOIN 
 		(SELECT usr, with_usr, MAX(time) AS msg_time FROM (
 	    	SELECT `sender_id` AS usr, `recver_id` AS with_usr, `time` FROM `user_msg` 
