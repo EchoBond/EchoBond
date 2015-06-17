@@ -13,11 +13,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-/**
- * 
- * @author aohuijun
- *
- */
+
 @SuppressLint("InflateParams") public class XViewHeader extends LinearLayout {
 
 	public static final int STATE_NORMAL = 0;

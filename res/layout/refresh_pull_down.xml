@@ -38,10 +38,12 @@
 	    <ProgressBar 
 	        android:id="@+id/pulldown_header_loading"
 	        android:layout_alignLeft="@id/pulldown_header_text"
+	        android:layout_alignStart="@id/pulldown_header_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_marginLeft="-40dp"
+	        android:layout_marginStart="-40dp"
 	        android:visibility="invisible" />
 	    
 	</RelativeLayout>

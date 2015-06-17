@@ -17,7 +17,7 @@
         	android:layout_height="wrap_content"
         	android:layout_alignParentBottom="true"
         	android:textStyle="bold"
-        	android:textSize="48sp"
+        	android:textSize="44sp"
         	android:inputType="textMultiLine"
         	android:hint="@string/hint_poster"
         	android:gravity="start|bottom" />

@@ -48,6 +48,12 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static int THOUGHT_TAG = 1;
 	public final static int PEOPLE_GROUP = 2;
 	public final static int PEOPLE_TAG = 3;
+	
+	public final static String THOUGHTS_MORE_GROUP = "Thoughts in More Groups";
+	public final static String THOUGHTS_MORE_TAG = "Thoughts of More Tags";
+	public final static String PEOPLE_MORE_GROUP = "People in More Groups";
+	public final static String PEOPLE_MORE_TAG = "People of more Tags";
+
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +97,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		}
 	}
 	
+	//	Blocks for Loading More Groups/Hashtags. 
 	@Override
 	public int onTypeSelected(int type) {
 		this.fgType = type;
@@ -109,29 +116,25 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		switch (fgType) {
 		case THOUGHT_GROUP:
 			Toast.makeText(getApplicationContext(), "thoughts' more groups", Toast.LENGTH_SHORT).show();
-			switchActionBar();
-			bundle.putString("type", "THOUGHT_GROUP");
+			bundle.putString("type", THOUGHTS_MORE_GROUP);
 			groupsThoughtsFragment.setArguments(bundle);
 			transaction.show(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case THOUGHT_TAG:
 			Toast.makeText(getApplicationContext(), "thoughts' more tags", Toast.LENGTH_SHORT).show();
-			switchActionBar();
-			bundle.putString("type", "THOUGHT_TAG");
+			bundle.putString("type", THOUGHTS_MORE_TAG);
 			tagsThoughtsFragment.setArguments(bundle);
 			transaction.show(tagsThoughtsFragment).hide(groupsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_GROUP:
 			Toast.makeText(getApplicationContext(), "people's more groups", Toast.LENGTH_SHORT).show();
-			switchActionBar();
-			bundle.putString("type", "PEOPLE_GROUP");
+			bundle.putString("type", PEOPLE_MORE_GROUP);
 			groupsPeopleFragment.setArguments(bundle);
 			transaction.show(groupsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_TAG:
 			Toast.makeText(getApplicationContext(), "people's more tags", Toast.LENGTH_SHORT).show();
-			switchActionBar();
-			bundle.putString("type", "PEOPLE_TAG");
+			bundle.putString("type", PEOPLE_MORE_TAG);
 			tagsPeopleFragment.setArguments(bundle);
 			transaction.show(tagsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(mainFragment).commit();
 			break;
@@ -142,6 +145,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		return fgType;
 	}
 	
+	//	Set the content of tabs for showing search results. 
 	@Override
 	public void onSearchSelected(int type) {
 		this.searchType = type;
@@ -180,12 +184,8 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			tagsPeopleFragment = null;
 		}
 	}
-	
-	private void switchActionBar() {
-		// TODO Need Confirmed
-		
-	}
 
+	//	Detect the Fragment Situation While Pressing the BACK Button. 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {

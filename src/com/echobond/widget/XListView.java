@@ -15,11 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
-/**
- * 
- * @author aohuijun
- *
- */
+
 public class XListView extends ListView implements OnScrollListener {
 
 	private static final int SCROLLBACK_HEADER = 0;

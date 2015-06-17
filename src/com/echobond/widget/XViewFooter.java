@@ -10,11 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-/**
- * 
- * @author aohuijun
- *
- */
+
 @SuppressLint("InflateParams") public class XViewFooter extends LinearLayout {
 
 	public static final int STATE_NORMAL = 0;

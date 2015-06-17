@@ -31,7 +31,7 @@ public class MoreTagsFragment extends Fragment{
 		tagTextView = (TextView)moreTagsView.findViewById(R.id.more_tags_text);
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
-			tagTextView.setText(bundle.getString("type"));
+			tagTextView.setText("View More " + bundle.getString("type"));
 			tagTextView.setOnClickListener(new SearchOnClickListener(bundle.getString("type")));
 		}
 		return moreTagsView;
@@ -49,9 +49,9 @@ public class MoreTagsFragment extends Fragment{
 		@Override
 		public void onClick(View v) {
 			Toast.makeText(getActivity(), "BACK", Toast.LENGTH_SHORT).show();
-			if (type == "THOUGHT_TAG") {
+			if (type == SearchPage.THOUGHTS_MORE_TAG) {
 				index = SearchPage.THOUGHT_TAG;
-			} else if (type == "PEOPLE_TAG") {
+			} else if (type == SearchPage.THOUGHTS_MORE_GROUP) {
 				index = SearchPage.PEOPLE_TAG;
 			}
 			searchCallback.onSearchSelected(index);			

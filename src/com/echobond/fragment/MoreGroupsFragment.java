@@ -31,7 +31,7 @@ public class MoreGroupsFragment extends Fragment {
 		groupTextView = (TextView)moreGroupsView.findViewById(R.id.more_groups_text);
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
-			groupTextView.setText(bundle.getString("type"));
+			groupTextView.setText("View More " + bundle.getString("type"));
 			groupTextView.setOnClickListener(new SearchOnClickListener(bundle.getString("type")));
 		}
 		return moreGroupsView;
@@ -49,9 +49,9 @@ public class MoreGroupsFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			Toast.makeText(getActivity(), "BACK", Toast.LENGTH_SHORT).show();
-			if (type == "THOUGHT_GROUP") {
+			if (type == SearchPage.THOUGHTS_MORE_GROUP) {
 				index = SearchPage.THOUGHT_GROUP;
-			} else if (type == "PEOPLE_GROUP") {
+			} else if (type == SearchPage.PEOPLE_MORE_GROUP) {
 				index = SearchPage.PEOPLE_GROUP;
 			}
 			searchCallback.onSearchSelected(index);

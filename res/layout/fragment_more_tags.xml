@@ -3,14 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center" >
+    android:orientation="vertical" >
     
     <TextView 
         android:id="@+id/more_tags_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="#ffa500"
         android:textStyle="bold"
         android:clickable="true" />
+    <ListView 
+        android:id="@+id/more_tags_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
