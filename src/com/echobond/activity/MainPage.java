@@ -390,7 +390,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 					exitTime = System.currentTimeMillis();
 				} else {
 					finish();
-					System.exit(0);
+//					System.exit(0);
 				}
 			}
 			return true;

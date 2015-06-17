@@ -1,9 +1,10 @@
 package com.echobond.activity;
 
 import com.echobond.R;
-import com.echobond.fragment.SearchPeopleFragment;
+import com.echobond.fragment.MoreGroupsFragment;
+import com.echobond.fragment.MoreTagsFragment;
+import com.echobond.fragment.SearchMainFragment;
 import com.echobond.fragment.SearchPeopleResultFragment;
-import com.echobond.fragment.SearchThoughtsFragment;
 import com.echobond.fragment.SearchThoughtsResultFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
 
@@ -11,10 +12,12 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,13 +29,19 @@ import android.widget.Toast;
  */
 public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallback {
 	
+	private SearchMainFragment mainFragment;
+	private SearchThoughtsResultFragment searchThoughtsResultFragment;
+	private SearchPeopleResultFragment searchPeopleResultFragment;
+	private MoreGroupsFragment groupsThoughtsFragment;
+	private MoreTagsFragment tagsThoughtsFragment;
+	private MoreGroupsFragment groupsPeopleFragment;
+	private MoreTagsFragment tagsPeopleFragment;
+	
 	private ImageView backButton;
 	private EditText searchBar;
 	private String searchText;
 	public static FragmentTabHost tabHost;
-	public static SearchPage instance = null;
 	private int fgType = -1;
-	private String resultString = "";
 
 	public final static int THOUGHT_GROUP = 0;
 	public final static int THOUGHT_TAG = 1;
@@ -43,9 +52,8 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_page);
-		instance = this;
 		initActionBar();
-		initTabs();
+		initView();
 	}
 
 	private void initActionBar() {
@@ -72,78 +80,82 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		});
 		
 	}
-	
-	private void initTabs() {
-		tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
-		tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-		tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-		tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-		tabHost.setCurrentTab(0);
-		
-//		Intent intent = getIntent();
-//		String loadPage = intent.getStringExtra("string");
-//		if (loadPage == null || loadPage.equals("")) {
-//			
-//		} else if (loadPage == "Groups for Thoughts") {
-//			tabHost.clearAllTabs();
-//			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
-//			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-//			tabHost.setCurrentTab(0);
-//		} else if (loadPage == "Hashtags for Thoughts") {
-//			tabHost.clearAllTabs();
-//			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
-//			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-//			tabHost.setCurrentTab(0);
-//		} else if (loadPage == "Groups for People") {
-//			tabHost.clearAllTabs();
-//			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-//			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleResultFragment.class, null);
-//			tabHost.setCurrentTab(1);
-//		} else if (loadPage == "Hashtags for People") {
-//			tabHost.clearAllTabs();
-//			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-//			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleResultFragment.class, null);
-//			tabHost.setCurrentTab(1);
-//		}
-		
-	}
 
+	private void initView() {
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		if (mainFragment == null) {
+			mainFragment = new SearchMainFragment();
+			transaction.add(R.id.search_page_container, mainFragment);
+			transaction.show(mainFragment).commit();
+		}
+	}
+	
 	@Override
 	public int onTypeSelected(int type) {
 		this.fgType = type;
-		Intent intent = new Intent();
-		intent.setClass(this, ViewMorePage.class);
-		
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		if (groupsThoughtsFragment == null || groupsPeopleFragment == null || tagsThoughtsFragment == null || tagsPeopleFragment == null) {
+			groupsThoughtsFragment = new MoreGroupsFragment();
+			groupsPeopleFragment = new MoreGroupsFragment();
+			tagsThoughtsFragment = new MoreTagsFragment();
+			tagsPeopleFragment = new MoreTagsFragment();
+			transaction.add(R.id.search_page_container, groupsThoughtsFragment);
+			transaction.add(R.id.search_page_container, tagsThoughtsFragment);
+			transaction.add(R.id.search_page_container, groupsPeopleFragment);
+			transaction.add(R.id.search_page_container, tagsPeopleFragment);
+		}
 		switch (fgType) {
 		case THOUGHT_GROUP:
 			Toast.makeText(getApplicationContext(), "thoughts' more groups", Toast.LENGTH_SHORT).show();
-			setContentView(R.layout.fragment_more_groups);
+			switchActionBar();
+			transaction.show(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case THOUGHT_TAG:
 			Toast.makeText(getApplicationContext(), "thoughts' more tags", Toast.LENGTH_SHORT).show();
+			transaction.show(tagsThoughtsFragment).hide(groupsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_GROUP:
 			Toast.makeText(getApplicationContext(), "people's more groups", Toast.LENGTH_SHORT).show();
+			transaction.show(groupsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_TAG:
 			Toast.makeText(getApplicationContext(), "people's more tags", Toast.LENGTH_SHORT).show();
+			transaction.show(tagsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(mainFragment).commit();
 			break;
 			
 		default:
 			break;
 		}
-		intent.putExtra("type", fgType);
-		startActivity(intent);
 		return fgType;
 	}
-
-	public FragmentTabHost getTabHost() {
-		return tabHost;
-	}
-
-	public void setResultString(String resultString) {
-		this.resultString = resultString;
-		searchBar.setText(resultString);
-	}
 	
+	private void switchActionBar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if (fgType == -1) {
+				Intent upIntent = NavUtils.getParentActivityIntent(SearchPage.this);
+				if (NavUtils.shouldUpRecreateTask(SearchPage.this, upIntent)) {
+					TaskStackBuilder.create(SearchPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+				}else {
+					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					NavUtils.navigateUpTo(SearchPage.this, upIntent);
+				}
+				return true;
+			} else {
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				transaction.hide(groupsThoughtsFragment);
+				transaction.hide(tagsThoughtsFragment);
+				transaction.hide(groupsPeopleFragment);
+				transaction.hide(tagsPeopleFragment);
+				transaction.show(mainFragment).commit();
+				fgType = -1;
+			}
+		}
+		return true;
+	}
 }
