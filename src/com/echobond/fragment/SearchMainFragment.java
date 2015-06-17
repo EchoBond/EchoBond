@@ -30,5 +30,9 @@ public class SearchMainFragment extends Fragment {
 		
 		return searchMainView;
 	}
+
+	public FragmentTabHost getTabHost() {
+		return tabHost;
+	}
 	
 }
