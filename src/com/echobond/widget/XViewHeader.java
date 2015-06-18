@@ -14,7 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-@SuppressLint("InflateParams") public class XViewHeader extends LinearLayout {
+@SuppressLint("InflateParams") 
+public class XViewHeader extends LinearLayout {
 
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_READY = 1;

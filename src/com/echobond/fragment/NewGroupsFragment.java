@@ -14,6 +14,8 @@ import com.echobond.intf.GroupCallback;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
+import com.echobond.widget.XListView;
+import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
 
 import android.annotation.SuppressLint;
@@ -21,28 +23,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewGroupsFragment extends Fragment implements GroupCallback{
+public class NewGroupsFragment extends Fragment implements GroupCallback, IXListViewListener {
 	
 	private ArrayList<Group> groups;
-	private ListView groupList;
+	private XListView groupList;
 	private NewPostFragmentsSwitchAsyncTaskCallback callback;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View groupsView = inflater.inflate(R.layout.fragment_new_post_groups, container, false);
-		groupList = (ListView) groupsView.findViewById(R.id.list_group);
+		groupList = (XListView) groupsView.findViewById(R.id.list_group);
+		groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		groupList.setPullRefreshEnable(false);
 		new GroupAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,GroupAsyncTask.GROUP_LOAD_ALL, 
 				HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_groups),
 				this);
@@ -77,7 +81,6 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 			MySimpleAdapter adapter = new MySimpleAdapter(getActivity(), listItems, R.layout.item_group, 
 					new String[]{"group"}, new int[]{R.id.text_group});
 			groupList.setAdapter(adapter);
-			groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 			groupList.setOnItemClickListener(new GroupItemClickListener());
 		}
 	}
@@ -137,5 +140,23 @@ public class NewGroupsFragment extends Fragment implements GroupCallback{
 				pos = group.getId();
 		}
 		return pos;
+	}
+
+	@Override
+	public void onRefresh() {
+		onRefresh();
+	}
+
+	@Override
+	public void onLoadMore() {
+		//	TEMPORARY USE
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				groupList.stopLoadMore();
+			}
+		}, 2000);
 	}
 }

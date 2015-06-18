@@ -8,9 +8,12 @@ import java.util.Map;
 import com.echobond.R;
 import com.echobond.widget.XListView;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ public class NotificationChildFragment extends Fragment {
 	
 	private XListView notificationList;
 	private String[] testStrings = new String[50];
+	private NotificationCursorAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -39,6 +43,7 @@ public class NotificationChildFragment extends Fragment {
 		SimpleAdapter mAdapter = new SimpleAdapter(getActivity(), data(), R.layout.item_notification, new String[]{"ntc"}, new int[]{R.id.item_notification_text});
 		notificationList.setAdapter(mAdapter);
 		notificationList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		notificationList.setPullLoadEnable(false);
 		notificationList.setOnItemClickListener(new ClickListener());
 		
 		return notificationChildView;
@@ -60,6 +65,27 @@ public class NotificationChildFragment extends Fragment {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			Toast.makeText(getActivity().getApplicationContext(), "Notification " + position, Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
+	public class NotificationCursorAdapter extends CursorAdapter {
+
+		public NotificationCursorAdapter(Context context, Cursor c, int flags) {
+			super(context, c, flags);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void bindView(View convertView, Context ctx, Cursor c) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public View newView(Context context, Cursor c, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}

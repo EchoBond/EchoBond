@@ -7,7 +7,7 @@
 	<RelativeLayout 
 	    android:id="@+id/pulldown_header_content"
 	    android:layout_width="match_parent"
-	    android:layout_height="60dp"
+	    android:layout_height="55dp"
 	    android:paddingTop="10dp"
 	    android:paddingBottom="10dp" >
 	    

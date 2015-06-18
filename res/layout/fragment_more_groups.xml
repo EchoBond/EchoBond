@@ -14,7 +14,7 @@
         android:textColor="#ffa500"
         android:textStyle="bold"
         android:clickable="true" />
-    <ListView 
+    <com.echobond.widget.XListView 
         android:id="@+id/more_groups_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

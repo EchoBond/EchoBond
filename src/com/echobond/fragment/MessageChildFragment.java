@@ -62,7 +62,9 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		messagesList = (XListView)messageChildView.findViewById(R.id.list_messages);
 		messagesList.setAdapter(adapter);
 		messagesList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		messagesList.setPullLoadEnable(false);
 		messagesList.setXListViewListener(this);
+		
 		userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		getLoaderManager().initLoader(MyApp.LOADER_MSG_LIST, null, this);
 		
