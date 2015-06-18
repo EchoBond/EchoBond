@@ -64,7 +64,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int ACTIVITY_SEARCH_PAGE = 8;
 	public static final int ACTIVITY_START_PAGE = 9;
 		
-	private static int currentActivityIndex;
+	private static int currentActivityIndex = ACTIVITY_NULL;
 	private static Activity currentActivity;
 	
 	@Override
@@ -127,7 +127,6 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	}
 	@Override
 	public void onActivityDestroyed(Activity activity) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
@@ -137,8 +136,8 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	}
 	@Override
 	public void onActivityResumed(Activity activity) {
-		// TODO Auto-generated method stub
-		
+		setCurrentActivity(activity);
+		setCurrentActivityIndex(activity);
 	}
 	@Override
 	public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
@@ -146,8 +145,6 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	}
 	@Override
 	public void onActivityStarted(Activity activity) {
-		setCurrentActivity(activity);
-		setCurrentActivityIndex(activity);
 	}
 	@Override
 	public void onActivityStopped(Activity activity) {

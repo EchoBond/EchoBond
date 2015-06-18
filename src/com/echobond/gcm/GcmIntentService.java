@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.ChatPage;
+import com.echobond.activity.MainPage;
 import com.echobond.activity.StartPage;
 import com.echobond.application.MyApp;
 import com.echobond.dao.ChatDAO;
@@ -133,13 +134,15 @@ public class GcmIntentService extends IntentService {
 			}
 		}
 
-		/* intent setting */		
+		/* intent setting */
+		Intent backIntent = new Intent(getApplicationContext(), MainPage.class);
+		backIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         Intent notificationIntent = new Intent(this, ChatPage.class);
         notificationIntent.putExtra("guestId", msg.getSenderId());
         notificationIntent.putExtra("userName", msg.getUserName());
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivities(getApplicationContext(), new Random().nextInt(), 
-        		new Intent[]{notificationIntent}, 0);
+        		new Intent[]{backIntent, notificationIntent}, 0);
 
         /* notification */
         NotificationCompat.Builder mBuilder =
