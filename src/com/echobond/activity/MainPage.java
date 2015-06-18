@@ -106,8 +106,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-		notificationFragment.changeTab(1);
-		mTabPager.setCurrentItem(2);
+		if(intent.getExtras()!= null && intent.getExtras().getBoolean("fromDataFetch")){
+			notificationFragment.changeTab(1);
+			mTabPager.setCurrentItem(2);
+		}
 	}
 	
 	private List<Map<String, Object>> getSettingData() {

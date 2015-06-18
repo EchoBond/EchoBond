@@ -131,6 +131,7 @@ public class DataFetchIntentService extends IntentService {
 		
 		/* intent setting */
         Intent notificationIntent = new Intent(this, MainPage.class);
+        notificationIntent.putExtra("fromDataFetch", true);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivities(getApplicationContext(), new Random().nextInt(), 
         		new Intent[]{notificationIntent}, 0);
