@@ -12,6 +12,7 @@ import com.echobond.util.CommUtil;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -42,19 +43,19 @@ public class GCMRegAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
     	String regId = "";
     	String senderId = context.getResources().getString(R.string.gcm_sender_id);
         Context appContext = context.getApplicationContext();
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(appContext);
         //HTTP
         String method = RawHttpRequest.HTTP_METHOD_POST;
         JSONObject body = new JSONObject();
         RawHttpRequest request = new RawHttpRequest(url, method, null, null, true);
         RawHttpResponse response = null;
         try {
-            regId = gcm.register(senderId);
+        	InstanceID instanceID = InstanceID.getInstance(appContext);
+        	regId = instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-            // You should send the registration ID to your server over HTTP,
-            // so it can use GCM/HTTP or CCS to send messages to your app.
-            // The request to your server should be authenticated if your app
-            // is using accounts.
+        	if(regId.isEmpty()){
+        		regId = instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+        	}
+        	
             body.put("userId", (String)SPUtil.get(context, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
             body.put("email", (String)SPUtil.get(context, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, "", String.class));
             body.put("regId", regId);

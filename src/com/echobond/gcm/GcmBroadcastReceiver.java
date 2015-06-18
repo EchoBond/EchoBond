@@ -11,6 +11,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
  * @author Luck
  *
  */
+@Deprecated
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

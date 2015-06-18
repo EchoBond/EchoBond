@@ -35,6 +35,7 @@ import android.support.v4.content.LocalBroadcastManager;
  * @author Luck
  *
  */
+@Deprecated
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
