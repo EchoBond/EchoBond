@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.echobond.connector.DataFetchIntentService;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
@@ -90,11 +91,23 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_page);
+		
+		Intent intent = new Intent();
+		intent.setClass(this, DataFetchIntentService.class);
+		startService(intent);
+		
 		initActionBar();
 		initViews();
 		initTabPager();
 		initSettingPage();
 		GCMUtil.getInstance().registerDevice(this);
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
+		notificationFragment.changeTab(1);
+		mTabPager.setCurrentItem(2);
 	}
 	
 	private List<Map<String, Object>> getSettingData() {

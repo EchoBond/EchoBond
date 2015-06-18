@@ -35,4 +35,8 @@ public class NotificationFragment extends Fragment {
 		
 		return tabHost;
 	}
+	
+	public void changeTab(int index){
+		tabHost.setCurrentTab(index);
+	}
 }
