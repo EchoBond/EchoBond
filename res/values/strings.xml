@@ -20,6 +20,8 @@
     <string name="title_activity_image_page">ImagePage</string>
     <string name="title_activity_comment_page">CommentPage</string>
     <string name="title_activity_chat_page">ChatPage</string>
+    <string name="title_activity_people_page">PeoplePage</string>
+    <string name="title_activity_thought_page">ThoughtPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>

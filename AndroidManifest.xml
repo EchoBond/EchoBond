@@ -7,8 +7,8 @@
     <!-- package name specified permissions -->
     <permission
         android:name="com.echobond.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />    
-    
+        android:protectionLevel="signature" />
+
     <!-- basic permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- for register and receive msg from GCM -->
@@ -20,9 +20,6 @@
 
     <!-- cache images -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-
     <uses-permission android:name="com.echobond.permission.C2D_MESSAGE" />
 
     <uses-sdk
@@ -38,7 +35,7 @@
         android:theme="@style/AppTheme" >
 
         <!-- old receiver -->
-		<!-- 
+        <!--
         <receiver
             android:name=".gcm.MyGcmReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -66,13 +63,15 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name=".gcm" />
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name=".gcm" />
-            </intent-filter>            
-        </receiver>        
+            </intent-filter>
+        </receiver>
         <!-- services for GCM -->
         <service
             android:name=".gcm.MyGcmListenerService"
@@ -83,15 +82,15 @@
         </service>
         <service
             android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
-        </service>        
+        </service>
         <!-- service for data fetch on startup -->
-		<service 
-		    android:name=".connector.DataFetchIntentService"
-		    android:exported="false"/>
+        <service
+            android:name=".connector.DataFetchIntentService"
+            android:exported="false" />
 
         <!-- necessary to use facebook LoginButton -->
         <activity android:name="com.facebook.LoginActivity" />
@@ -128,8 +127,8 @@
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" 
             android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -145,9 +144,9 @@
         <activity
             android:name=".activity.MainPage"
             android:alwaysRetainTaskState="true"
-            android:launchMode="singleTask"
             android:excludeFromRecents="false"
-            android:label="@string/none" >
+            android:label="@string/none"
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".activity.SearchPage"
@@ -190,7 +189,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.MainPage" />
         </activity>
-        
+        <activity
+            android:name=".activity.PeoplePage"
+            android:label="@string/title_activity_people_page" >
+        </activity>
+        <activity
+            android:name=".activity.ThoughtsListPage"
+            android:label="@string/title_activity_thought_page" >
+        </activity>
     </application>
 
 </manifest>

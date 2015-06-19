@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.ThoughtsListPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
 import com.echobond.entity.User;
@@ -13,6 +14,7 @@ import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +32,7 @@ import android.widget.Toast;
 public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	
 	private ImageView profileFigureView;
-	private TextView profileTitle, profileBio, profileGentle;
+	private TextView profileTitle, profileBio, profileGender;
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
 					profileDesc, profileHeart, profileSec, profileLang, profileTag; 
 	private TextView viewThoughtsButton;
@@ -55,7 +57,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		profileFigureView = (ImageView)profileView.findViewById(R.id.profile_pic);
 		profileTitle = (TextView)profileView.findViewById(R.id.profile_title);
 		profileBio = (TextView)profileView.findViewById(R.id.profile_content);
-		profileGentle = (TextView)profileView.findViewById(R.id.profile_gender);
+		profileGender = (TextView)profileView.findViewById(R.id.profile_gender);
 		
 		profileDNA = (TextView)profileView.findViewById(R.id.profile_about_dna_text);
 		profileTrophy = (TextView)profileView.findViewById(R.id.profile_about_trophy_text);
@@ -84,8 +86,10 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(getActivity().getApplicationContext(), "Navigate to ThoughtsFragment.class: TO BE DONE", Toast.LENGTH_SHORT).show();
-				// TODO create a new fragment/activity
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ThoughtsListPage.class);
+				startActivity(intent);
+				Toast.makeText(getActivity().getApplicationContext(), "Thought List", Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -99,7 +103,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			try {
 				JSONObject userJSON = (JSONObject) result.get("user");
 				User user = (User) JSONUtil.fromJSONToObject(userJSON, User.class);
-				profileGentle.setText("");
+				profileGender.setText("");
 				profileTitle.setText(user.getUserName());
 				profileBio.setText(user.getBio());
 				profileDNA.setText(user.getSthInteresting());
