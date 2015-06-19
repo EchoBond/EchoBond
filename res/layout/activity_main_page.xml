@@ -55,14 +55,28 @@
 	                android:clickable="true"
 	                android:layout_weight="1"
 	                android:src="@drawable/main_hit_button" />
-	            <ImageView 
-	                android:contentDescription="@string/none"
-	                android:id="@+id/notification_button"
+	            <RelativeLayout 
 	                android:layout_width="match_parent"
 	                android:layout_height="match_parent"
-	                android:clickable="true"
-	                android:layout_weight="1" 
-	                android:src="@drawable/main_notification_button" />
+	                android:layout_weight="1" >
+	                <ImageView 
+	                    android:contentDescription="@string/none"
+	                	android:id="@+id/notification_button"
+	                	android:layout_width="match_parent"
+	                	android:layout_height="match_parent"
+	                	android:clickable="true"
+	                	android:src="@drawable/main_notification_button" />
+			        <ImageView 
+			            android:id="@+id/notification_indicator"
+			            android:contentDescription="@string/none"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_alignParentTop="true"
+			            android:layout_alignParentRight="true"
+			            android:layout_alignParentEnd="true"
+			            android:padding="2dp" />
+	            </RelativeLayout>
+	            
 	            <ImageView 
 	                android:contentDescription="@string/none"
 	                android:id="@+id/profile_button"

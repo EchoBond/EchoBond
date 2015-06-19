@@ -64,7 +64,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getActivity(), "BACK", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "BACK to Result", Toast.LENGTH_SHORT).show();
 			if (type == SearchPage.THOUGHTS_MORE_TAG) {
 				index = SearchPage.THOUGHT_TAG;
 			} else if (type == SearchPage.THOUGHTS_MORE_GROUP) {

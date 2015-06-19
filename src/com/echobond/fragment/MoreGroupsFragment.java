@@ -37,7 +37,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View moreGroupsView = inflater.inflate(R.layout.fragment_more_groups, container, false);
 		
-		adapter = new MoreGroupsCursorAdapter(getActivity(), null, 0);
+		adapter = new MoreGroupsCursorAdapter(getActivity(), R.layout.intro_view03, null, 0);
 		moreGroupsList = (XListView)moreGroupsView.findViewById(R.id.more_groups_list);
 		moreGroupsList.setPullRefreshEnable(false);
 		moreGroupsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -64,7 +64,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getActivity(), "BACK", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "BACK to Result", Toast.LENGTH_SHORT).show();
 			if (type == SearchPage.THOUGHTS_MORE_GROUP) {
 				index = SearchPage.THOUGHT_GROUP;
 			} else if (type == SearchPage.PEOPLE_MORE_GROUP) {
@@ -77,9 +77,13 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener {
 	
 	public class MoreGroupsCursorAdapter extends CursorAdapter {
 
-		public MoreGroupsCursorAdapter(Context context, Cursor c, int flags) {
+		private LayoutInflater inflater;
+		private int layout;
+		
+		public MoreGroupsCursorAdapter(Context context, int layout, Cursor c, int flags) {
 			super(context, c, flags);
-			// TODO Auto-generated constructor stub
+			this.layout = layout;
+			this.inflater = LayoutInflater.from(context);
 		}
 
 		@Override
@@ -91,7 +95,11 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener {
 		@Override
 		public View newView(Context context, Cursor c, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			return null;
+			if (c.isNull(getCount())) {
+				return inflater.inflate(layout, parent, false);
+			} else {
+				return null;
+			}
 		}
 		
 	}
