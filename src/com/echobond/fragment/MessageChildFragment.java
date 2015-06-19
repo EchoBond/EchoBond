@@ -21,9 +21,11 @@ import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +35,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +54,14 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 	private MsgListCursorAdapter adapter;
 	private String userId;
 	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateUI();			
+		}
+	};
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,10 +78,19 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		
 		userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		getLoaderManager().initLoader(MyApp.LOADER_MSG_LIST, null, this);
-		
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter("msgListUpdate"));
 		return messageChildView;
 	}
-	
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateUI();
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+	}
 	
 	public class MsgListCursorAdapter extends CursorAdapter{
 
@@ -94,12 +114,14 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 			String recverId = c.getString(c.getColumnIndex("recver_id"));
 			String userName = c.getString(c.getColumnIndex("username"));
 			String time = c.getString(c.getColumnIndex("time"));
+			Integer isRead = c.getInt(c.getColumnIndex("is_read"));
 			
 			TextView contentView = (TextView) view.findViewById(R.id.item_message_text);
 			TextView titleView = (TextView) view.findViewById(R.id.item_message_title);
 			TextView timeView = (TextView)view.findViewById(R.id.item_message_time);
 			ImageView avatarView = (ImageView) view.findViewById(R.id.item_message_pic);
 			TextView guestIdView = (TextView) view.findViewById(R.id.item_message_guestId);
+			ImageView indicatorView = (ImageView) view.findViewById(R.id.item_message_indicator);
 			
 			contentView.setText(content);
 			titleView.setText(userName);
@@ -109,6 +131,12 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 				guestIdView.setText(recverId);
 			} else {
 				guestIdView.setText(senderId);
+			}
+			
+			if(isRead == 0){
+				indicatorView.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+			} else {
+				indicatorView.setImageDrawable(null);
 			}
 			
 			String url = HTTPUtil.getInstance().composePreURL(MessageChildFragment.this.getActivity())
@@ -201,11 +229,15 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 				values[i++] = msg.putValues();
 			}
 			getActivity().getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
-			String[] args = new String[]{userId};
-			Cursor cursor = getActivity().getContentResolver().query(ChatDAO.CONTENT_URI, null, null, args, null);
-			adapter.swapCursor(cursor);
-			adapter.notifyDataSetChanged();
+			updateUI();
 		}
 		onLoadFinished();
+	}
+	
+	private void updateUI(){
+		String[] args = new String[]{userId};
+		Cursor cursor = getActivity().getContentResolver().query(ChatDAO.CONTENT_URI, null, null, args, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();
 	}
 }

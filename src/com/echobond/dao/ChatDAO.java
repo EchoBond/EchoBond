@@ -1,6 +1,7 @@
 package com.echobond.dao;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -62,21 +63,30 @@ public class ChatDAO extends ContentProvider{
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == CHAT){
+			//load message list
+			if(selectionArgs.length == 1){
+				cursor = ChatDB.getInstance().loadMsgList(selectionArgs);	
+			}
 			//load messages
-			if(selectionArgs.length > 1){
+			else if(selectionArgs.length == 6){
 				cursor = ChatDB.getInstance().loadMsg(selectionArgs);
 			}
-			//load message list
+			//count unread
 			else {
-				cursor = ChatDB.getInstance().loadMsgList(selectionArgs);		
+				String userId = selectionArgs[0];
+				cursor = ChatDB.getInstance().countUnreadMsg(new String[]{userId});
 			}
 			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;
 	}
 	@Override
-	public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
-		// TODO Auto-generated method stub
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		if(uriMatcher.match(uri) == CHAT){
+			ChatDB.getInstance().updateMsg(values, selection, selectionArgs);
+			ContentResolver resolver = getContext().getContentResolver();
+			resolver.notifyChange(uri, null);
+		}
 		return 0;
 	}
 

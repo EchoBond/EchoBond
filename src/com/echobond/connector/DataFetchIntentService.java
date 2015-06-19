@@ -32,6 +32,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Intent service to fetch data
@@ -39,7 +40,8 @@ import android.support.v4.app.NotificationCompat;
  *
  */
 public class DataFetchIntentService extends IntentService {
-    public static final int NOTIFICATION_ID = 1;
+    public static final int ALARM_NOTIFICATION_ID = 1;
+    public static final int ICON_NOTIFICATION_ID = 2;
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
@@ -117,22 +119,64 @@ public class DataFetchIntentService extends IntentService {
 		/* storing */
 		ContentValues[] contentValues = new ContentValues[msgList.size()];
 		int i = 0;
+		String userId = (String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		try {
 			for(UserMsg msg: msgList){
 				msg.setUserName(URLDecoder.decode(msg.getUserName(), "UTF-8"));
 				msg.setContent(URLDecoder.decode(msg.getContent(), "UTF-8"));
 				text = URLDecoder.decode(text,"UTF-8");
-				contentValues[i++] = msg.putValues();
+				ContentValues values = msg.putValues();
+				if(msg.getSenderId().equals(userId))
+					values.put("is_read", 1);
+				contentValues[i++] = values;
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, contentValues);
 		
+		/* acking */
+		String url = HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_ack_msgs);
+		JSONObject body = new JSONObject();
+		try{
+			User user = new User();
+			user.setId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+			body.put("user", JSONUtil.fromObjectToJSON(user));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}		
+		String method = RawHttpRequest.HTTP_METHOD_POST;
+		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
+		RawHttpResponse response = null;
+		JSONObject result = null;
+		try{
+			response = HTTPUtil.getInstance().send(request);
+		} catch (SocketTimeoutException e){
+			e.printStackTrace();
+		} catch (ConnectException e){
+			e.printStackTrace();
+		}
+		if(null != response){
+			try {
+				result = new JSONObject(response.getMsg());
+				if(null == result || result.getInt("success") != 1){
+					stopSelf();
+					return;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/* foreground activity handling */
+		Intent newNotifyIntent = new Intent("newNotification");
+		newNotifyIntent.putExtra("new", true);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(newNotifyIntent);
+		
 		/* intent setting */
         Intent notificationIntent = new Intent(this, MainPage.class);
         notificationIntent.putExtra("fromDataFetch", true);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivities(getApplicationContext(), new Random().nextInt(), 
         		new Intent[]{notificationIntent}, 0);
 
@@ -145,7 +189,7 @@ public class DataFetchIntentService extends IntentService {
         .bigText(text)).setAutoCancel(true)
         .setContentText(text);
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        
 
         NotificationCompat.Builder mBuilder2 = 
         		new NotificationCompat.Builder(this);
@@ -153,7 +197,11 @@ public class DataFetchIntentService extends IntentService {
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND; // To play default notification sound
         NotificationManager nm = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify((int) System.currentTimeMillis(), notification);
+
+        if(MyApp.getCurrentActivity() != null){
+        	mNotificationManager.notify(ICON_NOTIFICATION_ID, mBuilder.build());
+        	nm.notify(ALARM_NOTIFICATION_ID, notification);
+        }
     }
     
 }

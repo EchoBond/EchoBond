@@ -256,9 +256,8 @@
 	<string name="sql_i_msg">
 	    INSERT INTO `user_msg`(`_id`,`sender_id`,`recver_id`,`time`,`content`) VALUES (?,?,?,?,?)
 	</string>
-	<string name="sql_s_count_msg">
-	    SELECT COUNT(`id`) AS num_of_msg FROM `user_msg` 
-	    WHERE (`sender_id` = ? AND `recver_id` = ?) OR (`sender_id` = ? AND `recver_id` = ?)
+	<string name="sql_s_count_unread_msg">
+	    SELECT COUNT(`_id`) AS count FROM `user_msg` WHERE `recver_id` = ? AND is_read = 0
 	</string>
 	<string name="sql_s_msg">
 		SELECT * FROM (
@@ -266,7 +265,7 @@
 				ORDER BY `time` DESC LIMIT ? OFFSET ?) AS msg ORDER BY `time` ASC    
 	</string>
 	<string name="sql_s_msg_list">
-		SELECT msg._id, msg.sender_id, msg.recver_id, msg.time, msg.content, msg.username FROM `user_msg` AS msg 
+		SELECT msg._id, msg.sender_id, msg.recver_id, msg.time, msg.content, msg.username, msg.is_read FROM `user_msg` AS msg 
 		JOIN 
 		(SELECT usr, with_usr, MAX(time) AS msg_time FROM (
 	    	SELECT `sender_id` AS usr, `recver_id` AS with_usr, `time` FROM `user_msg` 

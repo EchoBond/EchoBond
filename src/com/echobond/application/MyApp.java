@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
@@ -129,10 +130,13 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public void onActivityDestroyed(Activity activity) {
 		
 	}
+	@SuppressLint("NewApi")
 	@Override
 	public void onActivityPaused(Activity activity) {
-		// TODO Auto-generated method stub
-		
+		if(activity.isTaskRoot()){
+			setCurrentActivity(null);
+			setCurrentActivityIndex(null);
+		}
 	}
 	@Override
 	public void onActivityResumed(Activity activity) {

@@ -32,6 +32,7 @@
     <!-- user msg -->
     <string name="url_load_msg">LoadUserMsgServlet</string>
     <string name="url_send_msg">SendUserMsgServlet</string>
+    <string name="url_ack_msgs">AckUserMsgServlet</string>
     
     <!-- load / search posts -->
     <string name="url_load_thoughts">LoadThoughtsServlet</string>

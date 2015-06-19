@@ -78,6 +78,11 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			ContentValues values = new ContentValues();
+			values.put("is_read", 1);
+			String where = "_id=?";
+			String[] selectionArgs = new String[]{intent.getExtras().getInt("id")+""};
+			getContentResolver().update(ChatDAO.CONTENT_URI, values, where, selectionArgs);
 			updateUI();
 		}
 	};
@@ -105,6 +110,25 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		titleView.setText("Talking with "+userName);
 		
 		currentLimit = LIMIT_INIT;
+		
+		ContentValues values = new ContentValues();
+		values.put("is_read", 1);
+		String where = "recver_id=? AND sender_id=?";
+		String[] selectionArgs = new String[]{userId, guestId};
+		getContentResolver().update(ChatDAO.CONTENT_URI, values, where, selectionArgs);
+		
+		selectionArgs = new String[]{userId,""};
+		Cursor c = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, selectionArgs, null);
+		if(c.moveToFirst()){
+			int count = c.getInt(c.getColumnIndex("count"));
+			if(count == 0){
+				Intent notifyIntent = new Intent("newNotification");
+				notifyIntent.putExtra("new", false);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
+				sendBroadcast(notifyIntent);
+			}
+			c.close();
+		}
 		
 		getSupportLoaderManager().initLoader(MyApp.LOADER_CHAT, null, this);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("chatWith"+guestId));
@@ -257,7 +281,9 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 				}
 				JSONObject msgJSON = result.getJSONObject("msg");
 				UserMsg msg = (UserMsg) JSONUtil.fromJSONToObject(msgJSON, UserMsg.class);
-				ContentValues values = msg.putValues();				
+				ContentValues values = msg.putValues();
+				//always read for messages sent by myself
+				values.put("is_read", 1);
 				getContentResolver().insert(ChatDAO.CONTENT_URI, values);
 				updateUI();
 			} catch (JSONException e) {

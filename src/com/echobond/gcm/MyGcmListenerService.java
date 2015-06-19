@@ -1,6 +1,8 @@
 package com.echobond.gcm;
 
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.net.URLDecoder;
 import java.util.Random;
 
@@ -12,7 +14,10 @@ import com.echobond.activity.ChatPage;
 import com.echobond.activity.MainPage;
 import com.echobond.application.MyApp;
 import com.echobond.dao.ChatDAO;
+import com.echobond.entity.RawHttpRequest;
+import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.UserMsg;
+import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -86,6 +91,36 @@ public class MyGcmListenerService extends GcmListenerService {
 		ContentValues values = msg.putValues();
 		getContentResolver().insert(ChatDAO.CONTENT_URI, values);
 		
+		/* acking */
+		String url = HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_ack_msgs);
+		JSONObject body = new JSONObject();
+		try{
+			body.put("msg", JSONUtil.fromObjectToJSON(msg));
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}		
+		String method = RawHttpRequest.HTTP_METHOD_POST;
+		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
+		RawHttpResponse response = null;
+		JSONObject result = null;
+		try{
+			response = HTTPUtil.getInstance().send(request);
+		} catch (SocketTimeoutException e){
+			e.printStackTrace();
+		} catch (ConnectException e){
+			e.printStackTrace();
+		}
+		if(null != response){
+			try {
+				result = new JSONObject(response.getMsg());
+				if(null == result || result.getInt("success") != 1){
+					stopSelf();
+					return;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 		/* foreground activity handling */
 		int index = MyApp.getCurrentActivityIndex();
 		if(-1 != index){
@@ -94,14 +129,19 @@ public class MyGcmListenerService extends GcmListenerService {
 				if(activity instanceof ChatPage){
 					String guestId = ((ChatPage)activity).getGuestId();
 					if(guestId.equals(msg.getSenderId())){
-						Intent intent = new Intent("chatWith" + guestId);
-						LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-						//((ChatPage)activity).updateUI();
+						Intent chatIntent = new Intent("chatWith" + guestId);
+						chatIntent.putExtra("id", msg.getId());
+						LocalBroadcastManager.getInstance(this).sendBroadcast(chatIntent);
 						return;
 					}
 				}
 			}
 		}
+		Intent msgListIntent = new Intent("msgListUpdate");
+		LocalBroadcastManager.getInstance(this).sendBroadcast(msgListIntent);
+		Intent notifyIntent = new Intent("newNotification");
+		notifyIntent.putExtra("new", true);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
 
 		/* intent setting */
 		Intent backIntent = new Intent(getApplicationContext(), MainPage.class);

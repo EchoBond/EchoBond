@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.echobond.application.MyApp;
 import com.echobond.connector.DataFetchIntentService;
+import com.echobond.dao.ChatDAO;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
@@ -15,14 +17,21 @@ import com.echobond.fragment.NotificationFragment;
 import com.echobond.fragment.ProfileFragment;
 import com.echobond.intf.GCMCallback;
 import com.echobond.util.GCMUtil;
+import com.echobond.util.SPUtil;
 import com.echobond.R;
 
 import android.app.ActionBar;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
@@ -67,7 +76,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
 	private ImageView homeButton, hitButton, notificationButton, profileButton,  
-						newPostButton, settingButton;
+						newPostButton, settingButton, notificationIndicator;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -87,6 +96,18 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 
 	Intent intent = new Intent();
 	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.getExtras().getBoolean("new")){
+				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+			} else {
+				notificationIndicator.setImageDrawable(null);
+			}
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,15 +122,39 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		initTabPager();
 		initSettingPage();
 		GCMUtil.getInstance().registerDevice(this);
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("newNotification"));
+		
+		String[] selectionArgs = new String[]{
+				(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class),""};
+		Cursor c = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, selectionArgs, null);
+		if(c.moveToFirst()){
+			int count = c.getInt(c.getColumnIndex("count"));
+			if(count > 0){
+				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+			}
+			c.close();
+		}
 	}
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-		if(intent.getExtras()!= null && intent.getExtras().getBoolean("fromDataFetch")){
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent thisIntent = getIntent();
+		if(null != thisIntent && thisIntent.getExtras()!= null && thisIntent.getExtras().getBoolean("fromDataFetch")){
 			notificationFragment.changeTab(1);
 			mTabPager.setCurrentItem(2);
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 	}
 	
 	private List<Map<String, Object>> getSettingData() {
@@ -175,6 +220,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		hitButton = (ImageView)findViewById(R.id.hit_button);
 //		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
 		notificationButton = (ImageView)findViewById(R.id.notification_button);
+		notificationIndicator = (ImageView) findViewById(R.id.notification_indicator);
 		profileButton = (ImageView)findViewById(R.id.profile_button);
 		
 		homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button_selected));
@@ -404,7 +450,9 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_quit), Toast.LENGTH_SHORT).show();
 					exitTime = System.currentTimeMillis();
 				} else {
-					finish();
+					NotificationManager nm = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+					nm.cancelAll();			
+					finish();		
 //					System.exit(0);
 				}
 			}

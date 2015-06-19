@@ -42,8 +42,8 @@ public class ChatDB extends MyDBHelper {
 		return replace(tblName, values);
 	}
 
-	public Cursor countMsg(String[] args){
-		return query(ctx.getResources().getString(R.string.sql_s_count_msg), args);
+	public Cursor countUnreadMsg(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_count_unread_msg), args);
 	}
 	
 	public Cursor loadMsg(String[] args){
@@ -52,6 +52,10 @@ public class ChatDB extends MyDBHelper {
 	
 	public Cursor loadMsgList(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_msg_list), args);
+	}
+	
+	public long updateMsg(ContentValues values, String where, String[] whereArgs){
+		return update(tblName, values, where, whereArgs);
 	}
 	
 }
