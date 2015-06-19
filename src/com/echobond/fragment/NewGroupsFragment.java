@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +39,23 @@ public class NewGroupsFragment extends Fragment implements GroupCallback, IXList
 	
 	private ArrayList<Group> groups;
 	private XListView groupList;
+	private ImageView moreGroupsView;
 	private NewPostFragmentsSwitchAsyncTaskCallback callback;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View groupsView = inflater.inflate(R.layout.fragment_new_post_groups, container, false);
-		groupList = (XListView) groupsView.findViewById(R.id.list_group);
+		moreGroupsView = (ImageView)groupsView.findViewById(R.id.thoughts_group_search);
+		moreGroupsView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Toast.makeText(getActivity(), "More Groups CLICKED", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		groupList = (XListView)groupsView.findViewById(R.id.list_group);
 		groupList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groupList.setPullRefreshEnable(false);
 		new GroupAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,GroupAsyncTask.GROUP_LOAD_ALL, 

@@ -28,7 +28,8 @@
 	        android:inputType="textMultiLine"
 	        android:singleLine="false"
 	        android:maxLines="4"
-	        android:background="@drawable/square_edittext_lightgrey" />
+        	android:background="@drawable/square_edittext_lightgrey"
+        	android:minHeight="30dp" />
         <ImageView 
             android:id="@+id/chat_msg_send"
             android:contentDescription="@string/none"

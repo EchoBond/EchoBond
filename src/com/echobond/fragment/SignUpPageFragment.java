@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 /**
  * 
@@ -25,7 +25,7 @@ public class SignUpPageFragment extends Fragment {
 	
 	private EditText signUpEmailText, signUpPasswordText;
 	private String signUpEmailStr, signUpPasswordStr;
-	private ImageButton signUp;
+	private ImageView signUp;
 	private StartPageFragmentsSwitchAsyncTaskCallback mSelectedListener;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class SignUpPageFragment extends Fragment {
 		View signUpPageView = inflater.inflate(R.layout.fragment_start_signup, container, false);
 		signUpEmailText = (EditText)signUpPageView.findViewById(R.id.email_signup_input);
 		signUpPasswordText = (EditText)signUpPageView.findViewById(R.id.signup_password_input);
-		signUp = (ImageButton)signUpPageView.findViewById(R.id.button_signup);
+		signUp = (ImageView)signUpPageView.findViewById(R.id.button_signup);
 
 		signUp.setOnClickListener(new OnClickListener() {
 			

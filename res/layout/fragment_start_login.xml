@@ -10,7 +10,8 @@
         android:id="@+id/email_signin_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/email_logo" />  
+        android:padding="6dp"
+        android:src="@drawable/logo_email" />  
     <EditText
         android:id="@+id/email_signin_input"
         android:layout_width="match_parent"
@@ -18,17 +19,21 @@
         android:layout_alignBottom="@id/email_signin_view"
         android:layout_toRightOf="@id/email_signin_view"
         android:layout_toEndOf="@id/email_signin_view"
+        android:layout_margin="3dp"
         android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVXYZ@._"
         android:inputType="textEmailAddress"
         android:singleLine="true"
         android:hint="@string/hint_email_address"
-        android:typeface="monospace" />    
+        android:typeface="monospace"
+        android:background="@drawable/square_edittext_lightgrey"
+        android:minHeight="45dp" />    
     <ImageView 
         android:contentDescription="@string/none"
         android:id="@+id/signin_password_view"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/password_logo"
+        android:padding="6dp"
+        android:src="@drawable/logo_password"
         android:layout_below="@id/email_signin_view" />
     <EditText 
         android:id="@+id/signin_password_input"
@@ -38,33 +43,39 @@
         android:layout_toEndOf="@id/signin_password_view"
         android:layout_below="@id/email_signin_view"
         android:layout_alignBottom="@id/signin_password_view"
+        android:layout_margin="3dp"
         android:inputType="textPassword"
         android:singleLine="true"
         android:hint="@string/hint_password"
-        android:typeface="normal" />
+        android:typeface="normal"
+        android:background="@drawable/square_edittext_lightgrey"
+        android:minHeight="45dp" />
     <LinearLayout 
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/signin_password_view"
         android:orientation="horizontal" >
-	    <ImageButton 
+	    <ImageView 
 	        android:contentDescription="@string/none"
-	        android:layout_weight="1.6"
+	        android:layout_weight="0.5"
 	        android:id="@+id/button_forget_pw"
-	        android:layout_width="wrap_content"
+	        android:layout_width="80dp"
 	        android:layout_height="80dp"
-	        android:background="#ffffff"
+   	        android:layout_gravity="center_vertical"
 	        android:src="@drawable/forget_pw"
-	        android:scaleType="fitCenter" />
-	    <ImageButton 
+	        android:scaleType="fitCenter"
+	        android:clickable="true" />
+	    <ImageView 
 	        android:contentDescription="@string/none"
 	        android:layout_weight="1"
 	        android:id="@+id/button_signin"
 	        android:layout_width="wrap_content"
-	        android:layout_height="80dp"
-	        android:background="#ffffff"
-	        android:src="@drawable/signin_button"
-	        android:scaleType="fitCenter" />
+	        android:layout_height="70dp"
+	        android:layout_gravity="center_vertical"
+	        android:padding="10dp"
+	        android:src="@drawable/button_sign_in"
+	        android:scaleType="fitCenter"
+	        android:clickable="true" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hint_email_address">youareawesome@email.com</string>
-    <string name="hint_password">password that no one knows</string>
+    <string name="hint_email_address"> youareawesome@email.com</string>
+    <string name="hint_password"> password that no one knows</string>
     <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
     <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy…</string>
        

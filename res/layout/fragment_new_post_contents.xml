@@ -43,15 +43,26 @@
             android:textStyle="bold"
             android:textSize="25sp" />
 
+        <ImageView 
+            android:id="@+id/view_hashtag_more"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+       	 	android:gravity="center_horizontal"
+            android:contentDescription="@string/none"
+            android:src="@drawable/search_page_tags_more" />
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:layout_toLeftOf="@id/view_hashtag_more"
+            android:layout_toStartOf="@id/view_hashtag_more"
             android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:text="@string/hint_tags_separate"
             android:textColor="#909090"
             android:textSize="15sp" />
+        
     </RelativeLayout>
 
     <EditText

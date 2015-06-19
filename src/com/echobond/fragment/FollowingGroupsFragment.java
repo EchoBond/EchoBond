@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,7 +29,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class FollowingGroupsFragment extends Fragment {
+public class FollowingGroupsFragment extends Fragment implements OnClickListener {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private String[] testGroups = {"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE", 
@@ -50,8 +51,8 @@ public class FollowingGroupsFragment extends Fragment {
 		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
 		adapter = new MySimpleAdapter(this.getActivity(), data(), 
 				R.layout.item_following, new String[]{"group"}, new int[]{R.id.item_following_text});
-		adapter2 = new FollowingGroupsAdapter(this.getActivity(), null, 0);
-		groups2Follow.setAdapter(adapter);
+		adapter2 = new FollowingGroupsAdapter(getActivity(), R.layout.item_following, null, 0);
+		groups2Follow.setAdapter(adapter2);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
 
@@ -105,12 +106,14 @@ public class FollowingGroupsFragment extends Fragment {
 				public void onClick(View v) {
 					if (v.isSelected()) {
 						holder.selection.setImageDrawable(null);
+						holder.selection.setImageBitmap(null);
 						v.setSelected(false);
+						Toast.makeText(getActivity().getApplicationContext(), "SELECTED Cleared", Toast.LENGTH_SHORT).show();
 					} else {
 						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 						v.setSelected(true);
+						Toast.makeText(getActivity().getApplicationContext(), "SELECTED", Toast.LENGTH_SHORT).show();
 					}
-					Toast.makeText(getActivity().getApplicationContext(), "CLICKED", Toast.LENGTH_SHORT).show();
 					
 				}
 			});
@@ -127,22 +130,57 @@ public class FollowingGroupsFragment extends Fragment {
 		private LayoutInflater mInflater;
 		private int layout;
 		
-		public FollowingGroupsAdapter(Context context, Cursor c, int flags) {
+		public FollowingGroupsAdapter(Context context, int layout, Cursor c, int flags) {
 			super(context, c, flags);
-			// TODO Auto-generated constructor stub
+			this.layout = layout;
+			this.mInflater = LayoutInflater.from(context);
 		}
 
+//		@Override
+//		public View getView(int position, View convertView, ViewGroup parent) {
+//			View view = super.getView(position, convertView, parent);
+//			int colorPos = position % (3 * colorBgd.length);
+//			view.setBackgroundColor(colorBgd[colorPos/3]);
+//			return view;
+//		}
+		
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
-			// TODO Auto-generated method stub
+			int position = c.getPosition();
+			int colorPos = position % (3 * colorBgd.length);
+			convertView.setBackgroundColor(colorBgd[colorPos/3]);
 			
-		}
-		@Override
-		public View newView(Context context, Cursor c, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
+			ImageView selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
+			TextView groupName = (TextView)convertView.findViewById(R.id.item_following_text);
+			RelativeLayout groupLayout = (RelativeLayout)convertView.findViewById(R.id.item_following_view);
+
+			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+			groupName.setText(testGroups[position]);
+//			groupLayout.setBackgroundColor(colorBgd[colorPos/3]);
+			
+			convertView.setOnClickListener(FollowingGroupsFragment.this);
+
 		}
 		
+		@Override
+		public View newView(Context context, Cursor c, ViewGroup parent) {
+			return mInflater.inflate(layout, parent, false);
+		}
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
+		if (v.isSelected()) {
+			selection.setImageDrawable(null);
+			v.setSelected(false);
+			Toast.makeText(getActivity().getApplicationContext(), "SELECTED Cleared", Toast.LENGTH_SHORT).show();
+		} else {
+			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+			v.setSelected(true);
+			Toast.makeText(getActivity().getApplicationContext(), "SELECTED", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }

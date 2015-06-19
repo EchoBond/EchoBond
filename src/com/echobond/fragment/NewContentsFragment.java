@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -21,6 +23,7 @@ import android.widget.EditText;
 public class NewContentsFragment extends Fragment {
 	
 	private NewPostFragmentsSwitchAsyncTaskCallback contentsSelected;
+	private ImageView moreTagsView;
 	private EditText thoughtsContent, tagsContent;
 	private String thoughtsText, tagsText;
 	
@@ -29,6 +32,14 @@ public class NewContentsFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View contentsView = inflater.inflate(R.layout.fragment_new_post_contents, container, false);
+		moreTagsView = (ImageView)contentsView.findViewById(R.id.view_hashtag_more);
+		moreTagsView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		thoughtsContent = (EditText)contentsView.findViewById(R.id.thoughts_content);
 		tagsContent = (EditText)contentsView.findViewById(R.id.tags_content);

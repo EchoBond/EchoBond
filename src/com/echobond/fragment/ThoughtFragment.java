@@ -62,7 +62,7 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		
 		super.onActivityCreated(savedInstanceState);
-		adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
+		adapter = new SimpleAdapter(this.getActivity(), getSimpleData(), R.layout.item_thoughts, from, to);
 		mListView.setAdapter(adapter);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setXListViewListener(this);
@@ -98,7 +98,7 @@ public class ThoughtFragment extends Fragment implements AdapterView.OnItemClick
 			
 			@Override
 			public void run() {
-				adapter = new SimpleAdapter(getActivity(), getSimpleData(), R.layout.item_thoughts_list, from, to);
+				adapter = new SimpleAdapter(getActivity(), getSimpleData(), R.layout.item_thoughts, from, to);
 				mListView.setAdapter(adapter);
 				onLoad();
 			}

@@ -21,24 +21,24 @@
         android:layout_below="@id/button_login_Fb"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/button_signup_email"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:background="#ffffff"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
-            android:src="@drawable/signup_email_button" />
-        <ImageButton
+            android:src="@drawable/signup_email_button"
+            android:clickable="true" />
+        <ImageView
             android:id="@+id/button_signin_email"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:background="#ffffff"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
-            android:src="@drawable/signin_email_button" />
+            android:src="@drawable/signin_email_button"
+            android:clickable="true" />
     </LinearLayout>
     
 </RelativeLayout>

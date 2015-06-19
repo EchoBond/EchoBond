@@ -58,11 +58,11 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/tag3"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="120dp"
             android:layout_marginStart="100dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="35dp"
             android:scaleType="fitCenter"
             android:src="@drawable/tag3" />
         <ImageView 
@@ -90,23 +90,23 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/tag6"
-            android:layout_width="200dp"
-            android:layout_height="120dp"
+            android:layout_width="220dp"
+            android:layout_height="140dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="60dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginTop="130dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginTop="135dp"
             android:scaleType="fitCenter"
             android:src="@drawable/tag6" />
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/tag7"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="190dp"
             android:scaleType="fitCenter"
             android:src="@drawable/tag7" />
         <ImageView 
@@ -136,12 +136,12 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/tag10"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="140dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginStart="135dp"
+            android:layout_marginBottom="30dp"
             android:scaleType="fitCenter"
             android:src="@drawable/tag10" />
         <ImageView 
@@ -152,7 +152,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="90dp"
             android:scaleType="fitCenter"
             android:src="@drawable/tag11" />
     </RelativeLayout>

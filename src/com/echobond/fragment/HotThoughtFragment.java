@@ -87,7 +87,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		
 		View thoughtView = inflater.inflate(R.layout.fragment_main_thoughts, container, false);
 		mListView = (XListView)thoughtView.findViewById(R.id.list_thoughts);
-		adapter = new ThoughtAdapter(getActivity(), R.layout.item_thoughts_list, null, 0);
+		adapter = new ThoughtAdapter(getActivity(), R.layout.item_thoughts, null, 0);
 		mListView.setAdapter(adapter);
 		mListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		mListView.setOnItemClickListener(this);

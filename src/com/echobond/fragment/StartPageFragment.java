@@ -1,7 +1,5 @@
 package com.echobond.fragment;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -35,7 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 /**
  * 
@@ -46,7 +44,7 @@ import android.widget.Toast;
 public class StartPageFragment extends Fragment {
 	
 	private StartPageFragmentsSwitchAsyncTaskCallback mClickListener;
-	private ImageButton loginEmail, signEmail;
+	private ImageView loginEmail, signEmail;
 	private LoginButton loginButton;
 
 	private UiLifecycleHelper uiLifecycleHelper;
@@ -229,8 +227,8 @@ public class StartPageFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		View startPageView = inflater.inflate(R.layout.fragment_startpage, container, false);
 		loginButton = (LoginButton) startPageView.findViewById(R.id.button_login_Fb);
-        loginEmail = (ImageButton)startPageView.findViewById(R.id.button_signin_email);
-        signEmail = (ImageButton)startPageView.findViewById(R.id.button_signup_email);
+        loginEmail = (ImageView)startPageView.findViewById(R.id.button_signin_email);
+        signEmail = (ImageView)startPageView.findViewById(R.id.button_signup_email);
         timeOutThread.setName(THREAD_TIMEOUT_NAME);
         
         requestReadPermissions();

@@ -6,6 +6,7 @@ import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -18,7 +19,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class AppSettingPage extends ActionBarActivity {
 	
 	private ImageView backButton;
@@ -34,7 +39,6 @@ public class AppSettingPage extends ActionBarActivity {
 		setContentView(R.layout.activity_app_setting_page);
 		initTitleBar();
 		initSettingList();
-		
 	}
 	
 	private void initTitleBar() {
@@ -59,9 +63,10 @@ public class AppSettingPage extends ActionBarActivity {
 				
 			}
 		});
-		
+		Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Skia.ttf");
 		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText("App Setting");
+		titleView.setTypeface(tf);
 	}
 
 	private void initSettingList() {
