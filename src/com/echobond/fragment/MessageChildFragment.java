@@ -134,7 +134,7 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 			}
 			
 			if(isRead == 0){
-				indicatorView.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+				indicatorView.setImageDrawable(getResources().getDrawable(R.drawable.button_notification));
 			} else {
 				indicatorView.setImageDrawable(null);
 			}
