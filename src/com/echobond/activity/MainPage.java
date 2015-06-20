@@ -299,7 +299,8 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 				long id) {
 			switch (position) {
 			case SETTING_EDIT_PROFILE:
-				Toast.makeText(getApplicationContext(), settingTitles[0], Toast.LENGTH_SHORT).show();
+				intent.setClass(MainPage.this, EditProfilePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				break;
 			case SETTING_APP_SETTING:
 				intent.setClass(MainPage.this, AppSettingPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

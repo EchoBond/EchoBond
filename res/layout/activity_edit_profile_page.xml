@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <android.support.v7.widget.Toolbar 
+        xmlns:app="http://schemas.android.com/apk/res-auto" 
+        android:id="@+id/toolbar_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:contentInsetStart="0dp"
+        android:background="#fff" />
+    
+    <ScrollView 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	    	android:orientation="vertical" >
+	        
+			<RelativeLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content" >
+			
+			    <ImageView  
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_pic"  
+			        android:layout_width="match_parent"  
+			        android:layout_height="300dp"
+			        android:layout_centerHorizontal="true"
+			        android:scaleType="fitXY"
+			        android:padding="6dp" />
+			    <TextView  
+			        android:id="@+id/edit_profile_title"  
+			        android:layout_width="wrap_content"  
+			        android:layout_height="wrap_content"  
+			        android:paddingLeft="4dp"  
+			        android:paddingRight="4dp"  
+			        android:textStyle="bold"
+			        android:textSize="18sp"
+			        android:layout_below="@id/edit_profile_pic"/>
+			    <TextView  
+			        android:id="@+id/edit_profile_content"  
+			        android:layout_width="match_parent"  
+			        android:layout_height="wrap_content"  
+			        android:layout_alignParentLeft="true"
+			        android:layout_alignParentStart="true"  
+			        android:layout_below="@id/edit_profile_title"
+			        android:padding="5dp" />
+			    <TextView 
+			        android:id="@+id/edit_profile_gender"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_alignParentEnd="true"
+			        android:layout_below="@id/edit_profile_pic"
+			        android:padding="4dp" />
+			    
+			</RelativeLayout>
+	
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_dna"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_dna_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_dna" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_dna_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_dna_view"
+			        android:layout_toEndOf="@id/edit_profile_about_dna_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_trophy"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_trophy_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_trophy" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_trophy_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_trophy_view"
+			        android:layout_toEndOf="@id/edit_profile_about_trophy_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_todo"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_todo_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_todo" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_todo_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_todo_view"
+			        android:layout_toEndOf="@id/edit_profile_about_todo_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_philo"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_philo_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_philosophy" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_philo_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_philo_view"
+			        android:layout_toEndOf="@id/edit_profile_about_philo_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_earth"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_earth_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_earth" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_earth_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_earth_view"
+			        android:layout_toEndOf="@id/edit_profile_about_earth_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_desc"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_desc_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_desc" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_desc_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_desc_view"
+			        android:layout_toEndOf="@id/edit_profile_about_desc_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_heart"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_heart_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_heart" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_heart_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_heart_view"
+			        android:layout_toEndOf="@id/edit_profile_about_heart_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_sec"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_sec_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_secrets" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_sec_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_sec_view"
+			        android:layout_toEndOf="@id/edit_profile_about_sec_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_lang"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_lang_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_language" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_lang_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_lang_view"
+			        android:layout_toEndOf="@id/edit_profile_about_lang_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<RelativeLayout 
+			    android:id="@+id/edit_profile_about_tag"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/edit_profile_about_tag_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_tag" />
+			    <TextView 
+			        android:id="@+id/edit_profile_about_tag_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_about_tag_view"
+			        android:layout_toEndOf="@id/edit_profile_about_tag_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
+			
+			<TextView 
+			    android:id="@+id/edit_profile_view_thoughts"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:padding="10dp"
+			    android:text="@string/view_thoughts"
+			    android:textSize="20sp"
+			    android:textStyle="bold"
+			    android:textColor="@android:color/holo_blue_bright"
+			    android:background="@drawable/square_edittext_lightgrey"
+			    android:clickable="true" />
+		</LinearLayout>
+	</ScrollView>
+    
+</LinearLayout>

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.ViewMorePage;
 import com.echobond.connector.GroupAsyncTask;
 import com.echobond.entity.Group;
 import com.echobond.intf.GroupCallback;
@@ -21,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +54,10 @@ public class NewGroupsFragment extends Fragment implements GroupCallback, IXList
 			@Override
 			public void onClick(View arg0) {
 				Toast.makeText(getActivity(), "More Groups CLICKED", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.putExtra("title", "groups");
+				intent.setClass(getActivity(), ViewMorePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			}
 		});
 		

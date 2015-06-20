@@ -42,8 +42,8 @@ public class AppSettingPage extends ActionBarActivity {
 	}
 	
 	private void initTitleBar() {
-		Toolbar searchToolbar = (Toolbar)findViewById(R.id.toolbar_setting);
-		setSupportActionBar(searchToolbar);
+		Toolbar settingToolbar = (Toolbar)findViewById(R.id.toolbar_setting);
+		setSupportActionBar(settingToolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		

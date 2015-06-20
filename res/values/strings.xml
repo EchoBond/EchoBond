@@ -60,5 +60,7 @@
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
+    <string name="title_activity_edit_profile_page">EditProfilePage</string>
+    <string name="title_activity_view_more_page">ViewMorePage</string>
 
 </resources>

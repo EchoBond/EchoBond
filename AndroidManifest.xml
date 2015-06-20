@@ -197,6 +197,20 @@
             android:name=".activity.ThoughtsListPage"
             android:label="@string/title_activity_thought_page" >
         </activity>
+        <activity
+            android:name=".activity.EditProfilePage"
+            android:label="@string/title_activity_edit_profile_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.MainPage" />
+        </activity>
+        <activity
+            android:name="com.echobond.activity.ViewMorePage"
+            android:label="@string/title_activity_view_more_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.NewPostPage" />
+        </activity>
     </application>
 
 </manifest>

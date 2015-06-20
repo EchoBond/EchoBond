@@ -1,9 +1,11 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
+import com.echobond.activity.ViewMorePage;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +40,10 @@ public class NewContentsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.putExtra("title", "hashtags");
+				intent.setClass(getActivity(), ViewMorePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 			}
 		});
 		
