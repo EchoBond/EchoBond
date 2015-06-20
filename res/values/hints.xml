@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- INPUT HINTS IN START PAGE -->
     <string name="hint_email_address"> youareawesome@email.com</string>
     <string name="hint_password"> password that no one knows</string>
-    <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
-    <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy…</string>
-       
+    
+    <!-- VALIDATION HINT FOR SIGNIN/SIGNUP BEHAVIORS -->
     <string name="resetpass_not_reg">Sorry you have not registered yet! </string>
     <string name="resetpass_now">A password-reset email will be sent to you. </string>
     <string name="resetpass_resetting">A reset email is already sent to you, please follow the instructions. </string>
     <string name="signin_empty_email">Oops! Seems that you forgot to enter your email address account. ;) </string>
-    <string name="signin_empty_pw">You need your password to come back to your wonderland. </string>
+    <string name="signin_empty_pw">You need your password to back to your wonderland. </string>
     <string name="signin_invalid_email">Oops, the email format is invalid.</string>
     <string name="signin_invalid_password">Sorry the password is too short (minimum 8 characters).</string>
     <string name="signin_wrong_pass">Oops, the password is not right. </string>
@@ -22,12 +22,26 @@
     <string name="signup_exst_unvrfd_new_mail">We will send you an email for activation, please check it ASAP. </string>
     <string name="signup_exst_unvrfd_mailed">We have already sent you an activation email, please check it. </string>
     
-    <string name="network_issue">Unable to connect to server, please check your network connectivity. </string>
+    <!-- NEW POST HINTS -->
+    <string name="hint_poster">Click to input…</string>
+    <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
+    <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy…</string>
     <string name="hint_new_post_empty_content">Sorry but content cannot be empty! </string>
+    
+    <string name="network_issue">Unable to connect to server, please check your network connectivity. </string>
     <string name="hint_new_post_failed_post">Failed in posting thought! </string>
     <string name="hint_new_post_successful_post">Thought successfully posted! </string>
+    <string name="hint_edit_profile_saved">Modification successfully saved! </string>
+    
     <string name="hint_quit">Click once more to quit. </string>
+    
     <string name="hint_search">Search any thoughts or people. </string>
-    <string name="hint_poster">Click to input…</string>
+    
+    <!-- REFRESH AND LOAD CONTENT -->
+    <string name="hint_xview_header_normal">Pull down to load new posts. </string>
+    <string name="hint_xview_header_ready">Release to get new posts… </string>
+    <string name="hint_xview_header_loading">Loading…</string>
+    <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
+    <string name="hint_xview_footer_ready">Release to load MORE… </string>
     
 </resources>

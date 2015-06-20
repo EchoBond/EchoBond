@@ -48,7 +48,7 @@ public class AppSettingPage extends ActionBarActivity {
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
 		backButton = (ImageView)findViewById(R.id.button_left_side);
-		backButton.setImageResource(R.drawable.button_back);
+		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -60,9 +60,9 @@ public class AppSettingPage extends ActionBarActivity {
 					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					NavUtils.navigateUpTo(AppSettingPage.this, upIntent);
 				}
-				
 			}
 		});
+		
 		Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Skia.ttf");
 		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText("App Setting");

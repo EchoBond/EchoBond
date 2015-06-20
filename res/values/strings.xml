@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">EchoBond</string>
     <string name="none"></string>
     <string name="facebook_app_id">825701450811254</string>
@@ -22,6 +21,8 @@
     <string name="title_activity_chat_page">ChatPage</string>
     <string name="title_activity_people_page">PeoplePage</string>
     <string name="title_activity_thought_page">ThoughtPage</string>
+    <string name="title_activity_edit_profile_page">EditProfilePage</string>
+    <string name="title_activity_view_more_page">ViewMorePage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -43,13 +44,6 @@
     <string name="category_plan">Plan</string>
     <string name="category_other">Other</string>
 
-    <!-- REFRESH AND LOAD CONTENT -->
-    <string name="hint_xview_header_normal">Pull down to load new posts. </string>
-    <string name="hint_xview_header_ready">Release to get new posts… </string>
-    <string name="hint_xview_header_loading">Loading…</string>
-    <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
-    <string name="hint_xview_footer_ready">Release to load MORE… </string>
-
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
@@ -60,7 +54,5 @@
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
-    <string name="title_activity_edit_profile_page">EditProfilePage</string>
-    <string name="title_activity_view_more_page">ViewMorePage</string>
 
 </resources>
