@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -87,9 +86,9 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
+				intent.putExtra("userName", "Yourself's ");
 				intent.setClass(getActivity(), ThoughtsListPage.class);
 				startActivity(intent);
-				Toast.makeText(getActivity().getApplicationContext(), "Thought List", Toast.LENGTH_SHORT).show();
 			}
 		});
 		

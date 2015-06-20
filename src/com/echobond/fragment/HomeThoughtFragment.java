@@ -177,6 +177,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 			} else {
 				boostButton.setImageResource(R.drawable.thoughts_rocket_up_normal);
 			}
+			
 			String fileName;
 			fileName = imagePathView.getText().toString();
 			String url = HTTPUtil.getInstance().composePreURL(getActivity()) 

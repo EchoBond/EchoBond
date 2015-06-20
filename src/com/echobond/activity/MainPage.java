@@ -63,12 +63,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	public static final int SETTING_TERMS_OF_SERVICES = 5;
 	public static final int SETTING_CONTACT_US = 6;
 	
-//	public static final int TAB_NUMBER = 6;
-	public static final int TAB_NUMBER = 5;
+	public static final int TAB_NUMBER = 4;
+	
 	private HomeThoughtFragment homeFragment;
 	private HotThoughtFragment hitFragment;
-//	private ThoughtFragment trendingFragment;
-//	private LikeMindedFragment likeMindedFragment;
 	private NotificationFragment notificationFragment;
 	private ProfileFragment profileFragment;
 	
@@ -81,7 +79,11 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	private int currentIndex = 0;
 	private int[] offset;
 	public FragmentManager fManager = getSupportFragmentManager();
+	private long exitTime = 0;
 	
+	/**
+	 * Variables for Drawer Setting
+	 */
 	private ActionBarDrawerToggle drawerToggle;
 	private DrawerLayout mainDrawerLayout;
 	private ListView drawerList;
@@ -92,9 +94,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 	private String[] settingTitles;
 	private SimpleAdapter settingPageAdapter;
 	private boolean isOpened = false;
-	private long exitTime = 0;
-
-	Intent intent = new Intent();
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
@@ -116,11 +115,11 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		Intent intent = new Intent();
 		intent.setClass(this, DataFetchIntentService.class);
 		startService(intent);
-		
 		initActionBar();
 		initViews();
 		initTabPager();
 		initSettingPage();
+		
 		GCMUtil.getInstance().registerDevice(this);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("newNotification"));
 		
@@ -186,14 +185,12 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		
 		homeFragment = new HomeThoughtFragment();
 		hitFragment = new HotThoughtFragment();
-//		likeMindedFragment = new LikeMindedFragment();
 		notificationFragment = new NotificationFragment();
 		profileFragment = new ProfileFragment();
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
 		mainFragmentsList.add(hitFragment);
-//		mainFragmentsList.add(likeMindedFragment);
 		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
 		
@@ -214,11 +211,9 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		mTabPager.setOnPageChangeListener(new MyOnPageChangeListener());
 		mTabPager.setAdapter(mAdapter);
 		mTabPager.setOffscreenPageLimit(TAB_NUMBER);
-//		tabSelector = (ImageView)findViewById(R.id.tab_button);
 
 		homeButton = (ImageView)findViewById(R.id.home_button);
 		hitButton = (ImageView)findViewById(R.id.hit_button);
-//		likeMindedButton = (ImageView)findViewById(R.id.like_minded_button);
 		notificationButton = (ImageView)findViewById(R.id.notification_button);
 		notificationIndicator = (ImageView) findViewById(R.id.notification_indicator);
 		profileButton = (ImageView)findViewById(R.id.profile_button);
@@ -227,7 +222,6 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		
 		homeButton.setOnClickListener(new FragmentChangeOnClickListener(0));
 		hitButton.setOnClickListener(new FragmentChangeOnClickListener(1));
-//		likeMindedButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		notificationButton.setOnClickListener(new FragmentChangeOnClickListener(2));
 		profileButton.setOnClickListener(new FragmentChangeOnClickListener(3));
 		
@@ -267,6 +261,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		public BarItemOnClickListener(int i) { barItemIndex = i; }
 		@Override
 		public void onClick(View v) {
+			Intent intent = new Intent();
 			switch (barItemIndex) {
 			case 0:
 				intent.setClass(MainPage.this, SearchPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -292,11 +287,17 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 		
 	}
 	
+	/**
+	 * Navigations to Different Activities in Drawer Layout 
+	 * @author aohuijun
+	 *
+	 */
 	public class SettingItemClickListener implements AdapterView.OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+				long id) { 
+			Intent intent = new Intent();
 			switch (position) {
 			case SETTING_EDIT_PROFILE:
 				intent.setClass(MainPage.this, EditProfilePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -351,80 +352,44 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 
 		@Override
 		public void onPageSelected(int position) {
-//			Animation animation = null;
 			switch (position) {
 			case 0:
 				homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button_selected));
 				if (currentIndex == 1) {
-//					animation = new TranslateAnimation(offset[1], 0, 0, 0);
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}/*else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[2], 0, 0, 0);
-					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}*/else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[3], 0, 0, 0);
+				} else if (currentIndex == 2) {
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-				}else if (currentIndex == 3) {
+				} else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
 			case 1:
 				hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button_selected));
 				if (currentIndex == 0) {
-//					animation = new TranslateAnimation(offset[0], 1, 0, 0);
 					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-				}/*else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[2], 1, 0, 0);
-					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}*/else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[3], 1, 0, 0);
+				} else if (currentIndex == 2) {
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-				}else if (currentIndex == 3) {
+				} else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
-//			case 2:
-//				likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button_selected));
-//				if (currentIndex == 0) {
-////					animation = new TranslateAnimation(offset[0], 2, 0, 0);
-//					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-//				}else if (currentIndex == 1) {
-////					animation = new TranslateAnimation(offset[1], 2, 0, 0);
-//					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-//				}else if (currentIndex == 3) {
-////					animation = new TranslateAnimation(offset[3], 2, 0, 0);
-//					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
-//				}else if (currentIndex == 4) {
-//					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
-//				}
-//				break;
 			case 2:
 				notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button_selected));
 				if (currentIndex == 0) {
-//					animation = new TranslateAnimation(offset[0], 3, 0, 0);
 					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-				}else if (currentIndex == 1) {
-//					animation = new TranslateAnimation(offset[1], 3, 0, 0);
+				} else if (currentIndex == 1) {
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}/*else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[2], 3, 0, 0);
-					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}*/else if (currentIndex == 3) {
+				} else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
 				break;
 			case 3:
 				profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button_selected));
 				if (currentIndex == 0) {
-//					animation = new TranslateAnimation(offset[0], 3, 0, 0);
 					homeButton.setImageDrawable(getResources().getDrawable(R.drawable.main_home_button));
-				}else if (currentIndex == 1) {
-//					animation = new TranslateAnimation(offset[1], 3, 0, 0);
+				} else if (currentIndex == 1) {
 					hitButton.setImageDrawable(getResources().getDrawable(R.drawable.main_hit_button));
-				}/*else if (currentIndex == 2) {
-//					animation = new TranslateAnimation(offset[2], 3, 0, 0);
-					likeMindedButton.setImageDrawable(getResources().getDrawable(R.drawable.main_like_minded_button));
-				}*/else if (currentIndex == 2) {
+				} else if (currentIndex == 2) {
 					notificationButton.setImageDrawable(getResources().getDrawable(R.drawable.main_notification_button));
 				}
 				break;
@@ -432,11 +397,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 			default:
 				break;
 			}
-//			Animation animation = new TranslateAnimation(offset[0]*currentIndex, offset[0]*position, 0, 0);
 			currentIndex = position;
-//			animation.setFillAfter(true);
-//			animation.setDuration(300);
-//			tabSelector.startAnimation(animation);
 		}
 	}
 
