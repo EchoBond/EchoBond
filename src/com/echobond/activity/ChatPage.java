@@ -306,7 +306,8 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			ContentValues[] values = new ContentValues[msgs.size()];
 			int i = 0;
 			for (UserMsg msg : msgs) {
-				values[i++] = msg.putValues();
+				values[i] = msg.putValues();
+				values[i++].put("is_read", 1);
 			}
 			getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
 			updateUI();
