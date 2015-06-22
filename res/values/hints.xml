@@ -27,6 +27,7 @@
     <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
     <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy…</string>
     <string name="hint_new_post_empty_content">Sorry but content cannot be empty! </string>
+    <string name="hint_tags_separate">separate by commas</string>
     
     <string name="network_issue">Unable to connect to server, please check your network connectivity. </string>
     <string name="hint_new_post_failed_post">Failed in posting thought! </string>
@@ -58,6 +59,6 @@
     <string name="hint_edit_profile_heart">Your interests</string>
     <string name="hint_edit_profile_sec">Little secret</string>
     <string name="hint_edit_profile_lang">Your language</string>
-    <string name="hint_edit_profile_hashtags">Hashtag yourself—Others will find you when they search these hashtags</string>
+    <string name="hint_edit_profile_hashtags">Hashtag yourself\nOthers will find you when they search these hashtags</string>
     <string name="hint_edit_profile_groups">Groups you are following</string>
 </resources>

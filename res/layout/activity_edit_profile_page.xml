@@ -473,7 +473,23 @@
 			        android:background="@drawable/square_edittext_lightgrey"
 			        android:minHeight="30dp"
 			        android:hint="@string/hint_edit_profile_hashtags"
-			        android:textSize="15sp" />
+			        android:textSize="15sp"
+			        android:gravity="top" />
+			    <TextView 
+			        android:id="@+id/edit_profile_tag_more"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_tag_view"
+			        android:layout_toEndOf="@id/edit_profile_tag_view"
+			        android:layout_below="@id/edit_profile_tag_text"
+			        android:layout_marginLeft="13dp"
+			        android:layout_marginStart="13dp"
+			        android:layout_marginBottom="2dp"
+			        android:text="@string/edit_profile_more_tags"
+			        android:textSize="15sp"
+			        android:textColor="#b3b3b3"
+			        android:textStyle="bold"
+			        android:clickable="true" />
 			</RelativeLayout>
 
 			<RelativeLayout 
@@ -504,6 +520,21 @@
 			        android:minHeight="30dp"
 			        android:hint="@string/hint_edit_profile_groups"
 			        android:textSize="15sp" />
+			    <TextView 
+			        android:id="@+id/edit_profile_group_more"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/edit_profile_group_view"
+			        android:layout_toEndOf="@id/edit_profile_group_view"
+			        android:layout_below="@id/edit_profile_group_text"
+			        android:layout_marginLeft="13dp"
+			        android:layout_marginStart="13dp"
+			        android:layout_marginBottom="2dp"
+			        android:text="@string/edit_profile_more_groups"
+			        android:textSize="15sp"
+			        android:textColor="#b3b3b3"
+			        android:textStyle="bold"
+			        android:clickable="true" />
 			</RelativeLayout>
 						
 		</LinearLayout>

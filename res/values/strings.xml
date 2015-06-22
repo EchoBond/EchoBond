@@ -49,17 +49,18 @@
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
-    <string name="hint_tags_separate">separate by commas</string>
     <string name="hello_world">Hello world!</string>
     <string name="thought_boosts"> boosts</string>
     <string name="thought_sep">|</string>
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
-    <string name="edit_profile_basic">Basic Info</string>
-    <string name="edit_profile_more">More About You</string>
     <string name="comment_list">Comment List</string>
     <string name="image_page_group_of_thought">Group of This Thought: </string>
     <string name="image_page_tags_of_thought">Hashtags of This Thought: </string>
+    <string name="edit_profile_basic">Basic Info</string>
+    <string name="edit_profile_more">More About You</string>
+    <string name="edit_profile_more_groups"><u>MORE Groups…</u></string>
+    <string name="edit_profile_more_tags"><u>MORE Hashtags…</u></string>
 
 </resources>

@@ -41,7 +41,7 @@ public class ServicePage extends ActionBarActivity {
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View v) {
 				Intent upIntent = NavUtils.getParentActivityIntent(ServicePage.this);
 				if (NavUtils.shouldUpRecreateTask(ServicePage.this, upIntent)) {
 					TaskStackBuilder.create(ServicePage.this).addNextIntentWithParentStack(upIntent).startActivities();
@@ -54,6 +54,6 @@ public class ServicePage extends ActionBarActivity {
 		
 		int page = getIntent().getIntExtra("page", -1);
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText("page" + page);
+		titleView.setText(getResources().getStringArray(R.array.setting_list_array)[page]);
 	}
 }

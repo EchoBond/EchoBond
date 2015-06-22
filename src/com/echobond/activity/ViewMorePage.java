@@ -44,6 +44,6 @@ public class ViewMorePage extends ActionBarActivity {
 		});
 		
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText(getIntent().getStringExtra("title"));
+		titleView.setText("More " + getIntent().getStringExtra("title"));
 	}
 }

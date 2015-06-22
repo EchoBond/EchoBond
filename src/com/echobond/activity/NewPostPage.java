@@ -56,6 +56,9 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	public static final int NEW_POST_WRITE = 2;
 	public static final int NEW_POST_GROUP = 3;
 	
+	public static final String GROUP = "Groups";
+	public static final String TAG = "Hashtags";
+	
 	private NewCategoryFragment categoryFragment;
 	private NewPostFragment postFragment;
 	private NewContentsFragment contentsFragment;
