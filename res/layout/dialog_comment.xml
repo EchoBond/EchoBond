@@ -42,7 +42,7 @@
 		        android:layout_height="40dp"
 		        android:layout_centerHorizontal="true"
 		        android:scaleType="fitCenter"
-		        android:src="@drawable/button_send"
+		        android:src="@drawable/button_send_normal"
 		        android:background="#ffffff"
 		        android:clickable="true"
 		        android:layout_alignParentBottom="true" />

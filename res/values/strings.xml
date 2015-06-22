@@ -54,5 +54,7 @@
     <string name="thought_comments"> comments</string>
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
+    <string name="edit_profile_basic">Basic Info</string>
+    <string name="edit_profile_more">More About You</string>
 
 </resources>

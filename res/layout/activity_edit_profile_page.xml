@@ -22,8 +22,18 @@
 	    <LinearLayout 
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	    	android:orientation="vertical" >
-	        			
+	    	android:orientation="vertical"
+	    	android:paddingBottom="20dp" >
+	    	
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp"
+	            android:text="@string/edit_profile_basic"
+	            android:textSize="25sp"
+	            android:textStyle="bold"
+	            android:textColor="#31cdbb" />
+	        
 			<RelativeLayout 
 			    android:id="@+id/edit_profile_earth"
 			    android:layout_width="match_parent"
@@ -32,8 +42,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_earth_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_earth" />
 			    <EditText 
 			        android:id="@+id/edit_profile_earth_text"
@@ -42,11 +52,24 @@
 			        android:layout_toRightOf="@id/edit_profile_earth_view"
 			        android:layout_toEndOf="@id/edit_profile_earth_view"
 			        android:layout_marginLeft="10dp"
-			        android:layout_marginRight="10dp"
+			        android:layout_marginStart="10dp"
+			        android:layout_marginRight="3dp"
+			        android:layout_marginEnd="3dp"
+			        android:padding="5dp"
 			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
 			        android:maxLines="4" />
 			</RelativeLayout>
 			
+			<TextView 
+			    android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp"
+	            android:text="@string/edit_profile_more"
+	            android:textSize="25sp"
+	            android:textStyle="bold"
+	            android:textColor="#31cdbb" />
 			<RelativeLayout 
 			    android:id="@+id/edit_profile_dna"
 			    android:layout_width="match_parent"
@@ -55,8 +78,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_dna_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_dna" />
 			    <EditText 
 			        android:id="@+id/edit_profile_dna_text"
@@ -64,9 +87,15 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_dna_view"
 			        android:layout_toEndOf="@id/edit_profile_dna_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:layout_marginRight="3dp"
+			        android:layout_marginEnd="3dp"
+			        android:padding="5dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -77,8 +106,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_trophy_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_trophy" />
 			    <EditText 
 			        android:id="@+id/edit_profile_trophy_text"
@@ -86,9 +115,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_trophy_view"
 			        android:layout_toEndOf="@id/edit_profile_trophy_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -99,8 +131,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_todo_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_todo" />
 			    <EditText 
 			        android:id="@+id/edit_profile_todo_text"
@@ -108,9 +140,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_todo_view"
 			        android:layout_toEndOf="@id/edit_profile_todo_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -121,8 +156,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_philo_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_philosophy" />
 			    <EditText 
 			        android:id="@+id/edit_profile_philo_text"
@@ -130,9 +165,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_philo_view"
 			        android:layout_toEndOf="@id/edit_profile_philo_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 
 			
@@ -144,8 +182,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_desc_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_desc" />
 			    <EditText 
 			        android:id="@+id/edit_profile_desc_text"
@@ -153,9 +191,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_desc_view"
 			        android:layout_toEndOf="@id/edit_profile_desc_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -166,8 +207,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_heart_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_heart" />
 			    <EditText 
 			        android:id="@+id/edit_profile_heart_text"
@@ -175,9 +216,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_heart_view"
 			        android:layout_toEndOf="@id/edit_profile_heart_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -188,8 +232,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_sec_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_secrets" />
 			    <EditText 
 			        android:id="@+id/edit_profile_sec_text"
@@ -197,9 +241,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_sec_view"
 			        android:layout_toEndOf="@id/edit_profile_sec_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -210,8 +257,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_lang_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_language" />
 			    <EditText 
 			        android:id="@+id/edit_profile_lang_text"
@@ -219,9 +266,12 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_lang_view"
 			        android:layout_toEndOf="@id/edit_profile_lang_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp"
+			        android:maxLines="4" />
 			</RelativeLayout>
 			
 			<RelativeLayout 
@@ -232,8 +282,8 @@
 			    <ImageView 
 			        android:contentDescription="@string/none"
 			        android:id="@+id/edit_profile_tag_view"
-			        android:layout_width="45dp"
-			        android:layout_height="45dp"
+			        android:layout_width="30dp"
+			        android:layout_height="30dp"
 			        android:src="@drawable/profile_about_tag" />
 			    <EditText 
 			        android:id="@+id/edit_profile_tag_text"
@@ -241,9 +291,11 @@
 			        android:layout_height="wrap_content"
 			        android:layout_toRightOf="@id/edit_profile_tag_view"
 			        android:layout_toEndOf="@id/edit_profile_tag_view"
-			        android:layout_marginLeft="20dp"
-			        android:layout_marginStart="20dp"
-			        android:inputType="textMultiLine" />
+			        android:layout_marginLeft="10dp"
+			        android:layout_marginStart="10dp"
+			        android:inputType="textMultiLine"
+			        android:background="@drawable/square_edittext_lightgrey"
+			        android:minHeight="30dp" />
 			</RelativeLayout>
 			
 		</LinearLayout>

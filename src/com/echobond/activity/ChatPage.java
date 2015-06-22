@@ -39,6 +39,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -159,6 +161,28 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	private void initSendingMsg() {
 		msgInputText = (EditText)findViewById(R.id.chat_msg_input);
 		msgSendView = (ImageView)findViewById(R.id.chat_msg_send);
+
+		msgInputText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				msgSendView.setImageDrawable(getResources().getDrawable(R.drawable.button_send_ready));
+			}
+		});
+		
 		msgSendView.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -178,6 +202,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 					}
 					sendTime = System.currentTimeMillis();
 				}
+				msgSendView.setImageDrawable(getResources().getDrawable(R.drawable.button_send_normal));
 			}
 		});
 	}
