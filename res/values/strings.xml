@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">EchoBond</string>
     <string name="none"></string>
     <string name="facebook_app_id">825701450811254</string>
@@ -23,6 +24,7 @@
     <string name="title_activity_thought_page">ThoughtPage</string>
     <string name="title_activity_edit_profile_page">EditProfilePage</string>
     <string name="title_activity_view_more_page">ViewMorePage</string>
+    <string name="title_activity_service_page">ServicePage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -56,5 +58,8 @@
     <string name="view_thoughts">View Thoughts</string>
     <string name="edit_profile_basic">Basic Info</string>
     <string name="edit_profile_more">More About You</string>
+    <string name="comment_list">Comment List</string>
+    <string name="image_page_group_of_thought">Group of This Thought: </string>
+    <string name="image_page_tags_of_thought">Hashtags of This Thought: </string>
 
 </resources>

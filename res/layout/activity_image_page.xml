@@ -1,9 +1,10 @@
-<RelativeLayout 
+<LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#696969"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
     
 	<ImageView 
@@ -11,6 +12,21 @@
 	    android:contentDescription="@string/none"
 	    android:layout_width="match_parent"
 	    android:layout_height="330dp"
-        android:layout_centerInParent="true"
         android:scaleType="fitXY" />
-</RelativeLayout>
+	<TextView 
+	    android:id="@+id/image_page_group_view"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="5dp"
+	    android:text="@string/image_page_group_of_thought"
+	    android:textStyle="bold"
+	    android:textColor="#fff" />
+	<TextView 
+	    android:id="@+id/image_page_tag_view"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="5dp"
+	    android:text="@string/image_page_tags_of_thought"
+	    android:textStyle="bold"
+	    android:textColor="#fff" />
+</LinearLayout>

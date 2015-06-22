@@ -308,18 +308,33 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 				startActivity(intent);
 				break;
 			case SETTING_FOLLOWING:
+				intent.putExtra("page", SETTING_FOLLOWING);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				Toast.makeText(getApplicationContext(), settingTitles[2], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_INVITE_FRIENDS:
+				intent.putExtra("page", SETTING_INVITE_FRIENDS);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				Toast.makeText(getApplicationContext(), settingTitles[3], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_THIS_APP_SUCKS:
+				intent.putExtra("page", SETTING_THIS_APP_SUCKS);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				Toast.makeText(getApplicationContext(), settingTitles[4], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_TERMS_OF_SERVICES:
+				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				Toast.makeText(getApplicationContext(), settingTitles[5], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_CONTACT_US:
+				intent.putExtra("page", SETTING_CONTACT_US);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				Toast.makeText(getApplicationContext(), settingTitles[6], Toast.LENGTH_SHORT).show();
 				break;
 			default:

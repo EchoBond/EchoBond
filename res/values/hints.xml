@@ -45,6 +45,7 @@
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
     
     <!-- EDIT PROFILE -->
+    <string name="hint_edit_profile_title">Your user name</string>
     <string name="hint_edit_profile_gender">Right to choose your gender</string>
     <string name="hint_edit_profile_bio">Bio(max. 2 lines)</string>
     <string name="hint_edit_profile_age">Age</string>
@@ -58,4 +59,5 @@
     <string name="hint_edit_profile_sec">Little secret</string>
     <string name="hint_edit_profile_lang">Your language</string>
     <string name="hint_edit_profile_hashtags">Hashtag yourself—Others will find you when they search these hashtags</string>
+    <string name="hint_edit_profile_groups">Groups you are following</string>
 </resources>

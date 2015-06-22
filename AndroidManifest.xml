@@ -206,11 +206,18 @@
                 android:value="com.echobond.activity.MainPage" />
         </activity>
         <activity
-            android:name="com.echobond.activity.ViewMorePage"
+            android:name=".activity.ViewMorePage"
             android:label="@string/title_activity_view_more_page" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.echobond.activity.NewPostPage" />
+        </activity>
+        <activity
+            android:name="com.echobond.activity.ServicePage"
+            android:label="@string/title_activity_service_page" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.echobond.activity.MainPage" />
         </activity>
     </application>
 

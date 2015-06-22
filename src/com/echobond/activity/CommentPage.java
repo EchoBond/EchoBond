@@ -37,7 +37,7 @@ import android.widget.TextView;
 public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cursor>, CommentCallback{
 
 	private CommentDialog dialog;
-	private ImageView image, commentButton, avatar;
+	private ImageView image, commentButton, avatar, backButton;
 	private TextView titleText, contentText;
 	private ListView commentsList;
 	private CommentsAdapter adapter;
@@ -50,7 +50,8 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		
 		dialog = new CommentDialog(CommentPage.this);
 		image = (ImageView)findViewById(R.id.comment_page_image);
-		avatar = (ImageView) findViewById(R.id.comment_page_avatar);
+		avatar = (ImageView)findViewById(R.id.comment_page_avatar);
+		backButton = (ImageView)findViewById(R.id.comment_page_back);
 		titleText = (TextView)findViewById(R.id.comment_page_title);
 		contentText = (TextView)findViewById(R.id.comment_page_content);
 		commentButton = (ImageView)findViewById(R.id.comment_page_comment);
@@ -70,6 +71,13 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		String avatarUrl = getIntent().getStringExtra("avatarUrl");
 		opt = new DisplayImageOptions.Builder().showImageOnFail(R.drawable.default_avatar).imageScaleType(ImageScaleType.EXACTLY).build();		
 		ImageLoader.getInstance().displayImage(avatarUrl, avatar, opt);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		
 		commentButton.setOnClickListener(new View.OnClickListener() {
 			
