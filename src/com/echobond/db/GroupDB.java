@@ -8,45 +8,45 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class TagDB extends MyDBHelper {
+public class GroupDB extends MyDBHelper {
 	
 	/*Singleton pattern implementation*/
-	private static TagDB INSTANCE;
+	private static GroupDB INSTANCE;
 	private static Context ctx;
-	public static TagDB getInstance(Context context){
+	public static GroupDB getInstance(Context context){
 		if(null == INSTANCE){
 			ctx = context;
-			INSTANCE = new TagDB();
+			INSTANCE = new GroupDB();
 		}
 		return INSTANCE;
 	}
-	
-	public static TagDB getInstance(){
+	public static GroupDB getInstance(){
 		if(null == INSTANCE){
-			INSTANCE = new TagDB();
+			INSTANCE = new GroupDB();
 		}
 		return INSTANCE;
 	}
 	
-	public TagDB(){
+	public GroupDB(){
 		super(ctx);
 		Resources res = ctx.getResources();
-		this.tblName = res.getString(R.string.tbl_tag);
+		this.tblName = res.getString(R.string.tbl_grp);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub
 	}
-	public long addTag(ContentValues values){
+
+	public long addGroup(ContentValues values){
 		return replace(tblName, values);
 	}
 	
-	public Cursor loadTags(String[] args){
-		return query(ctx.getResources().getString(R.string.sql_s_tag), args);
+	public Cursor loadGroups(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_grp), args);
 	}
 	
-	public long updateTag(ContentValues values, String where, String[] whereArgs){
+	public long updateGroup(ContentValues values, String where, String[] whereArgs){
 		return update(tblName, values, where, whereArgs);
 	}
 	

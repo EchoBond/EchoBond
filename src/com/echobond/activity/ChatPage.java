@@ -161,7 +161,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	private void initSendingMsg() {
 		msgInputText = (EditText)findViewById(R.id.chat_msg_input);
 		msgSendView = (ImageView)findViewById(R.id.chat_msg_send);
-
+		
 		msgInputText.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -331,8 +331,8 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			ContentValues[] values = new ContentValues[msgs.size()];
 			int i = 0;
 			for (UserMsg msg : msgs) {
-				values[i] = msg.putValues();
-				values[i++].put("is_read", 1);
+				msg.setIsRead(1);
+				values[i++] = msg.putValues();
 			}
 			getContentResolver().bulkInsert(ChatDAO.CONTENT_URI, values);
 			updateUI();

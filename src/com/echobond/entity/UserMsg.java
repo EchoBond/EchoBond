@@ -17,6 +17,7 @@ public class UserMsg {
 	private String time;
 	private String content;
 	private String userName;
+	private int isRead;
 	
 	private User sender;
 	private User recver;
@@ -26,6 +27,7 @@ public class UserMsg {
 		values.put("sender_id", senderId);
 		values.put("recver_id", recverId);
 		values.put("time", time);
+		values.put("is_read", isRead);
 		try {
 			values.put("content", URLDecoder.decode(content, "UTF-8"));
 			values.put("username", URLDecoder.decode(userName, "UTF-8"));
@@ -82,6 +84,12 @@ public class UserMsg {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public int getIsRead() {
+		return isRead;
+	}
+	public void setIsRead(int isRead) {
+		this.isRead = isRead;
 	}
 	
 }

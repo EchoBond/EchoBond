@@ -12,8 +12,10 @@ import com.echobond.activity.SearchPage;
 import com.echobond.activity.StartPage;
 import com.echobond.db.ChatDB;
 import com.echobond.db.CommentDB;
+import com.echobond.db.GroupDB;
 import com.echobond.db.HomeThoughtDB;
 import com.echobond.db.HotThoughtDB;
+import com.echobond.db.TagDB;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -52,6 +54,11 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int LOADER_GROUP = 5;
 	public static final int LOADER_TAG = 6;
 	public static final int LOADER_USER_TAG = 7;
+	
+	public static final int DEFAULT_OFFSET = 0;
+	public static final int LIMIT_INIT = 10;
+	public static final int LIMIT_INCREMENT = 10;
+	public static final long LOAD_INTERVAL = 2000;
 	
 	public static final int ACTIVITY_NULL = -1;
 	public static final int ACTIVITY_APP_SETTING = 0;
@@ -120,6 +127,8 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		HomeThoughtDB.getInstance(this);
 		HotThoughtDB.getInstance(this);
 		ChatDB.getInstance(this);
+		GroupDB.getInstance(this);
+		TagDB.getInstance(this);
 	}
 	@Override
 	public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

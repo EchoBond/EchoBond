@@ -125,10 +125,9 @@ public class DataFetchIntentService extends IntentService {
 				msg.setUserName(URLDecoder.decode(msg.getUserName(), "UTF-8"));
 				msg.setContent(URLDecoder.decode(msg.getContent(), "UTF-8"));
 				text = URLDecoder.decode(text,"UTF-8");
-				ContentValues values = msg.putValues();
 				if(msg.getSenderId().equals(userId))
-					values.put("is_read", 1);
-				contentValues[i++] = values;
+					msg.setIsRead(1);
+				contentValues[i++] = msg.putValues();
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

@@ -1,10 +1,23 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import com.echobond.R;
 import com.echobond.activity.SearchPage;
+import com.echobond.connector.LoadThoughtSearchAsyncTask;
+import com.echobond.entity.Category;
+import com.echobond.entity.Group;
+import com.echobond.entity.Tag;
+import com.echobond.intf.LoadSearchThoughtCallback;
 import com.echobond.intf.ViewMoreSwitchCallback;
+import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,44 +32,51 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class SearchThoughtsFragment extends Fragment {
+public class SearchThoughtsFragment extends Fragment implements LoadSearchThoughtCallback{
 
-	private TextView cat1, cat2, cat3, cat4, cat5, cat6;
-	private TextView grp1, grp2, grp3, grp4, grp5;
-	private TextView tag1, tag2, tag3, tag4, tag5;
+	private final Integer CAT_NUM = 6, RANDOM_NUM = 5;	
+	private TextView[] catsViews = new TextView[CAT_NUM], grpsViews = new TextView[RANDOM_NUM], tagsViews = new TextView[RANDOM_NUM];
 	private ImageView moreGroupsView, moreTagsView;
 	private ViewMoreSwitchCallback typeSwitchCallback;
+	
+	private View rootView;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View searchThoughtsView = inflater.inflate(R.layout.fragment_search_thoughts, container, false);
+		if(null == rootView){
+			rootView = inflater.inflate(R.layout.fragment_search_thoughts, container, false);
+		} else {
+			return rootView;
+		}		
+		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_search_t);
+		new LoadThoughtSearchAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, RANDOM_NUM);
+		int i = 0;		
+		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_feeling);
+		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_idea);
+		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_dream);
+		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_interest);
+		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_plan);
+		catsViews[i] = (TextView)rootView.findViewById(R.id.search_category_others);
+		i=0;
+		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group1);
+		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group2);
+		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group3);
+		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group4);
+		grpsViews[i] = (TextView)rootView.findViewById(R.id.search_thoughts_group5);
+		i = 0;
+		tagsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_tag1);
+		tagsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_tag2);
+		tagsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_tag3);
+		tagsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_tag4);
+		tagsViews[i] = (TextView)rootView.findViewById(R.id.search_thoughts_tag5);
 		
-		cat1 = (TextView)searchThoughtsView.findViewById(R.id.search_category_feeling);
-		cat2 = (TextView)searchThoughtsView.findViewById(R.id.search_category_idea);
-		cat3 = (TextView)searchThoughtsView.findViewById(R.id.search_category_dream);
-		cat4 = (TextView)searchThoughtsView.findViewById(R.id.search_category_interest);
-		cat5 = (TextView)searchThoughtsView.findViewById(R.id.search_category_plan);
-		cat6 = (TextView)searchThoughtsView.findViewById(R.id.search_category_others);
-		
-		grp1 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_group1);
-		grp2 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_group2);
-		grp3 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_group3);
-		grp4 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_group4);
-		grp5 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_group5);
-		
-		tag1 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_tag1);
-		tag2 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_tag2);
-		tag3 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_tag3);
-		tag4 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_tag4);
-		tag5 = (TextView)searchThoughtsView.findViewById(R.id.search_thoughts_tag5);
-		
-		moreGroupsView = (ImageView)searchThoughtsView.findViewById(R.id.search_thoughts_groups_more);
+		moreGroupsView = (ImageView)rootView.findViewById(R.id.search_thoughts_groups_more);
 		moreGroupsView.setOnClickListener(new SearchPeopleTypeListener(SearchPage.THOUGHT_GROUP));
-		moreTagsView = (ImageView)searchThoughtsView.findViewById(R.id.search_thoughts_hashtags_more);
+		moreTagsView = (ImageView)rootView.findViewById(R.id.search_thoughts_hashtags_more);
 		moreTagsView.setOnClickListener(new SearchPeopleTypeListener(SearchPage.THOUGHT_TAG));
 		
-		return searchThoughtsView;
+		return rootView;
 	}
 	
 	public class SearchPeopleTypeListener implements OnClickListener {
@@ -82,6 +102,32 @@ public class SearchThoughtsFragment extends Fragment {
 		} catch (ClassCastException e) {
 			// should never happen in normal cases
 			throw new ClassCastException(activity.toString() + "must implement typeSwitchCallback in SearchThoughtsFragment. ");
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void onLoadSearchThoughtResult(JSONObject result) {
+		if(null != result){
+			TypeToken<ArrayList<Category>> categoryToken = new TypeToken<ArrayList<Category>>(){};
+			ArrayList<Category> categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", categoryToken);			
+			TypeToken<ArrayList<Group>> groupToken = new TypeToken<ArrayList<Group>>(){};
+			ArrayList<Group> groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", groupToken);
+			TypeToken<ArrayList<Tag>> tagToken = new TypeToken<ArrayList<Tag>>(){};
+			ArrayList<Tag> tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", tagToken);
+			for(int i = 0; i< CAT_NUM; i++){
+				Category c = categories.get(i);
+				catsViews[i].setText(c.getName());
+				catsViews[i].setTag(c.getId());
+			}
+			for(int i = 0; i < RANDOM_NUM; i++){				
+				Group g = groups.get(i);
+				Tag t = tags.get(i);
+				grpsViews[i].setText(g.getName());
+				grpsViews[i].setTag(g.getId());
+				tagsViews[i].setText(t.getName());
+				tagsViews[i].setTag(t.getId());
+			}
 		}
 	}
 }

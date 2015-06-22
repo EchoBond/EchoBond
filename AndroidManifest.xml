@@ -122,7 +122,15 @@
             android:name=".dao.ChatDAO"
             android:authorities="com.echobond.contentprovider.chat"
             android:exported="false" />
-
+        <provider
+            android:name=".dao.GroupDAO"
+            android:authorities="com.echobond.contentprovider.group"
+            android:exported="false" />
+        <provider
+            android:name=".dao.TagDAO"
+            android:authorities="com.echobond.contentprovider.tag"
+            android:exported="false" />
+        
         <activity
             android:name=".activity.StartPage"
             android:alwaysRetainTaskState="true"

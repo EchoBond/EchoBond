@@ -1,18 +1,35 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import com.echobond.R;
 import com.echobond.activity.SearchPage;
+import com.echobond.application.MyApp;
+import com.echobond.connector.LoadTagsAsyncTask;
+import com.echobond.dao.TagDAO;
+import com.echobond.entity.Tag;
+import com.echobond.intf.LoadTagsCallback;
 import com.echobond.intf.ViewMoreSwitchCallback;
+import com.echobond.util.HTTPUtil;
+import com.echobond.util.JSONUtil;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,31 +42,42 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MoreTagsFragment extends Fragment implements IXListViewListener {
+public class MoreTagsFragment extends Fragment implements IXListViewListener, LoaderCallbacks<Cursor>, LoadTagsCallback {
 
-	private TextView tagTextView;
 	private XListView moreTagsList;
 	private ViewMoreSwitchCallback searchCallback;
-	private MoreTagsCursorAdapter adapter;
+	private MoreTagsAdapter adapter;
+	
+	private String type;
+	
+	private int currentLimit;
+	private long lastLoadTime;
+	
+	private ArrayList<Integer> tagIds;
+	
+	private final static Integer VIEW_TAG_ID = 0;
+	private final static Integer VIEW_TAG_CLICKED = 1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View moreTagsView = inflater.inflate(R.layout.fragment_more_tags, container, false);
 		
-		adapter = new MoreTagsCursorAdapter(getActivity(), null, 0);
+		currentLimit = MyApp.LIMIT_INIT;
+		
+		tagIds = new ArrayList<Integer>();
+		
+		adapter = new MoreTagsAdapter(getActivity(), R.layout.item_tag, null, 0);
 		moreTagsList = (XListView)moreTagsView.findViewById(R.id.more_tags_list);
 		moreTagsList.setPullRefreshEnable(false);
+		moreTagsList.setPullLoadEnable(true);
 		moreTagsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		moreTagsList.setAdapter(adapter);
 		moreTagsList.setXListViewListener(this);
 		
-		tagTextView = (TextView)moreTagsView.findViewById(R.id.more_tags_text);
 		Bundle bundle = this.getArguments();
-		if (bundle != null) {
-			tagTextView.setText("View More " + bundle.getString("type"));
-			tagTextView.setOnClickListener(new SearchOnClickListener(bundle.getString("type")));
-		}
+		type = bundle.getString("type");
+		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
 		return moreTagsView;
 	}
 	
@@ -67,7 +95,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener {
 			Toast.makeText(getActivity(), "BACK to Result", Toast.LENGTH_SHORT).show();
 			if (type == SearchPage.THOUGHTS_MORE_TAG) {
 				index = SearchPage.THOUGHT_TAG;
-			} else if (type == SearchPage.THOUGHTS_MORE_GROUP) {
+			} else if (type == SearchPage.PEOPLE_MORE_TAG) {
 				index = SearchPage.PEOPLE_TAG;
 			}
 			searchCallback.onSearchSelected(index);			
@@ -75,23 +103,53 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener {
 		
 	}
 	
-	public class MoreTagsCursorAdapter extends CursorAdapter {
+	public class MoreTagsAdapter extends CursorAdapter {
 
-		public MoreTagsCursorAdapter(Context context, Cursor c, int flags) {
+		private LayoutInflater inflater;
+		private int layout;
+		
+		public MoreTagsAdapter(Context context, int layout, Cursor c, int flags) {
 			super(context, c, flags);
-			// TODO Auto-generated constructor stub
+			this.layout = layout;
+			this.inflater = LayoutInflater.from(context);
 		}
 
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
-			// TODO Auto-generated method stub
+			String name = c.getString(c.getColumnIndex("name"));
+			Integer id = c.getInt(c.getColumnIndex("_id"));
 			
+			TextView item = (TextView) convertView.findViewById(R.id.text_tag);
+			
+			item.setText(name);
+			item.setTag(VIEW_TAG_ID, id);
+			if(null == item.getTag(VIEW_TAG_ID)){
+				item.setTag(VIEW_TAG_ID, false);
+			}
+			
+			item.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Boolean clicked = (Boolean) v.getTag(VIEW_TAG_CLICKED);
+					clicked = !clicked;
+					v.setTag(VIEW_TAG_CLICKED, clicked);
+					if(clicked){
+						tagIds.add((Integer) v.getTag(VIEW_TAG_ID));
+					} else {
+						tagIds.remove(v.getTag(VIEW_TAG_ID));
+					}
+				}
+			});
 		}
 
 		@Override
 		public View newView(Context context, Cursor c, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
+			if (c.isNull(getCount())) {
+				return inflater.inflate(layout, parent, false);
+			} else {
+				return null;
+			}
 		}
 		
 	}
@@ -108,20 +166,75 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener {
 
 	@Override
 	public void onRefresh() {
-		onRefresh();
+		onLoadMore();
 	}
 
 	@Override
 	public void onLoadMore() {
-		//	TEMPORARY USE
-		Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-			
-			@Override
-			public void run() {
-				moreTagsList.stopLoadMore();
-			}
-		}, 2000);
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+			lastLoadTime = System.currentTimeMillis();
+			currentLimit += MyApp.LIMIT_INCREMENT;
+			new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_tags), 
+					this, MyApp.DEFAULT_OFFSET, currentLimit);
+		} else {
+			onLoadFinished();
+		}
 	}
+	
+	private void onLoadFinished(){
+		moreTagsList.stopLoadMore();
+		moreTagsList.stopRefresh();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onLoadTagsResult(JSONObject result) {
+		if(null != result){
+			TypeToken<ArrayList<Tag>> token = new TypeToken<ArrayList<Tag>>(){};
+			ArrayList<Tag> tags = null;
+			tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", token);
+			ContentValues[] values = new ContentValues[tags.size()];
+			int i = 0;
+			for (Tag tag : tags) {
+				values[i++] = tag.putValues();
+			}
+			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI, values);
+			updateUI();
+			onLoadFinished();
+		} else {
+			onLoadFinished();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	private void updateUI(){
+		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI, null, null, args, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
+		switch(loader){
+		case MyApp.LOADER_TAG:
+			Uri uri = TagDAO.CONTENT_URI;
+			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+			return new CursorLoader(getActivity(), uri, null, null, args, null);
+		}
+		return null;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		adapter.swapCursor(c);		
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		adapter.swapCursor(null);	
+	}
+	
 	
 }

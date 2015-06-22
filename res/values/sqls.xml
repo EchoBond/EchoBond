@@ -13,7 +13,7 @@
     <string name="tbl_lusr">login_user</string>
     <!-- values related -->
     <string name="tbl_ctgr">category</string>
-    <string name="tbl_grp">group</string>
+    <string name="tbl_grp">grp</string>
     <string name="tbl_country">country</string>
     <string name="tbl_tag">tag</string>
     <!-- user actions -->
@@ -140,7 +140,7 @@
 			`name` varchar(255))
    	</string>
 	<string name="sql_c_group">
-	    CREATE TABLE IF NOT EXISTS `group`(
+	    CREATE TABLE IF NOT EXISTS `grp`(
 	    	`_id` INTEGER PRIMARY KEY,
 	    	`name` varchar(255))
     </string>
@@ -192,55 +192,24 @@
 	    FROM `home_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
-	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
+	    LEFT JOIN `grp` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
 	    GROUP BY t.`_id`
 	    ORDER BY t.`_id` DESC
 	    LIMIT ? OFFSET ?
 	</string>
-	<string name="load_home_t_tags">
-	    SELECT t.`_id`, tt.`tag_id`, tg.`name` FROM `home_thought` AS t
-	    LEFT JOIN `thought_tag` AS tt ON t.`_id` = tt.`thought_id`
-	    LEFT JOIN `tag` AS tg ON tt.`tag_id` = tg.`_id`
-	    WHERE t.`_id` = ?
-	</string>
-	<string name="load_home_t_comments">
-	    SELECT tc.`_id`,tc.`user_id`,tc.`username`,tc.`content` FROM `thought_comment` AS tc
-	    LEFT JOIN `home_thought` AS t ON tc.`thought_id` = t.`_id`
-	    WHERE tc.`thought_id` = ?
-	    LIMIT ? OFFSET ?
-	</string>
-	<string name="boost_home_t">
-	    UPDATE home_thought SET `boost` = `boost` + ?
-	</string>
 	
 	<!-- thought_hot -->
-	<string name="add_t_hot">
-	    INSERT INTO `hot_thought`(`_id`,`user_id`,`lang_id`,`category_id`,`group_id`,`content`,`image`,
-	    	`time`,`boost`) VALUES (?,?,?,?,?,?,?,?,?);
-	</string>
 	<string name="sql_s_t_hot">
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
 	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
 	    FROM `hot_thought` AS t
 	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
-	    LEFT JOIN `group` AS g ON t.`group_id` = g.`_id`
+	    LEFT JOIN `grp` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
 	    GROUP BY t.`_id`
 	    ORDER BY t.`boost` DESC, t.`_id` DESC
-	    LIMIT ? OFFSET ?
-	</string>
-	<string name="load_hot_t_tags">
-	    SELECT t.`_id`, tt.`tag_id`, tg.`name` FROM `hot_thought` AS t
-	    LEFT JOIN `thought_tag` AS tt ON t.`_id` = tt.`thought_id`
-	    LEFT JOIN `tag` AS tg ON tt.`tag_id` = tg.`_id`
-	    WHERE t.`_id` = ?
-	</string>
-	<string name="load_hot_t_cmt">
-	    SELECT tc.`_id`,tc.`content` FROM `thought_comment` AS tc
-	    LEFT JOIN `hot_thought` AS t ON tc.`thought_id` = t.`_id`
-	    WHERE tc.`thought_id` = ?
 	    LIMIT ? OFFSET ?
 	</string>
 	
@@ -285,88 +254,20 @@
 	</string>
 	
 	<!-- user -->
-	<string name="add_user">
-	    INSERT INTO `user`(`id`,`user_name`,`password`,`fb_Id`,`first_name`,`last_name`,`name`,`time_zone`,
-	    `email`,`avatar`,`gender`,`age`,`birthday`,`country_id`,`home_id`,`bio`,`sth_interesting`,`amz_exp`,`to_do`,
-	    `philosophy`,`friends_desc`,`interest`,`little_secret`,`lang_id`,`locale`,`verified`) 
-	    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-	</string>
 	<string name="sql_s_usr_uname">
 	    SELECT * FROM `user` WHERE `userName` = ?
 	</string>
 	<string name="sql_s_usr_id">
 	    SELECT * FROM `user` WHERE `id` = ?
 	</string>
-	<string name="upd_user">
-	    UPDATE user SET `id`=?,`userName`=?,`password`=?,`FBId`=?,`firstName`=?,`lastName`=?,`name`=?,`timeZone`=?,
-	    `email`=?,`avatar`=?,`gender`=?,`age`=?,`birthday`=?,`countryId`=?,`homeId`=?,`occupation`=?,`amzExp`=?,`toDo`=?,
-	    `philosophy`=?,`friendsDesc`=?,`interest`=?,`littleSecret`=?,`langId`=?,`locale`=?,`verified`=? WHERE `id`=?
-	</string>
-
-	<!-- login user -->
-	<string name="add_luser">
-	    INSERT OR REPLACE INTO `login_user`(`id`,`userName`,`password`,`FBId`,`firstName`,`lastName`,`name`,`timeZone`,`email`,`avatar`,
-	    `gender`,`age`,`birthday`,`countryId`,`homeId`,`occupation`,`amzExp`,`toDo`,`philosophy`,`friendsDesc`,
-	    `interest`,`littleSecret`,`langId`,`locale`,`verified`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-	</string>
-	<string name="load_luser_emails">
-	    SELECT `email` FROM `login_user` WHERE `password` != NULL ORDER BY `id`
-	</string>
-	<string name="upd_luser">
-	    UPDATE login_user SET `id`=?,`userName`=?,`password`=?,`FBId`=?,`firstName`=?,`lastName`=?,`name`=?,`timeZone`=?,
-	    `email`=?,`avatar`=?,`gender`=?,`age`=?,`birthday`=?,`countryId`=?,`homeId`=?,`occupation`=?,`amzExp`=?,`toDo`=?,
-	    `philosophy`=?,`friendsDesc`=?,`interest`=?,`littleSecret`=?,`langId`=?,`locale`=?,`verified`=? WHERE `id`=?
-	</string>
-			
-	<!-- category -->
-	<string name="add_category">
-	    INSERT INTO category (`id`, `name`) VALUES (?, ?)
-	</string>
-	<string name="load_category_by_id">
-	    SELECT `id`,`name` FROM category WHERE `id` = ? 
-	</string>
-	<string name="load_category_by_name">
-	    SELECT `id`,`name` FROM category WHERE `name` = ? 
-	</string>
-		
-	<!-- group -->
-	<string name="add_group">
-	    INSERT INTO group (`id`, `name`) VALUES (?, ?)
-	</string>
-	<string name="load_group_by_id">
-	    SELECT `id`,`name` FROM group WHERE `id` = ? 
-	</string>
-	<string name="load_group_by_name">
-	    SELECT `id`,`name` FROM group WHERE `name` = ? 
-	</string>	
 	
-	<!-- user tag -->
-	<string name="add_utag">
-	    INSERT INTO user_tag (`id`, `name`) VALUES (?, ?)
-	</string>
-	<string name="load_utag_by_id">
-	    SELECT `id`,`name` FROM user_tag WHERE `id` = ? 
-	</string>
-	<string name="load_utag_by_name">
-	    SELECT `id`,`name` FROM user_tag WHERE `name` = ? 
+	<!-- group -->
+	<string name="sql_s_grp">
+	    SELECT `_id`,`name` FROM `grp` ORDER BY `_id` LIMIT ? OFFSET ?
 	</string>
 	
 	<!-- tag -->
-	<string name="add_tag">
-	    INSERT INTO tag (`id`, `name`) VALUES (?, ?)
-	</string>
-	<string name="load_tag_by_id">
-	    SELECT `id`,`name` FROM tag WHERE `id` = ? 
-	</string>
-	<string name="load_tag_by_name">
-	    SELECT `id`,`name` FROM tag WHERE `name` = ?
-	</string>
-	
-	<!-- country -->
-	<string name="add_country">
-	    INSERT INTO country (`id`, `name`, `region`) VALUES (?, ?, ?)
-	</string>
-	<string name="load_country_by_id">
-	    SELECT `id`,`name`,`region` FROM country WHERE `id` = ? 
+	<string name="sql_s_tag">
+	    SELECT `_id`,`name` FROM `tag` ORDER BY `_id` LIMIT ? OFFSET ?
 	</string>
 </resources>

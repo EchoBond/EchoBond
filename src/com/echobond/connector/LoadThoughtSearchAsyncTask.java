@@ -8,50 +8,31 @@ import org.json.JSONObject;
 
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
-import com.echobond.intf.ImageCallback;
+import com.echobond.intf.LoadSearchThoughtCallback;
 import com.echobond.util.HTTPUtil;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 /**
- * This task is to handle image loading or update in server's DB.<br>
- * Params (Object): action(int), url(String), activity(ImageAsyncTaskCallback), type(String), bm(Bitmap) / path(String)<br>
+ * This task is to load thought search brief info from server's DB.<br>
+ * Params (Object): url(String), activity(LoadThoughtSearchCallback), random (int)<br>
  * @version 1.0
  * @author Luck
  * 
  */
-public class ImageAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
+public class LoadThoughtSearchAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private ImageCallback activity;
-	private int action;
-	public static final int IMAGE_UPLOAD = 1;
-	public static final int IMAGE_DOWNLOAD = 2;
-	public static final String IMAGE_AVATAR = "avatar";
-	public static final String IMAGE_THUMB = "thumbnail";
-	public static final String IMAGE_ORIGIN = "image";
+	private LoadSearchThoughtCallback activity;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
-		this.action = (Integer) params[0];
-		String url = (String) params[1];
-		activity = (ImageCallback) params[2];
-		String type = (String) params[3];
+		String url = (String) params[0];
+		activity =  (LoadSearchThoughtCallback) params[1];
+		int random = (Integer)params[2];
 		JSONObject body = new JSONObject();
-		try{
-			body.put("type", type);
-			switch (action) {
-			case IMAGE_UPLOAD:
-				String image = (String) params[4];
-				body.put("image", image);
-				break;
-			case IMAGE_DOWNLOAD:
-				String path = (String) params[4];
-				body.put("path", path);
-			default:
-				break;
-			}
-		} catch (JSONException e){
-			e.printStackTrace();
+		try {
+			body.put("random", random);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
 		}
 		String method = RawHttpRequest.HTTP_METHOD_POST;
 		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
@@ -77,17 +58,7 @@ public class ImageAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-		switch (action) {
-		case IMAGE_DOWNLOAD:
-			activity.onDownloadImage(result);
-			break;
-		case IMAGE_UPLOAD:
-			activity.onUploadImage(result);
-			break;
-		default:
-			break;
-		}
-		activity.onDownloadImage(result);
+		activity.onLoadSearchThoughtResult(result);
 	}
 	
 	@Override

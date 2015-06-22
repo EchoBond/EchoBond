@@ -37,6 +37,8 @@
     <!-- load / search posts -->
     <string name="url_load_thoughts">LoadThoughtsServlet</string>
     <string name="url_down_img">ImageDownloadServlet</string>
+    <string name="url_load_search_ppl">LoadSearchPplServlet</string>
+    <string name="url_load_search_t">LoadSearchThoughtServlet</string>
     
 	<!-- search users -->
     <string name="url_load_users">LoadUsersServlet</string>
