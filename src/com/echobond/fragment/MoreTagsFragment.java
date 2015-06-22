@@ -47,6 +47,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	private XListView moreTagsList;
 	private ViewMoreSwitchCallback searchCallback;
 	private MoreTagsAdapter adapter;
+	private TextView tagTextView;
 	
 	private String type;
 	
@@ -55,8 +56,8 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	
 	private ArrayList<Integer> tagIds;
 	
-	private final static Integer VIEW_TAG_ID = 0;
-	private final static Integer VIEW_TAG_CLICKED = 1;
+	private final static Integer VIEW_TAG_ID = R.string.hello_world;
+	private final static Integer VIEW_TAG_CLICKED = R.string.none;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -75,8 +76,12 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		moreTagsList.setAdapter(adapter);
 		moreTagsList.setXListViewListener(this);
 		
+		tagTextView = (TextView)moreTagsView.findViewById(R.id.more_tags_text);
 		Bundle bundle = this.getArguments();
-		type = bundle.getString("type");
+		if (bundle != null) {
+			type = bundle.getString("type");
+			tagTextView.setText("View More " + bundle.getString("type"));
+		}
 		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
 		return moreTagsView;
 	}
@@ -122,22 +127,17 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			TextView item = (TextView) convertView.findViewById(R.id.text_tag);
 			
 			item.setText(name);
-			item.setTag(VIEW_TAG_ID, id);
-			if(null == item.getTag(VIEW_TAG_ID)){
-				item.setTag(VIEW_TAG_ID, false);
-			}
+			item.setTag(id);
 			
 			item.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					Boolean clicked = (Boolean) v.getTag(VIEW_TAG_CLICKED);
-					clicked = !clicked;
-					v.setTag(VIEW_TAG_CLICKED, clicked);
-					if(clicked){
-						tagIds.add((Integer) v.getTag(VIEW_TAG_ID));
+					Boolean click = tagIds.contains(v.getTag());
+					if (click) {
+						tagIds.remove(v.getTag());
 					} else {
-						tagIds.remove(v.getTag(VIEW_TAG_ID));
+						tagIds.add((Integer) v.getTag());
 					}
 				}
 			});
