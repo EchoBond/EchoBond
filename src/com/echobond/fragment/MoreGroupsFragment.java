@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -97,7 +98,14 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 			} else if (type == SearchPage.PEOPLE_MORE_GROUP) {
 				index = SearchPage.PEOPLE_GROUP;
 			}
-			searchCallback.onSearchSelected(index);
+			JSONObject jso = new JSONObject();
+			try {
+				jso.put("index", index);
+				jso.put("id", id);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			searchCallback.onSearchSelected(jso);
 		}
 		
 	}

@@ -62,5 +62,6 @@
     <string name="edit_profile_more">More About You</string>
     <string name="edit_profile_more_groups"><u>MORE Groups…</u></string>
     <string name="edit_profile_more_tags"><u>MORE Hashtags…</u></string>
+    <string name="edit_profile_icon"><u>Set Your Icon…</u></string>
 
 </resources>

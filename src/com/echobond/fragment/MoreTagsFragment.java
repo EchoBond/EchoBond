@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -22,6 +23,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,10 +33,15 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -48,6 +55,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	private ViewMoreSwitchCallback searchCallback;
 	private MoreTagsAdapter adapter;
 	private TextView tagTextView;
+	private ImageView buttonDone;
 	
 	private String type;
 	
@@ -73,8 +81,26 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		moreTagsList.setPullRefreshEnable(false);
 		moreTagsList.setPullLoadEnable(true);
 		moreTagsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+		moreTagsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		moreTagsList.setAdapter(adapter);
 		moreTagsList.setXListViewListener(this);
+		moreTagsList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				TextView item = (TextView)v.findViewById(R.id.text_tag);
+				if (item.isSelected()) {
+					item.setSelected(false);
+					adapter.setSelected(position-1, false);
+				} else if (!item.isSelected()) {
+					item.setSelected(true);
+					adapter.setSelected(position-1, true);
+					Toast.makeText(getActivity().getApplicationContext(), item.getText().toString(), Toast.LENGTH_SHORT).show();
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 		
 		tagTextView = (TextView)moreTagsView.findViewById(R.id.more_tags_text);
 		Bundle bundle = this.getArguments();
@@ -83,6 +109,10 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			tagTextView.setText("View More " + bundle.getString("type"));
 		}
 		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
+		
+		buttonDone = (ImageView)moreTagsView.findViewById(R.id.more_tags_done);
+		buttonDone.setOnClickListener(new SearchOnClickListener(type));
+		
 		return moreTagsView;
 	}
 	
@@ -103,7 +133,14 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			} else if (type == SearchPage.PEOPLE_MORE_TAG) {
 				index = SearchPage.PEOPLE_TAG;
 			}
-			searchCallback.onSearchSelected(index);			
+			JSONObject jso = new JSONObject();
+			try {
+				jso.put("index", index);
+				jso.put("idList", tagIds);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			searchCallback.onSearchSelected(jso);			
 		}
 		
 	}
@@ -112,6 +149,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 
 		private LayoutInflater inflater;
 		private int layout;
+		private SparseBooleanArray selectionArray = new SparseBooleanArray();
 		
 		public MoreTagsAdapter(Context context, int layout, Cursor c, int flags) {
 			super(context, c, flags);
@@ -119,34 +157,51 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			this.inflater = LayoutInflater.from(context);
 		}
 
+		public void setSelected(int position, boolean isSelected) {
+			selectionArray.put(position, isSelected);
+		}
+		
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
 			String name = c.getString(c.getColumnIndex("name"));
 			Integer id = c.getInt(c.getColumnIndex("_id"));
 			
-			TextView item = (TextView) convertView.findViewById(R.id.text_tag);
-			
+			TextView item = (TextView)convertView.findViewById(R.id.text_tag);
 			item.setText(name);
 			item.setTag(id);
 			
-			item.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Boolean click = tagIds.contains(v.getTag());
-					if (click) {
-						tagIds.remove(v.getTag());
-					} else {
-						tagIds.add((Integer) v.getTag());
-					}
-				}
-			});
+			int position = c.getPosition();
+			boolean isSelected = selectionArray.get(position);
+			if (isSelected) {
+				item.setTextColor(Color.parseColor("#5CACC4"));
+			} else if (!isSelected) {
+				item.setTextColor(Color.BLACK);
+			}
+//			item.setOnClickListener(new View.OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					if (v.isSelected()) {
+//						v.setSelected(false);
+//					} else {
+//						v.setSelected(true);
+//					}
+//					
+//					Boolean click = tagIds.contains(v.getTag());
+//					if (click) {
+//						tagIds.remove(v.getTag());
+//					} else {
+//						tagIds.add((Integer) v.getTag());
+//					}
+//				}
+//			});
 		}
 
 		@Override
 		public View newView(Context context, Cursor c, ViewGroup parent) {
 			if (c.isNull(getCount())) {
-				return inflater.inflate(layout, parent, false);
+				View view = inflater.inflate(layout, parent, false);
+				return view;
 			} else {
 				return null;
 			}
@@ -182,7 +237,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		}
 	}
 	
-	private void onLoadFinished(){
+	private void onLoadFinished() {
 		moreTagsList.stopLoadMore();
 		moreTagsList.stopRefresh();
 	}
@@ -208,7 +263,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		}
 	}
 	
-	private void updateUI(){
+	private void updateUI() {
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI, null, null, args, null);
 		adapter.swapCursor(cursor);

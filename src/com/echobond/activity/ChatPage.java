@@ -180,6 +180,9 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			@Override
 			public void afterTextChanged(Editable arg0) {
 				msgSendView.setImageDrawable(getResources().getDrawable(R.drawable.button_send_ready));
+				if ("".equals(msgInputText.getText().toString().trim())) {
+					msgSendView.setImageDrawable(getResources().getDrawable(R.drawable.button_send_normal));
+				}
 			}
 		});
 		
@@ -187,7 +190,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			
 			@Override
 			public void onClick(View arg0) {
-				String msg = msgInputText.getText().toString();
+				String msg = msgInputText.getText().toString().trim();
 				if (msg != null && !msg.equals("")) {
 					String url = HTTPUtil.getInstance().composePreURL(ChatPage.this) + getResources().getString(R.string.url_send_msg);
 					UserMsg msgObj = new UserMsg();

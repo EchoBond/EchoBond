@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:paddingBottom="20dp" >
+    	
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerVertical="true"
+	            android:padding="5dp"
+	            android:text="@string/edit_profile_basic"
+	            android:textSize="25sp"
+	            android:textStyle="bold"
+	            android:textColor="#31cdbb" />
+	        <TextView 
+	            android:id="@+id/edit_profile_icon"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerVertical="true"
+	            android:layout_alignParentRight="true"
+	            android:layout_alignParentEnd="true"
+	            android:padding="5dp"
+	            android:text="@string/edit_profile_icon"
+		        android:textSize="15sp"
+		        android:textColor="#b3b3b3"
+		        android:textStyle="bold"
+		        android:clickable="true" />
+        </RelativeLayout>
+        
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_title"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_title_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_title" />
+		    <EditText 
+		        android:id="@+id/edit_profile_title_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_title_view"
+		        android:layout_toEndOf="@id/edit_profile_title_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:textSize="15sp"
+		        android:hint="@string/hint_edit_profile_title" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_gender"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_gender_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_gender" />
+		    <EditText 
+		        android:id="@+id/edit_profile_gender_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_gender_view"
+		        android:layout_toEndOf="@id/edit_profile_gender_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:textSize="15sp"
+		        android:hint="@string/hint_edit_profile_gender" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_bio"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_bio_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_bio" />
+		    <EditText 
+		        android:id="@+id/edit_profile_bio_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_bio_view"
+		        android:layout_toEndOf="@id/edit_profile_bio_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="2"
+		        android:textSize="15sp"
+		        android:hint="@string/hint_edit_profile_bio" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_age"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_age_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_age" />
+		    <EditText 
+		        android:id="@+id/edit_profile_age_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_age_view"
+		        android:layout_toEndOf="@id/edit_profile_age_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:textSize="15sp"
+		        android:hint="@string/hint_edit_profile_age" />
+		</RelativeLayout>
+		
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_earth"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_earth_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_earth" />
+		    <EditText 
+		        android:id="@+id/edit_profile_earth_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_earth_view"
+		        android:layout_toEndOf="@id/edit_profile_earth_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:textSize="15sp"
+		        android:hint="@string/hint_edit_profile_earth" />
+		</RelativeLayout>
+		
+		<TextView 
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/edit_profile_more"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#31cdbb" />
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_dna"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_dna_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_dna" />
+		    <EditText 
+		        android:id="@+id/edit_profile_dna_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_dna_view"
+		        android:layout_toEndOf="@id/edit_profile_dna_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_dna"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_trophy"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_trophy_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_trophy" />
+		    <EditText 
+		        android:id="@+id/edit_profile_trophy_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_trophy_view"
+		        android:layout_toEndOf="@id/edit_profile_trophy_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_trophy"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_todo"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_todo_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_todo" />
+		    <EditText 
+		        android:id="@+id/edit_profile_todo_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_todo_view"
+		        android:layout_toEndOf="@id/edit_profile_todo_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_todo"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_philo"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_philo_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_philosophy" />
+		    <EditText 
+		        android:id="@+id/edit_profile_philo_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_philo_view"
+		        android:layout_toEndOf="@id/edit_profile_philo_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_philo"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_desc"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_desc_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_desc" />
+		    <EditText 
+		        android:id="@+id/edit_profile_desc_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_desc_view"
+		        android:layout_toEndOf="@id/edit_profile_desc_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_desc"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_heart"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_heart_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_heart" />
+		    <EditText 
+		        android:id="@+id/edit_profile_heart_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_heart_view"
+		        android:layout_toEndOf="@id/edit_profile_heart_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_heart"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_sec"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_sec_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_secrets" />
+		    <EditText 
+		        android:id="@+id/edit_profile_sec_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_sec_view"
+		        android:layout_toEndOf="@id/edit_profile_sec_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_sec"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_lang"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_lang_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_language" />
+		    <EditText 
+		        android:id="@+id/edit_profile_lang_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_lang_view"
+		        android:layout_toEndOf="@id/edit_profile_lang_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:maxLines="4"
+		        android:hint="@string/hint_edit_profile_lang"
+		        android:textSize="15sp" />
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_tag"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_tag_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_tag" />
+		    <EditText 
+		        android:id="@+id/edit_profile_tag_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_tag_view"
+		        android:layout_toEndOf="@id/edit_profile_tag_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:hint="@string/hint_edit_profile_hashtags"
+		        android:textSize="15sp"
+		        android:gravity="top" />
+		    <TextView 
+		        android:id="@+id/edit_profile_tag_more"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_tag_view"
+		        android:layout_toEndOf="@id/edit_profile_tag_view"
+		        android:layout_below="@id/edit_profile_tag_text"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginStart="13dp"
+		        android:layout_marginBottom="2dp"
+		        android:text="@string/edit_profile_more_tags"
+		        android:textSize="15sp"
+		        android:textColor="#b3b3b3"
+		        android:textStyle="bold"
+		        android:clickable="true" />
+		</RelativeLayout>
+
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_group"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_group_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_group" />
+		    <EditText 
+		        android:id="@+id/edit_profile_group_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_group_view"
+		        android:layout_toEndOf="@id/edit_profile_group_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:hint="@string/hint_edit_profile_groups"
+		        android:textSize="15sp" />
+		    <TextView 
+		        android:id="@+id/edit_profile_group_more"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_group_view"
+		        android:layout_toEndOf="@id/edit_profile_group_view"
+		        android:layout_below="@id/edit_profile_group_text"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginStart="13dp"
+		        android:layout_marginBottom="2dp"
+		        android:text="@string/edit_profile_more_groups"
+		        android:textSize="15sp"
+		        android:textColor="#b3b3b3"
+		        android:textStyle="bold"
+		        android:clickable="true" />
+		</RelativeLayout>
+					
+	</LinearLayout>
+</ScrollView>

@@ -1,5 +1,11 @@
 package com.echobond.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.echobond.R;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
@@ -9,6 +15,8 @@ import com.echobond.fragment.SearchPeopleResultFragment;
 import com.echobond.fragment.SearchThoughtsFragment;
 import com.echobond.fragment.SearchThoughtsResultFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
+import com.echobond.util.JSONUtil;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -23,6 +31,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 /**
  * 
@@ -40,6 +50,8 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	private ImageView backButton;
 	private EditText searchBar;
 	private String searchText;
+	private int searchID = 0;
+	private List<Integer> idList = null;
 	public static FragmentTabHost tabHost;
 	private int fgType = -1;
 	private int searchType = -1;
@@ -70,6 +82,15 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		getSupportActionBar().setCustomView(R.layout.title_bar_search);
 		
 		searchBar = (EditText)findViewById(R.id.searchBar);
+		searchBar.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				Toast.makeText(getApplicationContext(), "search", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+		
 		searchText = searchBar.getText().toString();
 		backButton = (ImageView)findViewById(R.id.search_button_back);
 		backButton.setOnClickListener(new View.OnClickListener() {
@@ -146,12 +167,23 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	}
 	
 	//	Set the content of tabs for showing search results. 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void onSearchSelected(int type) {
-		this.searchType = type;
+	public void onSearchSelected(JSONObject data) {
+		try {
+			this.searchType = data.getInt("index");
+			searchID = data.getInt("id");
+			if(null != data.getJSONObject("idList")){
+				TypeToken<ArrayList<Integer>> token = new TypeToken<ArrayList<Integer>>(){};
+				idList = JSONUtil.fromJSONToList(data, "idList", token);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		FragmentTabHost tabHost = mainFragment.getTabHost();
 		tabHost.clearAllTabs();
+
 		switch (searchType) {
 		case THOUGHT_GROUP:
 			tabHost.addTab(tabHost.newTabSpec("thoughts_group_result").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
@@ -224,6 +256,22 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			}
 		}
 		return true;
+	}
+
+	public int getSearchID() {
+		return searchID;
+	}
+
+	public void setSearchID(int searchID) {
+		this.searchID = searchID;
+	}
+
+	public List<Integer> getIdList() {
+		return idList;
+	}
+
+	public void setIdList(List<Integer> idList) {
+		this.idList = idList;
 	}
 
 }

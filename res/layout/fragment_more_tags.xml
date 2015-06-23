@@ -5,15 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <TextView 
-        android:id="@+id/more_tags_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:textColor="#ffa500"
-        android:textStyle="bold"
-        android:clickable="true" />
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView 
+            android:id="@+id/more_tags_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:padding="10dp"
+	        android:textSize="20sp"
+	        android:textColor="#ffa500"
+	        android:textStyle="bold"
+	        android:clickable="true" />
+        <ImageView 
+            android:id="@+id/more_tags_done"
+            android:contentDescription="@string/none"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/button_done"
+            android:clickable="true" />
+    </RelativeLayout>
     <com.echobond.widget.XListView 
         android:id="@+id/more_tags_list"
         android:layout_width="match_parent"

@@ -1,6 +1,9 @@
 package com.echobond.fragment;
 
+import java.util.List;
+
 import com.echobond.R;
+import com.echobond.activity.SearchPage;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 
@@ -60,6 +63,8 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			peopleTitle.setText("");
 			peopleBio.setText("");
 			peopleGender.setText("");
+
+			List<Integer> searchID = ((SearchPage)getActivity()).getIdList();
 
 		}
 
