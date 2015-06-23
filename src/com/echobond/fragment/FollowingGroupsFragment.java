@@ -1,18 +1,27 @@
 package com.echobond.fragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
+import com.echobond.dao.GroupDAO;
+import com.echobond.entity.Group;
+import com.echobond.intf.LoadGroupsCallback;
+import com.echobond.util.JSONUtil;
+import com.google.gson.reflect.TypeToken;
 
-import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -29,100 +36,38 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class FollowingGroupsFragment extends Fragment implements OnClickListener {
+public class FollowingGroupsFragment extends Fragment implements OnClickListener, LoadGroupsCallback, LoaderCallbacks<Cursor> {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
-	private String[] testGroups = {"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE", 
-			"HKDI", "HKCC", "Vintage", "名校", "HKMC", "HSBC", "Swire", "RCLee", "Starr", "laoliu", 
-			"HSBC", "Swire", "RCLee", "Starr", "laoliu", 
-			"HSBC", "Swire", "RCLee", "Starr", "laoliu", 
-			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE",
-			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE",
-			"HKU", "CityU", "CUHK", "HKBU", "UST", "PolyU", "LingU", "SYU", "IVE"};
 	private GridView groups2Follow;
-	private MySimpleAdapter adapter;
-	private FollowingGroupsAdapter adapter2;
+	private FollowingGroupsAdapter adapter;
+	
+	private int currentLimit;
+//	private long lastLoadTime;
+	
+	private ArrayList<Integer> groupList;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View followingGroupsView = inflater.inflate(R.layout.fragment_following_groups, container, false);
+		currentLimit = MyApp.LIMIT_INIT*10;
+		groupList = new ArrayList<Integer>();
 		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
-		adapter = new MySimpleAdapter(this.getActivity(), data(), 
-				R.layout.item_following, new String[]{"group"}, new int[]{R.id.item_following_text});
-		adapter2 = new FollowingGroupsAdapter(getActivity(), R.layout.item_following, null, 0);
-		groups2Follow.setAdapter(adapter2);
+
+		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI, null, null, args, null);
+		adapter = new FollowingGroupsAdapter(getActivity(), R.layout.item_following, cursor, 0);
+		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
 
+		//lastLoadTime = 0;
+		
+		getLoaderManager().initLoader(MyApp.LOADER_FOLLOW_GROUP, null, this);
+		
 		return followingGroupsView;
-	}
-
-	private List<Map<String, Object>> data() {
-		List<Map<String, Object>> groupsList = new ArrayList<Map<String,Object>>();
-		for (int i = 0; i < testGroups.length; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("group", testGroups[i]);
-			groupsList.add(map);
-		}
-		return groupsList;
-	}
-	
-	public class MySimpleAdapter extends SimpleAdapter {
-		
-		private LayoutInflater mInflater;
-		public ViewHolder holder;
-		
-		class ViewHolder {
-			ImageView selection;
-			TextView groupName;
-			RelativeLayout groupLayout;
-		}
-		
-		public MySimpleAdapter(Context context,
-				List<? extends Map<String, ?>> data, int resource,
-				String[] from, int[] to) {
-			super(context, data, resource, from, to);
-			this.mInflater = LayoutInflater.from(context);
-		}
-		
-		@SuppressLint("InflateParams") 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			holder = new ViewHolder();
-			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.item_following, null);
-				holder.selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
-				holder.groupName = (TextView)convertView.findViewById(R.id.item_following_text);
-				holder.groupLayout = (RelativeLayout)convertView.findViewById(R.id.item_following_view);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder)convertView.getTag();
-			}
-			convertView.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					if (v.isSelected()) {
-						holder.selection.setImageDrawable(null);
-						holder.selection.setImageBitmap(null);
-						v.setSelected(false);
-						Toast.makeText(getActivity().getApplicationContext(), "SELECTED Cleared", Toast.LENGTH_SHORT).show();
-					} else {
-						holder.selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
-						v.setSelected(true);
-						Toast.makeText(getActivity().getApplicationContext(), "SELECTED", Toast.LENGTH_SHORT).show();
-					}
-					
-				}
-			});
-
-			View view = super.getView(position, convertView, parent);
-			int colorPos = position % (3 * colorBgd.length);
-			view.setBackgroundColor(colorBgd[colorPos/3]);
-			return view;
-		}
 	}
 	
 	public class FollowingGroupsAdapter extends CursorAdapter {
@@ -135,14 +80,14 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 			this.layout = layout;
 			this.mInflater = LayoutInflater.from(context);
 		}
-
-//		@Override
-//		public View getView(int position, View convertView, ViewGroup parent) {
-//			View view = super.getView(position, convertView, parent);
-//			int colorPos = position % (3 * colorBgd.length);
-//			view.setBackgroundColor(colorBgd[colorPos/3]);
-//			return view;
-//		}
+		
+		@Override
+		public int getCount() {
+			if(null == getCursor()){
+				return 0;
+			}
+			return super.getCount();
+		}
 		
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
@@ -150,21 +95,22 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 			int colorPos = position % (3 * colorBgd.length);
 			convertView.setBackgroundColor(colorBgd[colorPos/3]);
 			
-			ImageView selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
 			TextView groupName = (TextView)convertView.findViewById(R.id.item_following_text);
-			RelativeLayout groupLayout = (RelativeLayout)convertView.findViewById(R.id.item_following_view);
 
-			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
-			groupName.setText(testGroups[position]);
-//			groupLayout.setBackgroundColor(colorBgd[colorPos/3]);
-			
+			groupName.setText(c.getString(c.getColumnIndex("name")));
+			groupName.setTag(c.getInt(c.getColumnIndex("_id")));
+						
 			convertView.setOnClickListener(FollowingGroupsFragment.this);
 
 		}
 		
 		@Override
 		public View newView(Context context, Cursor c, ViewGroup parent) {
-			return mInflater.inflate(layout, parent, false);
+			if (c.isNull(getCount())) {
+				return mInflater.inflate(layout, parent, false);
+			} else {
+				return null;
+			}
 		}
 		
 	}
@@ -172,15 +118,73 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
-		if (v.isSelected()) {
+		TextView group = (TextView) v.findViewById(R.id.item_following_text);
+		Boolean selected = false;
+		if(null != v.getTag()){
+			selected = (Boolean) v.getTag();
+		}
+		Integer id = (Integer) group.getTag();
+		if (selected) {
 			selection.setImageDrawable(null);
-			v.setSelected(false);
-			Toast.makeText(getActivity().getApplicationContext(), "SELECTED Cleared", Toast.LENGTH_SHORT).show();
+			v.setTag(false);			
+			groupList.remove(id);
 		} else {
 			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
-			v.setSelected(true);
-			Toast.makeText(getActivity().getApplicationContext(), "SELECTED", Toast.LENGTH_SHORT).show();
+			v.setTag(true);
+			groupList.add(id);
 		}
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
+		switch(loader){
+		case MyApp.LOADER_FOLLOW_GROUP:
+			Uri uri = GroupDAO.CONTENT_URI;
+			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+			return new CursorLoader(getActivity(), uri, null, null, args, null);
+		}
+		return null;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		adapter.swapCursor(c);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		adapter.swapCursor(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onLoadGroupsResult(JSONObject result) {
+		if(null != result){
+			TypeToken<ArrayList<Group>> token = new TypeToken<ArrayList<Group>>(){};
+			ArrayList<Group> groups = null;
+			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", token);
+			ContentValues[] values = new ContentValues[groups.size()];
+			int i = 0;
+			for (Group group : groups) {
+				values[i++] = group.putValues();
+			}
+			
+			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI, values);
+			updateUI();
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	private void updateUI(){
+		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI, null, null, args, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();
+	}
+
+	public ArrayList<Integer> getGroupList() {
+		return groupList;
 	}
 
 }

@@ -10,6 +10,7 @@ import com.echobond.activity.MainPage;
 import com.echobond.activity.NewPostPage;
 import com.echobond.activity.SearchPage;
 import com.echobond.activity.StartPage;
+import com.echobond.connector.InitFetchService;
 import com.echobond.db.ChatDB;
 import com.echobond.db.CommentDB;
 import com.echobond.db.GroupDB;
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class MyApp extends Application implements Application.ActivityLifecycleCallbacks{
@@ -54,9 +56,12 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int LOADER_GROUP = 5;
 	public static final int LOADER_TAG = 6;
 	public static final int LOADER_USER_TAG = 7;
+	public static final int LOADER_FOLLOW_GROUP = 8;
+	public static final int LOADER_FOLLOW_TAG = 9;
 	
 	public static final int DEFAULT_OFFSET = 0;
 	public static final int LIMIT_INIT = 10;
+	public static final int LIMIT_INIT_FETCH = 100;
 	public static final int LIMIT_INCREMENT = 10;
 	public static final long LOAD_INTERVAL = 2000;
 	
@@ -79,6 +84,8 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public void onCreate() {
 		initUIL();
 		initDB();
+		Intent initFetch = new Intent(this, InitFetchService.class);
+		startService(initFetch);
 		currentActivityIndex = ACTIVITY_NULL;
 		currentActivity = null;
 		registerActivityLifecycleCallbacks(this);

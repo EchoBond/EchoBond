@@ -40,7 +40,7 @@ public class LoginPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				
+				((StartPage)getActivity()).loading(true);
 				loginEmailStr = loginEmailText.getText().toString();
 				loginPasswordStr = loginPasswordText.getText().toString();
 
@@ -49,12 +49,16 @@ public class LoginPageFragment extends Fragment {
 				 */
 				if (loginEmailStr == null || loginEmailStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_email), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if (loginPasswordStr == null || loginPasswordStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_pw), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if(!CommUtil.isValidEmail(loginEmailStr)){
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_invalid_email), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if(!CommUtil.isValidPassword(loginPasswordStr)){
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_invalid_password), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else {
 					User user = new User();
 					user.setEmail(loginEmailStr);
@@ -69,6 +73,7 @@ public class LoginPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				((StartPage)getActivity()).loading(true);
 				loginEmailStr = loginEmailText.getText().toString();
 				if (loginEmailStr == null || loginEmailStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signin_empty_email), Toast.LENGTH_SHORT).show();

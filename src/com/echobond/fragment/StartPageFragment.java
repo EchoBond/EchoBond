@@ -64,6 +64,7 @@ public class StartPageFragment extends Fragment {
 		
 		@Override
 		public void onCompleted(Response response) {
+			((StartPage)getActivity()).loading(false);
             /* handle the result */
         	GraphObject rs = response.getGraphObject();
         	/*
@@ -186,10 +187,12 @@ public class StartPageFragment extends Fragment {
 			}
 		}
 		else if (state.isOpened()) {
+			((StartPage)getActivity()).loading(true);
 			loginButton.setClickable(true);
 			loadUserFBData(session);
 	    }
 	    else if(state.isClosed()){
+	    	((StartPage)getActivity()).loading(false);
 	    	loginButton.setClickable(true);
 	    	if(null != exception && state == SessionState.CLOSED_LOGIN_FAILED){
 	    		Bundle bd = getActivity().getIntent().getExtras();

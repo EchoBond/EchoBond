@@ -8,6 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 public class JSONUtil {
@@ -53,6 +55,19 @@ public class JSONUtil {
 	public static List fromJSONArrayToList(JSONArray array, TypeToken<?> token){
 		ArrayList list = gson.fromJson(array.toString(), token.getType());
 		return list;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static JSONArray fromListToJSONArray(ArrayList list, TypeToken<?> token){
+		JsonElement jElement = gson.toJsonTree(list, token.getType());
+		JsonArray gArray = jElement.getAsJsonArray();
+		JSONArray jArray = null;
+		try {
+			jArray = new JSONArray(gArray.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jArray;
 	}
 	
 }

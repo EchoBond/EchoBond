@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import android.content.ContentValues;
+
 /**
  * 
  * @author Luck
@@ -8,6 +10,12 @@ package com.echobond.entity;
 public class Category {
 	private int id;
 	private String name;
+	public ContentValues putValues(){
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("name", name);
+		return values;
+	}
 	public int getId() {
 		return id;
 	}

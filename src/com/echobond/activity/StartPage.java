@@ -30,6 +30,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 /**
  * 
@@ -42,6 +44,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 	private StartPageFragment startPageFragment;
 	private SignUpPageFragment signUpPageFragment;
 	private LoginPageFragment loginPageFragment;
+	private ProgressBar spinner;
 	private String preUrl;
 	private int fgIndex = 0;
     private long exitTime = 0;
@@ -60,6 +63,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
+        spinner = (ProgressBar) findViewById(R.id.start_progress);
         //avoid dead loop of Facebook logout<->login, clear invalid Facebook session
         Session session = Session.getActiveSession();
         if (session != null) {
@@ -135,6 +139,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     
     public void onSignInResult(JSONObject result){
     	try {
+    		loading(false);
     		if(null == result){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
     		}
@@ -154,6 +159,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     
     public void onSignUpResult(JSONObject result){
     	try {
+    		loading(false);
     		if(null == result){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
     		}
@@ -186,6 +192,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     
     public void onFBSignInResult(JSONObject result){
     	try{
+    		loading(false);
 			if(null == result){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 			}
@@ -215,6 +222,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 
     public void onResetPassResult(JSONObject result){
 		try{
+    		loading(false);
 			if(null == result){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 			}
@@ -321,5 +329,11 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 		//return super.onKeyDown(keyCode, event);
     	return true;
 	}
+    
+    public void loading(Boolean load){
+    	if(load)
+    		spinner.setVisibility(View.VISIBLE);
+    	else spinner.setVisibility(View.INVISIBLE);
+    }
     
 }

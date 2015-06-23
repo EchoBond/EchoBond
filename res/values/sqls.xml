@@ -270,4 +270,9 @@
 	<string name="sql_s_tag">
 	    SELECT `_id`,`name` FROM `tag` ORDER BY `_id` LIMIT ? OFFSET ?
 	</string>
+	
+	<!-- category -->
+	<string name="sql_s_category">
+	    SELECT `_id`,`name` FROM `category` ORDER BY `_id` LIMIT ? OFFSET ?
+	</string>	
 </resources>

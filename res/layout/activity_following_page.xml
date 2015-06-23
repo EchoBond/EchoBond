@@ -1,23 +1,36 @@
-<LinearLayout 
+<RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:layout_height="match_parent">
+	<ProgressBar
+	    android:id="@+id/following_spinner"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content" 
+    	android:layout_centerInParent="true"
+    	style="@android:style/Widget.ProgressBar.Large"
+    	android:visibility="invisible"/>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    tools:context="${relativePackage}.${activityClass}" >
+	
+	    <android.support.v7.widget.Toolbar
+	        xmlns:app="http://schemas.android.com/apk/res-auto" 
+			android:id="@+id/toolbar_following"
+			android:layout_width="match_parent"
+			android:layout_height="?android:attr/actionBarSize"
+			app:contentInsetStart="0dp"
+			android:background="#fff" />
+	
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto" 
-		android:id="@+id/toolbar_following"
-		android:layout_width="match_parent"
-		android:layout_height="?android:attr/actionBarSize"
-		app:contentInsetStart="0dp"
-		android:background="#fff" />
+	
+	    <FrameLayout 
+	        android:id="@+id/following_content"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+	    </FrameLayout>
 
-    <FrameLayout 
-        android:id="@+id/following_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </FrameLayout>
-
-</LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

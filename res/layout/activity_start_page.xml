@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/start_page_background"
     tools:context="${relativePackage}.${activityClass}" >
-
+	<ProgressBar android:id="@+id/start_progress"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    style="@android:style/Widget.ProgressBar.Large"
+	    android:visibility="invisible"/>
     <ImageView 
         android:contentDescription="@string/none"
         android:id="@+id/start_logo"

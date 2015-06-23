@@ -39,18 +39,22 @@ public class SignUpPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				
+				((StartPage)getActivity()).loading(true);
 				signUpEmailStr = signUpEmailText.getText().toString();
 				signUpPasswordStr = signUpPasswordText.getText().toString();
 				
 				if (signUpEmailStr == null || signUpEmailStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_email), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if (signUpPasswordStr == null || signUpPasswordStr.equals("")) {
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_empty_pw), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if(!CommUtil.isValidEmail(signUpEmailStr)){
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_invalid_email), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else if(!CommUtil.isValidPassword(signUpPasswordStr)){
 					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.signup_invalid_password), Toast.LENGTH_SHORT).show();
+					((StartPage)getActivity()).loading(false);
 				} else {
 					User user = new User();
 					user.setEmail(signUpEmailStr);
