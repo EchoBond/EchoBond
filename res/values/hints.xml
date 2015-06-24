@@ -48,7 +48,7 @@
     <!-- EDIT PROFILE -->
     <string name="hint_edit_profile_title">Your user name</string>
     <string name="hint_edit_profile_gender">Right to choose your gender</string>
-    <string name="hint_edit_profile_bio">Bio(max. 2 lines)</string>
+    <string name="hint_edit_profile_bio">Bio(max. 3 lines)</string>
     <string name="hint_edit_profile_age">Age</string>
     <string name="hint_edit_profile_earth">Your origin</string>
     <string name="hint_edit_profile_dna">Something interesting about you</string>
@@ -61,4 +61,5 @@
     <string name="hint_edit_profile_lang">Your language</string>
     <string name="hint_edit_profile_hashtags">Hashtag yourself\nOthers will find you when they search these hashtags</string>
     <string name="hint_edit_profile_groups">Groups you are following</string>
+    <string name="hint_edit_profile_icon">Words on avatar…</string>
 </resources>

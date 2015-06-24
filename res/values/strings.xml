@@ -46,6 +46,16 @@
     <string name="category_plan">Plan</string>
     <string name="category_other">Other</string>
 
+    <!-- EDIT PROFILE PAGE -->
+    <string name="edit_profile_basic">Basic Info</string>
+    <string name="edit_profile_more">More About You</string>
+    <string name="edit_profile_more_groups"><u>MORE Groups…</u></string>
+    <string name="edit_profile_more_tags"><u>MORE Hashtags…</u></string>
+    <string name="edit_profile_avatar"><u>Set Your Avatar…</u></string>
+    <string name="edit_profile_activity_title">Edit Profile</string>
+    <string name="edit_profile_set_avatar">Set Your Avatar</string>
+    <string name="edit_profile_set_icon">Switch icon…</string>
+    
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>
     <string name="following_hashtags">Follow These Hashtags</string>
@@ -58,10 +68,5 @@
     <string name="comment_list">Comment List</string>
     <string name="image_page_group_of_thought">Group of This Thought: </string>
     <string name="image_page_tags_of_thought">Hashtags of This Thought: </string>
-    <string name="edit_profile_basic">Basic Info</string>
-    <string name="edit_profile_more">More About You</string>
-    <string name="edit_profile_more_groups"><u>MORE Groups…</u></string>
-    <string name="edit_profile_more_tags"><u>MORE Hashtags…</u></string>
-    <string name="edit_profile_icon"><u>Set Your Icon…</u></string>
 
 </resources>

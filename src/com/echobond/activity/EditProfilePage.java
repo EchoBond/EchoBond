@@ -4,9 +4,12 @@ import com.echobond.R;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
+import com.echobond.util.ImageUtil;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -14,8 +17,12 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -23,7 +30,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback{
+public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback {
 
 	private ImageView backButton, doneButton;
 	private TextView titleView;
@@ -55,7 +62,9 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 				if (!isDrawing) {
 					closeEditorActivity();
 				} else {
-					
+					isDrawing = false;
+					initContent();
+					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
 				}
 			}
 		});
@@ -64,21 +73,31 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("NewApi") 
 			@Override
 			public void onClick(View v) {
-				// TODO Submit the edit behaviors
 				if (!isDrawing) {
+					// TODO Submit the edit behaviors
+					EditText avatarText = picFragment.getAvatarText();
+					avatarText.setBackground(null);
+					RelativeLayout avatarLayout = picFragment.getAvatarLayout();
+					Bitmap post = ImageUtil.generateBitmap(avatarLayout);
+					Time time = new Time();
+					time.setToNow();
+					ImageUtil.saveBitmap(post, "avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
 					closeEditorActivity();
 					Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
 				} else {
-					
+					isDrawing = false;
+					initContent();
+					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
 				}
 			}
 		});
 		
 		Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/Skia.ttf");
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText("Edit Profile");
+		titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
 		titleView.setTypeface(tf);
 
 	}
@@ -90,8 +109,8 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			picFragment = new DrawingIconFragment();
 			transaction.add(R.id.edit_profile_content, mainFragment);
 			transaction.add(R.id.edit_profile_content, picFragment);
-			transaction.show(mainFragment).hide(picFragment).commit();
 		}
+		transaction.show(mainFragment).hide(picFragment).commit();
 	}
 	
 	@Override
@@ -99,8 +118,9 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		this.isDrawing = isDrawing;
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.show(picFragment).hide(mainFragment).commit();
+		titleView.setText(getResources().getString(R.string.edit_profile_set_avatar));
 	}
-
+	
 	private void closeEditorActivity() {
 		Intent upIntent = NavUtils.getParentActivityIntent(EditProfilePage.this);
 		if (NavUtils.shouldUpRecreateTask(EditProfilePage.this, upIntent)) {
@@ -111,4 +131,18 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		}
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if (!isDrawing) {
+				finish();
+				return true;
+			} else {
+				isDrawing = false;
+				initContent();
+				titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+			}
+		}
+		return true;
+	}
 }

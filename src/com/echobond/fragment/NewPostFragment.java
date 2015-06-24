@@ -70,6 +70,7 @@ public class NewPostFragment extends Fragment {
 		colorA = (ImageView)postView.findViewById(R.id.thought_poster_colora);
 		colorB = (ImageView)postView.findViewById(R.id.thought_poster_colorb);
 		
+		categoryType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
 		setCategoryType();
 		modeSelected = CHANGE_TEXT;
 		textChange.setImageResource(R.drawable.thoughts_text_colorchange_selected);
@@ -111,7 +112,6 @@ public class NewPostFragment extends Fragment {
 	}
 	
 	public void setCategoryType() {
-		categoryType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
 		int categoryId = ((NewPostPage)getActivity()).getCategoryId();
 		switch (categoryId) {
 		case 1:

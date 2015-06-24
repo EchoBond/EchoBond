@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.DrawingIconFragment" >
+
+    <RelativeLayout
+        android:id="@+id/edit_profile_picview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.8"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/edit_profile_words"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="start|bottom"
+            android:hint="@string/hint_edit_profile_icon"
+            android:inputType="textMultiLine"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/edit_profile_typeview"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_above="@id/edit_profile_words"
+            android:contentDescription="@string/none"
+            android:src="@drawable/profile_about_gender" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_profile_selection"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/edit_profile_changepostcolor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="32dp"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/thoughts_background_colorchange_nomal" />
+
+        <ImageView
+            android:id="@+id/edit_profile_changetextcolor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/edit_profile_changepostcolor"
+            android:layout_toEndOf="@id/edit_profile_changepostcolor"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/thoughts_text_colorchange_normal" />
+        
+        <TextView 
+            android:id="@+id/edit_profile_switch_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:text="@string/edit_profile_set_icon"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:clickable="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_profile_colorG1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/edit_profile_color0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_0" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color0"
+            android:layout_toRightOf="@id/edit_profile_color0"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_1" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color1"
+            android:layout_toRightOf="@id/edit_profile_color1"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_2" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color2"
+            android:layout_toRightOf="@id/edit_profile_color2"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_3" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color3"
+            android:layout_toRightOf="@id/edit_profile_color3"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_4" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color4"
+            android:layout_toRightOf="@id/edit_profile_color4"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_5" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_profile_colorG2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/edit_profile_color6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_6" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color6"
+            android:layout_toRightOf="@id/edit_profile_color6"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_7" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color7"
+            android:layout_toRightOf="@id/edit_profile_color7"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_8" />
+
+        <ImageView
+            android:id="@+id/edit_profile_color9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color8"
+            android:layout_toRightOf="@id/edit_profile_color8"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_9" />
+
+        <ImageView
+            android:id="@+id/edit_profile_colora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_color9"
+            android:layout_toRightOf="@id/edit_profile_color9"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_a" />
+
+        <ImageView
+            android:id="@+id/edit_profile_colorb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/edit_profile_colora"
+            android:layout_toRightOf="@id/edit_profile_colora"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_b" />
+    </RelativeLayout>
+
+</LinearLayout>

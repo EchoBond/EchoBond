@@ -18,7 +18,7 @@
         	android:layout_height="wrap_content"
         	android:layout_alignParentBottom="true"
         	android:textStyle="bold"
-        	android:textSize="44sp"
+        	android:textSize="42sp"
         	android:inputType="textMultiLine"
         	android:hint="@string/hint_poster"
         	android:gravity="start|bottom" />
@@ -45,8 +45,8 @@
             android:src="@drawable/thoughts_background_colorchange_nomal"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp" />
         <ImageView 

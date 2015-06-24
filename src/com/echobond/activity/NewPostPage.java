@@ -36,6 +36,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -203,7 +204,9 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			postText.setBackground(null);
 			RelativeLayout postLayout = postFragment.getPostLayout();
 			Bitmap post = ImageUtil.generateBitmap(postLayout);
-			ImageUtil.saveBitmap(post, "testfile");
+			Time time = new Time();
+			time.setToNow();
+			ImageUtil.saveBitmap(post, "post_pic_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
 			String userId = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
 			String email = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
 			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 

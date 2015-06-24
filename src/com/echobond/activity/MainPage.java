@@ -53,7 +53,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MainPage extends ActionBarActivity implements GCMCallback{
+public class MainPage extends ActionBarActivity implements GCMCallback {
 
 	public static final int SETTING_EDIT_PROFILE = 0;
 	public static final int SETTING_APP_SETTING = 1;
@@ -311,31 +311,26 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 				intent.putExtra("page", SETTING_FOLLOWING);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				Toast.makeText(getApplicationContext(), settingTitles[2], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_INVITE_FRIENDS:
 				intent.putExtra("page", SETTING_INVITE_FRIENDS);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				Toast.makeText(getApplicationContext(), settingTitles[3], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_THIS_APP_SUCKS:
 				intent.putExtra("page", SETTING_THIS_APP_SUCKS);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				Toast.makeText(getApplicationContext(), settingTitles[4], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_TERMS_OF_SERVICES:
 				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				Toast.makeText(getApplicationContext(), settingTitles[5], Toast.LENGTH_SHORT).show();
 				break;
 			case SETTING_CONTACT_US:
 				intent.putExtra("page", SETTING_CONTACT_US);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				Toast.makeText(getApplicationContext(), settingTitles[6], Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
@@ -422,7 +417,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback{
 			if (isOpened == true) {
 				mainDrawerLayout.closeDrawer(drawerList);
 				isOpened = false;
-			}else if (isOpened == false) {
+			} else if (isOpened == false) {
 				if ((System.currentTimeMillis() - exitTime) > 2000) {
 					Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_quit), Toast.LENGTH_SHORT).show();
 					exitTime = System.currentTimeMillis();
