@@ -77,5 +77,13 @@ public class TagDAO extends ContentProvider{
 		}
 		return 0;
 	}
+	
+	public Cursor loadTagsByHomeThought(String args[]){
+		return TagDB.getInstance().loadTagsHome(args);
+	}
+	
+	public Cursor loadTagsByHotThought(String args[]){
+		return TagDB.getInstance().loadTagsHot(args);
+	}
 
 }

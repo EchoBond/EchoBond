@@ -1,13 +1,8 @@
 package com.echobond.connector;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.Thought;
 import com.echobond.entity.User;
 import com.echobond.intf.BoostCallback;
@@ -41,25 +36,7 @@ public class BoostAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		String method = RawHttpRequest.HTTP_METHOD_POST;
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
-			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try{
-				result = new JSONObject(response.getMsg());
-			} catch (JSONException e){
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return HTTPUtil.getInstance().sendRequest(url, body, true);
 	}
 
 	@Override

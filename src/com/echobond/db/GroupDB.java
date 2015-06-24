@@ -50,4 +50,11 @@ public class GroupDB extends MyDBHelper {
 		return update(tblName, values, where, whereArgs);
 	}
 	
+	public Cursor loadGroupHome(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_grp_home), args);
+	}
+	
+	public Cursor loadGroupHot(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_grp_hot), args);
+	}
 }

@@ -254,6 +254,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 						+ getResources().getString(R.string.url_down_img)
 						+ "?path=" + postPath;
 				imageIntent.putExtra("url", imageUrl);
+				imageIntent.putExtra("id", id);
+				imageIntent.putExtra("type", "home");
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:

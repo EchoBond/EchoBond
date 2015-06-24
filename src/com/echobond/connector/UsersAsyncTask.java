@@ -1,13 +1,7 @@
 package com.echobond.connector;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
 import com.echobond.intf.UserAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
@@ -17,7 +11,8 @@ import android.os.AsyncTask;
 
 /**
  * This task is to handle loading or updates of users in server's DB.<br>
- * Params (Object): url(String), activity(UserAsyncTaskCallback), action(int), / user(User)<br>
+ * Params (Object): url(String), activity(UserAsyncTaskCallback), action(int), user(User)/<br>
+ * 		offset(int), limit(int), condition(JSONObject)<br>
  * @version 1.0
  * @author Luck
  * 
@@ -25,9 +20,8 @@ import android.os.AsyncTask;
 public class UsersAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
 	public static final Integer USER_LOAD_BY_ID = 1;
-	public static final Integer USER_LOAD_BY_USERNAME = 2;
-	public static final Integer USER_LOAD_BY_CONDITIONS = 3;
-	public static final Integer USER_UPDATE = 4;
+	public static final Integer USER_LOAD_BY_CONDITIONS = 2;
+	public static final Integer USER_UPDATE = 3;
 	private UserAsyncTaskCallback activity;
 	private Integer action;
 	@Override
@@ -41,10 +35,13 @@ public class UsersAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 			if(USER_LOAD_BY_ID == action){
 				User user = (User) params[3];
 				body.put("user", JSONUtil.fromObjectToJSON(user));
-			} else if(USER_LOAD_BY_USERNAME == action){
-				//TODO
 			} else if(USER_LOAD_BY_CONDITIONS == action){
-				//TODO
+				Integer offset = (Integer) params[3];
+				Integer limit = (Integer) params[4];
+				JSONObject condition = (JSONObject) params[5];
+				body.put("offset", offset);
+				body.put("limit", limit);
+				body.put("condition", condition);
 			} else {
 				User user = (User) params[3];
 				body.put("user", JSONUtil.fromObjectToJSON(user));
@@ -52,25 +49,7 @@ public class UsersAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		String method = RawHttpRequest.HTTP_METHOD_POST;
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
-			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try{
-				result = new JSONObject(response.getMsg());
-			} catch (JSONException e){
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return HTTPUtil.getInstance().sendRequest(url, body, true);
 	}
 
 	@Override

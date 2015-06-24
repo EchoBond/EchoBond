@@ -1,15 +1,10 @@
 package com.echobond.connector;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.entity.Group;
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
 import com.echobond.intf.GroupCallback;
 import com.echobond.util.HTTPUtil;
@@ -42,7 +37,6 @@ public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		ArrayList<Group> groups = null;
 		JSONObject body = new JSONObject();
 		String url = baseUrl;
-		String method = RawHttpRequest.HTTP_METHOD_POST;
 		if(action == GROUP_UPDATE){
 			groups = (ArrayList<Group>) params[3];
 			body = JSONUtil.fromObjectToJSON(groups);
@@ -52,24 +46,7 @@ public class GroupAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		} else if(action == GROUP_LOAD_ALL){
 			
 		}
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
-			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try{
-				result = new JSONObject(response.getMsg());
-			} catch (JSONException e){
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return HTTPUtil.getInstance().sendRequest(url, body, true);
 	}
 
 	@Override

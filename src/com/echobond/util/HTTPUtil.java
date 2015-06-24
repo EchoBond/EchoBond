@@ -16,6 +16,9 @@ import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 
 import com.echobond.R;
@@ -105,6 +108,27 @@ public class HTTPUtil {
     			ctx.getResources().getString(R.string.url_port) + "/" + 
     			ctx.getResources().getString(R.string.url_sub) + "/";
         return preUrl;
+	}
+	
+	public JSONObject sendRequest(String url, Object body, boolean isJSON){
+		RawHttpRequest request = new RawHttpRequest(url, RawHttpRequest.HTTP_METHOD_POST, null, body, isJSON);
+		RawHttpResponse response = null;
+		JSONObject result = null;
+		try{
+			response = send(request);
+		} catch (SocketTimeoutException e){
+			e.printStackTrace();
+		} catch (ConnectException e){
+			e.printStackTrace();
+		}
+		if(null != response){
+			try{
+				result = new JSONObject(response.getMsg());
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 }

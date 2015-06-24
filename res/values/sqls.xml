@@ -182,10 +182,6 @@
    	</string>
 	
 	<!-- thought_home -->
-	<string name="sql_i_t_home">
-	    INSERT INTO `home_thought`(`_id`,`user_id`,`lang_id`,`category_id`,`group_id`,`content`,`image`, 
-	    	`time`,`boost`) VALUES (?,?,?,?,?,?,?,?);
-	</string>
 	<string name="sql_s_t_home">
 	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
 	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
@@ -194,6 +190,19 @@
 	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
 	    LEFT JOIN `grp` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
+	    GROUP BY t.`_id`
+	    ORDER BY t.`_id` DESC
+	    LIMIT ? OFFSET ?
+	</string>
+	<string name="sql_s_t_mine">
+	    SELECT t.`_id`,t.`user_id`,u.`username`,t.`lang_id`,t.`category_id`,c.`name` AS category_name,t.`group_id`,
+	    	g.`name` AS group_name,t.`content`,t.`image`,t.`time`,t.`boost`,COUNT(tc.`_id`) AS num_of_cmt, t.`isUserBoost`
+	    FROM `home_thought` AS t
+	    LEFT JOIN `user` AS u ON t.`user_id` = u.`_id`
+	    LEFT JOIN `category` AS c ON t.`category_id` = c.`_id`
+	    LEFT JOIN `grp` AS g ON t.`group_id` = g.`_id`
+	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
+	    WHERE u.`_id` = ?
 	    GROUP BY t.`_id`
 	    ORDER BY t.`_id` DESC
 	    LIMIT ? OFFSET ?
@@ -214,17 +223,11 @@
 	</string>
 	
 	<!-- comment -->
-	<string name="sql_i_cmt">
-	   	INSERT INTO thought_comment(`_id`,`user_id`,`thought_id`,`reply_to`,`content`,`time`) VALUES(?,?,?,?,?,?)
-	</string>
 	<string name="sql_s_cmt">
 	    SELECT * FROM `thought_comment` WHERE `thought_id` = ? ORDER BY `time` DESC
 	</string>
 	
 	<!-- chat -->
-	<string name="sql_i_msg">
-	    INSERT INTO `user_msg`(`_id`,`sender_id`,`recver_id`,`time`,`content`) VALUES (?,?,?,?,?)
-	</string>
 	<string name="sql_s_count_unread_msg">
 	    SELECT COUNT(`_id`) AS count FROM `user_msg` WHERE `recver_id` = ? AND is_read = 0
 	</string>
@@ -265,12 +268,42 @@
 	<string name="sql_s_grp">
 	    SELECT `_id`,`name` FROM `grp` ORDER BY `_id` LIMIT ? OFFSET ?
 	</string>
+	<string name="sql_s_grp_home">
+	    SELECT g.`_id`,g.`name` FROM `grp` AS g 
+	    LEFT JOIN `home_thought` AS t
+	    ON g.`_id` = t.`group_id`
+	    WHERE t.`_id` = ?
+	</string>
+	<string name="sql_s_grp_hot">
+	    SELECT g.`_id`,g.`name` FROM `grp` AS g 
+	    LEFT JOIN `hot_thought` AS t
+	    ON g.`_id` = t.`group_id`
+	    WHERE t.`_id` = ?
+	</string>
 	
 	<!-- tag -->
 	<string name="sql_s_tag">
 	    SELECT `_id`,`name` FROM `tag` ORDER BY `_id` LIMIT ? OFFSET ?
 	</string>
-	
+	<string name="sql_s_tag_home">
+	    SELECT t.`_id`,`name` FROM `tag` AS t 
+	    LEFT JOIN `thought_tag` AS tt
+	    ON tt.`tag_id` = t.`_id`
+	    LEFT JOIN `home_thought` AS ht
+	    ON tt.`thought_id` = ht.`_id`
+	    WHERE tt.`tag` = 1 AND ht.`_id` = ?
+	    ORDER BY t.`_id`
+	</string>
+	<string name="sql_s_tag_hot">
+	    SELECT t.`_id`,`name` FROM `tag` AS t 
+	    LEFT JOIN `thought_tag` AS tt
+	    ON tt.`tag_id` = t.`_id`
+	    LEFT JOIN `hot_thought` AS ht
+	    ON tt.`thought_id` = ht.`_id`
+	    WHERE tt.`tag` = 1 AND ht.`_id` = ?
+	    ORDER BY t.`_id`
+	</string>
+			
 	<!-- category -->
 	<string name="sql_s_category">
 	    SELECT `_id`,`name` FROM `category` ORDER BY `_id` LIMIT ? OFFSET ?

@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -127,6 +128,59 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 				grpsViews[i].setTag(g.getId());
 				tagsViews[i].setText(t.getName());
 				tagsViews[i].setTag(t.getId());
+			}
+			
+			for(int i = 0;i<CAT_NUM; i++){
+				catsViews[i].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						Integer id = (Integer) view.getTag();
+						JSONObject jso = new JSONObject();
+						try {
+							jso.put("index", SearchPage.THOUGHT_CATEGORY);
+							jso.put("id", id);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						typeSwitchCallback.onSearchSelected(jso);
+					}
+				});
+			}
+			
+			for(int i = 0;i<RANDOM_NUM;i++){
+				grpsViews[i].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						Integer id = (Integer) view.getTag();
+						JSONObject jso = new JSONObject();
+						try {
+							jso.put("index", SearchPage.THOUGHT_CATEGORY);
+							jso.put("id", id);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						typeSwitchCallback.onSearchSelected(jso);
+					}
+				});
+				tagsViews[i].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						Integer id = (Integer) view.getTag();
+						JSONObject jso = new JSONObject();
+						try {
+							jso.put("index", SearchPage.THOUGHT_CATEGORY);
+							ArrayList<Integer> idList = new ArrayList<Integer>();
+							idList.add(id);
+							jso.put("idList", idList);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						typeSwitchCallback.onSearchSelected(jso);
+					}
+				});
 			}
 		}
 	}

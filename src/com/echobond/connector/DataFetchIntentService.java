@@ -1,8 +1,6 @@
 package com.echobond.connector;
 
 import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,8 +12,6 @@ import com.echobond.R;
 import com.echobond.activity.MainPage;
 import com.echobond.application.MyApp;
 import com.echobond.dao.ChatDAO;
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.User;
 import com.echobond.entity.UserMsg;
 import com.echobond.util.HTTPUtil;
@@ -61,33 +57,20 @@ public class DataFetchIntentService extends IntentService {
 		User user = new User();
 		user.setId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
 		String url = HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_fetch_data);
-		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = new JSONObject();
 		try {
 			body.put("user", JSONUtil.fromObjectToJSON(user));
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
+		JSONObject result = HTTPUtil.getInstance().sendRequest(url, body, true);
+		try {
+			JSONObject count = result.getJSONObject("count");
+			int msgCount = count.getInt("msgCount");
+			if(msgCount > 0)
+				sendNotification(result);
+		} catch (JSONException e) {
 			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try{
-				result = new JSONObject(response.getMsg());
-				JSONObject count = result.getJSONObject("count");
-				int msgCount = count.getInt("msgCount");
-				if(msgCount > 0)
-					sendNotification(result);
-			} catch (JSONException e){
-				e.printStackTrace();
-			}
 		}
 		stopSelf();
     }
@@ -144,27 +127,14 @@ public class DataFetchIntentService extends IntentService {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}		
-		String method = RawHttpRequest.HTTP_METHOD_POST;
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
-			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try {
-				result = new JSONObject(response.getMsg());
-				if(null == result || result.getInt("success") != 1){
-					stopSelf();
-					return;
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+		JSONObject result = HTTPUtil.getInstance().sendRequest(url, body, true);	
+		try {
+			if(null == result || result.getInt("success") != 1){
+				stopSelf();
+				return;
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		
 		/* foreground activity handling */

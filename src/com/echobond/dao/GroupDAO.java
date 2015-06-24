@@ -77,5 +77,13 @@ public class GroupDAO extends ContentProvider{
 		}
 		return 0;
 	}
+	
+	public Cursor loadGroupByHomeThought(String[] args){
+		return GroupDB.getInstance().loadGroupHome(args);
+	}
+	
+	public Cursor loadGroupByHotThought(String[] args){
+		return GroupDB.getInstance().loadGroupHot(args);
+	}
 
 }

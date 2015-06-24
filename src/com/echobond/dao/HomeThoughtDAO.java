@@ -71,7 +71,12 @@ public class HomeThoughtDAO extends ContentProvider{
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
-			cursor = HomeThoughtDB.getInstance().getHomeThoughts(selectionArgs);
+			//load home thoughts
+			if(selectionArgs.length == 2){
+				cursor = HomeThoughtDB.getInstance().getHomeThoughts(selectionArgs);
+			}
+			//load my thoughts
+			else cursor = HomeThoughtDB.getInstance().getMyThoughts(selectionArgs);
 			cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		}
 		return cursor;

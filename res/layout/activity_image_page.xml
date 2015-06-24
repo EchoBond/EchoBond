@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#696969"
     android:orientation="vertical"
+    android:id="@+id/image_page_layout"
     tools:context="${relativePackage}.${activityClass}" >
     
 	<ImageView 

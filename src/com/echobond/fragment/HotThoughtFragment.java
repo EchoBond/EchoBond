@@ -254,6 +254,8 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 						+ getResources().getString(R.string.url_down_img)
 						+ "?path=" + postPath;
 				imageIntent.putExtra("url", imageUrl);
+				imageIntent.putExtra("id", id);
+				imageIntent.putExtra("type", "hot");
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:

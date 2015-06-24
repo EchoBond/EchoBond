@@ -60,6 +60,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static int THOUGHT_TAG = 1;
 	public final static int PEOPLE_GROUP = 2;
 	public final static int PEOPLE_TAG = 3;
+	public final static int THOUGHT_CATEGORY = 4;
 	
 	public final static String THOUGHTS_MORE_GROUP = "Thoughts in More Groups";
 	public final static String THOUGHTS_MORE_TAG = "Thoughts of More Tags";
@@ -171,7 +172,10 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	@Override
 	public void onSearchSelected(JSONObject data) {
 		try {
-			this.searchType = data.getInt("index");
+			searchType = 0;
+			searchID = 0;
+			idList = null;
+			searchType = data.getInt("index");
 			searchID = data.getInt("id");
 			if(null != data.getJSONObject("idList")){
 				TypeToken<ArrayList<Integer>> token = new TypeToken<ArrayList<Integer>>(){};
@@ -204,6 +208,11 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
 			tabHost.addTab(tabHost.newTabSpec("people_tag_result").setIndicator("People"), SearchPeopleResultFragment.class, null);
 			tabHost.setCurrentTab(1);
+			break;
+		case THOUGHT_CATEGORY:
+			tabHost.addTab(tabHost.newTabSpec("thoughts_category_result").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
+			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
+			tabHost.setCurrentTab(0);		
 			break;
 		default:
 			break;
@@ -272,6 +281,14 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 
 	public void setIdList(List<Integer> idList) {
 		this.idList = idList;
+	}
+
+	public int getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(int searchType) {
+		this.searchType = searchType;
 	}
 
 }

@@ -1,14 +1,9 @@
 package com.echobond.connector;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.echobond.entity.RawHttpRequest;
-import com.echobond.entity.RawHttpResponse;
 import com.echobond.entity.Tag;
 import com.echobond.entity.User;
 import com.echobond.intf.TagCallback;
@@ -41,7 +36,6 @@ public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		activity = (TagCallback) params[2];
 		ArrayList<Tag> tags = null;
 		User user = null;
-		String method = RawHttpRequest.HTTP_METHOD_POST;
 		JSONObject body = null;
 		if(action == TAG_UPDATE){
 			tags = (ArrayList<Tag>) params[3];
@@ -52,24 +46,7 @@ public class TagAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		} else if(action == TAG_LOAD_ALL){
 
 		}
-		RawHttpRequest request = new RawHttpRequest(url, method, null, body, true);
-		RawHttpResponse response = null;
-		JSONObject result = null;
-		try{
-			response = HTTPUtil.getInstance().send(request);
-		} catch (SocketTimeoutException e){
-			e.printStackTrace();
-		} catch (ConnectException e){
-			e.printStackTrace();
-		}
-		if(null != response){
-			try{
-				result = new JSONObject(response.getMsg());
-			} catch (JSONException e){
-				e.printStackTrace();
-			}
-		}
-		return result;
+		return HTTPUtil.getInstance().sendRequest(url, body, true);
 	}
 
 	@Override

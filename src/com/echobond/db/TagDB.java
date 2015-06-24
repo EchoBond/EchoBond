@@ -50,4 +50,11 @@ public class TagDB extends MyDBHelper {
 		return update(tblName, values, where, whereArgs);
 	}
 	
+	public Cursor loadTagsHome(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_home), args);
+	}
+	
+	public Cursor loadTagsHot(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_hot), args);
+	}
 }

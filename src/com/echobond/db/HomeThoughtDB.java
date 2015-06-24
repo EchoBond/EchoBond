@@ -43,6 +43,11 @@ public class HomeThoughtDB extends MyDBHelper {
 		return cursor;
 	}
 	
+	public Cursor getMyThoughts(String[] args){
+		Cursor cursor = query(ctx.getResources().getString(R.string.sql_s_t_mine), args);
+		return cursor;
+	}
+	
 	public long addHomeThought(ContentValues values){
 		return replace(tblName, values);
 	}
