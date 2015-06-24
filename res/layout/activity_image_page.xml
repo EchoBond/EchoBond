@@ -14,20 +14,34 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="330dp"
         android:scaleType="fitXY" />
-	<TextView 
+	
+	<ImageView 
 	    android:id="@+id/image_page_group_view"
+	    android:contentDescription="@string/none"
+	    android:layout_width="35dp"
+	    android:layout_height="35dp"
+	    android:layout_margin="10dp"
+	    android:src="@drawable/image_page_group" />
+	<TextView 
+	    android:id="@+id/image_page_group_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_margin="5dp"
-	    android:text="@string/image_page_group_of_thought"
 	    android:textStyle="bold"
 	    android:textColor="#fff" />
-	<TextView 
+
+	<ImageView 
 	    android:id="@+id/image_page_tag_view"
+	    android:contentDescription="@string/none"
+	    android:layout_width="35dp"
+	    android:layout_height="35dp"
+	    android:layout_margin="10dp"
+	    android:src="@drawable/image_page_tag" />
+	<TextView 
+	    android:id="@+id/image_page_tag_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_margin="5dp"
-	    android:text="@string/image_page_tags_of_thought"
 	    android:textStyle="bold"
 	    android:textColor="#fff" />
 </LinearLayout>

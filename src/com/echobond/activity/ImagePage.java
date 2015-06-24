@@ -38,8 +38,8 @@ public class ImagePage extends Activity {
 		
 		layout = (LinearLayout) findViewById(R.id.image_page_layout);
 		image = (ImageView)findViewById(R.id.image_page_image);
-		groupView = (TextView) findViewById(R.id.image_page_group_view);
-		tagsView = (TextView) findViewById(R.id.image_page_tag_view);
+		groupView = (TextView) findViewById(R.id.image_page_group_text);
+		tagsView = (TextView) findViewById(R.id.image_page_tag_text);
 		
 		loadGroupName();
 		loadTagNames();
@@ -68,7 +68,7 @@ public class ImagePage extends Activity {
 		}
 		if(null != cursor){
 			if(cursor.moveToFirst()){				
-				groupView.setText(groupView.getText() + cursor.getString(cursor.getColumnIndex("name")));
+				groupView.setText(cursor.getString(cursor.getColumnIndex("name")));
 				groupView.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
 				return;
 			}

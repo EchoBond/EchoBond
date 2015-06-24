@@ -26,6 +26,7 @@
     <string name="title_activity_edit_profile_page">EditProfilePage</string>
     <string name="title_activity_view_more_page">ViewMorePage</string>
     <string name="title_activity_service_page">ServicePage</string>
+    <string name="title_activity_search_result_page">SearchResultPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -67,8 +68,5 @@
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
     <string name="comment_list">Comment List</string>
-    <string name="image_page_group_of_thought">Group of This Thought: </string>
-    <string name="image_page_tags_of_thought">Hashtags of This Thought: </string>
-    <string name="title_activity_search_result_page">SearchResultPage</string>
 
 </resources>
