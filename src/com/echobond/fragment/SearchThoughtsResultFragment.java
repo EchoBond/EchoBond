@@ -34,7 +34,9 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 		searchThoughtsResultList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		searchThoughtsResultList.setPullRefreshEnable(false);
 		searchThoughtsResultList.setAdapter(adapter);
-				
+		
+		Bundle bundle = this.getArguments();
+		bundle.getInt("type");
 		return searchThoughtsResultView;
 	}
 	

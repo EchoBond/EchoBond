@@ -8,6 +8,7 @@ import com.echobond.fragment.SearchThoughtsResultFragment;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -53,6 +54,7 @@ public class SearchResultPage extends ActionBarActivity {
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
 		titleView = (TextView)findViewById(R.id.title_name);
+		titleView.setTextSize(18);
 		String nameString = "";
 		switch (searchType) {
 		case SearchPage.THOUGHT_GROUP:
@@ -88,24 +90,32 @@ public class SearchResultPage extends ActionBarActivity {
 	}
 	
 	private void initContent() {
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		if (thoughtsGroupResultFragment == null || thoughtsTagResultFragment == null || peopleGroupResultFragment == null || peopleTagResultFragment == null) {
 			thoughtsGroupResultFragment = new SearchThoughtsResultFragment();
 			thoughtsTagResultFragment = new SearchThoughtsResultFragment();
 			peopleGroupResultFragment = new SearchPeopleResultFragment();
 			peopleTagResultFragment = new SearchPeopleResultFragment();
 		}
+		
+		Bundle bundle = new Bundle();
+		bundle.putInt("type", searchType);
 		switch (searchType) {
 		case SearchPage.THOUGHT_GROUP:
-			
+			thoughtsGroupResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, thoughtsGroupResultFragment).show(thoughtsGroupResultFragment).commit();
 			break;
 		case SearchPage.THOUGHT_TAG:
-			
+			thoughtsTagResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, thoughtsTagResultFragment).show(thoughtsTagResultFragment).commit();
 			break;
 		case SearchPage.PEOPLE_GROUP:
-			
+			peopleGroupResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, peopleGroupResultFragment).show(peopleGroupResultFragment).commit();
 			break;
 		case SearchPage.PEOPLE_TAG:
-			
+			peopleTagResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, peopleTagResultFragment).show(peopleTagResultFragment).commit();
 			break;
 		case SearchPage.THOUGHT_CATEGORY:
 			
