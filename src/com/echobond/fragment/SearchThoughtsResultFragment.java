@@ -29,7 +29,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View searchThoughtsResultView = inflater.inflate(R.layout.fragment_search_result_thoughts, container, false);
-		adapter = new ThoughtsResultAdapter(getParentFragment().getActivity(), R.layout.item_thought, null, 0);
+		adapter = new ThoughtsResultAdapter(getActivity(), R.layout.item_thought, null, 0);
 		searchThoughtsResultList = (XListView)searchThoughtsResultView.findViewById(R.id.search_result_list_thoughts);
 		searchThoughtsResultList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		searchThoughtsResultList.setPullRefreshEnable(false);

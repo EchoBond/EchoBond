@@ -9,8 +9,6 @@ import com.echobond.R;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
 import com.echobond.fragment.SearchMainFragment;
-import com.echobond.fragment.SearchPeopleFragment;
-import com.echobond.fragment.SearchThoughtsFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
 import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
@@ -119,7 +117,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	
 	//	Blocks for Loading More Groups/Hashtags. 
 	@Override
-	public int onTypeSelected(int type) {
+	public void onTypeSelected(int type) {
 		this.fgType = type;
 		Bundle bundle = new Bundle();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -158,7 +156,6 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		default:
 			break;
 		}
-		return fgType;
 	}
 	
 	//	Set the content of tabs for showing search results. 
@@ -187,7 +184,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		startActivity(intent);
 		
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (searchType != -1 && searchType != 4) {
+		if (fgType != -1) {
 			transaction.hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).show(mainFragment).commit();
 			if (groupsThoughtsFragment != null || groupsPeopleFragment != null || tagsThoughtsFragment != null || tagsPeopleFragment != null) {
 				groupsThoughtsFragment = null;
@@ -195,7 +192,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 				groupsPeopleFragment = null;
 				tagsPeopleFragment = null;
 			}
-			searchType = -1;
+			fgType = -1;
 		}
 	}
 
@@ -203,24 +200,15 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (groupsThoughtsFragment == null || groupsPeopleFragment == null || tagsThoughtsFragment == null || tagsPeopleFragment == null || fgType == -1) {
-				if (searchType == -1) {
-					Intent upIntent = NavUtils.getParentActivityIntent(SearchPage.this);
-					if (NavUtils.shouldUpRecreateTask(SearchPage.this, upIntent)) {
-						TaskStackBuilder.create(SearchPage.this).addNextIntentWithParentStack(upIntent).startActivities();
-					}else {
-						upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						NavUtils.navigateUpTo(SearchPage.this, upIntent);
-					}
-					return true;
-				} else {
-					FragmentTabHost tabHost = mainFragment.getTabHost();
-					tabHost.clearAllTabs();
-					tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-					tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-					tabHost.setCurrentTab(0);
-					searchType = -1;
+			if (fgType == -1) {
+				Intent upIntent = NavUtils.getParentActivityIntent(SearchPage.this);
+				if (NavUtils.shouldUpRecreateTask(SearchPage.this, upIntent)) {
+					TaskStackBuilder.create(SearchPage.this).addNextIntentWithParentStack(upIntent).startActivities();
+				}else {
+					upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					NavUtils.navigateUpTo(SearchPage.this, upIntent);
 				}
+				return true; 
 			} else {
 				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.hide(groupsThoughtsFragment);

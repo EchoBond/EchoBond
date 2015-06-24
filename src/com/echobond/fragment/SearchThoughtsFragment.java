@@ -49,7 +49,8 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 			rootView = inflater.inflate(R.layout.fragment_search_thoughts, container, false);
 		} else {
 			return rootView;
-		}		
+		}
+		
 		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_search_t);
 		new LoadThoughtSearchAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, RANDOM_NUM);
 		int i = 0;		
@@ -59,7 +60,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_interest);
 		catsViews[i++] = (TextView)rootView.findViewById(R.id.search_category_plan);
 		catsViews[i] = (TextView)rootView.findViewById(R.id.search_category_others);
-		i=0;
+		i = 0;
 		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group1);
 		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group2);
 		grpsViews[i++] = (TextView)rootView.findViewById(R.id.search_thoughts_group3);
@@ -109,19 +110,19 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onLoadSearchThoughtResult(JSONObject result) {
-		if(null != result) {
+		if (null != result) {
 			TypeToken<ArrayList<Category>> categoryToken = new TypeToken<ArrayList<Category>>(){};
 			ArrayList<Category> categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", categoryToken);			
 			TypeToken<ArrayList<Group>> groupToken = new TypeToken<ArrayList<Group>>(){};
 			ArrayList<Group> groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", groupToken);
 			TypeToken<ArrayList<Tag>> tagToken = new TypeToken<ArrayList<Tag>>(){};
 			ArrayList<Tag> tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", tagToken);
-			for(int i = 0; i< CAT_NUM; i++){
+			for (int i = 0; i< CAT_NUM; i++) {
 				Category c = categories.get(i);
 				catsViews[i].setText(c.getName());
 				catsViews[i].setTag(c.getId());
 			}
-			for(int i = 0; i < RANDOM_NUM; i++){				
+			for (int i = 0; i < RANDOM_NUM; i++) {				
 				Group g = groups.get(i);
 				Tag t = tags.get(i);
 				grpsViews[i].setText(g.getName());
@@ -130,7 +131,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 				tagsViews[i].setTag(t.getId());
 			}
 			
-			for(int i = 0;i<CAT_NUM; i++){
+			for (int i = 0; i < CAT_NUM; i++) {
 				catsViews[i].setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -148,7 +149,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 				});
 			}
 			
-			for (int i = 0; i<RANDOM_NUM;i++) {
+			for (int i = 0; i < RANDOM_NUM; i++) {
 				grpsViews[i].setOnClickListener(new OnClickListener() {
 					
 					@Override

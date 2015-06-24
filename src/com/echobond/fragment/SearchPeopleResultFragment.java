@@ -29,7 +29,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View searchPeopleResultView = inflater.inflate(R.layout.fragment_search_result_people, container, false);
-		adapter = new PeopleResultAdapter(getParentFragment().getActivity(), R.layout.item_people, null, 0);
+		adapter = new PeopleResultAdapter(getActivity(), R.layout.item_people, null, 0);
 		searchPeopleResultList = (XListView)searchPeopleResultView.findViewById(R.id.search_result_list_people);
 		searchPeopleResultList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		searchPeopleResultList.setPullRefreshEnable(false);
