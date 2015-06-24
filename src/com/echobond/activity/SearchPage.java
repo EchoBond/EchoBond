@@ -1,7 +1,6 @@
 package com.echobond.activity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,9 +10,7 @@ import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
 import com.echobond.fragment.SearchMainFragment;
 import com.echobond.fragment.SearchPeopleFragment;
-import com.echobond.fragment.SearchPeopleResultFragment;
 import com.echobond.fragment.SearchThoughtsFragment;
-import com.echobond.fragment.SearchThoughtsResultFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
 import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
@@ -51,7 +48,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	private EditText searchBar;
 	private String searchText;
 	private int searchID = 0;
-	private List<Integer> idList = null;
+	private ArrayList<Integer> idList = null;
 	public static FragmentTabHost tabHost;
 	private int fgType = -1;
 	private int searchType = -1;
@@ -62,6 +59,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static int PEOPLE_TAG = 3;
 	public final static int THOUGHT_CATEGORY = 4;
 	
+	public final static String THOUGHTS_CATEGORY = "This Category's Thoughts";
 	public final static String THOUGHTS_MORE_GROUP = "Thoughts in More Groups";
 	public final static String THOUGHTS_MORE_TAG = "Thoughts of More Tags";
 	public final static String PEOPLE_MORE_GROUP = "People in More Groups";
@@ -179,50 +177,29 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			searchID = data.getInt("id");
 			if(null != data.getJSONObject("idList")){
 				TypeToken<ArrayList<Integer>> token = new TypeToken<ArrayList<Integer>>(){};
-				idList = JSONUtil.fromJSONToList(data, "idList", token);
+				idList = (ArrayList<Integer>) JSONUtil.fromJSONToList(data, "idList", token);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		Intent intent = new Intent();
+		intent.putExtra("type", searchType);
+		intent.putExtra("id", searchID);
+		intent.putIntegerArrayListExtra("idList", idList);
+		intent.setClass(this, SearchResultPage.class);
+		startActivity(intent);
+		
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		FragmentTabHost tabHost = mainFragment.getTabHost();
-		tabHost.clearAllTabs();
-
-		switch (searchType) {
-		case THOUGHT_GROUP:
-			tabHost.addTab(tabHost.newTabSpec("thoughts_group_result").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
-			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-			tabHost.setCurrentTab(0);
-			break;
-		case THOUGHT_TAG:
-			tabHost.addTab(tabHost.newTabSpec("thoughts_tag_result").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
-			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-			tabHost.setCurrentTab(0);
-			break;
-		case PEOPLE_GROUP:
-			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-			tabHost.addTab(tabHost.newTabSpec("people_group_result").setIndicator("People"), SearchPeopleResultFragment.class, null);
-			tabHost.setCurrentTab(1);
-			break;
-		case PEOPLE_TAG:
-			tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
-			tabHost.addTab(tabHost.newTabSpec("people_tag_result").setIndicator("People"), SearchPeopleResultFragment.class, null);
-			tabHost.setCurrentTab(1);
-			break;
-		case THOUGHT_CATEGORY:
-			tabHost.addTab(tabHost.newTabSpec("thoughts_category_result").setIndicator("Thoughts"), SearchThoughtsResultFragment.class, null);
-			tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-			tabHost.setCurrentTab(0);		
-			break;
-		default:
-			break;
-		}
-		transaction.hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).show(mainFragment).commit();
-		if (groupsThoughtsFragment != null || groupsPeopleFragment != null || tagsThoughtsFragment != null || tagsPeopleFragment != null) {
-			groupsThoughtsFragment = null;
-			tagsThoughtsFragment = null;
-			groupsPeopleFragment = null;
-			tagsPeopleFragment = null;
+		if (searchType != -1 && searchType != 4) {
+			transaction.hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).show(mainFragment).commit();
+			if (groupsThoughtsFragment != null || groupsPeopleFragment != null || tagsThoughtsFragment != null || tagsPeopleFragment != null) {
+				groupsThoughtsFragment = null;
+				tagsThoughtsFragment = null;
+				groupsPeopleFragment = null;
+				tagsPeopleFragment = null;
+			}
+			searchType = -1;
 		}
 	}
 
@@ -265,30 +242,6 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			}
 		}
 		return true;
-	}
-
-	public int getSearchID() {
-		return searchID;
-	}
-
-	public void setSearchID(int searchID) {
-		this.searchID = searchID;
-	}
-
-	public List<Integer> getIdList() {
-		return idList;
-	}
-
-	public void setIdList(List<Integer> idList) {
-		this.idList = idList;
-	}
-
-	public int getSearchType() {
-		return searchType;
-	}
-
-	public void setSearchType(int searchType) {
-		this.searchType = searchType;
 	}
 
 }

@@ -109,7 +109,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onLoadSearchThoughtResult(JSONObject result) {
-		if(null != result){
+		if(null != result) {
 			TypeToken<ArrayList<Category>> categoryToken = new TypeToken<ArrayList<Category>>(){};
 			ArrayList<Category> categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", categoryToken);			
 			TypeToken<ArrayList<Group>> groupToken = new TypeToken<ArrayList<Group>>(){};
@@ -148,7 +148,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 				});
 			}
 			
-			for(int i = 0;i<RANDOM_NUM;i++){
+			for (int i = 0; i<RANDOM_NUM;i++) {
 				grpsViews[i].setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -156,7 +156,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 						Integer id = (Integer) view.getTag();
 						JSONObject jso = new JSONObject();
 						try {
-							jso.put("index", SearchPage.THOUGHT_CATEGORY);
+							jso.put("index", SearchPage.THOUGHT_GROUP);
 							jso.put("id", id);
 						} catch (JSONException e) {
 							e.printStackTrace();
@@ -171,7 +171,7 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 						Integer id = (Integer) view.getTag();
 						JSONObject jso = new JSONObject();
 						try {
-							jso.put("index", SearchPage.THOUGHT_CATEGORY);
+							jso.put("index", SearchPage.THOUGHT_TAG);
 							ArrayList<Integer> idList = new ArrayList<Integer>();
 							idList.add(id);
 							jso.put("idList", idList);

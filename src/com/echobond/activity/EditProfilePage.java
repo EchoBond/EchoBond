@@ -81,10 +81,10 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					EditText avatarText = picFragment.getAvatarText();
 					avatarText.setBackground(null);
 					RelativeLayout avatarLayout = picFragment.getAvatarLayout();
-					Bitmap post = ImageUtil.generateBitmap(avatarLayout);
+					Bitmap avatar = ImageUtil.generateBitmap(avatarLayout);
 					Time time = new Time();
 					time.setToNow();
-					ImageUtil.saveBitmap(post, "avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
+//					ImageUtil.saveBitmap(avatar, "avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
 					closeEditorActivity();
 					Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
 				} else {

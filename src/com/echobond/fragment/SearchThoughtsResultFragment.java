@@ -1,7 +1,6 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
-import com.echobond.activity.SearchPage;
 import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 
@@ -86,7 +85,6 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 			ImageView commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
 			ImageView shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
 			
-			int searchID = ((SearchPage)getActivity()).getSearchID();
 		}
 
 		@Override
