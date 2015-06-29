@@ -270,10 +270,26 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 					startActivity(chatIntent);
 				}
 				break;
-			case BOOST:				
+			case BOOST:		
+				/*
+				TextView isUserBoostView = (TextView) root.findViewById(R.id.thought_list_isUserBoost);
+				TextView boostNumView = (TextView)root.findViewById(R.id.thought_list_boostsnum);
+				ImageView boostButton = (ImageView) root.findViewById(R.id.thought_list_boost);
+				int boosts = Integer.parseInt(boostNumView.getText().toString());
+				if(isUserBoostView.getText().equals("1")){
+					isUserBoostView.setText("0");
+					boostNumView.setText(boosts-1+"");
+					boostButton.setImageResource(R.drawable.thoughts_rocket_up_normal);
+				} else {
+					isUserBoostView.setText("1");
+					boostNumView.setText(boosts+1+"");
+					boostButton.setImageResource(R.drawable.thoughts_rocket_up_boost);
+				}
+				 */
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
 						HotThoughtFragment.this, id, SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
+
 				break;
 			case COMMENT:
 				Intent commentIntent = new Intent();
@@ -349,6 +365,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 	@Override
 	public void onLoadThoughtResult(JSONObject result) {
 		if(null != result){
+			getActivity().getContentResolver().delete(HotThoughtDAO.CONTENT_URI, null, null);
 			TypeToken<ArrayList<Thought>> token = new TypeToken<ArrayList<Thought>>(){};
 			ArrayList<Thought> thoughts = null;
 			try {
@@ -395,7 +412,6 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
 				/* Update UI */
 				updateListView();
-				locateAfterBoost(id);
 				/* Update HomeThought if this thought is also there */				
 				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
 			} catch (JSONException e) {
@@ -435,24 +451,6 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		adapter.getCursor().close();
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
-	}
-	
-	/**
-	 * TODO If the thought is ranked below currentLimit, will set position to currentLimit
-	 * @param thoughtId
-	 */
-	private void locateAfterBoost(int thoughtId){
-		int position = 1;
-		Cursor cursor = adapter.getCursor();
-		cursor.moveToFirst();
-		do{
-			int id = cursor.getInt(cursor.getColumnIndex("_id"));
-			if(id == thoughtId){
-				break;
-			}
-			position++;
-		} while (cursor.moveToNext());
-		mListView.setSelection(position);
 	}
 	
 }

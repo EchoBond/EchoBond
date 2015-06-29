@@ -193,7 +193,7 @@
 	    LEFT JOIN `grp` AS g ON t.`group_id` = g.`_id`
 	    LEFT JOIN `thought_comment` AS tc ON t.`_id` = tc.`thought_id`
 	    GROUP BY t.`_id`
-	    ORDER BY t.`boost` DESC, t.`_id` DESC
+	    ORDER BY t.`_id` DESC, t.`boost` DESC
 	    LIMIT ? OFFSET ?
 	</string>
 	

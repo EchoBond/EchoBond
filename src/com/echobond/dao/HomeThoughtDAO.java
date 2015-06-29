@@ -1,7 +1,6 @@
 package com.echobond.dao;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -87,8 +86,8 @@ public class HomeThoughtDAO extends ContentProvider{
 			String[] selectionArgs) {
 		if(uriMatcher.match(uri) == HOMETHOUGHT){
 			HomeThoughtDB.getInstance().updateHomeThought(values, selection, selectionArgs);
-			ContentResolver resolver = getContext().getContentResolver();
-			resolver.notifyChange(uri, null);
+//			ContentResolver resolver = getContext().getContentResolver();
+//			resolver.notifyChange(uri, null);
 		}
 		return 0;
 	}

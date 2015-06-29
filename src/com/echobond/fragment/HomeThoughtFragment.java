@@ -259,16 +259,16 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:
-				/*String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
 					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
-				} else {*/
+				} else {
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(HomeThoughtFragment.this.getActivity(), ChatPage.class);
 					chatIntent.putExtra("guestId", userId);
 					chatIntent.putExtra("userName", userName);
 					startActivity(chatIntent);
-				//}
+				}
 				break;
 			case BOOST:				
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 

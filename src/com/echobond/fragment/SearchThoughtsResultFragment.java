@@ -34,7 +34,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -61,7 +60,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	
 	private XListView searchThoughtsResultList;
 	private ThoughtsResultAdapter adapter;
-	private Integer currentOffset;
+	private Integer currentLimit;
 	private long lastLoadTime;
 	private ArrayList<ThoughtView> thoughtViews;
 	
@@ -85,7 +84,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 		
 		searchThoughtsResultList = (XListView)searchThoughtsResultView.findViewById(R.id.search_result_list_thoughts);
 		searchThoughtsResultList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		searchThoughtsResultList.setPullRefreshEnable(false);
+		searchThoughtsResultList.setPullRefreshEnable(true);
 		searchThoughtsResultList.setPullLoadEnable(true);
 		searchThoughtsResultList.setXListViewListener(this);
 		searchThoughtsResultList.setAdapter(adapter);
@@ -96,7 +95,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 		searchText = bundle.getString("keyword");
 		searchIDList = bundle.getIntegerArrayList("idList");
 
-		currentOffset = MyApp.DEFAULT_OFFSET;
+		currentLimit = MyApp.LIMIT_INIT;
 		doSearch();
 		return searchThoughtsResultView;
 	}
@@ -133,7 +132,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 		User user = new User();
 		user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
 		new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, LoadThoughtAsyncTask.LOAD_T_SEARCH,
-				this, currentOffset, MyApp.LIMIT_INIT, user, condition);		
+				this, MyApp.DEFAULT_OFFSET, currentLimit, user, condition);		
 	}	
 	
 	static class ViewHolder {
@@ -195,7 +194,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	public void onLoadMore() {
 		if(System.currentTimeMillis() - lastLoadTime > 	MyApp.LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
-			currentOffset += MyApp.LIMIT_INCREMENT;
+			currentLimit += MyApp.LIMIT_INCREMENT;
 			doSearch();
 		} else {
 			onLoadFinished();
@@ -213,14 +212,13 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			ContentValues[] contentValues = new ContentValues[thoughts.size()];
-			int i = 0;
+			//ContentValues[] contentValues = new ContentValues[thoughts.size()];
+			//int i = 0;
 			/* Loading thoughts */
-			thoughtViews = new ArrayList<ThoughtView>();
-			
+			ArrayList<ThoughtView> newViews = new ArrayList<ThoughtView>();
 			for (Thought thought : thoughts) {
 				/* thoughts */
-				contentValues[i++] = thought.putValues();
+				//contentValues[i++] = thought.putValues();
 				/* author */
 				UserDAO userDAO = new UserDAO();
 				userDAO.addUser(thought.getUser());
@@ -234,10 +232,11 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 				ThoughtView v = new ThoughtView(thought.getId(), thought.getUser().getUserName(), thought.getContent(), 
 						thought.getImage(), thought.getUserId(), thought.getBoost(), thought.getComments().size(), 
 						thought.getIsUserBoost());
-				thoughtViews.add(v);
+				newViews.add(v);
 			}
 			/* Inserting thoughts */
-			adapter.addAll(thoughtViews);
+			adapter.clear();
+			adapter.addAll(newViews);
 			/* Update UI */
 			updateListView();
 			onLoadFinished();
@@ -250,7 +249,21 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	@Override
 	public void onBoostResult(JSONObject result) {
 		if(null != result){	
-			onRefresh();
+			try {
+				int id = result.getInt("id");
+				int total = result.getInt("total");
+				int action = result.getInt("action");
+				for(int i = 0; i<adapter.getCount();i++){					
+					ThoughtView view = adapter.getItem(i);
+					if(id == view.id){
+						view.isUserBoost = action;
+						view.boost = total;
+						break;
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			updateListView();
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();			

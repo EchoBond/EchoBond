@@ -1,7 +1,6 @@
 package com.echobond.dao;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -28,7 +27,10 @@ public class HotThoughtDAO extends ContentProvider{
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		
+		switch(uriMatcher.match(uri)){
+		case HOTTHOUGHT:
+			return HotThoughtDB.getInstance().removeAllHotThoughts();
+		}
 		return 0;
 	}
 	@Override
@@ -82,8 +84,8 @@ public class HotThoughtDAO extends ContentProvider{
 			String[] selectionArgs) {
 		if(uriMatcher.match(uri) == HOTTHOUGHT){
 			HotThoughtDB.getInstance().updateHotThought(values, selection, selectionArgs);
-			ContentResolver resolver = getContext().getContentResolver();
-			resolver.notifyChange(uri, null);
+			//ContentResolver resolver = getContext().getContentResolver();
+			//resolver.notifyChange(uri, null);
 		}
 		return 0;
 	}

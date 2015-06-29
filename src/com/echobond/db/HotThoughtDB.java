@@ -50,4 +50,8 @@ public class HotThoughtDB extends MyDBHelper {
 		return update(tblName, values, where, whereArgs);
 	}
 	
+	public int removeAllHotThoughts(){
+		return delete(tblName, null, null);
+	}
+	
 }
