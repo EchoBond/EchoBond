@@ -13,12 +13,18 @@ public class TagDAO extends ContentProvider{
 	
 	public static final String PROVIDER_NAME = "com.echobond.contentprovider.tag";
 	//content://authority/path/id
-	public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME+"/tag");
+	public static final Uri CONTENT_URI_TAG = Uri.parse("content://"+PROVIDER_NAME+"/tag");
+	public static final Uri CONTENT_URI_SELF = Uri.parse("content://"+PROVIDER_NAME+"/self");
+	public static final Uri CONTENT_URI_LIKE = Uri.parse("content://"+PROVIDER_NAME+"/like");
 	private static final int TAG = 1;
+	private static final int TAG_SELF = 2;
+	private static final int TAG_LIKE = 3;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "tag", TAG);
+		uriMatcher.addURI(PROVIDER_NAME, "self", TAG_SELF);
+		uriMatcher.addURI(PROVIDER_NAME, "like", TAG_LIKE);
 	}
 
 	public void close(){
@@ -28,7 +34,14 @@ public class TagDAO extends ContentProvider{
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		
+		switch(uriMatcher.match(uri)){
+		case TAG:
+			break;
+		case TAG_LIKE:
+			return TagDB.getInstance().removeLikedTags(selection, selectionArgs);
+		case TAG_SELF:
+			return TagDB.getInstance().removeSelfTags(selection, selectionArgs);
+		}
 		return 0;
 	}
 	@Override
@@ -38,18 +51,40 @@ public class TagDAO extends ContentProvider{
 	}
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		if(uriMatcher.match(uri) == TAG){
-			TagDB.getInstance().addTag(values);
+		switch (uriMatcher.match(uri)) {
+		case TAG:
+			TagDB.getInstance().addTag(values);			
+			break;
+		case TAG_LIKE:
+			TagDB.getInstance().addTagLike(values);
+			break;
+		case TAG_SELF:
+			TagDB.getInstance().addTagSelf(values);
+			break;
+		default:
+			break;
 		}
 		return uri;
 	}
 	
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		if(uriMatcher.match(uri) == TAG){
+		switch(uriMatcher.match(uri)){
+		case TAG:
 			for (ContentValues contentValues : values) {
 				TagDB.getInstance().addTag(contentValues);
 			}
+			break;
+		case TAG_LIKE:
+			for (ContentValues contentValues : values) {
+				TagDB.getInstance().addTagLike(contentValues);
+			}
+			break;
+		case TAG_SELF:
+			for (ContentValues contentValues : values) {
+				TagDB.getInstance().addTagSelf(contentValues);
+			}
+			break;
 		}
 		return 0;
 	}
@@ -62,10 +97,18 @@ public class TagDAO extends ContentProvider{
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
-		if(uriMatcher.match(uri) == TAG){
+		switch(uriMatcher.match(uri)){
+		case TAG:
 			cursor = TagDB.getInstance().loadTags(selectionArgs);
-			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+			break;
+		case TAG_LIKE:
+			cursor = TagDB.getInstance().loadTagsLike(selectionArgs);
+			break;
+		case TAG_SELF:
+			cursor = TagDB.getInstance().loadTagsSelf(selectionArgs);
+			break;
 		}
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 	@Override

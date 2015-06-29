@@ -13,6 +13,7 @@ public class TagDB extends MyDBHelper {
 	/*Singleton pattern implementation*/
 	private static TagDB INSTANCE;
 	private static Context ctx;
+	private String tagSelfTbl, tagLikeTbl;
 	public static TagDB getInstance(Context context){
 		if(null == INSTANCE){
 			ctx = context;
@@ -32,6 +33,8 @@ public class TagDB extends MyDBHelper {
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_tag);
+		this.tagLikeTbl = res.getString(R.string.tbl_ltag);
+		this.tagSelfTbl = res.getString(R.string.tbl_tag_slf);
 	}
 
 	@Override
@@ -42,8 +45,24 @@ public class TagDB extends MyDBHelper {
 		return replace(tblName, values);
 	}
 	
+	public long addTagSelf(ContentValues values){
+		return replace(tagSelfTbl, values);
+	}
+	
+	public long addTagLike(ContentValues values){
+		return replace(tagLikeTbl, values);
+	}
+	
 	public Cursor loadTags(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_tag), args);
+	}
+	
+	public Cursor loadTagsSelf(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_self), args);
+	}
+	
+	public Cursor loadTagsLike(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_like), args);
 	}
 	
 	public long updateTag(ContentValues values, String where, String[] whereArgs){
@@ -57,4 +76,13 @@ public class TagDB extends MyDBHelper {
 	public Cursor loadTagsHot(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_tag_hot), args);
 	}
+	
+	public int removeSelfTags(String where, String[] args){
+		return delete(tagSelfTbl, where, args);
+	}
+	
+	public int removeLikedTags(String where, String[] args){
+		return delete(tagLikeTbl, where, args);
+	}
+	
 }

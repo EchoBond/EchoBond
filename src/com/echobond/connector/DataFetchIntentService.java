@@ -65,10 +65,12 @@ public class DataFetchIntentService extends IntentService {
 		}
 		JSONObject result = HTTPUtil.getInstance().sendRequest(url, body, true);
 		try {
-			JSONObject count = result.getJSONObject("count");
-			int msgCount = count.getInt("msgCount");
-			if(msgCount > 0)
-				sendNotification(result);
+			if(null != result && 0 != result.length()){
+				JSONObject count = result.getJSONObject("count");
+				int msgCount = count.getInt("msgCount");
+				if(msgCount > 0)
+					sendNotification(result);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

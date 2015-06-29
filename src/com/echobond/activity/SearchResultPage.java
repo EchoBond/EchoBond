@@ -25,11 +25,15 @@ public class SearchResultPage extends ActionBarActivity {
 	private TextView titleView;
 	private SearchThoughtsResultFragment thoughtsGroupResultFragment;
 	private SearchThoughtsResultFragment thoughtsTagResultFragment;
+	private SearchThoughtsResultFragment thoughtsCategoryResultFragment;
+	private SearchThoughtsResultFragment thoughtsKeywordResultFragment;
 	private SearchPeopleResultFragment peopleGroupResultFragment;
 	private SearchPeopleResultFragment peopleTagResultFragment;
+	private SearchPeopleResultFragment peopleKeywordResultFragment;	
 	
 	private int searchType = -1;
 	private int searchID = 0;
+	private String searchText = "";
 	private ArrayList<Integer> searchIDList = null;
 	
 	@Override
@@ -44,6 +48,7 @@ public class SearchResultPage extends ActionBarActivity {
 	private void fetchIntent() {
 		searchType = getIntent().getIntExtra("type", -1);
 		searchID = getIntent().getIntExtra("id", 0);
+		searchText = getIntent().getStringExtra("keyword");
 		searchIDList = getIntent().getIntegerArrayListExtra("idList");
 	}
 	
@@ -91,15 +96,23 @@ public class SearchResultPage extends ActionBarActivity {
 	
 	private void initContent() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (thoughtsGroupResultFragment == null || thoughtsTagResultFragment == null || peopleGroupResultFragment == null || peopleTagResultFragment == null) {
+		if (thoughtsGroupResultFragment == null || thoughtsTagResultFragment == null || thoughtsCategoryResultFragment == null 
+				|| peopleGroupResultFragment == null || peopleTagResultFragment == null 
+				|| thoughtsKeywordResultFragment == null || peopleKeywordResultFragment == null) {
 			thoughtsGroupResultFragment = new SearchThoughtsResultFragment();
 			thoughtsTagResultFragment = new SearchThoughtsResultFragment();
+			thoughtsCategoryResultFragment = new SearchThoughtsResultFragment();
 			peopleGroupResultFragment = new SearchPeopleResultFragment();
 			peopleTagResultFragment = new SearchPeopleResultFragment();
+			thoughtsKeywordResultFragment = new SearchThoughtsResultFragment();
+			peopleKeywordResultFragment = new SearchPeopleResultFragment();
 		}
 		
 		Bundle bundle = new Bundle();
 		bundle.putInt("type", searchType);
+		bundle.putInt("id", searchID);
+		bundle.putString("keyword", searchText);
+		bundle.putIntegerArrayList("idList", searchIDList);
 		switch (searchType) {
 		case SearchPage.THOUGHT_GROUP:
 			thoughtsGroupResultFragment.setArguments(bundle);
@@ -118,7 +131,16 @@ public class SearchResultPage extends ActionBarActivity {
 			transaction.add(R.id.search_result_content, peopleTagResultFragment).show(peopleTagResultFragment).commit();
 			break;
 		case SearchPage.THOUGHT_CATEGORY:
-			
+			thoughtsCategoryResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, thoughtsCategoryResultFragment).show(thoughtsCategoryResultFragment).commit();
+			break;
+		case SearchPage.THOUGHT_KEYWORD:
+			thoughtsKeywordResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, thoughtsKeywordResultFragment).show(thoughtsKeywordResultFragment).commit();
+			break;
+		case SearchPage.PEOPLE_KEYWORD:
+			peopleKeywordResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, peopleKeywordResultFragment).show(peopleKeywordResultFragment).commit();
 			break;
 		default:
 			break;

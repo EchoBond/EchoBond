@@ -33,12 +33,11 @@ public abstract class MyDBHelper extends SQLiteOpenHelper {
 		db.execSQL(res.getString(R.string.sql_c_t_comment));
 		db.execSQL(res.getString(R.string.sql_c_msg));
 		db.execSQL(res.getString(R.string.sql_c_user));
-		db.execSQL(res.getString(R.string.sql_c_luser));
 		db.execSQL(res.getString(R.string.sql_c_category));
 		db.execSQL(res.getString(R.string.sql_c_group));
 		db.execSQL(res.getString(R.string.sql_c_country));
+		db.execSQL(res.getString(R.string.sql_c_language));
 		db.execSQL(res.getString(R.string.sql_c_tag));
-		db.execSQL(res.getString(R.string.sql_c_user_tag));
 		db.execSQL(res.getString(R.string.sql_c_flw_grp));
 		db.execSQL(res.getString(R.string.sql_c_lk_tag));
 		db.execSQL(res.getString(R.string.sql_c_tag_slf));

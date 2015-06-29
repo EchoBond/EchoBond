@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 public class SearchMainFragment extends Fragment {
 
 	private FragmentTabHost tabHost;
+	public final static int THOUGHT_TAB = 0;
+	public final static int PEOPLE_TAB = 1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -26,13 +28,17 @@ public class SearchMainFragment extends Fragment {
 		tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 		tabHost.addTab(tabHost.newTabSpec("thoughts").setIndicator("Thoughts"), SearchThoughtsFragment.class, null);
 		tabHost.addTab(tabHost.newTabSpec("people").setIndicator("People"), SearchPeopleFragment.class, null);
-		tabHost.setCurrentTab(0);
+		tabHost.setCurrentTab(THOUGHT_TAB);
 		
 		return searchMainView;
 	}
 
 	public FragmentTabHost getTabHost() {
 		return tabHost;
+	}
+	
+	public int getCurrentTab(){
+		return tabHost.getCurrentTab();
 	}
 	
 }

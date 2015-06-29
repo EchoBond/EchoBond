@@ -57,7 +57,7 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
 
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
 		adapter = new FollowingGroupsAdapter(getActivity(), R.layout.item_following, cursor, 0);
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -139,7 +139,7 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
 		case MyApp.LOADER_FOLLOW_GROUP:
-			Uri uri = GroupDAO.CONTENT_URI;
+			Uri uri = GroupDAO.CONTENT_URI_GROUP;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}
@@ -169,7 +169,7 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 				values[i++] = group.putValues();
 			}
 			
-			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI, values);
+			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
 			updateUI();
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
@@ -178,7 +178,7 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 	
 	private void updateUI(){
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

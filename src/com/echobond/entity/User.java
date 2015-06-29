@@ -1,5 +1,6 @@
 package com.echobond.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -9,8 +10,8 @@ import android.content.ContentValues;
  * @author Luck
  *
  */
-public class User {
-	
+public class User implements Serializable{
+	private static final long serialVersionUID = 1L;
 	public static final int UNVERFIED = 0;
 	public static final int VERIFIED = 1;
 	
@@ -29,7 +30,6 @@ public class User {
 	private String lastName;
 	private String name;
 	private int timeZone;
-	private String avatar;
 	private int age;
 	private String gender;
 	private String birthday;
@@ -66,7 +66,6 @@ public class User {
 		values.put("last_name", lastName);
 		values.put("name", name);
 		values.put("time_zone", timeZone);
-		values.put("avatar", avatar);
 		values.put("age", gender);
 		values.put("gender", birthday);
 		values.put("country_id", countryId);
@@ -143,12 +142,6 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 	public int getAge() {
 		return age;

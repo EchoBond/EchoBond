@@ -2,6 +2,7 @@ package com.echobond.activity;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,14 +17,15 @@ import com.google.gson.reflect.TypeToken;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,10 +46,9 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	
 	private ImageView backButton;
 	private EditText searchBar;
-	private String searchText;
 	private int searchID = 0;
+	private String searchText = "";
 	private ArrayList<Integer> idList = null;
-	public static FragmentTabHost tabHost;
 	private int fgType = -1;
 	private int searchType = -1;
 
@@ -56,6 +57,8 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static int PEOPLE_GROUP = 2;
 	public final static int PEOPLE_TAG = 3;
 	public final static int THOUGHT_CATEGORY = 4;
+	public final static int THOUGHT_KEYWORD = 5;
+	public final static int PEOPLE_KEYWORD = 6;
 	
 	public final static String THOUGHTS_CATEGORY = "This Category's Thoughts";
 	public final static String THOUGHTS_MORE_GROUP = "Thoughts in More Groups";
@@ -83,12 +86,29 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				Toast.makeText(getApplicationContext(), "search", Toast.LENGTH_SHORT).show();
+				if(actionId == EditorInfo.IME_ACTION_SEARCH){
+					String keyword = searchBar.getText().toString();
+					int index = 0;
+					if(null != mainFragment){
+						index = mainFragment.getCurrentTab();
+					}
+					JSONObject data = new JSONObject();
+					try {
+						if(index == SearchMainFragment.THOUGHT_TAB){
+							data.put("index", THOUGHT_KEYWORD);
+						} else data.put("index", PEOPLE_KEYWORD);
+						data.put("id", 0);
+						data.put("idList", new JSONArray());
+						data.put("keyword", keyword);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					onSearchSelected(data);
+				}
 				return false;
 			}
 		});
 		
-		searchText = searchBar.getText().toString();
 		backButton = (ImageView)findViewById(R.id.search_button_back);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -163,22 +183,22 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	@Override
 	public void onSearchSelected(JSONObject data) {
 		try {
-			searchType = 0;
-			searchID = 0;
 			idList = null;
 			searchType = data.getInt("index");
 			searchID = data.getInt("id");
-			if(null != data.getJSONObject("idList")){
+			if(null != data.getJSONArray("idList")){
 				TypeToken<ArrayList<Integer>> token = new TypeToken<ArrayList<Integer>>(){};
 				idList = (ArrayList<Integer>) JSONUtil.fromJSONToList(data, "idList", token);
 			}
+			searchText = data.getString("keyword");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.d("JSON", e.getMessage());
 		}
 		
 		Intent intent = new Intent();
 		intent.putExtra("type", searchType);
 		intent.putExtra("id", searchID);
+		intent.putExtra("keyword", searchText);
 		intent.putIntegerArrayListExtra("idList", idList);
 		intent.setClass(this, SearchResultPage.class);
 		startActivity(intent);

@@ -64,9 +64,6 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	
 	private ArrayList<Integer> tagIds;
 	
-	private final static Integer VIEW_TAG_ID = R.string.hello_world;
-	private final static Integer VIEW_TAG_CLICKED = R.string.none;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,10 +90,11 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 				if (item.isSelected()) {
 					item.setSelected(false);
 					adapter.setSelected(position-1, false);
+					tagIds.remove(item.getTag());
 				} else if (!item.isSelected()) {
 					item.setSelected(true);
 					adapter.setSelected(position-1, true);
-					Toast.makeText(getActivity().getApplicationContext(), item.getText().toString(), Toast.LENGTH_SHORT).show();
+					tagIds.add((Integer) item.getTag());
 				}
 				adapter.notifyDataSetChanged();
 			}
@@ -127,7 +125,6 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getActivity(), "BACK to Result", Toast.LENGTH_SHORT).show();
 			if (type == SearchPage.THOUGHTS_MORE_TAG) {
 				index = SearchPage.THOUGHT_TAG;
 			} else if (type == SearchPage.PEOPLE_MORE_TAG) {
@@ -136,7 +133,8 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			JSONObject jso = new JSONObject();
 			try {
 				jso.put("index", index);
-				jso.put("idList", tagIds);
+				jso.put("id", 0);
+				jso.put("idList", JSONUtil.fromListToJSONArray(tagIds, new TypeToken<ArrayList<Integer>>(){}));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -254,7 +252,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			for (Tag tag : tags) {
 				values[i++] = tag.putValues();
 			}
-			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI, values);
+			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, values);
 			updateUI();
 			onLoadFinished();
 		} else {
@@ -265,7 +263,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	
 	private void updateUI() {
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_TAG, null, null, args, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}
@@ -274,7 +272,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
 		case MyApp.LOADER_TAG:
-			Uri uri = TagDAO.CONTENT_URI;
+			Uri uri = TagDAO.CONTENT_URI_TAG;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}

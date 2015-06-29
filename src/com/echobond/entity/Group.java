@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import java.io.Serializable;
+
 import android.content.ContentValues;
 
 /**
@@ -7,7 +9,9 @@ import android.content.ContentValues;
  * @author Luck
  *
  */
-public class Group {
+public class Group implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	public ContentValues putValues(){

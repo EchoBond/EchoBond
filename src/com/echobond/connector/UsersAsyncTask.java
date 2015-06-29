@@ -11,8 +11,8 @@ import android.os.AsyncTask;
 
 /**
  * This task is to handle loading or updates of users in server's DB.<br>
- * Params (Object): url(String), activity(UserAsyncTaskCallback), action(int), user(User)/<br>
- * 		offset(int), limit(int), condition(JSONObject)<br>
+ * Params (Object): url(String), activity(UserAsyncTaskCallback), action(int), user(User)<br>
+ * 		null/offset(int), limit(int), condition(JSONObject)<br>
  * @version 1.0
  * @author Luck
  * 
@@ -20,8 +20,10 @@ import android.os.AsyncTask;
 public class UsersAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
 	public static final Integer USER_LOAD_BY_ID = 1;
-	public static final Integer USER_LOAD_BY_CONDITIONS = 2;
-	public static final Integer USER_UPDATE = 3;
+	public static final Integer USER_LOAD_BY_EMAIL = 2;
+	public static final Integer USER_LOAD_BY_USERNAME = 3;
+	public static final Integer USER_LOAD_BY_CONDITIONS = 4;
+	public static final Integer USER_UPDATE = 5;
 	private UserAsyncTaskCallback activity;
 	private Integer action;
 	@Override
@@ -29,22 +31,20 @@ public class UsersAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 		String url = (String) params[0];
 		activity =  (UserAsyncTaskCallback) params[1];
 		action = (Integer) params[2];
+		User user = (User) params[3];
 		JSONObject body = new JSONObject();
 		try {
 			body.put("action", action);
+			body.put("user", JSONUtil.fromObjectToJSON(user));
 			if(USER_LOAD_BY_ID == action){
-				User user = (User) params[3];
-				body.put("user", JSONUtil.fromObjectToJSON(user));
 			} else if(USER_LOAD_BY_CONDITIONS == action){
-				Integer offset = (Integer) params[3];
-				Integer limit = (Integer) params[4];
-				JSONObject condition = (JSONObject) params[5];
+				Integer offset = (Integer) params[4];
+				Integer limit = (Integer) params[5];
+				JSONObject condition = (JSONObject) params[6];
 				body.put("offset", offset);
 				body.put("limit", limit);
 				body.put("condition", condition);
 			} else {
-				User user = (User) params[3];
-				body.put("user", JSONUtil.fromObjectToJSON(user));
 			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();

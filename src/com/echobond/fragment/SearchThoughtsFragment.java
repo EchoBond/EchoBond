@@ -175,7 +175,8 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 							jso.put("index", SearchPage.THOUGHT_TAG);
 							ArrayList<Integer> idList = new ArrayList<Integer>();
 							idList.add(id);
-							jso.put("idList", idList);
+							jso.put("id", 0);
+							jso.put("idList", JSONUtil.fromListToJSONArray(idList, new TypeToken<ArrayList<Integer>>(){}));
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}

@@ -173,6 +173,13 @@
 		        android:layout_width="30dp"
 		        android:layout_height="30dp"
 		        android:src="@drawable/profile_about_earth" />
+		    <Spinner android:id="@+id/edit_profile_earth_spinner"
+   		        android:layout_toRightOf="@id/edit_profile_earth_view"
+		        android:layout_toEndOf="@id/edit_profile_earth_view"
+		        android:layout_alignBaseline="@id/edit_profile_earth_view"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"/>
+		    <!-- 
 		    <EditText 
 		        android:id="@+id/edit_profile_earth_text"
 		        android:layout_width="match_parent"
@@ -191,6 +198,7 @@
 		        android:maxLines="4"
 		        android:textSize="15sp"
 		        android:hint="@string/hint_edit_profile_earth" />
+		        -->
 		</RelativeLayout>
 		
 		<TextView 
@@ -429,6 +437,13 @@
 		        android:layout_width="30dp"
 		        android:layout_height="30dp"
 		        android:src="@drawable/profile_about_language" />
+		    <Spinner android:id="@+id/edit_profile_lang_spinner"
+   		        android:layout_toRightOf="@id/edit_profile_lang_view"
+		        android:layout_toEndOf="@id/edit_profile_lang_view"
+		        android:layout_alignBaseline="@id/edit_profile_lang_view"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"/>		    
+		    <!-- 
 		    <EditText 
 		        android:id="@+id/edit_profile_lang_text"
 		        android:layout_width="match_parent"
@@ -447,6 +462,7 @@
 		        android:maxLines="4"
 		        android:hint="@string/hint_edit_profile_lang"
 		        android:textSize="15sp" />
+		    -->
 		</RelativeLayout>
 		
 		<RelativeLayout 
@@ -495,6 +511,52 @@
 		        android:clickable="true" />
 		</RelativeLayout>
 
+		<RelativeLayout 
+		    android:id="@+id/edit_profile_like_tag"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:padding="7dp" >
+		    <ImageView 
+		        android:contentDescription="@string/none"
+		        android:id="@+id/edit_profile_like_tag_view"
+		        android:layout_width="30dp"
+		        android:layout_height="30dp"
+		        android:src="@drawable/profile_about_tag" />
+		    <EditText 
+		        android:id="@+id/edit_profile_like_tag_text"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_like_tag_view"
+		        android:layout_toEndOf="@id/edit_profile_like_tag_view"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginStart="10dp"
+		        android:layout_marginRight="3dp"
+		        android:layout_marginEnd="3dp"
+		        android:paddingLeft="5dp"
+		        android:paddingRight="5dp"
+		        android:inputType="textMultiLine"
+		        android:background="@drawable/square_edittext_lightgrey"
+		        android:minHeight="30dp"
+		        android:hint="@string/hint_edit_profile_hashtags"
+		        android:textSize="15sp"
+		        android:gravity="top" />
+		    <TextView 
+		        android:id="@+id/edit_profile_like_tag_more"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/edit_profile_like_tag_view"
+		        android:layout_toEndOf="@id/edit_profile_like_tag_view"
+		        android:layout_below="@id/edit_profile_like_tag_text"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginStart="13dp"
+		        android:layout_marginBottom="2dp"
+		        android:text="@string/edit_profile_more_tags"
+		        android:textSize="15sp"
+		        android:textColor="#b3b3b3"
+		        android:textStyle="bold"
+		        android:clickable="true" />
+		</RelativeLayout>		
+		
 		<RelativeLayout 
 		    android:id="@+id/edit_profile_group"
 		    android:layout_width="match_parent"

@@ -126,10 +126,12 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		String[] selectionArgs = new String[]{
 				(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class),""};
 		Cursor c = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, selectionArgs, null);
-		if(c.moveToFirst()){
-			int count = c.getInt(c.getColumnIndex("count"));
-			if(count > 0){
-				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_notification));
+		if(null != c){
+			if(c.moveToFirst()){
+				int count = c.getInt(c.getColumnIndex("count"));
+				if(count > 0){
+					notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_notification));
+				}
 			}
 			c.close();
 		}

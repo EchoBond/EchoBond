@@ -120,7 +120,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		thoughtsListView.setPullLoadEnable(true);
 		thoughtsListView.setXListViewListener(this);
 		
-		userDAO = new UserDAO(this);
+		userDAO = new UserDAO();
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
 		commentDAO = new CommentDAO();
@@ -447,7 +447,6 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		Cursor cursor = getContentResolver().query(HomeThoughtDAO.CONTENT_URI, null, null, new String[]{
 				(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class),
 				currentLimit+"", DEFAULT_OFFSET+""}, null);
-		adapter.getCursor().close();
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

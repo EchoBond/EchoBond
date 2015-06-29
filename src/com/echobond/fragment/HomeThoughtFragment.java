@@ -94,7 +94,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		mListView.setXListViewListener(this);
 		mListView.setPullLoadEnable(true);
 		
-		userDAO = new UserDAO(getActivity());
+		userDAO = new UserDAO();
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
 		commentDAO = new CommentDAO();

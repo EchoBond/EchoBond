@@ -23,8 +23,9 @@
     <string name="url_boost_thought">BoostThoughtServlet</string>
     <string name="url_comment_thought">CommentThoughtServlet</string>
     
+    <string name="url_tag_self">TagSelfServlet</string>
     <string name="url_follow_group">FollowGroupServlet</string>
-    <string name="url_follow_tag">FollowTagServlet</string>
+    <string name="url_follow_tag">FollowTagServlet</string>    
     
     <!-- post thought -->
     <string name="url_post_thought">PostThoughtServlet</string>

@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.connector.FollowGroupsAsyncTask;
-import com.echobond.connector.FollowTagsAsyncTask;
+import com.echobond.connector.LikeTagsAsyncTask;
 import com.echobond.entity.User;
 import com.echobond.fragment.FollowingGroupsFragment;
 import com.echobond.fragment.FollowingHashtagsFragment;
 import com.echobond.intf.FollowGroupsCallback;
-import com.echobond.intf.FollowTagsCallback;
+import com.echobond.intf.LikeTagsCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 
@@ -34,7 +34,7 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class FollowingPage extends ActionBarActivity implements FollowGroupsCallback, FollowTagsCallback{
+public class FollowingPage extends ActionBarActivity implements FollowGroupsCallback, LikeTagsCallback{
 
 	private FollowingGroupsFragment groupsFragment;
 	private FollowingHashtagsFragment hashtagsFragment;
@@ -108,10 +108,10 @@ public class FollowingPage extends ActionBarActivity implements FollowGroupsCall
 					} else if(followGroups && !followTags){
 						new FollowGroupsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, gUrl,FollowingPage.this,user,groups);
 					} else if(!followGroups && followTags){
-						new FollowTagsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, tUrl,FollowingPage.this,user,tags);
+						new LikeTagsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, tUrl,FollowingPage.this,user,tags);
 					} else {
 						new FollowGroupsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, gUrl,FollowingPage.this,user,groups);
-						new FollowTagsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, tUrl,FollowingPage.this,user,tags);						
+						new LikeTagsAsyncTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, tUrl,FollowingPage.this,user,tags);						
 					}
 				default:
 					break;
@@ -169,7 +169,7 @@ public class FollowingPage extends ActionBarActivity implements FollowGroupsCall
 	}
 
 	@Override
-	public void onFollowTagsFinished(JSONObject result) {
+	public void onLikeTagFinished(JSONObject result) {
 		if(null != result){
 			Intent intent = new Intent();
 			intent.setClass(FollowingPage.this, MainPage.class);

@@ -13,6 +13,7 @@ public class GroupDB extends MyDBHelper {
 	/*Singleton pattern implementation*/
 	private static GroupDB INSTANCE;
 	private static Context ctx;
+	private String groupFollowTbl;
 	public static GroupDB getInstance(Context context){
 		if(null == INSTANCE){
 			ctx = context;
@@ -31,6 +32,7 @@ public class GroupDB extends MyDBHelper {
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_grp);
+		this.groupFollowTbl = res.getString(R.string.tbl_flwgrp);
 	}
 
 	@Override
@@ -42,8 +44,16 @@ public class GroupDB extends MyDBHelper {
 		return replace(tblName, values);
 	}
 	
+	public long addGroupFollow(ContentValues values){
+		return replace(groupFollowTbl, values);
+	}
+	
 	public Cursor loadGroups(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_grp), args);
+	}
+	
+	public Cursor loadGroupsFollow(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_grp_follow), args);
 	}
 	
 	public long updateGroup(ContentValues values, String where, String[] whereArgs){
@@ -56,5 +66,9 @@ public class GroupDB extends MyDBHelper {
 	
 	public Cursor loadGroupHot(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_grp_hot), args);
+	}
+	
+	public int removeFollowedGroups(String where, String[] args){
+		return delete(groupFollowTbl, where, args);
 	}
 }

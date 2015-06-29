@@ -7,6 +7,7 @@ import com.echobond.R;
 import com.echobond.activity.ThoughtsListPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
+import com.echobond.dao.UserDAO;
 import com.echobond.entity.User;
 import com.echobond.intf.UserAsyncTaskCallback;
 import com.echobond.util.HTTPUtil;
@@ -14,7 +15,9 @@ import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,19 +38,6 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
 					profileDesc, profileHeart, profileSec, profileLang, profileTag; 
 	private TextView viewThoughtsButton;
-	/*
-	private String[] testString = {
-			"I speak Chinese! Have spent 5 years in Beijing.", 
-			"Have performed sexophone across India. Went to Grand Canyon!", 
-			"Set up my startup office in Silicon Valley. Visit Israel.", 
-			"You Only Live Once. Make it count. Be yourself and be nice.", 
-			"People stop talking about war but ART! No racism, everyone is a global citizen.", 
-			"Funny, care-free, music talent, nice, king of sexophone lol", 
-			"hiking, meet new fds, chinese food, cooking, sexophone", 
-			"didn’t know Santa Claus was a myth by 13 years old", 
-			"English, Hindi, Mandarin.", 
-			"#hkust #sexophone #india #beijing #mandarin #engineering #tech start up #hong kong #cooking #hiking #travelling #music #exchange #language exchange #party #chinese culture"
-	};*/
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,22 +92,31 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			try {
 				JSONObject userJSON = (JSONObject) result.get("user");
 				User user = (User) JSONUtil.fromJSONToObject(userJSON, User.class);
-				profileGender.setText("");
-				profileTitle.setText(user.getUserName());
-				profileBio.setText(user.getBio());
-				profileDNA.setText(user.getSthInteresting());
-				profileTrophy.setText(user.getAmzExp());
-				profileTodo.setText(user.getToDo());
-				profilePhilo.setText(user.getPhilosophy());
-				profileEarth.setText("");
-				profileDesc.setText(user.getFriendsDesc());
-				profileHeart.setText(user.getInterest());
-				profileSec.setText(user.getLittleSecret());
-				profileLang.setText(user.getLocale());
-				profileTag.setText(user.getBio());
+				ContentValues values = user.putValues();
+				getActivity().getContentResolver().insert(UserDAO.CONTENT_URI_USER, values);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+		}
+		String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		Cursor cursor = getActivity().getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{id}, null);
+		if(null != cursor){
+			if(cursor.moveToFirst()){
+				profileGender.setText(cursor.getString(cursor.getColumnIndex("gender")));
+				profileTitle.setText(cursor.getString(cursor.getColumnIndex("username")));
+				profileBio.setText(cursor.getString(cursor.getColumnIndex("bio")));
+				profileDNA.setText(cursor.getString(cursor.getColumnIndex("sth_interesting")));
+				profileTrophy.setText(cursor.getString(cursor.getColumnIndex("amz_exp")));
+				profileTodo.setText(cursor.getString(cursor.getColumnIndex("to_do")));
+				profilePhilo.setText(cursor.getString(cursor.getColumnIndex("philosophy")));
+				profileEarth.setText(cursor.getString(cursor.getColumnIndex("home_name")));
+				profileDesc.setText(cursor.getString(cursor.getColumnIndex("friends_desc")));
+				profileHeart.setText(cursor.getString(cursor.getColumnIndex("interest")));
+				profileSec.setText(cursor.getString(cursor.getColumnIndex("little_secret")));
+				profileLang.setText(cursor.getString(cursor.getColumnIndex("lang_name")));
+				profileTag.setText(cursor.getString(cursor.getColumnIndex("bio")));
+			}
+			cursor.close();
 		}
 	}
 

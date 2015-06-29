@@ -94,7 +94,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		mListView.setXListViewListener(this);
 		mListView.setPullLoadEnable(true);
 		
-		userDAO = new UserDAO(getActivity());
+		userDAO = new UserDAO();
 		currentLimit = LIMIT_INIT;
 		lastLoadTime = 0;
 		commentDAO = new CommentDAO();

@@ -63,7 +63,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 		tagList = new ArrayList<Integer>();
 		
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_TAG, null, null, args, null);
 		adapter = new FollowingTagsAdapter(getActivity(), R.layout.item_following, cursor, 0);
 		hashtags2Follow.setAdapter(adapter);
 		hashtags2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -145,7 +145,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
 		case MyApp.LOADER_FOLLOW_TAG:
-			Uri uri = TagDAO.CONTENT_URI;
+			Uri uri = TagDAO.CONTENT_URI_TAG;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}
@@ -175,7 +175,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 				values[i++] = tag.putValues();
 			}
 			
-			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI, values);
+			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, values);
 			updateUI();
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
@@ -184,7 +184,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 	
 	private void updateUI(){
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_TAG, null, null, args, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

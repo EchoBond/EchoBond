@@ -8,10 +8,12 @@ import com.echobond.dao.TagDAO;
 import com.echobond.entity.Tag;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,11 +22,13 @@ public class ImagePage extends Activity {
 
 	private LinearLayout layout;
 	private ImageView image;
-	private TextView groupView, tagsView;
+	private ImageView tagsIcon;
+	private TextView groupView;
 	private String type;
 	private Integer id;
 	private ArrayList<TextView> tags;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,18 +43,11 @@ public class ImagePage extends Activity {
 		layout = (LinearLayout) findViewById(R.id.image_page_layout);
 		image = (ImageView)findViewById(R.id.image_page_image);
 		groupView = (TextView) findViewById(R.id.image_page_group_text);
-		tagsView = (TextView) findViewById(R.id.image_page_tag_text);
+		tagsIcon = (ImageView) findViewById(R.id.image_page_tag_view);
 		
+		groupView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.image_page_group, 0,0,0);
 		loadGroupName();
 		loadTagNames();
-		
-		if(tags.isEmpty()){
-			tagsView.setText(tagsView.getText() + "N/A");
-		} else {
-			for (TextView view: tags) {
-				layout.addView(view);
-			}
-		}
 		
 		ImageLoader loader = ImageLoader.getInstance();
 		loader.displayImage(url, image);
@@ -68,12 +65,14 @@ public class ImagePage extends Activity {
 		}
 		if(null != cursor){
 			if(cursor.moveToFirst()){				
-				groupView.setText(cursor.getString(cursor.getColumnIndex("name")));
+				groupView.setText(groupView.getText() + cursor.getString(cursor.getColumnIndex("name")));
 				groupView.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+				cursor.close();
 				return;
 			}
+			cursor.close();
 		}
-		groupView.setText(groupView.getText() + "N/A");
+		groupView.setVisibility(View.INVISIBLE);
 	}
 	
 	private void loadTagNames(){
@@ -95,6 +94,8 @@ public class ImagePage extends Activity {
 			}
 		}
 		if(!tagList.isEmpty()){
+			//RelativeLayout rLayout = new RelativeLayout(this);
+			//layout.addView(rLayout);
 			for (Tag tag : tagList) {
 				TextView view = new TextView(this);
 				view.setText("#"+tag.getName());
@@ -102,6 +103,11 @@ public class ImagePage extends Activity {
 				view.setTag(tag.getId());
 				tags.add(view);
 			}
+			for (TextView view: tags) {
+				layout.addView(view);
+			}			
+		} else {
+			tagsIcon.setVisibility(View.INVISIBLE);
 		}
 	}
 }

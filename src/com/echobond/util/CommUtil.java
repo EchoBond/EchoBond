@@ -85,4 +85,17 @@ public class CommUtil {
 		return sdf.format(date);		
 	}
 	
+	public static String[] parseString(String raw, String split){
+		if(null == raw || 0 == raw.length()){
+			return null;
+		}
+		String[] names = raw.split(",");
+		String[] newNames = new String[names.length];
+		int i = 0;
+		for(String name: names){
+			newNames[i++] = name.trim();
+		}
+		return newNames;
+	}
+	
 }

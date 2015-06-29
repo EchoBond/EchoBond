@@ -10,14 +10,13 @@
 	<!-- user related -->
     <string name="tbl_msg">user_msg</string>
     <string name="tbl_usr">user</string>
-    <string name="tbl_lusr">login_user</string>
     <!-- values related -->
     <string name="tbl_ctgr">category</string>
     <string name="tbl_grp">grp</string>
     <string name="tbl_country">country</string>
+    <string name="tbl_language">language</string>
     <string name="tbl_tag">tag</string>
     <!-- user actions -->
-    <string name="tbl_utag">user_tag</string>
     <string name="tbl_flwgrp">follow_group</string>
     <string name="tbl_ltag">like_tag</string>
     <string name="tbl_tag_slf">tag_self</string>
@@ -80,7 +79,7 @@
    	<string name="sql_c_user">
 		CREATE TABLE IF NOT EXISTS `user`(
 			`_id` varchar(255) PRIMARY KEY,
-			`username` varchar(255) DEFAULT NULL,
+			`username` varchar(255) DEFAULT NULL UNIQUE ON CONFLICT REPLACE,
 			`password` varchar(255) DEFAULT NULL,
 			`fb_id` varchar(255) DEFAULT NULL,
 			`first_name` varchar(255) DEFAULT NULL,
@@ -88,7 +87,6 @@
 			`name` varchar(255) DEFAULT NULL,
 			`time_zone` INTEGER DEFAULT NULL,
 			`email` varchar(255) DEFAULT NULL,
-			`avatar` varchar(255) DEFAULT NULL,
 			`gender` varchar(255) DEFAULT NULL,
 			`age` INTEGER DEFAULT NULL,
 			`birthday` varchar(255) DEFAULT NULL,
@@ -106,79 +104,56 @@
 			`locale` varchar(255) DEFAULT NULL,
 			`verified` INTEGER NOT NULL DEFAULT 0)   	    
    	</string>
-   	<string name="sql_c_luser">
-		CREATE TABLE IF NOT EXISTS `login_user`(
-			`_id` varchar(255) PRIMARY KEY,
-			`username` varchar(255) DEFAULT NULL,
-			`password` varchar(255) DEFAULT NULL,
-			`fb_id` varchar(255) DEFAULT NULL,
-			`first_name` varchar(255) DEFAULT NULL,
-			`last_name` varchar(255) DEFAULT NULL,
-			`name` varchar(255) DEFAULT NULL,
-			`time_zone` INTEGER DEFAULT NULL,
-			`email` varchar(255) DEFAULT NULL,
-			`avatar` varchar(255) DEFAULT NULL,
-			`gender` varchar(255) DEFAULT NULL,
-			`age` INTEGER DEFAULT NULL,
-			`birthday` varchar(255) DEFAULT NULL,
-			`country_id` INTEGER DEFAULT NULL,
-			`home_id` INTEGER DEFAULT NULL,
-			`occupation` varchar(255) DEFAULT NULL,
-			`amz_exp` varchar(255) DEFAULT NULL,
-			`to_do` varchar(255) DEFAULT NULL,
-			`philosophy` varchar(255) DEFAULT NULL,
-			`friends_desc` varchar(255) DEFAULT NULL,
-			`interest` varchar(255) DEFAULT NULL,
-			`little_secret` varchar(255) DEFAULT NULL,
-			`lang_id` INTEGER DEFAULT NULL,
-			`locale` varchar(255) DEFAULT NULL,
-			`verified` INTEGER NOT NULL DEFAULT 0)
-   	</string>
    	<string name="sql_c_category">
 		CREATE TABLE IF NOT EXISTS `category`(
 			`_id` INTEGER PRIMARY KEY, 
-			`name` varchar(255))
+			`name` varchar(255) NOT NULL UNIQUE ON CONFLICT REPLACE)
    	</string>
 	<string name="sql_c_group">
 	    CREATE TABLE IF NOT EXISTS `grp`(
 	    	`_id` INTEGER PRIMARY KEY,
-	    	`name` varchar(255))
+	    	`name` varchar(255) NOT NULL UNIQUE ON CONFLICT REPLACE)
     </string>
 	<string name="sql_c_country">
 	    CREATE TABLE IF NOT EXISTS `country`(
 	    	`_id` INTEGER PRIMARY KEY,
-	    	`name` varchar(255))
+	    	`name` varchar(255) NOT NULL UNIQUE ON CONFLICT REPLACE,
+	    	`region` varchat(255))
+   	</string>
+   	<string name="sql_c_language">
+	    CREATE TABLE IF NOT EXISTS `language`(
+	    	`_id` INTEGER PRIMARY KEY,
+	    	`name` varchar(255) NOT NULL UNIQUE ON CONFLICT REPLACE,
+	    	`region` varchat(255))	    
    	</string>
 	<string name="sql_c_tag">
 	    CREATE TABLE IF NOT EXISTS `tag`(
 	    	`_id` INTEGER PRIMARY KEY,
-	    	`name` varchar(255))
+	    	`name` varchar(255) NOT NULL UNIQUE ON CONFLICT REPLACE)
  	</string>
-	<string name="sql_c_user_tag">
-	    CREATE TABLE IF NOT EXISTS `user_tag`(
-	    	`_id` INTEGER PRIMARY KEY,
-	    	`name` varchar(255))
-   	</string>
 	<string name="sql_c_flw_grp">
 	    CREATE TABLE IF NOT EXISTS `follow_group`(
 	    	`_id` INTEGER PRIMARY KEY,
 	    	`user_id` varchar(255) NOT NULL,
 	    	`group_id` INTEGER NOT NULL,
-	    	`follow` INTEGER NOT NULL DEFAULT 1)
+	    	`follow` INTEGER NOT NULL DEFAULT 1,
+	    	UNIQUE (user_id, group_id) ON CONFLICT REPLACE)
    	</string>
 	<string name="sql_c_lk_tag">
 	    CREATE TABLE IF NOT EXISTS `like_tag`(
 	    	`_id` INTEGER PRIMARY KEY,
 	    	`user_id` varchar(255) NOT NULL,
 	    	`tag_id` INTEGER NOT NULL,
-	    	`tag` INTEGER NOT NULL DEFAULT 1)
+	    	`like` INTEGER NOT NULL DEFAULT 1,
+	    	UNIQUE (user_id, tag_id) ON CONFLICT REPLACE)
    	</string>
 	<string name="sql_c_tag_slf">
 	    CREATE TABLE IF NOT EXISTS `tag_self`(
 	    	`_id` INTEGER PRIMARY KEY,
 	    	`user_id` varchar(255) NOT NULL,
-	    	`user_tag_id` INTEGER NOT NULL,
-	    	`tag` INTEGER NOT NULL DEFAULT 1)
+	    	`tag_id` INTEGER NOT NULL,
+	    	`tag` INTEGER NOT NULL DEFAULT 1,
+	    	UNIQUE (user_id, tag_id) ON CONFLICT REPLACE)
    	</string>
 	
 	<!-- thought_home -->
@@ -258,12 +233,37 @@
 	
 	<!-- user -->
 	<string name="sql_s_usr_uname">
-	    SELECT * FROM `user` WHERE `userName` = ?
+	    SELECT * FROM `user` WHERE `username` = ?
 	</string>
 	<string name="sql_s_usr_id">
-	    SELECT * FROM `user` WHERE `id` = ?
+	    SELECT u.*, c.name AS home_name, c.region AS home_region, l.name AS lang_name, l.region AS lang_region 
+	    FROM `user` AS u 
+	    LEFT JOIN `country` AS c ON u.`home_id` = c.`_id`
+	    LEFT JOIN `language` AS l ON u.`lang_id` = l.`_id`
+	    WHERE u.`_id` = ?
 	</string>
-	
+	<string name="sql_s_usr_grp">
+	    SELECT DISTINCT u.* FROM `user` AS u
+	    LEFT JOIN `follow_group` AS fg
+	    ON u.`_id` = fg.`user_id`
+	    WHERE fg.`group_id` = ? ORDER BY u.`_id` DESC LIMIT ? OFFSET ?
+	</string>
+	<string name="sql_s_usr_self_tag">
+	    SELECT DISTINCT u.* FROM `user` AS u
+	    LEFT JOIN `tag_self` AS ts
+	    ON u.`_id` = ts.`user_id`
+	    WHERE ts.`tag_id` IN (?,?,?,?,?,?,?,?,?,?) ORDER BY u.`_id` DESC LIMIT ? OFFSET ?
+	</string>
+	<string name="sql_s_usr_like_tag">
+	    SELECT DISTINCT u.* FROM `user` AS u
+	    LEFT JOIN `like_tag` AS lt
+	    ON u.`_id` = lt.`user_id`
+	    WHERE lt.`tag_id` IN (?,?,?,?,?,?,?,?,?,?) ORDER BY u.`_id` DESC LIMIT ? OFFSET ?  
+	</string>
+	<string name="sql_s_usr_keyword"
+	    formatted="false">
+	    SELECT DISTINCT * FROM `user` WHERE username LIKE 
+	</string>
 	<!-- group -->
 	<string name="sql_s_grp">
 	    SELECT `_id`,`name` FROM `grp` ORDER BY `_id` LIMIT ? OFFSET ?
@@ -275,10 +275,18 @@
 	    WHERE t.`_id` = ?
 	</string>
 	<string name="sql_s_grp_hot">
-	    SELECT g.`_id`,g.`name` FROM `grp` AS g 
+	    SELECT DISTINCT g.`_id`,g.`name` FROM `grp` AS g 
 	    LEFT JOIN `hot_thought` AS t
 	    ON g.`_id` = t.`group_id`
 	    WHERE t.`_id` = ?
+	</string>
+	<string name="sql_s_grp_follow">
+	    SELECT DISTINCT g.`_id`,g.`name` FROM `grp` AS g
+	    LEFT JOIN `follow_group` AS fg
+	    ON g.`_id` = fg.`group_id`
+	    LEFT JOIN `user` AS u
+	    ON fg.`user_id` = u.`_id`
+	    WHERE u.`_id` = ? AND fg.`follow` = 1
 	</string>
 	
 	<!-- tag -->
@@ -303,9 +311,45 @@
 	    WHERE tt.`tag` = 1 AND ht.`_id` = ?
 	    ORDER BY t.`_id`
 	</string>
-			
+	<string name="sql_s_tag_self">
+	    SELECT DISTINCT t.`_id`,t.`name` FROM `tag` AS t
+	    LEFT JOIN `tag_self` AS ts
+	    ON t.`_id` = ts.`tag_id`
+	    LEFT JOIN `user` AS u
+	    ON ts.`user_id` = u.`_id`
+	    WHERE u.`_id` = ? AND ts.`tag` = 1
+	</string>		
+	<string name="sql_s_tag_like">
+	    SELECT DISTINCT t.`_id`,t.`name` FROM `tag` AS t
+	    LEFT JOIN `like_tag` AS lt
+	    ON t.`_id` = lt.`tag_id`
+	    LEFT JOIN `user` AS u
+	    ON lt.`user_id` = u.`_id`
+	    WHERE u.`_id` = ? AND lt.`like` = 1
+	</string>
+	
 	<!-- category -->
 	<string name="sql_s_category">
-	    SELECT `_id`,`name` FROM `category` ORDER BY `_id` LIMIT ? OFFSET ?
+	    SELECT `_id`,`name` FROM `category` ORDER BY `_id`
 	</string>	
+	<string name="sql_s_category_id">
+	    SELECT `_id`,`name` FROM `category` WHERE `_id` = ? ORDER by `_id`
+	</string>
+	
+	<!-- country -->
+	<string name="sql_s_country">
+	    SELECT `_id`,`name`,`region` FROM `country` ORDER BY `_id`
+	</string>
+	<string name="sql_s_country_id">
+	    SELECT `_id`,`name` FROM `country` WHERE `_id` = ? ORDER by `_id`
+	</string>
+		
+	<!-- language -->
+	<string name="sql_s_language">
+	    SELECT `_id`,`name`,`region` FROM `language` ORDER BY `_id`
+	</string>
+		<string name="sql_s_language_id">
+	    SELECT `_id`,`name` FROM `language` WHERE `_id` = ? ORDER by `_id`
+	</string>
+	
 </resources>

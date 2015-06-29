@@ -92,7 +92,6 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(getActivity(), "BACK to Result", Toast.LENGTH_SHORT).show();
 			if (type == SearchPage.THOUGHTS_MORE_GROUP) {
 				index = SearchPage.THOUGHT_GROUP;
 			} else if (type == SearchPage.PEOPLE_MORE_GROUP) {
@@ -182,7 +181,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
 		switch(loader){
 		case MyApp.LOADER_GROUP:
-			Uri uri = GroupDAO.CONTENT_URI;
+			Uri uri = GroupDAO.CONTENT_URI_GROUP;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}
@@ -212,7 +211,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 				values[i++] = group.putValues();
 			}
 			
-			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI, values);
+			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
 			updateUI();
 			onLoadFinished();
 		} else {
@@ -223,7 +222,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 	
 	private void updateUI(){
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI, null, null, args, null);
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

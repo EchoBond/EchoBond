@@ -1,5 +1,6 @@
 package com.echobond.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -9,7 +10,9 @@ import android.content.ContentValues;
  * @author Luck
  *
  */
-public class Tag {
+public class Tag implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	public ContentValues putValues(){

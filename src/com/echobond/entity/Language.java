@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import android.content.ContentValues;
+
 /**
  * 
  * @author Luck
@@ -9,6 +11,13 @@ public class Language {
 	private int id;
 	private String name;
 	private String region;
+	public ContentValues putValues(){
+		ContentValues values = new ContentValues();
+		values.put("_id", id);
+		values.put("name", name);
+		values.put("region", region);
+		return values;
+	}	
 	public int getId() {
 		return id;
 	}

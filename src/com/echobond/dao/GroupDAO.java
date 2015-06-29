@@ -13,12 +13,15 @@ public class GroupDAO extends ContentProvider{
 	
 	public static final String PROVIDER_NAME = "com.echobond.contentprovider.group";
 	//content://authority/path/id
-	public static final Uri CONTENT_URI = Uri.parse("content://"+PROVIDER_NAME+"/group");
+	public static final Uri CONTENT_URI_GROUP = Uri.parse("content://"+PROVIDER_NAME+"/group");
+	public static final Uri CONTENT_URI_FOLLOW = Uri.parse("content://"+PROVIDER_NAME+"/follow");
 	private static final int GROUP = 1;
+	private static final int GROUP_FOLLOW = 2;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "group", GROUP);
+		uriMatcher.addURI(PROVIDER_NAME, "follow", GROUP_FOLLOW);
 	}
 
 	public void close(){
@@ -28,7 +31,12 @@ public class GroupDAO extends ContentProvider{
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		
+		switch(uriMatcher.match(uri)){
+		case GROUP:
+			break;
+		case GROUP_FOLLOW:
+			return GroupDB.getInstance().removeFollowedGroups(selection, selectionArgs);
+		}
 		return 0;
 	}
 	@Override
@@ -38,18 +46,20 @@ public class GroupDAO extends ContentProvider{
 	}
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		if(uriMatcher.match(uri) == GROUP){
+		switch(uriMatcher.match(uri)){
+		case GROUP:
 			GroupDB.getInstance().addGroup(values);
+			break;
+		case GROUP_FOLLOW:
+			GroupDB.getInstance().addGroupFollow(values);
 		}
 		return uri;
 	}
 	
 	@Override
 	public int bulkInsert(Uri uri, ContentValues[] values) {
-		if(uriMatcher.match(uri) == GROUP){
-			for (ContentValues contentValues : values) {
-				insert(uri, contentValues);
-			}
+		for (ContentValues contentValues : values) {
+			insert(uri, contentValues);
 		}
 		return 0;
 	}
@@ -62,10 +72,14 @@ public class GroupDAO extends ContentProvider{
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		Cursor cursor = null;
-		if(uriMatcher.match(uri) == GROUP){
+		switch(uriMatcher.match(uri)){
+		case GROUP:
 			cursor = GroupDB.getInstance().loadGroups(selectionArgs);
-			cursor.setNotificationUri(getContext().getContentResolver(), uri);
+			break;
+		case GROUP_FOLLOW:
+			cursor = GroupDB.getInstance().loadGroupsFollow(selectionArgs);
 		}
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 	@Override

@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -114,7 +115,42 @@ public class SearchPeopleFragment extends Fragment implements LoadSearchPeopleCa
 				grpsViews[i].setTag(g.getId());
 				tagsViews[i].setText(t.getName());
 				tagsViews[i].setTag(t.getId());
+				
+				grpsViews[i].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						Integer id = (Integer) view.getTag();
+						JSONObject jso = new JSONObject();
+						try {
+							jso.put("index", SearchPage.PEOPLE_GROUP);
+							jso.put("id", id);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						typeSwitchCallback.onSearchSelected(jso);
+					}
+				});
+				
+				tagsViews[i].setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						Integer id = (Integer) view.getTag();
+						JSONObject jso = new JSONObject();
+						try {
+							jso.put("index", SearchPage.PEOPLE_TAG);
+							ArrayList<Integer> idList = new ArrayList<Integer>();
+							idList.add(id);
+							jso.put("id", 0);
+							jso.put("idList", JSONUtil.fromListToJSONArray(idList, new TypeToken<ArrayList<Integer>>(){}));
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						typeSwitchCallback.onSearchSelected(jso);
+					}
+				});
 			}
-		}
+		}		
 	}
 }

@@ -6,7 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.entity.User;
-import com.echobond.intf.FollowTagsCallback;
+import com.echobond.intf.TagSelfCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
@@ -15,18 +15,18 @@ import android.os.AsyncTask;
 
 /**
  * This task is to handle following of tags updates in server's DB.<br>
- * Params (Object): url(String), activity(FollowTagsCallback), user(User), tagIds(ArrayList<Integer>)<br>
+ * Params (Object): url(String), activity(TagSelfCallback), user(User), tagIds(ArrayList<Integer>)<br>
  * @version 1.0
  * @author Luck
  * 
  */
-public class FollowTagsAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
+public class TagSelfAsyncTask extends AsyncTask<Object, Integer, JSONObject> {
 
-	private FollowTagsCallback activity;
+	private TagSelfCallback activity;
 	@Override
 	protected JSONObject doInBackground(Object... params) {
 		String url = (String) params[0];
-		activity =  (FollowTagsCallback) params[1];
+		activity =  (TagSelfCallback) params[1];
 		User u = (User) params[2];
 		@SuppressWarnings("unchecked")
 		ArrayList<Integer> tagIds = (ArrayList<Integer>) params[3];
@@ -43,7 +43,7 @@ public class FollowTagsAsyncTask extends AsyncTask<Object, Integer, JSONObject> 
 	@Override
 	protected void onPostExecute(JSONObject result) {
 		super.onPostExecute(result);
-		activity.onFollowTagsFinished(result);
+		activity.onTagSelfFinished(result);
 	}
 	
 	@Override

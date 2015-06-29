@@ -1,28 +1,29 @@
 package com.echobond.activity;
 
 import com.echobond.R;
+import com.echobond.connector.UpdateUserProfileService;
+import com.echobond.entity.User;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
-import com.echobond.util.ImageUtil;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback {
+public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback{
 
 	private ImageView backButton, doneButton;
 	private TextView titleView;
@@ -39,12 +40,41 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	
 	private boolean isDrawing = false;
 	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@SuppressLint("NewApi")
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.hasExtra("duplicateUserName")){
+				Toast.makeText(getApplicationContext(), "duplicate user name", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			/*
+			EditText avatarText = picFragment.getAvatarText();
+			avatarText.setBackground(null);
+			RelativeLayout avatarLayout = picFragment.getAvatarLayout();
+			Bitmap avatar = ImageUtil.generateBitmap(avatarLayout);
+			Time time = new Time();
+			time.setToNow();*/
+//			ImageUtil.saveBitmap(avatar, "avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
+			closeEditorActivity();
+			Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_profile_page);
 		initTitleBar();
 		initContent();
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("updateUserProfile"));
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 	}
 
 	private void initTitleBar() {
@@ -73,20 +103,21 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			
-			@SuppressLint("NewApi") 
 			@Override
 			public void onClick(View v) {
-				if (!isDrawing) {
-					// TODO Submit the edit behaviors
-					EditText avatarText = picFragment.getAvatarText();
-					avatarText.setBackground(null);
-					RelativeLayout avatarLayout = picFragment.getAvatarLayout();
-					Bitmap avatar = ImageUtil.generateBitmap(avatarLayout);
-					Time time = new Time();
-					time.setToNow();
-//					ImageUtil.saveBitmap(avatar, "avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
-					closeEditorActivity();
-					Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
+				if (!isDrawing) {										
+					User user = mainFragment.getUser();
+					String[] selfTags = mainFragment.getSelfTags();
+					String[] likedTags = mainFragment.getLikedTags();
+					String[] followedGroups = mainFragment.getFollowedGroups();
+					Intent intent = new Intent();
+					intent.putExtra("user", user);
+					intent.putExtra("selfTags", selfTags);
+					intent.putExtra("likedTags", likedTags);
+					intent.putExtra("followedGroups", followedGroups);
+					intent.setClass(EditProfilePage.this, UpdateUserProfileService.class);
+					startService(intent);
+
 				} else {
 					isDrawing = false;
 					initContent();
@@ -101,7 +132,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		titleView.setTypeface(tf);
 
 	}
-
+	
 	private void initContent() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		if (null == mainFragment || null == picFragment) {
@@ -145,4 +176,5 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		}
 		return true;
 	}
+
 }

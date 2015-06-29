@@ -11,12 +11,16 @@ import com.echobond.activity.NewPostPage;
 import com.echobond.activity.SearchPage;
 import com.echobond.activity.StartPage;
 import com.echobond.connector.InitFetchService;
+import com.echobond.db.CategoryDB;
 import com.echobond.db.ChatDB;
 import com.echobond.db.CommentDB;
+import com.echobond.db.CountryDB;
 import com.echobond.db.GroupDB;
 import com.echobond.db.HomeThoughtDB;
 import com.echobond.db.HotThoughtDB;
+import com.echobond.db.LanguageDB;
 import com.echobond.db.TagDB;
+import com.echobond.db.UserDB;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -61,7 +65,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	
 	public static final int DEFAULT_OFFSET = 0;
 	public static final int LIMIT_INIT = 10;
-	public static final int LIMIT_INIT_FETCH = 100;
+	public static final int LIMIT_INIT_FETCH = 1000;
 	public static final int LIMIT_INCREMENT = 10;
 	public static final long LOAD_INTERVAL = 2000;
 	
@@ -116,11 +120,11 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	        .tasksProcessingOrder(QueueProcessingType.FIFO) // default
 	        .denyCacheImageMultipleSizesInMemory()
 	        .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-	        .memoryCacheSize(2 * 1024 * 1024)
-	        .memoryCacheSizePercentage(13) // default
+	        //.memoryCacheSize(2 * 1024 * 1024)
+	        //.memoryCacheSizePercentage(13) // default
 	        //.diskCache(new UnlimitedDiscCache(cacheDir)) // default
 	        .diskCacheSize(50 * 1024 * 1024)
-	        .diskCacheFileCount(100)
+	        //.diskCacheFileCount(100)
 	        .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
 	        .imageDownloader(new BaseImageDownloader(this)) // default
 	        .imageDecoder(new BaseImageDecoder(true)) // default
@@ -136,6 +140,10 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		ChatDB.getInstance(this);
 		GroupDB.getInstance(this);
 		TagDB.getInstance(this);
+		UserDB.getInstance(this);
+		CategoryDB.getInstance(this);
+		LanguageDB.getInstance(this);
+		CountryDB.getInstance(this);
 	}
 	@Override
 	public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
