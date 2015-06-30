@@ -1,6 +1,7 @@
 package com.echobond.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
@@ -96,6 +97,19 @@ public class CommUtil {
 			newNames[i++] = name.trim();
 		}
 		return newNames;
+	}
+	
+	public static String arrayListToString(ArrayList<String> stringList, String split){
+		StringBuilder builder = new StringBuilder();
+		if(null != stringList){
+			for(int i = 0; i < stringList.size(); i++){
+				builder.append(stringList.get(i).trim());
+				if(i < stringList.size()-1){
+					builder.append(split);
+				}
+			}
+		}
+		return builder.toString();
 	}
 	
 }

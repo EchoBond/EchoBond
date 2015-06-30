@@ -153,25 +153,25 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		switch (fgType) {
 		case THOUGHT_GROUP:
 			bundle.putString("type", THOUGHTS_MORE_GROUP);
-			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_FROM_SEARCH);
 			groupsThoughtsFragment.setArguments(bundle);
 			transaction.show(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case THOUGHT_TAG:
 			bundle.putString("type", THOUGHTS_MORE_TAG);
-			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_FROM_SEARCH);
 			tagsThoughtsFragment.setArguments(bundle);
 			transaction.show(tagsThoughtsFragment).hide(groupsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_GROUP:
 			bundle.putString("type", PEOPLE_MORE_GROUP);
-			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_FROM_SEARCH);
 			groupsPeopleFragment.setArguments(bundle);
 			transaction.show(groupsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_TAG:
 			bundle.putString("type", PEOPLE_MORE_TAG);
-			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_FROM_SEARCH);
 			tagsPeopleFragment.setArguments(bundle);
 			transaction.show(tagsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(mainFragment).commit();
 			break;

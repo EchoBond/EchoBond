@@ -64,6 +64,7 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 	private long lastLoadTime;
 	
 	private ArrayList<Integer> tagIds;
+	private ArrayList<String> tagNames;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -73,6 +74,7 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 		currentLimit = MyApp.LIMIT_INIT;
 		
 		tagIds = new ArrayList<Integer>();
+		tagNames = new ArrayList<String>();
 		
 		adapter = new MoreTagsAdapter(getActivity(), R.layout.item_tag, null, 0);
 		moreTagsList = (XListView)moreTagsView.findViewById(R.id.more_tags_list);
@@ -92,10 +94,12 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 					item.setSelected(false);
 					adapter.setSelected(position-1, false);
 					tagIds.remove(item.getTag());
+					tagNames.remove(item.getText().toString());
 				} else if (!item.isSelected()) {
 					item.setSelected(true);
 					adapter.setSelected(position-1, true);
 					tagIds.add((Integer) item.getTag());
+					tagNames.add(item.getText().toString());
 				}
 				adapter.notifyDataSetChanged();
 			}
@@ -108,7 +112,7 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 		if (bundle != null) {
 			type = bundle.getString("type");
 			mode = bundle.getInt("mode");
-			if (mode == MyApp.VIEW_MORE_SEARCH) {
+			if (mode == MyApp.VIEW_MORE_FROM_SEARCH) {
 				tagTextView.setText("View More " + type);
 			} else {
 				tagTextView.setVisibility(View.GONE);
@@ -144,6 +148,10 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 	
 	public ArrayList<Integer> getTagIds() {
 		return tagIds;
+	}
+
+	public ArrayList<String> getTagNames() {
+		return tagNames;
 	}
 
 	public class MoreTagsAdapter extends CursorAdapter {

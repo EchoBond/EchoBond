@@ -1,7 +1,6 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
-import com.echobond.activity.NewPostPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
@@ -43,8 +42,8 @@ public class NewContentsFragment extends Fragment {
 			public void onClick(View v) {
 				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
-				intent.putExtra("title", NewPostPage.TAG);
-				intent.putExtra("mode", MyApp.VIEW_MORE_PROFILE);
+				intent.putExtra("title", MyApp.VIEW_MORE_TAG);
+				intent.putExtra("mode", MyApp.VIEW_MORE_FROM_PROFILE);
 				intent.setClass(getActivity(), ViewMorePage.class);
 				startActivity(intent);
 			}

@@ -8,7 +8,6 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import com.echobond.R;
-import com.echobond.activity.NewPostPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.GroupAsyncTask;
@@ -61,8 +60,8 @@ public class NewGroupsFragment extends Fragment implements GroupCallback, IXList
 			public void onClick(View arg0) {
 				Toast.makeText(getActivity(), "More Groups CLICKED", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
-				intent.putExtra("title", NewPostPage.GROUP);
-				intent.putExtra("mode", MyApp.VIEW_MORE_POST);
+				intent.putExtra("title", MyApp.VIEW_MORE_GROUP);
+				intent.putExtra("mode", MyApp.VIEW_MORE_FROM_POST);
 				intent.setClass(getActivity(), ViewMorePage.class);
 				startActivity(intent);
 			}

@@ -108,7 +108,7 @@ public class ProfileTagsFragment extends Fragment implements IXListViewListener,
 		if (bundle != null) {
 			type = bundle.getString("type");
 			mode = bundle.getInt("mode");
-			if (mode == MyApp.VIEW_MORE_SEARCH) {
+			if (mode == MyApp.VIEW_MORE_FROM_SEARCH) {
 				tagTextView.setText("View More " + type);
 			} else {
 				tagTextView.setVisibility(View.GONE);

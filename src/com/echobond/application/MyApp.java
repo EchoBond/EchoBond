@@ -81,9 +81,12 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int ACTIVITY_SEARCH_PAGE = 8;
 	public static final int ACTIVITY_START_PAGE = 9;
 	
-	public static final int VIEW_MORE_SEARCH = 0;
-	public static final int VIEW_MORE_PROFILE = 1;
-	public static final int VIEW_MORE_POST = 2;
+	public static final int VIEW_MORE_FROM_SEARCH = 0;
+	public static final int VIEW_MORE_FROM_PROFILE = 1;
+	public static final int VIEW_MORE_FROM_POST = 2;
+	
+	public static final String VIEW_MORE_GROUP = "Groups";
+	public static final String VIEW_MORE_TAG = "Hashtags";
 	
 	private static int currentActivityIndex = ACTIVITY_NULL;
 	private static Activity currentActivity;

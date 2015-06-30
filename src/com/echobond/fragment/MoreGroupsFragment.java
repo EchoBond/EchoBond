@@ -59,10 +59,13 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	private TextView groupTextView;
 	private ImageView groupView;
 	
+
+	
 	private int currentLimit;
 	private long lastLoadTime;
 	
-	private ArrayList<Integer> tagIds;
+	private ArrayList<Integer> groupIds;
+	private ArrayList<String> groupNames;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -71,7 +74,8 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 		
 		currentLimit = MyApp.LIMIT_INIT;
 		
-		tagIds = new ArrayList<Integer>();
+		groupIds = new ArrayList<Integer>();
+		groupNames = new ArrayList<String>();
 		
 		adapter = new MoreGroupsCursorAdapter(getActivity(), R.layout.item_group, null, 0);
 		moreGroupsList = (XListView)moreGroupsView.findViewById(R.id.more_groups_list);
@@ -88,11 +92,11 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 			type = bundle.getString("type");
 			mode = bundle.getInt("mode");
 			switch(mode){
-			case MyApp.VIEW_MORE_SEARCH:
+			case MyApp.VIEW_MORE_FROM_SEARCH:
 				groupView.setVisibility(View.GONE);
 				groupTextView.setText("View More " + type);
 				break;
-			case MyApp.VIEW_MORE_PROFILE:
+			case MyApp.VIEW_MORE_FROM_PROFILE:
 				groupView.setVisibility(View.GONE);
 				groupTextView.setVisibility(View.GONE);
 				moreGroupsList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -104,17 +108,19 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 						if (item.isSelected()) {
 							item.setSelected(false);
 							adapter.setSelected(position-1, false);
-							tagIds.remove(item.getTag());
+							groupIds.remove(item.getTag());
+							groupNames.remove(item.getText().toString());
 						} else if (!item.isSelected()) {
 							item.setSelected(true);
 							adapter.setSelected(position-1, true);
-							tagIds.add((Integer) item.getTag());
+							groupIds.add((Integer) item.getTag());
+							groupNames.add(item.getText().toString());
 						}
 						adapter.notifyDataSetChanged();
 					}
 				});
 				break;
-			case MyApp.VIEW_MORE_POST:
+			case MyApp.VIEW_MORE_FROM_POST:
 				groupView.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_group_logoview));
 				groupTextView.setTextColor(Color.parseColor("#8980DA"));
 				groupTextView.setText(getString(R.string.title_new_post_grouptitle));
@@ -132,7 +138,7 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	/* sticky to SearchPage */
 	@Override
 	public void onClick(View v) {
-		if(mode != MyApp.VIEW_MORE_PROFILE){
+		if(mode != MyApp.VIEW_MORE_FROM_PROFILE){
 			int index = 0;
 			int id = (Integer) v.getTag();
 			if (type == SearchPage.THOUGHTS_MORE_GROUP) {
@@ -151,8 +157,12 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 		}
 	}
 		
-	public ArrayList<Integer> getTagIds() {
-		return tagIds;
+	public ArrayList<Integer> getGroupIds() {
+		return groupIds;
+	}
+	
+	public ArrayList<String> getGroupNames() {
+		return groupNames;
 	}
 
 	public class MoreGroupsCursorAdapter extends CursorAdapter {
@@ -189,7 +199,7 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 				item.setTextColor(Color.BLACK);
 			}
 			
-			if(mode != MyApp.VIEW_MORE_PROFILE){
+			if(mode != MyApp.VIEW_MORE_FROM_PROFILE){
 				item.setOnClickListener(MoreGroupsFragment.this);
 			}
 		}

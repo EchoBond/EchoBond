@@ -13,7 +13,7 @@ import com.echobond.dao.ChatDAO;
 import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
-import com.echobond.fragment.MessageChildFragment;
+import com.echobond.fragment.NotificationFragment;
 import com.echobond.fragment.ProfileFragment;
 import com.echobond.intf.GCMCallback;
 import com.echobond.util.GCMUtil;
@@ -67,8 +67,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	
 	private HomeThoughtFragment homeFragment;
 	private HotThoughtFragment hitFragment;
-//	private NotificationFragment notificationFragment;
-	private MessageChildFragment messageFragment;
+	private NotificationFragment notificationFragment;
 	private ProfileFragment profileFragment;
 	
 	private ArrayList<Fragment> mainFragmentsList;
@@ -148,7 +147,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		super.onResume();
 		Intent thisIntent = getIntent();
 		if(null != thisIntent && thisIntent.getExtras()!= null && thisIntent.getExtras().getBoolean("fromDataFetch")){
-//			notificationFragment.changeTab(1);
+			notificationFragment.changeTab(1);
 			mTabPager.setCurrentItem(2);
 		}
 	}
@@ -188,15 +187,13 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		
 		homeFragment = new HomeThoughtFragment();
 		hitFragment = new HotThoughtFragment();
-//		notificationFragment = new NotificationFragment();
-		messageFragment = new MessageChildFragment();
+		notificationFragment = new NotificationFragment();
 		profileFragment = new ProfileFragment();
 		
 		mainFragmentsList = new ArrayList<Fragment>();
 		mainFragmentsList.add(homeFragment);
 		mainFragmentsList.add(hitFragment);
-//		mainFragmentsList.add(notificationFragment);
-		mainFragmentsList.add(messageFragment);
+		mainFragmentsList.add(notificationFragment);
 		mainFragmentsList.add(profileFragment);
 		
 		Display currentDisplay = getWindowManager().getDefaultDisplay();
@@ -273,7 +270,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case 1:
-				intent.putExtra("mode", MyApp.VIEW_MORE_POST);
+				intent.putExtra("mode", MyApp.VIEW_MORE_FROM_POST);
 				intent.setClass(MainPage.this, NewPostPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;

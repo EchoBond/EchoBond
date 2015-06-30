@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
-import com.echobond.activity.NewPostPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -115,9 +114,9 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 				switchCallback.setPoster(true);
 			}
 		});
-		moreTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_SELF_TAGS));
-		moreGroupsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.GROUP,MORE_LIKE_TAGS));
-		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_FOLLOW_GROUPS));
+		moreTagsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_TAG, MORE_SELF_TAGS));
+		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_TAG,MORE_LIKE_TAGS));
+		moreGroupsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_GROUP, MORE_FOLLOW_GROUPS));
 		
 		return editProfileView;
 	}
@@ -136,7 +135,7 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			intent.putExtra("title", typeString);
-			intent.putExtra("mode", MyApp.VIEW_MORE_PROFILE);
+			intent.putExtra("mode", MyApp.VIEW_MORE_FROM_PROFILE);
 			intent.setClass(getActivity(), ViewMorePage.class);
 			startActivityForResult(intent, type);
 		}
@@ -145,15 +144,43 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(null == data || null == data.getExtras()){
+			super.onActivityResult(requestCode, resultCode, data);
+			return;
+		}
 		Bundle bundle = data.getExtras();
 		ArrayList<Integer> idList = bundle.getIntegerArrayList("idList");
-		switch(requestCode){
-		case MORE_SELF_TAGS:
-			break;
-		case MORE_LIKE_TAGS:
-			break;
-		case MORE_FOLLOW_GROUPS:
-			break;
+		ArrayList<String> nameList = bundle.getStringArrayList("nameList");
+		if(idList != null && !idList.isEmpty()){
+			switch(requestCode){
+			case MORE_SELF_TAGS:
+				String[] selfTags = getSelfTags();
+				for(String tagName: selfTags){
+					if(!nameList.contains(tagName)){
+						nameList.add(tagName);
+					}
+				}
+				userTags.setText(CommUtil.arrayListToString(nameList, ","));
+				break;
+			case MORE_LIKE_TAGS:
+				String[] likedTags = getLikedTags(); 
+				for(String tagName: likedTags){
+					if(!nameList.contains(tagName)){
+						nameList.add(tagName);
+					}
+				}
+				userLikedTags.setText(CommUtil.arrayListToString(nameList, ","));
+				break;
+			case MORE_FOLLOW_GROUPS:
+				String[] followedGroups = getFollowedGroups();
+				for(String tagName: followedGroups){
+					if(!nameList.contains(tagName)){
+						nameList.add(tagName);
+					}
+				}
+				userGroups.setText(CommUtil.arrayListToString(nameList, ","));
+				break;
+			}
 		}
 	}
 	

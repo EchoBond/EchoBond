@@ -248,7 +248,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 			groupsFragment = new MoreGroupsFragment();
 			
 			Bundle bundle = new Bundle();
-			bundle.putInt("mode", getIntent().getIntExtra("mode", MyApp.VIEW_MORE_POST));
+			bundle.putInt("mode", getIntent().getIntExtra("mode", MyApp.VIEW_MORE_FROM_POST));
 			groupsFragment.setArguments(bundle);
 			transaction.add(R.id.new_post_content, categoryFragment);
 			transaction.add(R.id.new_post_content, postFragment);

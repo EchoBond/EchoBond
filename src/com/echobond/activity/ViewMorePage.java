@@ -3,6 +3,7 @@ package com.echobond.activity;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
 import com.echobond.fragment.ProfileGroupsFragment;
@@ -72,7 +73,13 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.putIntegerArrayListExtra("idList", moreTagsFragment.getTagIds());
+				if(title.equals(MyApp.VIEW_MORE_TAG)){
+					intent.putIntegerArrayListExtra("idList", moreTagsFragment.getTagIds());
+					intent.putStringArrayListExtra("nameList", moreTagsFragment.getTagNames());
+				} else if(title.equals(MyApp.VIEW_MORE_GROUP)){
+					intent.putIntegerArrayListExtra("idList", moreGroupsFragment.getGroupIds());
+					intent.putStringArrayListExtra("nameList", moreGroupsFragment.getGroupNames());					
+				}
 				setResult(Activity.RESULT_OK, intent);
 				finish();
 			}
@@ -91,10 +98,10 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 		}
 		Bundle bundle = new Bundle();
 		bundle.putInt("mode", mode);
-		if (title.equals(NewPostPage.GROUP)) {
+		if (title.equals(MyApp.VIEW_MORE_GROUP)) {
 			moreGroupsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreGroupsFragment).show(moreGroupsFragment).commit();
-		} else if (title.equals(NewPostPage.TAG)) {
+		} else if (title.equals(MyApp.VIEW_MORE_TAG)) {
 			moreTagsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreTagsFragment).show(moreTagsFragment).commit();
 		}
