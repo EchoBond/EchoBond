@@ -45,7 +45,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MoreGroupsFragment extends Fragment implements IXListViewListener, LoaderCallbacks<Cursor>, LoadGroupsCallback {
+public class ProfileGroupsFragment extends Fragment implements IXListViewListener, LoaderCallbacks<Cursor>, LoadGroupsCallback {
 
 	private XListView moreGroupsList;
 	private ViewMoreSwitchCallback searchCallback;
@@ -61,20 +61,20 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View moreGroupsView = inflater.inflate(R.layout.fragment_more_groups, container, false);
+		View profileGroupsView = inflater.inflate(R.layout.fragment_more_groups, container, false);
 		
 		currentLimit = MyApp.LIMIT_INIT;
 		
 		adapter = new MoreGroupsCursorAdapter(getActivity(), R.layout.item_group, null, 0);
-		moreGroupsList = (XListView)moreGroupsView.findViewById(R.id.more_groups_list);
+		moreGroupsList = (XListView)profileGroupsView.findViewById(R.id.more_groups_list);
 		moreGroupsList.setPullRefreshEnable(false);
 		moreGroupsList.setPullLoadEnable(true);
 		moreGroupsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		moreGroupsList.setAdapter(adapter);
 		moreGroupsList.setXListViewListener(this);
 		
-		groupView = (ImageView)moreGroupsView.findViewById(R.id.more_groups_view);
-		groupTextView = (TextView)moreGroupsView.findViewById(R.id.more_groups_text);
+		groupView = (ImageView)profileGroupsView.findViewById(R.id.more_groups_view);
+		groupTextView = (TextView)profileGroupsView.findViewById(R.id.more_groups_text);
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			type = bundle.getString("type");
@@ -92,9 +92,9 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 			}
 		}
 		getLoaderManager().initLoader(MyApp.LOADER_GROUP, null, this);
-		return moreGroupsView;
+		return profileGroupsView;
 	}
-	
+
 	public class SearchOnClickListener implements OnClickListener {
 
 		private String type;
@@ -169,6 +169,56 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 			throw new ClassCastException(activity.toString() + "must implement searchCallback in MoreGroupsFragment. ");
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onLoadGroupsResult(JSONObject result) {
+		if(null != result){
+			TypeToken<ArrayList<Group>> token = new TypeToken<ArrayList<Group>>(){};
+			ArrayList<Group> groups = null;
+			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", token);
+			ContentValues[] values = new ContentValues[groups.size()];
+			int i = 0;
+			for (Group group : groups) {
+				values[i++] = group.putValues();
+			}
+			
+			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
+			updateUI();
+			onLoadFinished();
+		} else {
+			onLoadFinished();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void updateUI(){
+		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
+		adapter.swapCursor(cursor);
+		adapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
+		switch(loader){
+		case MyApp.LOADER_GROUP:
+			Uri uri = GroupDAO.CONTENT_URI_GROUP;
+			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
+			return new CursorLoader(getActivity(), uri, null, null, args, null);
+		}
+		return null;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		adapter.swapCursor(c);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		adapter.swapCursor(null);
+	}
 
 	@Override
 	public void onRefresh() {
@@ -192,55 +242,4 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 		moreGroupsList.stopLoadMore();
 		moreGroupsList.stopRefresh();
 	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
-		switch(loader){
-		case MyApp.LOADER_GROUP:
-			Uri uri = GroupDAO.CONTENT_URI_GROUP;
-			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-			return new CursorLoader(getActivity(), uri, null, null, args, null);
-		}
-		return null;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-		adapter.swapCursor(c);
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		adapter.swapCursor(null);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void onLoadGroupsResult(JSONObject result) {
-		if(null != result){
-			TypeToken<ArrayList<Group>> token = new TypeToken<ArrayList<Group>>(){};
-			ArrayList<Group> groups = null;
-			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", token);
-			ContentValues[] values = new ContentValues[groups.size()];
-			int i = 0;
-			for (Group group : groups) {
-				values[i++] = group.putValues();
-			}
-			
-			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
-			updateUI();
-			onLoadFinished();
-		} else {
-			onLoadFinished();
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
-		}
-	}
-	
-	private void updateUI(){
-		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
-		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
-		adapter.swapCursor(cursor);
-		adapter.notifyDataSetChanged();
-	}
-	
 }

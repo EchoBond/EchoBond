@@ -16,11 +16,11 @@ import com.echobond.entity.Thought;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
-import com.echobond.fragment.NewGroupsFragment;
 import com.echobond.fragment.NewPostFragment;
 import com.echobond.intf.ImageCallback;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.PostThoughtCallback;
+import com.echobond.intf.ViewMoreSwitchCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.ImageUtil;
 import com.echobond.util.JSONUtil;
@@ -51,7 +51,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback, ImageCallback {
+public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCallback, NewPostFragmentsSwitchAsyncTaskCallback, PostThoughtCallback, ImageCallback {
 	
 	public static final int NEW_POST_CATEGORY = 0;
 	public static final int NEW_POST_PIC = 1;
@@ -64,8 +64,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	private NewCategoryFragment categoryFragment;
 	private NewPostFragment postFragment;
 	private NewContentsFragment contentsFragment;
-	private NewGroupsFragment groupsFragment;
-	private MoreGroupsFragment groupsFragment2;
+	private MoreGroupsFragment groupsFragment;
 	private String contentsString = "", tagsString = "";
 	private int categoryId = -1, groupId = -1;
 	private ImageView backButton, forwardButton;
@@ -223,7 +222,11 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			categoryFragment = new NewCategoryFragment();
 			postFragment = new NewPostFragment();
 			contentsFragment = new NewContentsFragment();
-			groupsFragment = new NewGroupsFragment();
+			groupsFragment = new MoreGroupsFragment();
+			
+			Bundle bundle = new Bundle();
+			bundle.putInt("mode", getIntent().getIntExtra("mode", 2));
+			groupsFragment.setArguments(bundle);
 			transaction.add(R.id.new_post_content, categoryFragment);
 			transaction.add(R.id.new_post_content, postFragment);
 			transaction.add(R.id.new_post_content, contentsFragment);
@@ -316,6 +319,18 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 
 	@Override
 	public void onDownloadImage(JSONObject result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTypeSelected(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSearchSelected(JSONObject jso) {
 		// TODO Auto-generated method stub
 		
 	}

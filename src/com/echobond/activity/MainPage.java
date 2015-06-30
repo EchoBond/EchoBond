@@ -270,6 +270,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case 1:
+				intent.putExtra("mode", SearchPage.IN_POST);
 				intent.setClass(MainPage.this, NewPostPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
