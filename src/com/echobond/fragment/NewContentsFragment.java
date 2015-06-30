@@ -1,9 +1,12 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
 import com.echobond.R;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
+import com.echobond.util.CommUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -30,6 +32,8 @@ public class NewContentsFragment extends Fragment {
 	private EditText thoughtsContent, tagsContent;
 	private String thoughtsText, tagsText;
 	
+	public static final int REQ = 1;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,12 +44,11 @@ public class NewContentsFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
 				intent.putExtra("title", MyApp.VIEW_MORE_TAG);
 				intent.putExtra("mode", MyApp.VIEW_MORE_FROM_PROFILE);
 				intent.setClass(getActivity(), ViewMorePage.class);
-				startActivity(intent);
+				startActivityForResult(intent, REQ);
 			}
 		});
 		
@@ -55,6 +58,34 @@ public class NewContentsFragment extends Fragment {
 		tagsContent.addTextChangedListener(new MyTextWatcher());
 		
 		return contentsView;
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(null == data || null == data.getExtras()){
+			super.onActivityResult(requestCode, resultCode, data);
+			return;
+		}
+		Bundle bundle = data.getExtras();
+		ArrayList<Integer> idList = bundle.getIntegerArrayList("idList");
+		ArrayList<String> nameList = bundle.getStringArrayList("nameList");
+		if(null != idList && !idList.isEmpty()){
+			switch (requestCode) {
+			case REQ:
+				String[] tags = getTags();
+				if(null != tags && tags.length > 0){
+					for(String tag: tags){
+						if(!nameList.contains(tag)){
+							nameList.add(tag);
+						}
+					}
+				}
+				tagsContent.setText(CommUtil.arrayListToString(nameList, ","));
+				break;
+			default:
+				break;
+			}
+		}
 	}
 	
 	public class MyTextWatcher implements TextWatcher {
@@ -91,13 +122,9 @@ public class NewContentsFragment extends Fragment {
 			throw new ClassCastException(activity.toString() + "must implement ContentsInterface. ");
 		}
 	}
-
-	public String getThoughtsText() {
-		return thoughtsText;
-	}
-
-	public String getTagsText() {
-		return tagsText;
+	
+	public String[] getTags(){
+		return CommUtil.parseString(tagsContent.getText().toString(), ",");
 	}
 	
 }

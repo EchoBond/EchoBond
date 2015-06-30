@@ -59,10 +59,10 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	private TextView groupTextView;
 	private ImageView groupView;
 	
-
-	
 	private int currentLimit;
 	private long lastLoadTime;
+	
+	private Integer groupId;
 	
 	private ArrayList<Integer> groupIds;
 	private ArrayList<String> groupNames;
@@ -124,6 +124,26 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 				groupView.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_group_logoview));
 				groupTextView.setTextColor(Color.parseColor("#8980DA"));
 				groupTextView.setText(getString(R.string.title_new_post_grouptitle));
+				moreGroupsList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+				moreGroupsList.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View v, int position,
+							long id) {
+						TextView item = (TextView)v.findViewById(R.id.text_group);
+						if (item.isSelected()) {
+							item.setSelected(false);
+							adapter.clearSelection();
+							adapter.setSelected(position-1, false);
+							groupId = -1;
+						} else if (!item.isSelected()) {
+							item.setSelected(true);
+							adapter.clearSelection();
+							adapter.setSelected(position-1, true);
+							groupId = (Integer) item.getTag();
+						}
+						adapter.notifyDataSetChanged();
+					}
+				});
 				break;
 			default:
 				break;
@@ -138,7 +158,7 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	/* sticky to SearchPage */
 	@Override
 	public void onClick(View v) {
-		if(mode != MyApp.VIEW_MORE_FROM_PROFILE){
+		if(mode == MyApp.VIEW_MORE_FROM_SEARCH){
 			int index = 0;
 			int id = (Integer) v.getTag();
 			if (type == SearchPage.THOUGHTS_MORE_GROUP) {
@@ -164,6 +184,10 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	public ArrayList<String> getGroupNames() {
 		return groupNames;
 	}
+	
+	public Integer getGroupId() {
+		return groupId;
+	}
 
 	public class MoreGroupsCursorAdapter extends CursorAdapter {
 
@@ -177,6 +201,10 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 			this.inflater = LayoutInflater.from(context);
 		}
 
+		public void clearSelection(){
+			selectionArray.clear();
+		}
+		
 		public void setSelected(int position, boolean isSelected) {
 			selectionArray.put(position, isSelected);
 		}
@@ -199,7 +227,7 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 				item.setTextColor(Color.BLACK);
 			}
 			
-			if(mode != MyApp.VIEW_MORE_FROM_PROFILE){
+			if(mode == MyApp.VIEW_MORE_FROM_SEARCH){
 				item.setOnClickListener(MoreGroupsFragment.this);
 			}
 		}

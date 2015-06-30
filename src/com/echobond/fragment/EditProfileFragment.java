@@ -155,27 +155,33 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 			switch(requestCode){
 			case MORE_SELF_TAGS:
 				String[] selfTags = getSelfTags();
-				for(String tagName: selfTags){
-					if(!nameList.contains(tagName)){
-						nameList.add(tagName);
+				if(null != selfTags && selfTags.length > 0){
+					for(String tagName: selfTags){
+						if(!nameList.contains(tagName)){
+							nameList.add(tagName);
+						}
 					}
 				}
 				userTags.setText(CommUtil.arrayListToString(nameList, ","));
 				break;
 			case MORE_LIKE_TAGS:
 				String[] likedTags = getLikedTags(); 
-				for(String tagName: likedTags){
-					if(!nameList.contains(tagName)){
-						nameList.add(tagName);
+				if(null != likedTags && likedTags.length > 0){
+					for(String tagName: likedTags){
+						if(!nameList.contains(tagName)){
+							nameList.add(tagName);
+						}
 					}
 				}
 				userLikedTags.setText(CommUtil.arrayListToString(nameList, ","));
 				break;
 			case MORE_FOLLOW_GROUPS:
 				String[] followedGroups = getFollowedGroups();
-				for(String tagName: followedGroups){
-					if(!nameList.contains(tagName)){
-						nameList.add(tagName);
+				if(null != followedGroups && followedGroups.length > 0){
+					for(String tagName: followedGroups){
+						if(!nameList.contains(tagName)){
+							nameList.add(tagName);
+						}
 					}
 				}
 				userGroups.setText(CommUtil.arrayListToString(nameList, ","));

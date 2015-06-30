@@ -222,6 +222,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		
 		@SuppressLint("NewApi") 
 		private void postThought() {
+			groupId = groupsFragment.getGroupId();
 			EditText postText = postFragment.getPostText();
 			postText.setBackground(null);
 			RelativeLayout postLayout = postFragment.getPostLayout();
@@ -336,7 +337,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				t.setCategoryId(categoryId);
 				t.setContent(contentsString);
 				t.setUserId((String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
-				t.setGroupId(groupId);		
+				t.setGroupId(groupId);
 				new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
 						t, NewPostPage.this);
