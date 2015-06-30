@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -38,6 +39,11 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	private EditProfileFragment mainFragment;
 	private DrawingIconFragment picFragment;
 	
+	private ProgressBar progressBar;
+	
+	private User user;
+	private String[] selfTags, likedTags, followedGroups;
+	
 	private boolean isDrawing = false;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -45,6 +51,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		@SuppressLint("NewApi")
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			progressBar.setVisibility(View.INVISIBLE);
 			if(intent.hasExtra("duplicateUserName")){
 				Toast.makeText(getApplicationContext(), "duplicate user name", Toast.LENGTH_SHORT).show();
 				return;
@@ -83,6 +90,8 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
+		progressBar = (ProgressBar) findViewById(R.id.edit_profile_progress);
+		
 		backButton = (ImageView)findViewById(R.id.button_left_side);
 		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 		backButton.setOnClickListener(new View.OnClickListener() {
@@ -105,19 +114,20 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			
 			@Override
 			public void onClick(View v) {
-				if (!isDrawing) {										
-					User user = mainFragment.getUser();
-					String[] selfTags = mainFragment.getSelfTags();
-					String[] likedTags = mainFragment.getLikedTags();
-					String[] followedGroups = mainFragment.getFollowedGroups();
+				if (!isDrawing) {
+					progressBar.bringToFront();
+					progressBar.setVisibility(View.VISIBLE);
+					user = mainFragment.getUser();
+					selfTags = mainFragment.getSelfTags();
+					likedTags = mainFragment.getLikedTags();
+					followedGroups = mainFragment.getFollowedGroups();
 					Intent intent = new Intent();
 					intent.putExtra("user", user);
 					intent.putExtra("selfTags", selfTags);
 					intent.putExtra("likedTags", likedTags);
 					intent.putExtra("followedGroups", followedGroups);
 					intent.setClass(EditProfilePage.this, UpdateUserProfileService.class);
-					startService(intent);
-
+					startService(intent);					
 				} else {
 					isDrawing = false;
 					initContent();

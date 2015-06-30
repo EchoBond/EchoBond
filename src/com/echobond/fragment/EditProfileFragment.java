@@ -1,11 +1,12 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.NewPostPage;
-import com.echobond.activity.SearchPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -115,8 +116,8 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 			}
 		});
 		moreTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_SELF_TAGS));
-		moreGroupsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.GROUP, MORE_FOLLOW_GROUPS));
-		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_LIKE_TAGS));
+		moreGroupsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.GROUP,MORE_LIKE_TAGS));
+		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_FOLLOW_GROUPS));
 		
 		return editProfileView;
 	}
@@ -124,23 +125,36 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 	public class ViewMoreClickListener implements OnClickListener {
 
 		private String typeString;
-		private Integer profile;
+		private int type;
 		
-		public ViewMoreClickListener(String tag, Integer profile) {
+		public ViewMoreClickListener(String tag, int type) {
 			this.typeString = tag;
-			this.profile = profile;
+			this.type = type;
 		}
 
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			intent.putExtra("title", typeString);
-			intent.putExtra("mode", SearchPage.IN_MORE);
-			intent.putExtra("profile", profile);
+			intent.putExtra("mode", MyApp.VIEW_MORE_PROFILE);
 			intent.setClass(getActivity(), ViewMorePage.class);
-			startActivity(intent);
+			startActivityForResult(intent, type);
 		}
 		
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Bundle bundle = data.getExtras();
+		ArrayList<Integer> idList = bundle.getIntegerArrayList("idList");
+		switch(requestCode){
+		case MORE_SELF_TAGS:
+			break;
+		case MORE_LIKE_TAGS:
+			break;
+		case MORE_FOLLOW_GROUPS:
+			break;
+		}
 	}
 	
 	@Override
@@ -157,10 +171,32 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 	public void onLoadUsersResult(JSONObject result) {
 		if(null != result){
 			try {
-				JSONObject userJSON = (JSONObject) result.get("user");
+				JSONObject userJSON = result.getJSONObject("user");
+				JSONObject metaJSON = result.getJSONObject("userMeta");
 				User user = (User) JSONUtil.fromJSONToObject(userJSON, User.class);
 				ContentValues values = user.putValues();
 				getActivity().getContentResolver().insert(UserDAO.CONTENT_URI_USER, values);
+				for(int i = 0; i < metaJSON.getJSONArray("selfTags").length(); i++){
+					values = new ContentValues();
+					int id = metaJSON.getJSONArray("selfTags").getJSONObject(i).getInt("id");
+					values.put("tag_id", id);
+					values.put("user_id", user.getId());
+					getActivity().getContentResolver().insert(TagDAO.CONTENT_URI_SELF, values);
+				}
+				for(int i = 0; i < metaJSON.getJSONArray("likedTags").length(); i++){
+					values = new ContentValues();
+					int id = metaJSON.getJSONArray("likedTags").getJSONObject(i).getInt("id");
+					values.put("tag_id", id);
+					values.put("user_id", user.getId());
+					getActivity().getContentResolver().insert(TagDAO.CONTENT_URI_LIKE, values);
+				}
+				for(int i = 0; i < metaJSON.getJSONArray("followedGroups").length(); i++){
+					values = new ContentValues();
+					int id = metaJSON.getJSONArray("followedGroups").getJSONObject(i).getInt("id");
+					values.put("group_id", id);
+					values.put("user_id", user.getId());
+					getActivity().getContentResolver().insert(GroupDAO.CONTENT_URI_FOLLOW, values);
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -169,7 +205,6 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		Cursor cursor = getActivity().getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{id}, null);
 		if(null != cursor){
 			if(cursor.moveToFirst()){
-				
 				Cursor gCursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_FOLLOW, null, null, new String[]{id}, null);
 				Cursor tCursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_SELF, null, null, new String[]{id}, null);
 				Cursor lCursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_LIKE, null, null, new String[]{id}, null);

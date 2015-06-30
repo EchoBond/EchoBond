@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
 import com.echobond.fragment.SearchMainFragment;
@@ -64,10 +65,6 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static String THOUGHTS_MORE_TAG = "Thoughts of More Tags";
 	public final static String PEOPLE_MORE_GROUP = "People in More Groups";
 	public final static String PEOPLE_MORE_TAG = "People of more Tags";
-	
-	public final static int IN_SEARCH = 0;
-	public final static int IN_MORE = 1;
-	public final static int IN_POST = 2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -156,25 +153,25 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		switch (fgType) {
 		case THOUGHT_GROUP:
 			bundle.putString("type", THOUGHTS_MORE_GROUP);
-			bundle.putInt("mode", IN_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
 			groupsThoughtsFragment.setArguments(bundle);
 			transaction.show(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case THOUGHT_TAG:
 			bundle.putString("type", THOUGHTS_MORE_TAG);
-			bundle.putInt("mode", IN_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
 			tagsThoughtsFragment.setArguments(bundle);
 			transaction.show(tagsThoughtsFragment).hide(groupsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_GROUP:
 			bundle.putString("type", PEOPLE_MORE_GROUP);
-			bundle.putInt("mode", IN_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
 			groupsPeopleFragment.setArguments(bundle);
 			transaction.show(groupsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_TAG:
 			bundle.putString("type", PEOPLE_MORE_TAG);
-			bundle.putInt("mode", IN_SEARCH);
+			bundle.putInt("mode", MyApp.VIEW_MORE_SEARCH);
 			tagsPeopleFragment.setArguments(bundle);
 			transaction.show(tagsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(mainFragment).commit();
 			break;

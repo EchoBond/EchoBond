@@ -79,13 +79,13 @@ public class ProfileGroupsFragment extends Fragment implements IXListViewListene
 		if (bundle != null) {
 			type = bundle.getString("type");
 			mode = bundle.getInt("mode");
-			if (mode == SearchPage.IN_SEARCH) {
+			if (mode == MyApp.VIEW_MORE_SEARCH) {
 				groupView.setVisibility(View.GONE);
 				groupTextView.setText("View More " + type);
-			} else if (mode == SearchPage.IN_MORE) {
+			} else if (mode == MyApp.VIEW_MORE_PROFILE) {
 				groupView.setVisibility(View.GONE);
 				groupTextView.setVisibility(View.GONE);
-			} else if (mode == SearchPage.IN_POST) {
+			} else if (mode == MyApp.VIEW_MORE_POST) {
 				groupView.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_group_logoview));
 				groupTextView.setTextColor(Color.parseColor("#8980DA"));
 				groupTextView.setText(getString(R.string.title_new_post_grouptitle));

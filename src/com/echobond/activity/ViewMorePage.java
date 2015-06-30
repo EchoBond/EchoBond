@@ -10,6 +10,8 @@ import com.echobond.fragment.ProfileTagsFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -33,7 +35,6 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 	
 	private String title;
 	private int mode;
-	private Integer profile;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 	private void getData() {
 		title = getIntent().getStringExtra("title");
 		mode = getIntent().getIntExtra("mode", -1);
-		profile = getIntent().getIntExtra("profile", 0);
 	}
 
 	private void initToolBar() {
@@ -71,8 +71,10 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent();
+				intent.putIntegerArrayListExtra("idList", moreTagsFragment.getTagIds());
+				setResult(Activity.RESULT_OK, intent);
+				finish();
 			}
 		});
 		titleView = (TextView)findViewById(R.id.title_name);
@@ -89,7 +91,6 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 		}
 		Bundle bundle = new Bundle();
 		bundle.putInt("mode", mode);
-		bundle.putInt("profile", profile);
 		if (title.equals(NewPostPage.GROUP)) {
 			moreGroupsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreGroupsFragment).show(moreGroupsFragment).commit();
@@ -101,13 +102,11 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 
 	@Override
 	public void onTypeSelected(int type) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onSearchSelected(JSONObject jso) {
-		// TODO Auto-generated method stub
 		
 	}
 }

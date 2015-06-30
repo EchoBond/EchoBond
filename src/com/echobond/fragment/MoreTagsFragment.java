@@ -49,7 +49,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class MoreTagsFragment extends Fragment implements IXListViewListener, LoaderCallbacks<Cursor>, LoadTagsCallback {
+public class MoreTagsFragment extends Fragment implements OnClickListener, IXListViewListener, LoaderCallbacks<Cursor>, LoadTagsCallback {
 
 	private XListView moreTagsList;
 	private ViewMoreSwitchCallback searchCallback;
@@ -108,48 +108,44 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		if (bundle != null) {
 			type = bundle.getString("type");
 			mode = bundle.getInt("mode");
-			if (mode == SearchPage.IN_SEARCH) {
+			if (mode == MyApp.VIEW_MORE_SEARCH) {
 				tagTextView.setText("View More " + type);
 			} else {
 				tagTextView.setVisibility(View.GONE);
 				buttonDone.setVisibility(View.GONE);
 			}
 		}
-		buttonDone.setOnClickListener(new SearchOnClickListener(type));
+		buttonDone.setOnClickListener(this);
 		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
 		
 		return moreTagsView;
 	}
-	
-	public class SearchOnClickListener implements OnClickListener {
 
-		private String type;
-		private int index;
-		
-		public SearchOnClickListener(String typeString) {
-			this.type = typeString;
+	/* only for visible buttonDone i.e. for fragment switch */
+	/* sticky to SearchPage */
+	@Override
+	public void onClick(View v) {
+		int index = 0;
+		if (type == SearchPage.THOUGHTS_MORE_TAG) {
+			index = SearchPage.THOUGHT_TAG;
+		} else if (type == SearchPage.PEOPLE_MORE_TAG) {
+			index = SearchPage.PEOPLE_TAG;
 		}
-
-		@Override
-		public void onClick(View v) {
-			if (type == SearchPage.THOUGHTS_MORE_TAG) {
-				index = SearchPage.THOUGHT_TAG;
-			} else if (type == SearchPage.PEOPLE_MORE_TAG) {
-				index = SearchPage.PEOPLE_TAG;
-			}
-			JSONObject jso = new JSONObject();
-			try {
-				jso.put("index", index);
-				jso.put("id", 0);
-				jso.put("idList", JSONUtil.fromListToJSONArray(tagIds, new TypeToken<ArrayList<Integer>>(){}));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			searchCallback.onSearchSelected(jso);			
+		JSONObject data = new JSONObject();
+		try {
+			data.put("index", index);
+			data.put("id", 0);
+			data.put("idList", JSONUtil.fromListToJSONArray(tagIds, new TypeToken<ArrayList<Integer>>(){}));
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-		
+		searchCallback.onSearchSelected(data);		
 	}
 	
+	public ArrayList<Integer> getTagIds() {
+		return tagIds;
+	}
+
 	public class MoreTagsAdapter extends CursorAdapter {
 
 		private LayoutInflater inflater;
@@ -182,24 +178,6 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 			} else if (!isSelected) {
 				item.setTextColor(Color.BLACK);
 			}
-//			item.setOnClickListener(new View.OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					if (v.isSelected()) {
-//						v.setSelected(false);
-//					} else {
-//						v.setSelected(true);
-//					}
-//					
-//					Boolean click = tagIds.contains(v.getTag());
-//					if (click) {
-//						tagIds.remove(v.getTag());
-//					} else {
-//						tagIds.add((Integer) v.getTag());
-//					}
-//				}
-//			});
 		}
 
 		@Override
