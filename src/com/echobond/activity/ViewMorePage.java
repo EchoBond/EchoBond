@@ -1,9 +1,15 @@
 package com.echobond.activity;
 
+import org.json.JSONObject;
+
 import com.echobond.R;
+import com.echobond.fragment.MoreGroupsFragment;
+import com.echobond.fragment.MoreTagsFragment;
+import com.echobond.intf.ViewMoreSwitchCallback;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,17 +20,28 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class ViewMorePage extends ActionBarActivity {
+public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCallback {
 
 	private TextView titleView;
 	private ImageView backButton;
+	private MoreGroupsFragment moreGroupsFragment;
+	private MoreTagsFragment moreTagsFragment;
+	
+	private String title;
+	private boolean mode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_more_page);
+		getData();
 		initToolBar();
-		
+		initContent();
+	}
+
+	private void getData() {
+		title = getIntent().getStringExtra("title");
+		mode = getIntent().getBooleanExtra("mode", false);
 	}
 
 	private void initToolBar() {
@@ -44,6 +61,36 @@ public class ViewMorePage extends ActionBarActivity {
 		});
 		
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText("More " + getIntent().getStringExtra("title"));
+		titleView.setText("More " + title);
+	}
+
+	private void initContent() {
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		if (moreGroupsFragment == null || moreTagsFragment == null) {
+			moreGroupsFragment = new MoreGroupsFragment();
+			moreTagsFragment = new MoreTagsFragment();
+		}
+		Bundle bundle = new Bundle();
+		bundle.putBoolean("mode", mode);
+		if (title.equals("Groups")) {
+			moreGroupsFragment.setArguments(bundle);
+			transaction.add(R.id.view_more_container, moreGroupsFragment).show(moreGroupsFragment).commit();
+		}
+		if (title.equals("Hashtags")) {
+			moreTagsFragment.setArguments(bundle);
+			transaction.add(R.id.view_more_container, moreTagsFragment).show(moreTagsFragment).commit();
+		}
+	}
+
+	@Override
+	public void onTypeSelected(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSearchSelected(JSONObject jso) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -173,32 +173,20 @@
 		        android:layout_width="30dp"
 		        android:layout_height="30dp"
 		        android:src="@drawable/profile_about_earth" />
-		    <Spinner android:id="@+id/edit_profile_earth_spinner"
+		    <Spinner 
+		        android:id="@+id/edit_profile_earth_spinner"
    		        android:layout_toRightOf="@id/edit_profile_earth_view"
 		        android:layout_toEndOf="@id/edit_profile_earth_view"
 		        android:layout_alignBaseline="@id/edit_profile_earth_view"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"/>
-		    <!-- 
-		    <EditText 
-		        android:id="@+id/edit_profile_earth_text"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_toRightOf="@id/edit_profile_earth_view"
-		        android:layout_toEndOf="@id/edit_profile_earth_view"
 		        android:layout_marginLeft="10dp"
 		        android:layout_marginStart="10dp"
 		        android:layout_marginRight="3dp"
 		        android:layout_marginEnd="3dp"
 		        android:paddingLeft="5dp"
 		        android:paddingRight="5dp"
-		        android:inputType="textMultiLine"
-		        android:background="@drawable/square_edittext_lightgrey"
-		        android:minHeight="30dp"
-		        android:maxLines="4"
-		        android:textSize="15sp"
-		        android:hint="@string/hint_edit_profile_earth" />
-		        -->
+		        android:spinnerMode="dialog" /> 
 		</RelativeLayout>
 		
 		<TextView 
@@ -437,32 +425,21 @@
 		        android:layout_width="30dp"
 		        android:layout_height="30dp"
 		        android:src="@drawable/profile_about_language" />
-		    <Spinner android:id="@+id/edit_profile_lang_spinner"
+		    <Spinner 
+		        android:id="@+id/edit_profile_lang_spinner"
    		        android:layout_toRightOf="@id/edit_profile_lang_view"
 		        android:layout_toEndOf="@id/edit_profile_lang_view"
 		        android:layout_alignBaseline="@id/edit_profile_lang_view"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"/>		    
-		    <!-- 
-		    <EditText 
-		        android:id="@+id/edit_profile_lang_text"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_toRightOf="@id/edit_profile_lang_view"
-		        android:layout_toEndOf="@id/edit_profile_lang_view"
 		        android:layout_marginLeft="10dp"
 		        android:layout_marginStart="10dp"
 		        android:layout_marginRight="3dp"
 		        android:layout_marginEnd="3dp"
 		        android:paddingLeft="5dp"
 		        android:paddingRight="5dp"
-		        android:inputType="textMultiLine"
-		        android:background="@drawable/square_edittext_lightgrey"
-		        android:minHeight="30dp"
-		        android:maxLines="4"
-		        android:hint="@string/hint_edit_profile_lang"
-		        android:textSize="15sp" />
-		    -->
+		        android:spinnerMode="dialog" />		    
+
 		</RelativeLayout>
 		
 		<RelativeLayout 
@@ -537,7 +514,7 @@
 		        android:inputType="textMultiLine"
 		        android:background="@drawable/square_edittext_lightgrey"
 		        android:minHeight="30dp"
-		        android:hint="@string/hint_edit_profile_hashtags"
+		        android:hint="@string/hint_edit_profile_hashtags_like"
 		        android:textSize="15sp"
 		        android:gravity="top" />
 		    <TextView 

@@ -30,7 +30,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -65,8 +64,10 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static String THOUGHTS_MORE_TAG = "Thoughts of More Tags";
 	public final static String PEOPLE_MORE_GROUP = "People in More Groups";
 	public final static String PEOPLE_MORE_TAG = "People of more Tags";
-
-		
+	
+	public final static boolean IN_SEARCH = true;
+	public final static boolean IN_MORE = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -154,21 +155,25 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 		switch (fgType) {
 		case THOUGHT_GROUP:
 			bundle.putString("type", THOUGHTS_MORE_GROUP);
+			bundle.putBoolean("mode", IN_SEARCH);
 			groupsThoughtsFragment.setArguments(bundle);
 			transaction.show(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case THOUGHT_TAG:
 			bundle.putString("type", THOUGHTS_MORE_TAG);
+			bundle.putBoolean("mode", IN_SEARCH);
 			tagsThoughtsFragment.setArguments(bundle);
 			transaction.show(tagsThoughtsFragment).hide(groupsThoughtsFragment).hide(groupsPeopleFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_GROUP:
 			bundle.putString("type", PEOPLE_MORE_GROUP);
+			bundle.putBoolean("mode", IN_SEARCH);
 			groupsPeopleFragment.setArguments(bundle);
 			transaction.show(groupsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(tagsPeopleFragment).hide(mainFragment).commit();
 			break;
 		case PEOPLE_TAG:
 			bundle.putString("type", PEOPLE_MORE_TAG);
+			bundle.putBoolean("mode", IN_SEARCH);
 			tagsPeopleFragment.setArguments(bundle);
 			transaction.show(tagsPeopleFragment).hide(groupsThoughtsFragment).hide(tagsThoughtsFragment).hide(groupsPeopleFragment).hide(mainFragment).commit();
 			break;

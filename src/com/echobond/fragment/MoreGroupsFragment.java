@@ -49,6 +49,7 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 	private ViewMoreSwitchCallback searchCallback;
 	private MoreGroupsCursorAdapter adapter;
 	private String type;
+	private boolean mode;
 	private TextView groupTextView;
 	
 	private int currentLimit;
@@ -73,7 +74,12 @@ public class MoreGroupsFragment extends Fragment implements IXListViewListener, 
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			type = bundle.getString("type");
-			groupTextView.setText("View More " + bundle.getString("type"));
+			mode = bundle.getBoolean("mode");
+			if (mode) {
+				groupTextView.setText("View More " + type);
+			} else {
+				groupTextView.setVisibility(View.GONE);
+			}
 		}
 		getLoaderManager().initLoader(MyApp.LOADER_GROUP, null, this);
 		return moreGroupsView;

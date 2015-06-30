@@ -60,6 +60,7 @@
     <string name="hint_edit_profile_sec">Little secret</string>
     <string name="hint_edit_profile_lang">Your language</string>
     <string name="hint_edit_profile_hashtags">Hashtag yourself\nOthers will find you when they search these hashtags</string>
+    <string name="hint_edit_profile_hashtags_like">Hashtag you follow\nYou can find all hashtags you followed here</string>
     <string name="hint_edit_profile_groups">Groups you are following</string>
     <string name="hint_edit_profile_icon">Words on avatar…</string>
 </resources>

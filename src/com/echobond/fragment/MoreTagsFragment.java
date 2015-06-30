@@ -58,6 +58,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	private ImageView buttonDone;
 	
 	private String type;
+	private boolean mode;
 	
 	private int currentLimit;
 	private long lastLoadTime;
@@ -101,15 +102,21 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		});
 		
 		tagTextView = (TextView)moreTagsView.findViewById(R.id.more_tags_text);
+		buttonDone = (ImageView)moreTagsView.findViewById(R.id.more_tags_done);
+		
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			type = bundle.getString("type");
-			tagTextView.setText("View More " + bundle.getString("type"));
+			mode = bundle.getBoolean("mode");
+			if (mode) {
+				tagTextView.setText("View More " + type);
+			} else {
+				tagTextView.setVisibility(View.GONE);
+				buttonDone.setVisibility(View.GONE);
+			}
 		}
-		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
-		
-		buttonDone = (ImageView)moreTagsView.findViewById(R.id.more_tags_done);
 		buttonDone.setOnClickListener(new SearchOnClickListener(type));
+		getLoaderManager().initLoader(MyApp.LOADER_TAG, null, this);
 		
 		return moreTagsView;
 	}

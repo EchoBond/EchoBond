@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 import com.echobond.activity.NewPostPage;
+import com.echobond.activity.SearchPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
@@ -42,7 +43,8 @@ public class NewContentsFragment extends Fragment {
 			public void onClick(View v) {
 				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
-				intent.putExtra("title", NewPostPage.TAG);
+				intent.putExtra("title", "Hashtags");
+				intent.putExtra("mode", false);
 				intent.setClass(getActivity(), ViewMorePage.class);
 				startActivity(intent);
 			}

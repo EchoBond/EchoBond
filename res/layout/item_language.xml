@@ -14,24 +14,24 @@
         android:id="@+id/text_language_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:padding="2dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:focusable="false" />
     <TextView 
         android:id="@+id/text_language_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:padding="2dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:focusable="false" />    
     <TextView 
         android:id="@+id/text_language_region"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:padding="2dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:focusable="false" />
 </LinearLayout>

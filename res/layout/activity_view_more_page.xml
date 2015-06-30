@@ -13,5 +13,9 @@
 		android:layout_height="?android:attr/actionBarSize"
 		app:contentInsetStart="0dp"
 		android:background="#fff" />
-
+    <FrameLayout 
+        android:id="@+id/view_more_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
 </LinearLayout>
