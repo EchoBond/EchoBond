@@ -58,7 +58,7 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 	private ImageView buttonDone;
 	
 	private String type;
-	private boolean mode;
+	private int mode;
 	
 	private int currentLimit;
 	private long lastLoadTime;
@@ -107,8 +107,8 @@ public class MoreTagsFragment extends Fragment implements IXListViewListener, Lo
 		Bundle bundle = this.getArguments();
 		if (bundle != null) {
 			type = bundle.getString("type");
-			mode = bundle.getBoolean("mode");
-			if (mode) {
+			mode = bundle.getInt("mode");
+			if (mode == SearchPage.IN_SEARCH) {
 				tagTextView.setText("View More " + type);
 			} else {
 				tagTextView.setVisibility(View.GONE);

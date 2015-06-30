@@ -38,7 +38,11 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class NewGroupsFragment extends Fragment implements GroupCallback, IXListViewListener {
 	
 	private ArrayList<Group> groups;

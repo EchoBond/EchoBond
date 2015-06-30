@@ -43,8 +43,8 @@ public class NewContentsFragment extends Fragment {
 			public void onClick(View v) {
 				Toast.makeText(getActivity(), "More Tags CLICKED", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
-				intent.putExtra("title", "Hashtags");
-				intent.putExtra("mode", false);
+				intent.putExtra("title", NewPostPage.TAG);
+				intent.putExtra("mode", SearchPage.IN_MORE);
 				intent.setClass(getActivity(), ViewMorePage.class);
 				startActivity(intent);
 			}

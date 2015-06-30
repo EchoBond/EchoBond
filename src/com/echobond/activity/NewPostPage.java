@@ -13,6 +13,7 @@ import com.echobond.dao.HomeThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
+import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
 import com.echobond.fragment.NewGroupsFragment;
@@ -64,6 +65,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	private NewPostFragment postFragment;
 	private NewContentsFragment contentsFragment;
 	private NewGroupsFragment groupsFragment;
+	private MoreGroupsFragment groupsFragment2;
 	private String contentsString = "", tagsString = "";
 	private int categoryId = -1, groupId = -1;
 	private ImageView backButton, forwardButton;
@@ -143,7 +145,6 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 			default:
 				break;
 			}
-
 		}
 		
 	}
@@ -218,7 +219,7 @@ public class NewPostPage extends ActionBarActivity implements NewPostFragmentsSw
 	
 	private void initView() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (null == categoryFragment || null == contentsFragment || null == groupsFragment) {
+		if (null == categoryFragment || null == postFragment || null == contentsFragment || null == groupsFragment) {
 			categoryFragment = new NewCategoryFragment();
 			postFragment = new NewPostFragment();
 			contentsFragment = new NewContentsFragment();

@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.NewPostPage;
+import com.echobond.activity.SearchPage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -112,9 +114,9 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 				switchCallback.setPoster(true);
 			}
 		});
-		moreTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags", MORE_SELF_TAGS));
-		moreGroupsView.setOnClickListener(new ViewMoreClickListener("Groups", MORE_FOLLOW_GROUPS));
-		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags", MORE_LIKE_TAGS));
+		moreTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_SELF_TAGS));
+		moreGroupsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.GROUP, MORE_FOLLOW_GROUPS));
+		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener(NewPostPage.TAG, MORE_LIKE_TAGS));
 		
 		return editProfileView;
 	}
@@ -133,7 +135,7 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			intent.putExtra("title", typeString);
-			intent.putExtra("mode", false);
+			intent.putExtra("mode", SearchPage.IN_MORE);
 			intent.putExtra("profile", profile);
 			intent.setClass(getActivity(), ViewMorePage.class);
 			startActivity(intent);

@@ -23,12 +23,12 @@ import android.widget.TextView;
 public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCallback {
 
 	private TextView titleView;
-	private ImageView backButton;
+	private ImageView backButton, doneButton;
 	private MoreGroupsFragment moreGroupsFragment;
 	private MoreTagsFragment moreTagsFragment;
 	
 	private String title;
-	private boolean mode;
+	private int mode;
 	private Integer profile;
 	
 	@Override
@@ -42,7 +42,7 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 
 	private void getData() {
 		title = getIntent().getStringExtra("title");
-		mode = getIntent().getBooleanExtra("mode", false);
+		mode = getIntent().getIntExtra("mode", -1);
 		profile = getIntent().getIntExtra("profile", 0);
 	}
 
@@ -61,7 +61,16 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 				finish();
 			}
 		});
-		
+		doneButton = (ImageView)findViewById(R.id.button_right_side);
+		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
+		doneButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText("More " + title);
 	}
@@ -73,13 +82,13 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 			moreTagsFragment = new MoreTagsFragment();
 		}
 		Bundle bundle = new Bundle();
-		bundle.putBoolean("mode", mode);
+		bundle.putInt("mode", mode);
 		bundle.putInt("profile", profile);
-		if (title.equals("Groups")) {
+		if (title.equals(NewPostPage.GROUP)) {
 			moreGroupsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreGroupsFragment).show(moreGroupsFragment).commit();
 		}
-		if (title.equals("Hashtags")) {
+		if (title.equals(NewPostPage.TAG)) {
 			moreTagsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreTagsFragment).show(moreTagsFragment).commit();
 		}
