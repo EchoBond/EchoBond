@@ -59,8 +59,6 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	private TextView groupTextView;
 	private ImageView groupView;
 	
-
-	
 	private int currentLimit;
 	private long lastLoadTime;
 	

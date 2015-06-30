@@ -68,5 +68,7 @@
     <string name="comment_title">Say Something Nice :)</string>
     <string name="view_thoughts">View Thoughts</string>
     <string name="comment_list">Comment List</string>
+    <string name="rubber_seekbar">Rubber Size: </string>
+    <string name="pen_seekbar">Draw Size: </string>
 
 </resources>

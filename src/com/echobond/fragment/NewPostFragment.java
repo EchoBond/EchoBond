@@ -2,7 +2,9 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 import com.echobond.activity.NewPostPage;
+import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -23,12 +25,14 @@ import android.widget.Toast;
  */
 public class NewPostFragment extends Fragment {
 	
+	private NewPostFragmentsSwitchAsyncTaskCallback callCanvas;
 	private RelativeLayout postLayout;
 	private String[] colors;
 	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
-	private ImageView postChange, textChange, categoryType;
+	private ImageView postChange, textChange, categoryType, switchCanvas;
 	private EditText postText;
 	private int modeSelected;
+	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
 	
@@ -56,6 +60,7 @@ public class NewPostFragment extends Fragment {
 		categoryType = (ImageView)postView.findViewById(R.id.thought_poster_typeview);
 		postChange = (ImageView)postView.findViewById(R.id.thought_changepostcolor);
 		textChange = (ImageView)postView.findViewById(R.id.thought_changetextcolor);
+		switchCanvas = (ImageView)postView.findViewById(R.id.thought_switch_canvas);
 		
 		color0 = (ImageView)postView.findViewById(R.id.thought_poster_color0);
 		color1 = (ImageView)postView.findViewById(R.id.thought_poster_color1);
@@ -92,6 +97,13 @@ public class NewPostFragment extends Fragment {
 				textChange.setImageResource(R.drawable.thoughts_text_colorchange_selected);
 				postChange.setImageResource(R.drawable.thoughts_background_colorchange_nomal);
 				Toast.makeText(getActivity().getApplicationContext(), "Please select poster's text color. ", Toast.LENGTH_SHORT).show();
+			}
+		});
+		switchCanvas.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				callCanvas.switchCanvas();
 			}
 		});
 		
@@ -154,7 +166,6 @@ public class NewPostFragment extends Fragment {
 				postText.setTextColor(Color.parseColor(colors[colorIndex]));
 				categoryType.setColorFilter(Color.parseColor(colors[colorIndex]), PorterDuff.Mode.SRC_IN);
 			}
-			
 		}
 		
 	}
@@ -167,4 +178,13 @@ public class NewPostFragment extends Fragment {
 		return postText;
 	}
 	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			callCanvas = (NewPostFragmentsSwitchAsyncTaskCallback) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + "must implement callCanvas in NewPostFragment. ");
+		}
+	}
 }

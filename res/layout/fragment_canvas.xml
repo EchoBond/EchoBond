@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <ImageView 
+        android:id="@+id/canvas_draw"
+        android:contentDescription="@string/none"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="4.8"
+        android:layout_gravity="center_horizontal"
+        android:background="#fff" />
+    
+    <RelativeLayout 
+        android:id="@+id/canvas_selection"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal" >
+        
+        <ImageView 
+            android:id="@+id/canvas_pen"
+            android:contentDescription="@string/none"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/pentool_normal"
+            android:clickable="true" />
+        <ImageView 
+            android:id="@+id/canvas_background"
+            android:contentDescription="@string/none"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:layout_toRightOf="@id/canvas_pen"
+            android:layout_toEndOf="@id/canvas_pen"
+            android:src="@drawable/change_background_color_nomal"
+            android:clickable="true" />
+        <ImageView 
+            android:id="@+id/canvas_eraser"
+            android:contentDescription="@string/none"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:layout_toRightOf="@id/canvas_background"
+            android:layout_toEndOf="@id/canvas_background"
+            android:src="@drawable/rubbertool_normal"
+            android:clickable="true" />
+        <ImageView 
+            android:id="@+id/canvas_clear"
+            android:contentDescription="@string/none"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:layout_toRightOf="@id/canvas_eraser"
+            android:layout_toEndOf="@id/canvas_eraser"
+            android:src="@drawable/clear_clickable"
+            android:clickable="true" />
+
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/canvas_color_group1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:gravity="center" >
+        
+        <ImageView
+            android:id="@+id/change_color0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_0" />
+        <ImageView
+            android:id="@+id/change_color1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color0"
+            android:layout_toEndOf="@id/change_color0"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_1" />
+        <ImageView
+            android:id="@+id/change_color2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color1"
+            android:layout_toEndOf="@id/change_color1"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_2" />
+        <ImageView
+            android:id="@+id/change_color3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color2"
+            android:layout_toEndOf="@id/change_color2"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_3" />
+        <ImageView
+            android:id="@+id/change_color4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color3"
+            android:layout_toEndOf="@id/change_color3"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_4" />
+        <ImageView
+            android:id="@+id/change_color5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color4"
+            android:layout_toEndOf="@id/change_color4"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_5" />
+        
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/canvas_color_group2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:gravity="center" >
+        
+        <ImageView
+            android:id="@+id/change_color6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_6" />
+        <ImageView
+            android:id="@+id/change_color7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color6"
+            android:layout_toEndOf="@id/change_color6"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_7" />
+        <ImageView
+            android:id="@+id/change_color8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color7"
+            android:layout_toEndOf="@id/change_color7"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_8" />
+        <ImageView
+            android:id="@+id/change_color9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color8"
+            android:layout_toEndOf="@id/change_color8"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_9" />
+        <ImageView
+            android:id="@+id/change_colora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_color9"
+            android:layout_toEndOf="@id/change_color9"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_a" />
+        <ImageView
+            android:id="@+id/change_colorb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@id/change_colora"
+            android:layout_toEndOf="@id/change_colora"
+            android:clickable="true"
+            android:contentDescription="@string/none"
+            android:src="@drawable/color_selection_b" />
+        
+    </RelativeLayout>
+    
+    <LinearLayout 
+        android:id="@+id/canvas_pensize"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:orientation="horizontal" >
+        
+        <TextView 
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/pen_seekbar"
+            android:textStyle="bold" />
+        <SeekBar 
+            android:id="@+id/canvas_pen_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:progress="5"
+            android:max="50" />
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/canvas_rubbersize"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:orientation="horizontal" >
+        
+        <TextView 
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/rubber_seekbar"
+            android:textStyle="bold" />
+        <SeekBar 
+            android:id="@+id/canvas_rubber_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:progress="30"
+            android:max="75" />
+        
+    </LinearLayout>
+    
+</LinearLayout>

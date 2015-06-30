@@ -13,6 +13,7 @@ import com.echobond.dao.HomeThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
+import com.echobond.fragment.CanvasFragment;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.NewCategoryFragment;
 import com.echobond.fragment.NewContentsFragment;
@@ -57,19 +58,23 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	public static final int NEW_POST_PIC = 1;
 	public static final int NEW_POST_WRITE = 2;
 	public static final int NEW_POST_GROUP = 3;
+	public static final int NEW_POST_CANVAS = 4;
 	
 	public static final String GROUP = "Groups";
 	public static final String TAG = "Hashtags";
 	
 	private NewCategoryFragment categoryFragment;
 	private NewPostFragment postFragment;
+	private CanvasFragment canvasFragment;
 	private NewContentsFragment contentsFragment;
 	private MoreGroupsFragment groupsFragment;
-	private String contentsString = "", tagsString = "";
-	private int categoryId = -1, groupId = -1;
+	
 	private ImageView backButton, forwardButton;
 	private TextView barTitle;
+	
 	private int fgIndex;
+	private int categoryId = -1, groupId = -1;
+	private String contentsString = "", tagsString = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,12 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	@Override
 	public void selectGroup(int groupId) {
 		this.groupId = groupId;
+	}
+	
+	@Override
+	public void switchCanvas() {
+		fgIndex = NEW_POST_CANVAS;
+		getSupportFragmentManager().beginTransaction().hide(postFragment).show(canvasFragment).commit();
 	}
 	
 	private void initActionBar() {
@@ -132,7 +143,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				break;
 			case NEW_POST_WRITE:
 				barTitle.setText(R.string.title_new_post_pic);
-				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(postFragment).commit();
+				getSupportFragmentManager().beginTransaction().hide(contentsFragment).hide(canvasFragment).show(postFragment).commit();
 				fgIndex -= 1;
 				break;
 			case NEW_POST_GROUP:
@@ -140,6 +151,10 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_forward));
 				getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
 				fgIndex -= 1;
+				break;
+			case NEW_POST_CANVAS:
+				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
+				fgIndex = NEW_POST_PIC;
 				break;
 			default:
 				break;
@@ -165,6 +180,9 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 			case NEW_POST_GROUP:
 				postThought();
 				break;
+			case NEW_POST_CANVAS:
+				createPost();
+				break;
 			default:
 				break;
 			}
@@ -183,8 +201,12 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 
 		private void createPost() {
 			barTitle.setText(R.string.title_new_post_write);
-			getSupportFragmentManager().beginTransaction().hide(postFragment).show(contentsFragment).commit();
-			fgIndex += 1;
+			getSupportFragmentManager().beginTransaction().hide(postFragment).hide(canvasFragment).show(contentsFragment).commit();
+			if (fgIndex == NEW_POST_CANVAS) {
+				fgIndex = NEW_POST_WRITE;
+			} else {
+				fgIndex += 1;
+			}
 		}
 		
 		private void isContentsEmpty() { 
@@ -218,21 +240,24 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	
 	private void initView() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (null == categoryFragment || null == postFragment || null == contentsFragment || null == groupsFragment) {
+		if (null == categoryFragment || null == postFragment || null == canvasFragment || null == contentsFragment || null == groupsFragment) {
 			categoryFragment = new NewCategoryFragment();
 			postFragment = new NewPostFragment();
+			canvasFragment = new CanvasFragment();
 			contentsFragment = new NewContentsFragment();
 			groupsFragment = new MoreGroupsFragment();
 			
 			Bundle bundle = new Bundle();
-			bundle.putInt("mode", getIntent().getIntExtra("mode", 2));
+			bundle.putInt("mode", getIntent().getIntExtra("mode", MyApp.VIEW_MORE_POST));
 			groupsFragment.setArguments(bundle);
 			transaction.add(R.id.new_post_content, categoryFragment);
 			transaction.add(R.id.new_post_content, postFragment);
+			transaction.add(R.id.new_post_content, canvasFragment);
 			transaction.add(R.id.new_post_content, contentsFragment);
 			transaction.add(R.id.new_post_content, groupsFragment);
 			transaction.hide(contentsFragment);
 			transaction.hide(postFragment);
+			transaction.hide(canvasFragment);
 			transaction.hide(groupsFragment);
 			transaction.show(categoryFragment).commit();
 			fgIndex = 0;
@@ -264,12 +289,16 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
     		else if (fgIndex == 1) {
     			getSupportFragmentManager().beginTransaction().hide(postFragment).show(categoryFragment).commit();
     			fgIndex -= 1;
-			}else if (fgIndex == 2) { 
+			} else if (fgIndex == 2) { 
         		getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(postFragment).commit();
     			fgIndex -= 1;
-        	}else if (fgIndex == 3) {
+        	} else if (fgIndex == 3) {
+        		forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_forward));
         		getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
         		fgIndex -= 1;
+			} else if (fgIndex == 4) {
+				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
+				fgIndex = NEW_POST_PIC;
 			}
     	}
     	return true;
@@ -334,5 +363,5 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		// TODO Auto-generated method stub
 		
 	}
-    
+
 }

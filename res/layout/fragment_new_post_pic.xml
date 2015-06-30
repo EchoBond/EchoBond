@@ -31,7 +31,7 @@
 
     </RelativeLayout>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/thought_poster_selection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -42,27 +42,40 @@
             android:id="@+id/thought_changepostcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/thoughts_background_colorchange_nomal"
-            android:layout_gravity="center_vertical"
-            android:clickable="true"
             android:layout_marginLeft="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp" />
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/thoughts_background_colorchange_nomal"
+            android:clickable="true" />
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/thought_changetextcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/thoughts_text_colorchange_normal"
-            android:layout_gravity="center_vertical"
-            android:clickable="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp" />
-        
-    </LinearLayout>
+            android:layout_marginEnd="10dp"
+            android:layout_toRightOf="@id/thought_changepostcolor"
+            android:layout_toEndOf="@id/thought_changepostcolor"
+            android:layout_centerVertical="true"
+            android:src="@drawable/thoughts_text_colorchange_normal"
+            android:clickable="true" />
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/thought_switch_canvas"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/switch_canvas"
+            android:clickable="true" />
+    </RelativeLayout>
 
     <RelativeLayout 
         android:id="@+id/thought_poster_colorG1"
