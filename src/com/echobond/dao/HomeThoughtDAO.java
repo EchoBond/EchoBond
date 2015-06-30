@@ -27,7 +27,10 @@ public class HomeThoughtDAO extends ContentProvider{
 	}
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		
+		switch(uriMatcher.match(uri)){
+		case HOMETHOUGHT:
+			return HomeThoughtDB.getInstance().removeAllHomeThoughts();
+		}
 		return 0;
 	}
 	@Override

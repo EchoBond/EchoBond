@@ -55,4 +55,8 @@ public class HomeThoughtDB extends MyDBHelper {
 		return update(tblName, values, where, whereArgs);
 	}
 	
+	public int removeAllHomeThoughts(){
+		return delete(tblName, null, null);
+	}
+	
 }

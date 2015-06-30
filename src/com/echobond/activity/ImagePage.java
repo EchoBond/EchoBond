@@ -26,6 +26,7 @@ public class ImagePage extends Activity {
 	private TextView groupView;
 	private String type;
 	private Integer id;
+	private Integer groupId;
 	private ArrayList<TextView> tags;
 	
 	@SuppressLint("NewApi")
@@ -38,6 +39,7 @@ public class ImagePage extends Activity {
 		String url = b.getString("url");
 		type = b.getString("type"); 
 		id = b.getInt("id");
+		groupId = b.getInt("groupId");
 		tags = new ArrayList<TextView>();
 		
 		layout = (LinearLayout) findViewById(R.id.image_page_layout);
@@ -60,8 +62,11 @@ public class ImagePage extends Activity {
 		Cursor cursor = null;
 		if("home".equals(type)){
 			cursor = dao.loadGroupByHomeThought(args);
-		} else {
+		} else if("hot".equals(type)){
 			cursor = dao.loadGroupByHotThought(args);
+		} else if("search".equals(type)){
+			String[] newArgs = {groupId+""};
+			cursor = dao.loadGroupById(newArgs);
 		}
 		if(null != cursor){
 			if(cursor.moveToFirst()){				
@@ -82,8 +87,10 @@ public class ImagePage extends Activity {
 		ArrayList<Tag> tagList = new ArrayList<Tag>();
 		if("home".equals(type)){
 			cursor = dao.loadTagsByHomeThought(args);
-		} else {
+		} else if("hot".equals(type)){
 			cursor = dao.loadTagsByHotThought(args);
+		} else if("search".equals(type)){
+			cursor = dao.loadTagsByThought(args);
 		}
 		if(null != cursor){
 			while(cursor.moveToNext()){

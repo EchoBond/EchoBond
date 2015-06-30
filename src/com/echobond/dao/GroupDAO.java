@@ -14,13 +14,16 @@ public class GroupDAO extends ContentProvider{
 	public static final String PROVIDER_NAME = "com.echobond.contentprovider.group";
 	//content://authority/path/id
 	public static final Uri CONTENT_URI_GROUP = Uri.parse("content://"+PROVIDER_NAME+"/group");
+	public static final Uri CONTENT_URI_GROUP_ID = Uri.parse("content://"+PROVIDER_NAME+"/id");
 	public static final Uri CONTENT_URI_FOLLOW = Uri.parse("content://"+PROVIDER_NAME+"/follow");
 	private static final int GROUP = 1;
-	private static final int GROUP_FOLLOW = 2;
+	private static final int GROUP_ID = 2;
+	private static final int GROUP_FOLLOW = 3;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "group", GROUP);
+		uriMatcher.addURI(PROVIDER_NAME, "id", GROUP_ID);
 		uriMatcher.addURI(PROVIDER_NAME, "follow", GROUP_FOLLOW);
 	}
 
@@ -100,4 +103,7 @@ public class GroupDAO extends ContentProvider{
 		return GroupDB.getInstance().loadGroupHot(args);
 	}
 
+	public Cursor loadGroupById(String[] args){
+		return GroupDB.getInstance().loadGroupById(args);
+	}
 }

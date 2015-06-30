@@ -52,6 +52,10 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 	private SimpleCursorAdapter originAdapter, langAdapter;
 	private Cursor originCursor, langCursor;
 	
+	public static final int MORE_SELF_TAGS = 1;
+	public static final int MORE_LIKE_TAGS = 2;
+	public static final int MORE_FOLLOW_GROUPS = 3;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,9 +112,9 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 				switchCallback.setPoster(true);
 			}
 		});
-		moreTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags"));
-		moreGroupsView.setOnClickListener(new ViewMoreClickListener("Groups"));
-		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags"));
+		moreTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags", MORE_SELF_TAGS));
+		moreGroupsView.setOnClickListener(new ViewMoreClickListener("Groups", MORE_FOLLOW_GROUPS));
+		moreLikedTagsView.setOnClickListener(new ViewMoreClickListener("Hashtags", MORE_LIKE_TAGS));
 		
 		return editProfileView;
 	}
@@ -118,9 +122,11 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 	public class ViewMoreClickListener implements OnClickListener {
 
 		private String typeString;
+		private Integer profile;
 		
-		public ViewMoreClickListener(String tag) {
+		public ViewMoreClickListener(String tag, Integer profile) {
 			this.typeString = tag;
+			this.profile = profile;
 		}
 
 		@Override
@@ -128,6 +134,7 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 			Intent intent = new Intent();
 			intent.putExtra("title", typeString);
 			intent.putExtra("mode", false);
+			intent.putExtra("profile", profile);
 			intent.setClass(getActivity(), ViewMorePage.class);
 			startActivity(intent);
 		}

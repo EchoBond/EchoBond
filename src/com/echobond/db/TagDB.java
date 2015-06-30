@@ -65,6 +65,14 @@ public class TagDB extends MyDBHelper {
 		return query(ctx.getResources().getString(R.string.sql_s_tag_like), args);
 	}
 	
+	public Cursor loadTagsWithSelf(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_self_list), args);
+	}
+	
+	public Cursor loadTagsWithLike(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_like_list), args);
+	}
+	
 	public long updateTag(ContentValues values, String where, String[] whereArgs){
 		return update(tblName, values, where, whereArgs);
 	}
@@ -75,6 +83,10 @@ public class TagDB extends MyDBHelper {
 	
 	public Cursor loadTagsHot(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_tag_hot), args);
+	}
+	
+	public Cursor loadTagsByThought(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_t), args);
 	}
 	
 	public int removeSelfTags(String where, String[] args){

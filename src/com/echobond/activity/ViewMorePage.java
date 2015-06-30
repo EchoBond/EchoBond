@@ -29,6 +29,7 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 	
 	private String title;
 	private boolean mode;
+	private Integer profile;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 	private void getData() {
 		title = getIntent().getStringExtra("title");
 		mode = getIntent().getBooleanExtra("mode", false);
+		profile = getIntent().getIntExtra("profile", 0);
 	}
 
 	private void initToolBar() {
@@ -72,6 +74,7 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 		}
 		Bundle bundle = new Bundle();
 		bundle.putBoolean("mode", mode);
+		bundle.putInt("profile", profile);
 		if (title.equals("Groups")) {
 			moreGroupsFragment.setArguments(bundle);
 			transaction.add(R.id.view_more_container, moreGroupsFragment).show(moreGroupsFragment).commit();

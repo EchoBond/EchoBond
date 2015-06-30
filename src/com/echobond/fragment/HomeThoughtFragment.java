@@ -349,6 +349,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	@Override
 	public void onLoadThoughtResult(JSONObject result) {
 		if(null != result){
+			getActivity().getContentResolver().delete(HomeThoughtDAO.CONTENT_URI, null, null);
 			TypeToken<ArrayList<Thought>> token = new TypeToken<ArrayList<Thought>>(){};
 			ArrayList<Thought> thoughts = null;
 			try {

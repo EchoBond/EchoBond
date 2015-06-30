@@ -63,6 +63,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	private Integer currentLimit;
 	private long lastLoadTime;
 	private ArrayList<ThoughtView> thoughtViews;
+	private ArrayList<Thought> thoughtList;
 	
 	private static final int POST = 0;
 	private static final int MESSAGE = 1;
@@ -206,9 +207,8 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 	public void onLoadThoughtResult(JSONObject result) {		
 		if(null != result){
 			TypeToken<ArrayList<Thought>> token = new TypeToken<ArrayList<Thought>>(){};
-			ArrayList<Thought> thoughts = null;
 			try {
-				thoughts = (ArrayList<Thought>) JSONUtil.fromJSONArrayToList(result.getJSONArray("thoughts"), token);
+				thoughtList = (ArrayList<Thought>) JSONUtil.fromJSONArrayToList(result.getJSONArray("thoughts"), token);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -216,7 +216,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 			//int i = 0;
 			/* Loading thoughts */
 			ArrayList<ThoughtView> newViews = new ArrayList<ThoughtView>();
-			for (Thought thought : thoughts) {
+			for (Thought thought : thoughtList) {
 				/* thoughts */
 				//contentValues[i++] = thought.putValues();
 				/* author */
@@ -419,7 +419,13 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 						+ "?path=" + postPath;
 				imageIntent.putExtra("url", imageUrl);
 				imageIntent.putExtra("id", id);
-				imageIntent.putExtra("type", "home");
+				imageIntent.putExtra("type", "search");
+				for(Thought t: thoughtList){
+					if(t.getId() == id){
+						imageIntent.putExtra("groupId",t.getGroupId());
+						break;
+					}
+				}
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:

@@ -280,6 +280,9 @@
 	    ON g.`_id` = t.`group_id`
 	    WHERE t.`_id` = ?
 	</string>
+	<string name="sql_s_grp_id">
+	    SELECT `_id`, `name` FROM `grp` WHERE `_id` = ?
+	</string>
 	<string name="sql_s_grp_follow">
 	    SELECT DISTINCT g.`_id`,g.`name` FROM `grp` AS g
 	    LEFT JOIN `follow_group` AS fg
@@ -311,6 +314,13 @@
 	    WHERE tt.`tag` = 1 AND ht.`_id` = ?
 	    ORDER BY t.`_id`
 	</string>
+	<string name="sql_s_tag_t">
+	    SELECT t.`_id`,t.`name` FROM `tag` AS t
+	    LEFT JOIN `thought_tag` AS tt
+	    ON tt.`tag_id` = t.`_id`
+	    WHERE tt.`thought_id` = ? AND tt.`tag` = 1
+	    ORDER BY t.`_id`
+	</string>
 	<string name="sql_s_tag_self">
 	    SELECT DISTINCT t.`_id`,t.`name` FROM `tag` AS t
 	    LEFT JOIN `tag_self` AS ts
@@ -327,7 +337,23 @@
 	    ON lt.`user_id` = u.`_id`
 	    WHERE u.`_id` = ? AND lt.`like` = 1
 	</string>
-	
+	<string name="sql_s_tag_self_list">
+	    SELECT DISTINCT t.`_id`,t.`name`,ts.`tag` FROM `tag` AS t
+	    LEFT JOIN `tag_self` AS ts
+	    ON t.`_id` = ts.`tag_id`
+	    LEFT JOIN `user` AS u
+	    ON ts.`user_id` = u.`_id` AND u.`_id` = ?
+	    ORDER BY t.`_id` LIMIT ? OFFSET ?
+	</string>
+	<string name="sql_s_tag_like_list">
+	    SELECT DISTINCT t.`_id`,t.`name`,lt.`like` FROM `tag` AS t
+	    LEFT JOIN `like_tag` AS lt
+	    ON t.`_id` = lt.`tag_id`
+	    LEFT JOIN `user` AS u
+	    ON lt.`user_id` = u.`_id` AND u.`_id` = ?
+   	    ORDER BY t.`_id` LIMIT ? OFFSET ?
+	</string>
+		
 	<!-- category -->
 	<string name="sql_s_category">
 	    SELECT `_id`,`name` FROM `category` ORDER BY `_id`

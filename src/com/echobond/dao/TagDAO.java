@@ -16,15 +16,21 @@ public class TagDAO extends ContentProvider{
 	public static final Uri CONTENT_URI_TAG = Uri.parse("content://"+PROVIDER_NAME+"/tag");
 	public static final Uri CONTENT_URI_SELF = Uri.parse("content://"+PROVIDER_NAME+"/self");
 	public static final Uri CONTENT_URI_LIKE = Uri.parse("content://"+PROVIDER_NAME+"/like");
+	public static final Uri CONTENT_URI_SELF_LIST = Uri.parse("content://"+PROVIDER_NAME+"/selflist");
+	public static final Uri CONTENT_URI_LIKE_LIST = Uri.parse("content://"+PROVIDER_NAME+"/likelist");
 	private static final int TAG = 1;
 	private static final int TAG_SELF = 2;
-	private static final int TAG_LIKE = 3;
+	private static final int TAG_SELF_LIST = 3;
+	private static final int TAG_LIKE = 4;
+	private static final int TAG_LIKE_LIST = 5;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "tag", TAG);
 		uriMatcher.addURI(PROVIDER_NAME, "self", TAG_SELF);
 		uriMatcher.addURI(PROVIDER_NAME, "like", TAG_LIKE);
+		uriMatcher.addURI(PROVIDER_NAME, "selflist", TAG_SELF_LIST);
+		uriMatcher.addURI(PROVIDER_NAME, "likelist", TAG_LIKE_LIST);
 	}
 
 	public void close(){
@@ -107,6 +113,12 @@ public class TagDAO extends ContentProvider{
 		case TAG_SELF:
 			cursor = TagDB.getInstance().loadTagsSelf(selectionArgs);
 			break;
+		case TAG_SELF_LIST:
+			cursor = TagDB.getInstance().loadTagsWithSelf(selectionArgs);
+			break;
+		case TAG_LIKE_LIST:
+			cursor = TagDB.getInstance().loadTagsWithLike(selectionArgs);
+			break;
 		}
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
@@ -129,4 +141,7 @@ public class TagDAO extends ContentProvider{
 		return TagDB.getInstance().loadTagsHot(args);
 	}
 
+	public Cursor loadTagsByThought(String args[]){
+		return TagDB.getInstance().loadTagsByThought(args);
+	}
 }
