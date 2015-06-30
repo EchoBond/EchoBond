@@ -6,8 +6,6 @@ import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.fragment.MoreGroupsFragment;
 import com.echobond.fragment.MoreTagsFragment;
-import com.echobond.fragment.ProfileGroupsFragment;
-import com.echobond.fragment.ProfileTagsFragment;
 import com.echobond.intf.ViewMoreSwitchCallback;
 
 import android.app.ActionBar;
@@ -31,8 +29,6 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 	private ImageView backButton, doneButton;
 	private MoreGroupsFragment moreGroupsFragment;
 	private MoreTagsFragment moreTagsFragment;
-	private ProfileGroupsFragment profileGroupsFragment;
-	private ProfileTagsFragment profileTagsFragment;
 	
 	private String title;
 	private int mode;
@@ -90,11 +86,9 @@ public class ViewMorePage extends ActionBarActivity implements ViewMoreSwitchCal
 
 	private void initContent() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (moreGroupsFragment == null || moreTagsFragment == null || profileGroupsFragment == null || profileTagsFragment == null) {
+		if (moreGroupsFragment == null || moreTagsFragment == null) {
 			moreGroupsFragment = new MoreGroupsFragment();
 			moreTagsFragment = new MoreTagsFragment();
-			profileGroupsFragment = new ProfileGroupsFragment();
-			profileTagsFragment = new ProfileTagsFragment();
 		}
 		Bundle bundle = new Bundle();
 		bundle.putInt("mode", mode);
