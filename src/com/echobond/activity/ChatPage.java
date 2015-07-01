@@ -305,7 +305,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		if(null != result){
 			try {
 				if("0".equals(result.getString("success"))){
-					Toast.makeText(this, getResources().getString(R.string.network_issue), Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();
 					return;
 				}
 				JSONObject msgJSON = result.getJSONObject("msg");

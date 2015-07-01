@@ -172,7 +172,7 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
 			updateUI();
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
 	}
 	

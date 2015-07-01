@@ -18,12 +18,14 @@ public class GroupDAO extends ContentProvider{
 	public static final Uri CONTENT_URI_FOLLOW = Uri.parse("content://"+PROVIDER_NAME+"/follow");
 	public static final Uri CONTENT_URI_HOME = Uri.parse("content://"+PROVIDER_NAME+"/home");
 	public static final Uri CONTENT_URI_HOT = Uri.parse("content://"+PROVIDER_NAME+"/hot");
+	public static final Uri CONTENT_URI_RANDOM = Uri.parse("content://"+PROVIDER_NAME+"/random");
 
 	private static final int GROUP = 1;
 	private static final int GROUP_ID = 2;
 	private static final int GROUP_FOLLOW = 3;
 	private static final int GROUP_HOME = 4;
 	private static final int GROUP_HOT = 5;
+	private static final int GROUP_RANDOM = 6;
 	
 	private static final UriMatcher uriMatcher;
 	static {
@@ -33,6 +35,7 @@ public class GroupDAO extends ContentProvider{
 		uriMatcher.addURI(PROVIDER_NAME, "follow", GROUP_FOLLOW);
 		uriMatcher.addURI(PROVIDER_NAME, "home", GROUP_HOME);
 		uriMatcher.addURI(PROVIDER_NAME, "hot", GROUP_HOT);
+		uriMatcher.addURI(PROVIDER_NAME, "random", GROUP_RANDOM);
 	}
 
 	public void close(){
@@ -102,6 +105,9 @@ public class GroupDAO extends ContentProvider{
 			break;
 		case GROUP_HOT:
 			cursor = GroupDB.getInstance().loadGroupHot(selectionArgs);
+			break;
+		case GROUP_RANDOM:
+			cursor = GroupDB.getInstance().loadGroupRandom(selectionArgs);
 			break;
 		}
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);

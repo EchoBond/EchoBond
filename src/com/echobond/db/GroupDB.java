@@ -71,6 +71,10 @@ public class GroupDB extends MyDBHelper {
 	public Cursor loadGroupById(String[] args){
 		return query(ctx.getResources().getString(R.string.sql_s_grp_id), args);
 	}
+
+	public Cursor loadGroupRandom(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_grp_random), args);
+	}
 	
 	public int removeFollowedGroups(String where, String[] args){
 		return delete(groupFollowTbl, where, args);

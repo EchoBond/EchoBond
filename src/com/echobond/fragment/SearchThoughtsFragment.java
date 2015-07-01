@@ -8,6 +8,9 @@ import org.json.JSONObject;
 import com.echobond.R;
 import com.echobond.activity.SearchPage;
 import com.echobond.connector.LoadThoughtSearchAsyncTask;
+import com.echobond.dao.GroupDAO;
+import com.echobond.dao.TagDAO;
+import com.echobond.db.CategoryDB;
 import com.echobond.entity.Category;
 import com.echobond.entity.Group;
 import com.echobond.entity.Tag;
@@ -18,6 +21,7 @@ import com.echobond.util.JSONUtil;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -110,80 +114,116 @@ public class SearchThoughtsFragment extends Fragment implements LoadSearchThough
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onLoadSearchThoughtResult(JSONObject result) {
+		ArrayList<Category> categories = null;
+		ArrayList<Group> groups = null;
+		ArrayList<Tag> tags = null;
 		if (null != result) {
 			TypeToken<ArrayList<Category>> categoryToken = new TypeToken<ArrayList<Category>>(){};
-			ArrayList<Category> categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", categoryToken);			
+			categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", categoryToken);			
 			TypeToken<ArrayList<Group>> groupToken = new TypeToken<ArrayList<Group>>(){};
-			ArrayList<Group> groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", groupToken);
+			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", groupToken);
 			TypeToken<ArrayList<Tag>> tagToken = new TypeToken<ArrayList<Tag>>(){};
-			ArrayList<Tag> tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", tagToken);
-			for (int i = 0; i< CAT_NUM; i++) {
-				Category c = categories.get(i);
-				catsViews[i].setText(c.getName());
-				catsViews[i].setTag(c.getId());
+			tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", tagToken);
+		} else {
+			categories = new ArrayList<Category>();
+			groups = new ArrayList<Group>();
+			tags = new ArrayList<Tag>();
+			Cursor cCursor = CategoryDB.getInstance().loadAllCategories();
+			Cursor gCursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_RANDOM, null, null, new String[]{RANDOM_NUM+""}, null);
+			Cursor tCursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_RANDOM, null, null, new String[]{RANDOM_NUM+""}, null);
+			if(null != cCursor){
+				while(cCursor.moveToNext()){
+					Category c = new Category();
+					c.setId(cCursor.getInt(cCursor.getColumnIndex("_id")));
+					c.setName(cCursor.getString(cCursor.getColumnIndex("name")));
+					categories.add(c);
+				}
+				cCursor.close();
 			}
-			for (int i = 0; i < RANDOM_NUM; i++) {				
-				Group g = groups.get(i);
-				Tag t = tags.get(i);
-				grpsViews[i].setText(g.getName());
-				grpsViews[i].setTag(g.getId());
-				tagsViews[i].setText(t.getName());
-				tagsViews[i].setTag(t.getId());
+			if(null != gCursor){
+				while(gCursor.moveToNext()){
+					Group g = new Group();
+					g.setId(gCursor.getInt(gCursor.getColumnIndex("_id")));
+					g.setName(gCursor.getString(gCursor.getColumnIndex("name")));
+					groups.add(g);
+				}
+				gCursor.close();
 			}
-			
-			for (int i = 0; i < CAT_NUM; i++) {
-				catsViews[i].setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View view) {
-						Integer id = (Integer) view.getTag();
-						JSONObject jso = new JSONObject();
-						try {
-							jso.put("index", SearchPage.THOUGHT_CATEGORY);
-							jso.put("id", id);
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						typeSwitchCallback.onSearchSelected(jso);
+			if(null != tCursor){
+				while(tCursor.moveToNext()){
+					Tag t = new Tag();
+					t.setId(tCursor.getInt(tCursor.getColumnIndex("_id")));
+					t.setName(tCursor.getString(tCursor.getColumnIndex("name")));
+					tags.add(t);
+				}
+				tCursor.close();
+			}			
+		}
+		for (int i = 0; i< CAT_NUM; i++) {
+			Category c = categories.get(i);
+			catsViews[i].setText(c.getName());
+			catsViews[i].setTag(c.getId());
+		}
+		for (int i = 0; i < RANDOM_NUM; i++) {				
+			Group g = groups.get(i);
+			Tag t = tags.get(i);
+			grpsViews[i].setText(g.getName());
+			grpsViews[i].setTag(g.getId());
+			tagsViews[i].setText(t.getName());
+			tagsViews[i].setTag(t.getId());
+		}
+		
+		for (int i = 0; i < CAT_NUM; i++) {
+			catsViews[i].setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
+					Integer id = (Integer) view.getTag();
+					JSONObject jso = new JSONObject();
+					try {
+						jso.put("index", SearchPage.THOUGHT_CATEGORY);
+						jso.put("id", id);
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
-			}
-			
-			for (int i = 0; i < RANDOM_NUM; i++) {
-				grpsViews[i].setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View view) {
-						Integer id = (Integer) view.getTag();
-						JSONObject jso = new JSONObject();
-						try {
-							jso.put("index", SearchPage.THOUGHT_GROUP);
-							jso.put("id", id);
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						typeSwitchCallback.onSearchSelected(jso);
+					typeSwitchCallback.onSearchSelected(jso);
+				}
+			});
+		}
+		for (int i = 0; i < RANDOM_NUM; i++) {
+			grpsViews[i].setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
+					Integer id = (Integer) view.getTag();
+					JSONObject jso = new JSONObject();
+					try {
+						jso.put("index", SearchPage.THOUGHT_GROUP);
+						jso.put("id", id);
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
-				tagsViews[i].setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View view) {
-						Integer id = (Integer) view.getTag();
-						JSONObject jso = new JSONObject();
-						try {
-							jso.put("index", SearchPage.THOUGHT_TAG);
-							ArrayList<Integer> idList = new ArrayList<Integer>();
-							idList.add(id);
-							jso.put("id", 0);
-							jso.put("idList", JSONUtil.fromListToJSONArray(idList, new TypeToken<ArrayList<Integer>>(){}));
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-						typeSwitchCallback.onSearchSelected(jso);
+					typeSwitchCallback.onSearchSelected(jso);
+				}
+			});
+			tagsViews[i].setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
+					Integer id = (Integer) view.getTag();
+					JSONObject jso = new JSONObject();
+					try {
+						jso.put("index", SearchPage.THOUGHT_TAG);
+						ArrayList<Integer> idList = new ArrayList<Integer>();
+						idList.add(id);
+						jso.put("id", 0);
+						jso.put("idList", JSONUtil.fromListToJSONArray(idList, new TypeToken<ArrayList<Integer>>(){}));
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
-			}
+					typeSwitchCallback.onSearchSelected(jso);
+				}
+			});
 		}
 	}
 }

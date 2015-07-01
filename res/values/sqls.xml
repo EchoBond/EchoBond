@@ -292,6 +292,9 @@
 	    ON fg.`user_id` = u.`_id`
 	    WHERE u.`_id` = ? AND fg.`follow` = 1
 	</string>
+	<string name="sql_s_grp_random">
+	    SELECT DISTINCT `_id`,`name` FROM `grp` ORDER BY RANDOM() LIMIT ?
+	</string>
 	
 	<!-- tag -->
 	<string name="sql_s_tag">
@@ -354,6 +357,9 @@
 	    ON lt.`user_id` = u.`_id` AND u.`_id` = ?
    	    ORDER BY t.`_id` LIMIT ? OFFSET ?
 	</string>
+	<string name="sql_s_tag_random">
+	    SELECT DISTINCT `_id`,`name` FROM `tag` ORDER BY RANDOM() LIMIT ?
+	</string>	
 		
 	<!-- category -->
 	<string name="sql_s_category">

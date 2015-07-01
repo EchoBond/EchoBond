@@ -16,6 +16,8 @@ import com.echobond.application.MyApp;
 import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
+import com.echobond.dao.HomeThoughtDAO;
+import com.echobond.dao.HotThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
 import com.echobond.entity.Comment;
@@ -36,6 +38,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +47,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -259,7 +263,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 			onLoadFinished();
 		} else {
 			onLoadFinished();
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -278,12 +282,26 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 						break;
 					}
 				}
+				ContentValues values = new ContentValues();
+				values.put("isUserBoost", action);
+				values.put("boost", total);
+				String where = "_id="+id;				
+				/* Update HomeThought & HotThought if this thought is also there */
+				updateListView();
+				ContentResolver resolver = getActivity().getContentResolver();
+				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
+				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
+				Intent homeIntent = new Intent(MyApp.BROADCAST_BOOST), hotIntent = new Intent(MyApp.BROADCAST_BOOST);
+				homeIntent.putExtra("forHome", true);
+				hotIntent.putExtra("forHot", true);
+				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(homeIntent);
+				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(hotIntent);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			updateListView();
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();			
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();			
 		}
 	}
 	
@@ -446,16 +464,16 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 				startActivity(imageIntent);
 				break;
 			case MESSAGE:
-				/*String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
 					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
-				} else {*/
+				} else {
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(SearchThoughtsResultFragment.this.getActivity(), ChatPage.class);
 					chatIntent.putExtra("guestId", userId);
 					chatIntent.putExtra("userName", userName);
 					startActivity(chatIntent);
-				//}
+				}
 				break;
 			case BOOST:				
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 

@@ -16,6 +16,8 @@ import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -102,6 +104,9 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
 				getResources().getString(R.string.url_down_img) + 
 				"?path=" + SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		//clear cache
+		MemoryCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getMemoryCache());
+		DiskCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getDiskCache());
 		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);		
 	}
 	

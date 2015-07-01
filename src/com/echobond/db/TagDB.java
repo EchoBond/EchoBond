@@ -89,6 +89,10 @@ public class TagDB extends MyDBHelper {
 		return query(ctx.getResources().getString(R.string.sql_s_tag_t), args);
 	}
 	
+	public Cursor loadTagsRandom(String[] args){
+		return query(ctx.getResources().getString(R.string.sql_s_tag_random), args);
+	}
+	
 	public int removeSelfTags(String where, String[] args){
 		return delete(tagSelfTbl, where, args);
 	}

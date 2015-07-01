@@ -102,7 +102,7 @@ public class StartPageFragment extends Fragment {
         	}
         	else {
         		loginButton.setClickable(true);
-    			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+    			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
         	}
 		}
 	};
@@ -117,7 +117,7 @@ public class StartPageFragment extends Fragment {
 					if(CommUtil.isThreadRunning(THREAD_TIMEOUT_NAME))
 						return;
 					Session.getActiveSession().closeAndClearTokenInformation();
-					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 					Intent intent = new Intent();
 					intent.setClass(StartPageFragment.this.getActivity(), StartPage.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -199,7 +199,7 @@ public class StartPageFragment extends Fragment {
 	    		if(null != bd && bd.getBoolean("logout")){
 	    			bd.remove("logout");
 	    		} else {
-	    			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+	    			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 	    		}
 	    	}
     		session.closeAndClearTokenInformation();

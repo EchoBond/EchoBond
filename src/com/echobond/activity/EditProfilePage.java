@@ -1,5 +1,7 @@
 package com.echobond.activity;
 
+import org.json.JSONObject;
+
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.connector.ImageUploadAsyncTask;
@@ -9,6 +11,7 @@ import com.echobond.fragment.CanvasFragment;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
+import com.echobond.intf.ImageCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.ImageUtil;
 import com.echobond.util.SPUtil;
@@ -43,7 +46,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback {
+public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback, ImageCallback{
 
 	private ImageView backButton, doneButton;
 	private TextView titleView;
@@ -72,9 +75,12 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			if(intent.hasExtra("duplicateUserName")){
 				Toast.makeText(getApplicationContext(), "duplicate user name", Toast.LENGTH_SHORT).show();
 				return;
+			} else if(intent.hasExtra("imageUpload")){
+				
+			} else {
+				closeEditorActivity();
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
 			}
-			closeEditorActivity();
-			Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
 		}
 	};
 	
@@ -126,10 +132,9 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			@SuppressLint("NewApi") 
 			@Override
 			public void onClick(View v) {
-				if (pgIndex == PAGE_PROFILE) {
-					
-					progressBar.bringToFront();
-					progressBar.setVisibility(View.VISIBLE);
+				progressBar.bringToFront();
+				progressBar.setVisibility(View.VISIBLE);
+				if (pgIndex == PAGE_PROFILE) {					
 					user = mainFragment.getUser();
 					selfTags = mainFragment.getSelfTags();
 					likedTags = mainFragment.getLikedTags();
@@ -161,17 +166,16 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 						/* GENERATE CANVAS */
 						ImageView canvasView = canvasFragment.getDrawBoard();
 						avatar = ImageUtil.generateBitmap(canvasView);
-						
-						getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
+												
 					}
 					Time time = new Time();
 					time.setToNow();
-//					ImageUtil.saveBitmap(avatar, avatarType + "_avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
+					ImageUtil.saveBitmap(avatar, avatarType + "_avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
 					String userId = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
 					String email = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
-//					new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
-//							HTTPUtil.getInstance().composePreURL(EditProfilePage.this) + getResources().getString(R.string.url_up_img), 
-//							ImageUtil.bmToStr(avatar), EditProfilePage.this, userId, email);
+					new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+							HTTPUtil.getInstance().composePreURL(EditProfilePage.this) + getResources().getString(R.string.url_up_img), 
+							ImageUtil.bmToStr(avatar), EditProfilePage.this, ImageUploadAsyncTask.IMAGE_TYPE_USER, userId, email);
 				} 
 			}
 		});
@@ -239,6 +243,25 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onUploadImage(JSONObject result) {
+		if(null != result){
+			Toast.makeText(this, getResources().getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();
+		}
+		getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
+		progressBar.setVisibility(View.INVISIBLE);
+		Intent intent = new Intent(MyApp.BROADCAST_UPDATE_PROFILE);
+		intent.putExtra("imageUpload", true);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+	}
+
+	@Override
+	public void onDownloadImage(JSONObject result) {
+		
 	}
 
 }

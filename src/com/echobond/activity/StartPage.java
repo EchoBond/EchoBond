@@ -141,7 +141,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     	try {
     		loading(false);
     		if(null == result){
-				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
     		}
     		else if(result.getInt("exists") == 0){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_not_exists), Toast.LENGTH_LONG).show();
@@ -161,7 +161,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     	try {
     		loading(false);
     		if(null == result){
-				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
     		}
     		else{
 				if(result.getInt("exists") == 0){
@@ -194,7 +194,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
     	try{
     		loading(false);
 			if(null == result){
-				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 			}
 			else {
 				//make sure it is a valid session instead of a cache
@@ -224,7 +224,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 		try{
     		loading(false);
 			if(null == result){
-				Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 			}
 			else if(result.getInt("accExists") == 0){
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.resetpass_not_reg), Toast.LENGTH_LONG).show();

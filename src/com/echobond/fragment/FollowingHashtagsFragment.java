@@ -178,7 +178,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, values);
 			updateUI();
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
 	}
 	

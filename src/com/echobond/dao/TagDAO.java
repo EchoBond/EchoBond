@@ -20,7 +20,8 @@ public class TagDAO extends ContentProvider{
 	public static final Uri CONTENT_URI_LIKE_LIST = Uri.parse("content://"+PROVIDER_NAME+"/likelist");
 	public static final Uri CONTENT_URI_HOME = Uri.parse("content://"+PROVIDER_NAME+"/home");
 	public static final Uri CONTENT_URI_HOT = Uri.parse("content://"+PROVIDER_NAME+"/hot");
-	public static final Uri CONTENT_URI_THOUGHT = Uri.parse("content://"+PROVIDER_NAME+"/thought");	
+	public static final Uri CONTENT_URI_THOUGHT = Uri.parse("content://"+PROVIDER_NAME+"/thought");
+	public static final Uri CONTENT_URI_RANDOM = Uri.parse("content://"+PROVIDER_NAME+"/random");
 	private static final int TAG = 1;
 	private static final int TAG_SELF = 2;
 	private static final int TAG_SELF_LIST = 3;
@@ -29,6 +30,7 @@ public class TagDAO extends ContentProvider{
 	private static final int TAG_HOME = 6;
 	private static final int TAG_HOT = 7;
 	private static final int TAG_THOUGHT = 8;
+	private static final int TAG_RANDOM = 9;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -40,6 +42,7 @@ public class TagDAO extends ContentProvider{
 		uriMatcher.addURI(PROVIDER_NAME, "home", TAG_HOME);
 		uriMatcher.addURI(PROVIDER_NAME, "hot", TAG_HOT);
 		uriMatcher.addURI(PROVIDER_NAME, "thought", TAG_THOUGHT);
+		uriMatcher.addURI(PROVIDER_NAME, "random", TAG_RANDOM);
 	}
 
 	public void close(){
@@ -136,6 +139,9 @@ public class TagDAO extends ContentProvider{
 			break;
 		case TAG_THOUGHT:
 			cursor = TagDB.getInstance().loadTagsByThought(selectionArgs);
+			break;
+		case TAG_RANDOM:
+			cursor = TagDB.getInstance().loadTagsRandom(selectionArgs);
 			break;
 		}
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);

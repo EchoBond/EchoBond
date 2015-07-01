@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,9 +180,10 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 				if(null != cmt){
 					Comment comment = (Comment) JSONUtil.fromJSONToObject(cmt, Comment.class);
 					ContentValues values = comment.putValues();
-					getContentResolver().insert(CommentDAO.CONTENT_URI, values); 
+					getContentResolver().insert(CommentDAO.CONTENT_URI, values);					
 					//for insert, auto requery, no need to manually query
 					//for update, need to requery
+					LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(MyApp.BROADCAST_COMMENT));
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

@@ -240,7 +240,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 			String email = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
 			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_up_img),
-					ImageUtil.bmToStr(post), NewPostPage.this, userId, email);
+					ImageUtil.bmToStr(post), NewPostPage.this, ImageUploadAsyncTask.IMAGE_TYPE_POST ,userId, email);
 		}
 		
 	}
@@ -360,6 +360,8 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
 						t, NewPostPage.this);
+			} else {
+				Toast.makeText(this, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e){
 			e.printStackTrace();

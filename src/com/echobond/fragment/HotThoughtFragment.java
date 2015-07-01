@@ -79,7 +79,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			
+			if(null != intent && null != intent.getExtras()){
+				if(intent.getBooleanExtra("forHot", false)){
+					updateListView();
+				}
+			}
 		}
 	};
 	
@@ -87,7 +91,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			
+			updateListView();
 		}
 	};
 	
@@ -427,7 +431,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 			onLoadFinished();
 		} else {
 			onLoadFinished();
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -448,11 +452,14 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				updateListView();
 				/* Update HomeThought if this thought is also there */				
 				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
+				Intent intent = new Intent(MyApp.BROADCAST_BOOST);
+				intent.putExtra("forHome", true);
+				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);			
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();			
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();			
 		}
 	}
 	

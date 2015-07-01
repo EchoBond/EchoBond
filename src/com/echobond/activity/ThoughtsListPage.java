@@ -33,10 +33,12 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -45,6 +47,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -71,15 +74,29 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	private int currentLimit;
 	private long lastLoadTime;
 	
+	private BroadcastReceiver commentReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateListView();
+		}
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thoughts_list_page);
 		initActionBar();
 		initThoughtsList();
-		
+		LocalBroadcastManager.getInstance(this).registerReceiver(commentReceiver, new IntentFilter(MyApp.BROADCAST_COMMENT));
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(commentReceiver);
+	}
+	
 	private void initActionBar() {
 		Toolbar thoughtsListToolbar = (Toolbar)findViewById(R.id.toolbar_thoughts_list);
 		setSupportActionBar(thoughtsListToolbar);
@@ -393,7 +410,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 			onLoadFinished();
 		} else {
 			onLoadFinished();
-			Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -413,11 +430,16 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 				updateListView();
 				/* Update HotThought if this thought is also there */
 				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
+				Intent homeIntent = new Intent(MyApp.BROADCAST_BOOST), hotIntent = new Intent(MyApp.BROADCAST_BOOST);
+				homeIntent.putExtra("forHome", true);
+				hotIntent.putExtra("forHot", true);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(homeIntent);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(hotIntent);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();			
+			Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();			
 		}
 	}
 	
