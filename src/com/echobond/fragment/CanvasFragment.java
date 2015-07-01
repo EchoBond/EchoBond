@@ -207,11 +207,6 @@ public class CanvasFragment extends Fragment {
 					drawBoard.setImageBitmap(baseBitmap);
 				}
 				paint.setColor(Color.BLACK);
-				drawBoard.setBackgroundColor(Color.WHITE);
-				paint.setStrokeWidth(INIT_PEN_SIZE);
-				rubber.setStrokeWidth(INIT_RUBBER_SIZE);
-				penSeekBar.setProgress(INIT_PEN_SIZE);
-				rubberSeekBar.setProgress(INIT_RUBBER_SIZE);
 				break;
 			default:
 				break;

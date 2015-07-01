@@ -89,6 +89,12 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	@Override
 	public void selectCategory(int categoryId) {
 		this.categoryId = categoryId;
+		if (categoryId != -1) {
+			barTitle.setText(R.string.title_new_post_pic);
+			postFragment.setCategoryType();
+			getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
+			fgIndex += 1;
+		}
 	}
 
 	public int getCategoryId() {
@@ -171,7 +177,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		public void onClick(View v) {
 			switch (fgIndex) {
 			case NEW_POST_CATEGORY:
-				isCategorySelected();
+				selectCategory(categoryId);
 				break;
 			case NEW_POST_PIC:
 				createPost();
@@ -187,15 +193,6 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				break;
 			default:
 				break;
-			}
-		}
-
-		private void isCategorySelected() {
-			if (categoryId != -1) {
-				barTitle.setText(R.string.title_new_post_pic);
-				postFragment.setCategoryType();
-				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
-				fgIndex += 1;
 			}
 		}
 
