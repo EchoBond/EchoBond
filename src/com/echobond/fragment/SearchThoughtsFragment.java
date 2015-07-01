@@ -33,7 +33,7 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class SearchThoughtsFragment extends Fragment implements LoadSearchThoughtCallback{
+public class SearchThoughtsFragment extends Fragment implements LoadSearchThoughtCallback {
 
 	private final Integer CAT_NUM = 6, RANDOM_NUM = 5;	
 	private TextView[] catsViews = new TextView[CAT_NUM], grpsViews = new TextView[RANDOM_NUM], tagsViews = new TextView[RANDOM_NUM];

@@ -273,6 +273,27 @@
 			        android:layout_marginLeft="20dp"
 			        android:layout_marginStart="20dp" />
 			</RelativeLayout>
+				
+			<RelativeLayout 
+			    android:id="@+id/people_about_group"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:padding="7dp" >
+			    <ImageView 
+			        android:contentDescription="@string/none"
+			        android:id="@+id/people_about_group_view"
+			        android:layout_width="45dp"
+			        android:layout_height="45dp"
+			        android:src="@drawable/profile_about_group" />
+			    <TextView 
+			        android:id="@+id/people_about_group_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toRightOf="@id/people_about_group_view"
+			        android:layout_toEndOf="@id/people_about_group_view"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginStart="20dp" />
+			</RelativeLayout>
 			
 			<TextView 
 			    android:id="@+id/people_view_thoughts"

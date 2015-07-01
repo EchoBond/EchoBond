@@ -201,7 +201,7 @@ public class CanvasFragment extends Fragment {
 				break;
 			case CHOOSE_CLEAR:
 				if (baseBitmap != null) {
-					baseBitmap = Bitmap.createBitmap(1080, 869, Bitmap.Config.ARGB_8888);
+					baseBitmap = Bitmap.createBitmap(1080, 764, Bitmap.Config.ARGB_8888);
 					canvas = new Canvas(baseBitmap);
 					canvas.drawColor(Color.TRANSPARENT);
 					drawBoard.setImageBitmap(baseBitmap);

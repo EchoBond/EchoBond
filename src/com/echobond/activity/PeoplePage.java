@@ -22,7 +22,7 @@ public class PeoplePage extends ActionBarActivity {
 	private ImageView peopleFigureView;
 	private TextView peopleTitle, peopleBio, peopleGender;
 	private TextView peopleDNA, peopleTrophy, peopleTodo, peoplePhilo, peopleEarth, 
-					peopleDesc, peopleHeart, peopleSec, peopleLang, peopleTag; 
+					peopleDesc, peopleHeart, peopleSec, peopleLang, peopleTag, peopleGroup; 
 	private TextView viewThoughtsButton;
 	
 	@Override
@@ -56,6 +56,7 @@ public class PeoplePage extends ActionBarActivity {
 		peopleSec = (TextView)findViewById(R.id.people_about_sec_text);
 		peopleLang = (TextView)findViewById(R.id.people_about_lang_text);
 		peopleTag = (TextView)findViewById(R.id.people_about_tag_text);
+		peopleGroup = (TextView)findViewById(R.id.people_about_group_text);
 		
 		viewThoughtsButton = (TextView)findViewById(R.id.people_view_thoughts);
 		viewThoughtsButton.setOnClickListener(new View.OnClickListener() {

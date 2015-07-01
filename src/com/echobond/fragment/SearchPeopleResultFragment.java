@@ -36,6 +36,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 /**
@@ -43,7 +44,7 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class SearchPeopleResultFragment extends Fragment implements IXListViewListener, UserAsyncTaskCallback{
+public class SearchPeopleResultFragment extends Fragment implements IXListViewListener, UserAsyncTaskCallback {
 	
 	private XListView searchPeopleResultList;
 	private PeopleResultAdapter adapter;
@@ -64,6 +65,14 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 		searchPeopleResultList.setPullRefreshEnable(true);
 		searchPeopleResultList.setPullLoadEnable(true);
 		searchPeopleResultList.setAdapter(adapter);
+		searchPeopleResultList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				
+			}
+		});
 		
 		Bundle bundle = getArguments();
 		searchType = bundle.getInt("type");
@@ -257,6 +266,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 				e.printStackTrace();
 			}
 		}
+		
 		String args[] = null;
 		Cursor c = null;
 		switch (searchType) {

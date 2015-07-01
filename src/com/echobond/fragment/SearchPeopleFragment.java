@@ -32,7 +32,7 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class SearchPeopleFragment extends Fragment implements LoadSearchPeopleCallback{
+public class SearchPeopleFragment extends Fragment implements LoadSearchPeopleCallback {
 
 	
 	private final Integer RANDOM_NUM = 5;

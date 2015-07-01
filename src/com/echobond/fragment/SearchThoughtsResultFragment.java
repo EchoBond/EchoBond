@@ -56,7 +56,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class SearchThoughtsResultFragment extends Fragment implements IXListViewListener, LoadThoughtCallback, BoostCallback{
+public class SearchThoughtsResultFragment extends Fragment implements IXListViewListener, LoadThoughtCallback, BoostCallback {
 	
 	private XListView searchThoughtsResultList;
 	private ThoughtsResultAdapter adapter;
