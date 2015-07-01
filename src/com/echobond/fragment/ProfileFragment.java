@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.putExtra("userName", "Yourself's ");
+				intent.putExtra("userName", "Yourself");
 				intent.setClass(getActivity(), ThoughtsListPage.class);
 				startActivity(intent);
 			}

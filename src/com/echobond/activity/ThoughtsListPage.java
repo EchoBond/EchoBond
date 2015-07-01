@@ -71,7 +71,6 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	private int currentLimit;
 	private long lastLoadTime;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,7 +97,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		});
 		
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText(getIntent().getStringExtra("userName") + "Thoughts");
+		titleView.setText(getIntent().getStringExtra("userName") + "'s Thoughts");
 	}
 
 	private void initThoughtsList() {

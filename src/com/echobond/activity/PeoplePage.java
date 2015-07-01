@@ -26,6 +26,8 @@ public class PeoplePage extends ActionBarActivity {
 					peopleDesc, peopleHeart, peopleSec, peopleLang, peopleTag, peopleGroup; 
 	private TextView viewThoughtsButton;
 	
+	private String userName;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +43,8 @@ public class PeoplePage extends ActionBarActivity {
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
 		
 		titleView = (TextView)findViewById(R.id.title_name);
-		titleView.setText(getIntent().getIntExtra("userName", -1) + "");
+		userName = getIntent().getStringExtra("userName");
+		titleView.setText(userName + "'s Profile");
 	}
 
 	private void initContent() {
@@ -68,6 +71,7 @@ public class PeoplePage extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
+				intent.putExtra("userName", userName);
 				intent.setClass(PeoplePage.this, ThoughtsListPage.class);
 				startActivity(intent);
 				Toast.makeText(getApplicationContext(), "Thought List", Toast.LENGTH_SHORT).show();

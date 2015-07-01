@@ -56,6 +56,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 	private Integer currentLimit;
 	private long lastLoadTime;
 	private ArrayList<Integer> searchIDList;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
 				Intent intent = new Intent();
-				intent.putExtra("userName", position);
+				intent.putExtra("userName", (String) v.getTag());
 				intent.setClass(getActivity(), PeoplePage.class);
 				startActivity(intent);
 			}
@@ -151,6 +152,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			String imageUrl = HTTPUtil.getInstance().composePreURL(getActivity()) 
 					+ getResources().getString(R.string.url_down_img) + "?path=" + id;
 			ImageLoader.getInstance().displayImage(imageUrl, peoplePic);
+			convertView.setTag(userName);
 		}
 
 		@Override
