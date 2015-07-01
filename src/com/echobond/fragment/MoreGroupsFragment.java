@@ -306,14 +306,12 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 			for (Group group : groups) {
 				values[i++] = group.putValues();
 			}
-			
 			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
-			updateUI();
-			onLoadFinished();
 		} else {
-			onLoadFinished();
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 		}
+		updateUI();
+		onLoadFinished();
 	}
 	
 	private void updateUI(){

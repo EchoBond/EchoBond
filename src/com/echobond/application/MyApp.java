@@ -19,6 +19,7 @@ import com.echobond.db.HomeThoughtDB;
 import com.echobond.db.HotThoughtDB;
 import com.echobond.db.LanguageDB;
 import com.echobond.db.TagDB;
+import com.echobond.db.ThoughtTagDB;
 import com.echobond.db.UserDB;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -163,6 +164,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		CategoryDB.getInstance(this);
 		LanguageDB.getInstance(this);
 		CountryDB.getInstance(this);
+		ThoughtTagDB.getInstance(this);
 	}
 	
 	@Override

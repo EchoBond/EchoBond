@@ -246,12 +246,11 @@ public class MoreTagsFragment extends Fragment implements OnClickListener, IXLis
 				values[i++] = tag.putValues();
 			}
 			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, values);
-			updateUI();
-			onLoadFinished();
 		} else {
-			onLoadFinished();
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.network_issue), Toast.LENGTH_LONG).show();
 		}
+		updateUI();
+		onLoadFinished();
 	}
 	
 	private void updateUI() {

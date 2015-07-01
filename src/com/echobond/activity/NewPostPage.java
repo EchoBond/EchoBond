@@ -10,6 +10,7 @@ import com.echobond.application.MyApp;
 import com.echobond.connector.ImageUploadAsyncTask;
 import com.echobond.connector.PostThoughtAsyncTask;
 import com.echobond.dao.HomeThoughtDAO;
+import com.echobond.dao.TagDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
@@ -323,13 +324,16 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				// thought tags
 				if(null != thought.getTags()){
 					int x = 0;
+					ContentValues[] tagValues = new ContentValues[thought.getTags().size()];
 					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
 					for(Tag tag: thought.getTags()){
+						tagValues[x] = tag.putValues();
 						ContentValues value = new ContentValues();
 						value.put("thought_id", thought.getId());
 						value.put("tag_id", tag.getId());
 						thoughtTagValues[x++] = value;
 					}
+					getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, tagValues);
 					getContentResolver().bulkInsert(ThoughtTagDAO.CONTENT_URI, thoughtTagValues);
 				}
 			} catch (JSONException e) {

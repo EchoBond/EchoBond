@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.connector.CategoryAsyncTask;
+import com.echobond.db.CategoryDB;
 import com.echobond.entity.Category;
 import com.echobond.intf.CategoryCallback;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
@@ -15,6 +16,7 @@ import com.echobond.util.JSONUtil;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,7 +28,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 /**
  * 
@@ -76,35 +77,45 @@ public class NewCategoryFragment extends Fragment implements CategoryCallback {
 	@SuppressLint("NewApi")
 	@Override
 	public void onCategoryResult(JSONObject result) {
-		if(null == result){
-			Toast.makeText(getActivity(), "Failed loading categories", Toast.LENGTH_LONG).show();
-		} else {
+		if(null != result){
 			TypeToken<ArrayList<Category>> token = new TypeToken<ArrayList<Category>>(){};
 			categories = (ArrayList<Category>) JSONUtil.fromJSONToList(result, "categories", token);
-			ArrayList<HashMap<String, Object>> listItems = new ArrayList<HashMap<String, Object>>();
-			for(int i = 0; i < categories.size(); i++){
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("category", categories.get(i).getName());
-				listItems.add(map);
-			}
-			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_category, new String[]{"category"}, new int[]{R.id.text_category});
-			categoryList.setAdapter(adapter);
-			categoryList.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					for(int i = 0; i < categoryList.getChildCount(); i++){
-						ViewGroup view = (ViewGroup) categoryList.getChildAt(i);
-						int index = i;
-						if(index >= bgList.size()){
-							index = index%bgList.size();
-						}
-						view.getChildAt(0).setBackground(bgList.get(index));
-					}
+		} else {
+			Cursor cursor = CategoryDB.getInstance().loadAllCategories();
+			categories = new ArrayList<Category>();
+			if(null != cursor){
+				while(cursor.moveToNext()){
+					Category c = new Category();
+					c.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+					c.setName(cursor.getString(cursor.getColumnIndex("name")));
+					categories.add(c);
 				}
-			});
-			categoryList.setOnItemClickListener(new CategoryItemClickListener());
+				cursor.close();
+			}
 		}
+		ArrayList<HashMap<String, Object>> listItems = new ArrayList<HashMap<String, Object>>();
+		for(int i = 0; i < categories.size(); i++){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("category", categories.get(i).getName());
+			listItems.add(map);
+		}
+		SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.item_category, new String[]{"category"}, new int[]{R.id.text_category});
+		categoryList.setAdapter(adapter);
+		categoryList.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(int i = 0; i < categoryList.getChildCount(); i++){
+					ViewGroup view = (ViewGroup) categoryList.getChildAt(i);
+					int index = i;
+					if(index >= bgList.size()){
+						index = index%bgList.size();
+					}
+					view.getChildAt(0).setBackground(bgList.get(index));
+				}
+			}
+		});
+		categoryList.setOnItemClickListener(new CategoryItemClickListener());
 	}
 	
 	public class CategoryItemClickListener implements AdapterView.OnItemClickListener {
