@@ -12,6 +12,7 @@ import com.echobond.connector.LoadGroupsAsyncTask;
 import com.echobond.dao.GroupDAO;
 import com.echobond.entity.Group;
 import com.echobond.intf.LoadGroupsCallback;
+import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 import com.echobond.intf.ViewMoreSwitchCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
@@ -61,8 +62,6 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	
 	private int currentLimit;
 	private long lastLoadTime;
-	
-	private Integer groupId;
 	
 	private ArrayList<Integer> groupIds;
 	private ArrayList<String> groupNames;
@@ -129,17 +128,19 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 					@Override
 					public void onItemClick(AdapterView<?> parent, View v, int position,
 							long id) {
+						NewPostFragmentsSwitchAsyncTaskCallback activity = 
+								((NewPostFragmentsSwitchAsyncTaskCallback)getActivity());
 						TextView item = (TextView)v.findViewById(R.id.text_group);
 						if (item.isSelected()) {
 							item.setSelected(false);
 							adapter.clearSelection();
 							adapter.setSelected(position-1, false);
-							groupId = -1;
+							activity.selectGroup(-1);
 						} else if (!item.isSelected()) {
 							item.setSelected(true);
 							adapter.clearSelection();
 							adapter.setSelected(position-1, true);
-							groupId = (Integer) item.getTag();
+							activity.selectGroup((Integer) item.getTag());
 						}
 						adapter.notifyDataSetChanged();
 					}
@@ -183,10 +184,6 @@ public class MoreGroupsFragment extends Fragment implements OnClickListener, IXL
 	
 	public ArrayList<String> getGroupNames() {
 		return groupNames;
-	}
-	
-	public Integer getGroupId() {
-		return groupId;
 	}
 
 	public class MoreGroupsCursorAdapter extends CursorAdapter {

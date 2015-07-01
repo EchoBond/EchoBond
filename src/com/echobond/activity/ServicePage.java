@@ -55,5 +55,6 @@ public class ServicePage extends ActionBarActivity {
 		int page = getIntent().getIntExtra("page", -1);
 		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText(getResources().getStringArray(R.array.setting_list_array)[page]);
+		
 	}
 }

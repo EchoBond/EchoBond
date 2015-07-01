@@ -28,6 +28,7 @@ import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Intent service to fetch data
@@ -175,8 +176,24 @@ public class InitFetchService extends IntentService {
 			} catch (JSONException e){
 				e.printStackTrace();
 			}
+			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("StartApp"));
+			stopSelf();
+		} else {
+			new Thread(){
+				@Override
+				public void run() {
+					try {
+						sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					LocalBroadcastManager.getInstance(InitFetchService.this).sendBroadcast(new Intent("StartApp"));
+					stopSelf();
+					
+				}
+			}.start();
 		}
-		stopSelf();
+		
     }
     
 }

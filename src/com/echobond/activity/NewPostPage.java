@@ -222,7 +222,6 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		
 		@SuppressLint("NewApi") 
 		private void postThought() {
-			groupId = groupsFragment.getGroupId();
 			EditText postText = postFragment.getPostText();
 			postText.setBackground(null);
 			RelativeLayout postLayout = postFragment.getPostLayout();

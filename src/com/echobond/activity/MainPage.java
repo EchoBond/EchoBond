@@ -334,9 +334,11 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case SETTING_CONTACT_US:
-				intent.putExtra("page", SETTING_CONTACT_US);
-				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+				Intent email = new Intent(Intent.ACTION_SEND);
+				email.setType("message/rfc822");
+				email.putExtra(Intent.EXTRA_EMAIL, new String[]{"server@echobond.com"});
+				email.putExtra(Intent.EXTRA_SUBJECT, "Something to tell you");
+				startActivity(Intent.createChooser(email, "Email us by "));
 				break;
 			default:
 				break;

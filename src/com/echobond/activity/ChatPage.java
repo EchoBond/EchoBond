@@ -115,8 +115,8 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		ContentValues values = new ContentValues();
 		values.put("is_read", 1);
-		String where = "recver_id=? AND sender_id=?";
-		String[] selectionArgs = new String[]{userId, guestId};
+		String where = "recver_id=? OR sender_id=?";
+		String[] selectionArgs = new String[]{guestId, guestId};
 		getContentResolver().update(ChatDAO.CONTENT_URI, values, where, selectionArgs);
 		
 		selectionArgs = new String[]{userId,""};

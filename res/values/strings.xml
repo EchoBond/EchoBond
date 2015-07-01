@@ -70,5 +70,7 @@
     <string name="comment_list">Comment List</string>
     <string name="rubber_seekbar">Rubber Size: </string>
     <string name="pen_seekbar">Draw Size: </string>
+    <string name="title_activity_entry">EntryActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

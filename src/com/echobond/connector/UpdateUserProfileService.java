@@ -149,7 +149,7 @@ public class UpdateUserProfileService extends IntentService {
 			//clear previous tags
 			selection = "user_id = ?";
 			selectionArgs = new String[]{user.getId()};
-			getContentResolver().delete(TagDAO.CONTENT_URI_SELF, selection, selectionArgs);			
+			getContentResolver().delete(TagDAO.CONTENT_URI_LIKE, selection, selectionArgs);			
 			ArrayList<Integer> likedTagIds = new ArrayList<Integer>();
 			if(isLikedTag){
 				for(Tag t: newTags){
