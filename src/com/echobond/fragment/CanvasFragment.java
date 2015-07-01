@@ -276,5 +276,9 @@ public class CanvasFragment extends Fragment {
 		}
 		
 	}
+
+	public ImageView getDrawBoard() {
+		return drawBoard;
+	}
 	
 }

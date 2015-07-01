@@ -1,7 +1,10 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
+import com.echobond.activity.EditProfilePage;
+import com.echobond.intf.EditProfileSwitchCallback;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -21,12 +24,13 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class DrawingIconFragment extends Fragment{
+public class DrawingIconFragment extends Fragment {
 
+	private EditProfileSwitchCallback callCanvas;
 	private RelativeLayout avatarLayout;
 	private String[] colors;
 	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
-	private ImageView postChange, textChange, avatarType;
+	private ImageView postChange, textChange, avatarType, switchCanvas;
 	private EditText avatarText;
 	private TextView switchIcon;
 	private int modeSelected;
@@ -63,6 +67,7 @@ public class DrawingIconFragment extends Fragment{
 		avatarType = (ImageView)drawingIconView.findViewById(R.id.edit_profile_typeview);
 		postChange = (ImageView)drawingIconView.findViewById(R.id.edit_profile_changepostcolor);
 		textChange = (ImageView)drawingIconView.findViewById(R.id.edit_profile_changetextcolor);
+		switchCanvas = (ImageView)drawingIconView.findViewById(R.id.edit_profile_switch_canvas);
 		switchIcon = (TextView)drawingIconView.findViewById(R.id.edit_profile_switch_icon);
 		
 		color0 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color0);
@@ -99,6 +104,13 @@ public class DrawingIconFragment extends Fragment{
 				textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_selected));
 				postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_nomal));
 				Toast.makeText(getActivity().getApplicationContext(), "Please select avatar's text color. ", Toast.LENGTH_SHORT).show();
+			}
+		});
+		switchCanvas.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				callCanvas.setPoster(EditProfilePage.PAGE_CANVAS);
 			}
 		});
 		switchIcon.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +167,16 @@ public class DrawingIconFragment extends Fragment{
 
 	public EditText getAvatarText() {
 		return avatarText;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			callCanvas = (EditProfileSwitchCallback) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + "must implement EditProfileSwitchCallback in DrawingIconFragment. ");
+		}
 	}
 	
 }

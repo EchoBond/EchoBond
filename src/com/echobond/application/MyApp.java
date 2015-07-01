@@ -97,6 +97,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		currentActivity = null;
 		registerActivityLifecycleCallbacks(this);
 	}
+	
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
@@ -136,6 +137,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	        .build();
 		ImageLoader.getInstance().init(conf);		
 	}
+	
 	private void initDB(){
 		CommentDB.getInstance(this);
 		HomeThoughtDB.getInstance(this);
@@ -148,15 +150,18 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		LanguageDB.getInstance(this);
 		CountryDB.getInstance(this);
 	}
+	
 	@Override
 	public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 		setCurrentActivity(activity);
 		setCurrentActivityIndex(activity);
 	}
+	
 	@Override
 	public void onActivityDestroyed(Activity activity) {
 		
 	}
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onActivityPaused(Activity activity) {
@@ -165,18 +170,22 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 			setCurrentActivityIndex(null);
 		}
 	}
+	
 	@Override
 	public void onActivityResumed(Activity activity) {
 		setCurrentActivity(activity);
 		setCurrentActivityIndex(activity);
 	}
+	
 	@Override
 	public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
 		// TODO Auto-generated method stub
 	}
+	
 	@Override
 	public void onActivityStarted(Activity activity) {
 	}
+	
 	@Override
 	public void onActivityStopped(Activity activity) {
 	}

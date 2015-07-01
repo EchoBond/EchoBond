@@ -73,8 +73,11 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	private TextView barTitle;
 	
 	private int fgIndex;
+	private int postType = NEW_POST_PIC;
 	private int categoryId = -1, groupId = -1;
 	private String contentsString = "", tagsString = "";
+	
+	private Bitmap post;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -189,9 +192,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		}
 
 		private void isCategorySelected() {
-			if (categoryId == -1) {
-				
-			} else {
+			if (categoryId != -1) {
 				barTitle.setText(R.string.title_new_post_pic);
 				postFragment.setCategoryType();
 				getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
@@ -202,6 +203,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		private void createPost() {
 			barTitle.setText(R.string.title_new_post_write);
 			getSupportFragmentManager().beginTransaction().hide(postFragment).hide(canvasFragment).show(contentsFragment).commit();
+			postType = fgIndex;
 			if (fgIndex == NEW_POST_CANVAS) {
 				fgIndex = NEW_POST_WRITE;
 			} else {
@@ -222,13 +224,19 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		
 		@SuppressLint("NewApi") 
 		private void postThought() {
-			EditText postText = postFragment.getPostText();
-			postText.setBackground(null);
-			RelativeLayout postLayout = postFragment.getPostLayout();
-			Bitmap post = ImageUtil.generateBitmap(postLayout);
+			if (postType == NEW_POST_PIC) {
+				EditText postText = postFragment.getPostText();
+				postText.setBackground(null);
+				postText.setHint("");
+				RelativeLayout postLayout = postFragment.getPostLayout();
+				post = ImageUtil.generateBitmap(postLayout);
+			} else if (postType == NEW_POST_CANVAS) {
+				ImageView canvasView = canvasFragment.getDrawBoard();
+				post = ImageUtil.generateBitmap(canvasView);
+			}
 			Time time = new Time();
 			time.setToNow();
-			ImageUtil.saveBitmap(post, "post_pic_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
+			ImageUtil.saveBitmap(post, postType + "_post_pic_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
 			String userId = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
 			String email = (String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
 			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 

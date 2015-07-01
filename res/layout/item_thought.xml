@@ -11,7 +11,7 @@
         android:layout_width="match_parent"  
         android:layout_height="330dp"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:clickable="true" />  
     <TextView  
         android:id="@+id/thought_list_title"  

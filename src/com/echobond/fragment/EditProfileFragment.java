@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.EditProfilePage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -43,10 +44,10 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class EditProfileFragment extends Fragment implements UserAsyncTaskCallback{
+public class EditProfileFragment extends Fragment implements UserAsyncTaskCallback {
 
 	private EditProfileSwitchCallback switchCallback;
-	private TextView setIconView, moreTagsView, moreGroupsView, moreLikedTagsView;
+	private TextView setAvatarView, moreTagsView, moreGroupsView, moreLikedTagsView;
 	private EditText userName, userGender, userBio, userAge, //userOrigin, 
 					userDNA, userTrophy, userTodo, userPhilo, userDesc, userInterest, userSec, //userLang, 
 					userTags, userGroups, userLikedTags;
@@ -96,7 +97,7 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		userLikedTags = (EditText) editProfileView.findViewById(R.id.edit_profile_like_tag_text);
 		userGroups = (EditText)editProfileView.findViewById(R.id.edit_profile_group_text);
 		
-		setIconView = (TextView)editProfileView.findViewById(R.id.edit_profile_icon);
+		setAvatarView = (TextView)editProfileView.findViewById(R.id.edit_profile_icon);
 		moreTagsView = (TextView)editProfileView.findViewById(R.id.edit_profile_tag_more);
 		moreGroupsView = (TextView)editProfileView.findViewById(R.id.edit_profile_group_more);
 		moreLikedTagsView = (TextView) editProfileView.findViewById(R.id.edit_profile_like_tag_more);
@@ -107,11 +108,11 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
 				UsersAsyncTask.USER_LOAD_BY_ID, user);
 		
-		setIconView.setOnClickListener(new OnClickListener() {
+		setAvatarView.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				switchCallback.setPoster(true);
+				switchCallback.setPoster(EditProfilePage.PAGE_AVATAR);
 			}
 		});
 		moreTagsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_TAG, MORE_SELF_TAGS));

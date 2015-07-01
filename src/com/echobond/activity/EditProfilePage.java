@@ -3,6 +3,7 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.connector.UpdateUserProfileService;
 import com.echobond.entity.User;
+import com.echobond.fragment.CanvasFragment;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
@@ -32,19 +33,24 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback{
+public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback {
 
 	private ImageView backButton, doneButton;
 	private TextView titleView;
 	private EditProfileFragment mainFragment;
 	private DrawingIconFragment picFragment;
+	private CanvasFragment canvasFragment;
 	
 	private ProgressBar progressBar;
 	
 	private User user;
 	private String[] selfTags, likedTags, followedGroups;
 	
-	private boolean isDrawing = false;
+	private int pgIndex = 0;
+	
+	public static final int PAGE_PROFILE = 0;
+	public static final int PAGE_AVATAR = 1;
+	public static final int PAGE_CANVAS = 2;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
@@ -98,12 +104,15 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			
 			@Override
 			public void onClick(View v) {
-				if (!isDrawing) {
+				if (pgIndex == PAGE_PROFILE) {
 					closeEditorActivity();
-				} else {
-					isDrawing = false;
+				} else if (pgIndex == PAGE_AVATAR) {
+					pgIndex = PAGE_PROFILE;
 					initContent();
 					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+				} else if (pgIndex == PAGE_CANVAS) {
+					pgIndex = PAGE_AVATAR;
+					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(picFragment).commit();
 				}
 			}
 		});
@@ -114,7 +123,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			
 			@Override
 			public void onClick(View v) {
-				if (!isDrawing) {
+				if (pgIndex == PAGE_PROFILE) {
 					progressBar.bringToFront();
 					progressBar.setVisibility(View.VISIBLE);
 					user = mainFragment.getUser();
@@ -128,10 +137,12 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					intent.putExtra("followedGroups", followedGroups);
 					intent.setClass(EditProfilePage.this, UpdateUserProfileService.class);
 					startService(intent);					
-				} else {
-					isDrawing = false;
+				} else if (pgIndex == PAGE_AVATAR) {
 					initContent();
 					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+				} else if (pgIndex == PAGE_CANVAS) {
+					pgIndex = PAGE_PROFILE;
+					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
 				}
 			}
 		});
@@ -145,20 +156,31 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	
 	private void initContent() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (null == mainFragment || null == picFragment) {
+		if (null == mainFragment || null == picFragment || null == canvasFragment) {
 			mainFragment = new EditProfileFragment();
 			picFragment = new DrawingIconFragment();
+			canvasFragment = new CanvasFragment();
 			transaction.add(R.id.edit_profile_content, mainFragment);
 			transaction.add(R.id.edit_profile_content, picFragment);
+			transaction.add(R.id.edit_profile_content, canvasFragment);
 		}
-		transaction.show(mainFragment).hide(picFragment).commit();
+		transaction.show(mainFragment).hide(picFragment).hide(canvasFragment).commit();
 	}
 	
 	@Override
-	public void setPoster(boolean isDrawing) {
-		this.isDrawing = isDrawing;
+	public void setPoster(int index) {
+		this.pgIndex = index;
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		transaction.show(picFragment).hide(mainFragment).commit();
+		switch (pgIndex) {
+		case PAGE_AVATAR:
+			transaction.show(picFragment).hide(mainFragment).commit();
+			break;
+		case PAGE_CANVAS:
+			transaction.show(canvasFragment).hide(picFragment).commit();
+			break;
+		default:
+			break;
+		}
 		titleView.setText(getResources().getString(R.string.edit_profile_set_avatar));
 	}
 	
@@ -175,13 +197,16 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (!isDrawing) {
+			if (pgIndex == PAGE_PROFILE) {
 				finish();
 				return true;
-			} else {
-				isDrawing = false;
+			} else if (pgIndex == PAGE_AVATAR) {
+				pgIndex = PAGE_PROFILE;
 				initContent();
 				titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+			} else if (pgIndex == PAGE_CANVAS) {
+				pgIndex = PAGE_AVATAR;
+				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(picFragment).commit();
 			}
 		}
 		return true;
