@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class PeoplePage extends ActionBarActivity {
 
 	private ImageView peopleFigureView;
+	private TextView titleView;
 	private TextView peopleTitle, peopleBio, peopleGender;
 	private TextView peopleDNA, peopleTrophy, peopleTodo, peoplePhilo, peopleEarth, 
 					peopleDesc, peopleHeart, peopleSec, peopleLang, peopleTag, peopleGroup; 
@@ -38,6 +39,9 @@ public class PeoplePage extends ActionBarActivity {
 		setSupportActionBar(peopleToolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
+		
+		titleView = (TextView)findViewById(R.id.title_name);
+		titleView.setText(getIntent().getIntExtra("userName", -1) + "");
 	}
 
 	private void initContent() {

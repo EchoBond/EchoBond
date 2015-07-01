@@ -66,7 +66,6 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
-		@SuppressLint("NewApi") 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressBar.setVisibility(View.INVISIBLE);
@@ -74,26 +73,6 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 				Toast.makeText(getApplicationContext(), "duplicate user name", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			
-			//	Generate Avatar
-			if (avatarType == PAGE_AVATAR) {
-				EditText avatarText = picFragment.getAvatarText();
-				avatarText.setBackground(null);
-				avatarText.setHint("");
-				RelativeLayout avatarLayout = picFragment.getAvatarLayout();
-				avatar = ImageUtil.generateBitmap(avatarLayout);
-			} else if (avatarType == PAGE_CANVAS) {
-				ImageView canvasView = canvasFragment.getDrawBoard();
-				avatar = ImageUtil.generateBitmap(canvasView);
-			}
-			Time time = new Time();
-			time.setToNow();
-//			ImageUtil.saveBitmap(avatar, avatarType + "_avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
-			String userId = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
-			String email = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
-//			new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
-//					HTTPUtil.getInstance().composePreURL(EditProfilePage.this) + getResources().getString(R.string.url_up_img), 
-//					ImageUtil.bmToStr(avatar), EditProfilePage.this, userId, email);
 			closeEditorActivity();
 			Toast.makeText(getApplicationContext(), getString(R.string.hint_edit_profile_saved), Toast.LENGTH_SHORT).show();
 		}
@@ -144,6 +123,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		doneButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 		doneButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("NewApi") 
 			@Override
 			public void onClick(View v) {
 				if (pgIndex == PAGE_PROFILE) {
@@ -163,15 +143,36 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					intent.setClass(EditProfilePage.this, UpdateUserProfileService.class);
 					startService(intent);		
 					
-				} else if (pgIndex == PAGE_AVATAR) {
-					initContent();
-					avatarType = PAGE_AVATAR;
-					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
-				} else if (pgIndex == PAGE_CANVAS) {
-					pgIndex = PAGE_PROFILE;
-					avatarType = PAGE_CANVAS;
-					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
-				}
+				} else {
+					if (pgIndex == PAGE_AVATAR) {
+						initContent();
+						avatarType = PAGE_AVATAR;
+						/* GENERATE AVATAR */
+						EditText avatarText = picFragment.getAvatarText();
+						avatarText.setBackground(null);
+						avatarText.setHint("");
+						RelativeLayout avatarLayout = picFragment.getAvatarLayout();
+						avatar = ImageUtil.generateBitmap(avatarLayout);
+						
+						titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+					} else if (pgIndex == PAGE_CANVAS) {
+						pgIndex = PAGE_PROFILE;
+						avatarType = PAGE_CANVAS;
+						/* GENERATE CANVAS */
+						ImageView canvasView = canvasFragment.getDrawBoard();
+						avatar = ImageUtil.generateBitmap(canvasView);
+						
+						getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
+					}
+					Time time = new Time();
+					time.setToNow();
+//					ImageUtil.saveBitmap(avatar, avatarType + "_avatar_" + time.year + time.month + time.monthDay + time.hour + time.minute + time.second);
+					String userId = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class);
+					String email = (String) SPUtil.get(EditProfilePage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_EMAIL, null, String.class);
+//					new ImageUploadAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+//							HTTPUtil.getInstance().composePreURL(EditProfilePage.this) + getResources().getString(R.string.url_up_img), 
+//							ImageUtil.bmToStr(avatar), EditProfilePage.this, userId, email);
+				} 
 			}
 		});
 		

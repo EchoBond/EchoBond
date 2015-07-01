@@ -15,14 +15,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ImagePage extends Activity {
 
-	private LinearLayout layout;
-	private ImageView image;
-	private ImageView tagsIcon;
+	private RelativeLayout layout;
+	private ImageView image, tagsIcon, backButton;
 	private TextView groupView;
 	private String type;
 	private Integer id;
@@ -42,10 +41,18 @@ public class ImagePage extends Activity {
 		groupId = b.getInt("groupId");
 		tags = new ArrayList<TextView>();
 		
-		layout = (LinearLayout) findViewById(R.id.image_page_layout);
+		layout = (RelativeLayout) findViewById(R.id.image_page_layout);
 		image = (ImageView)findViewById(R.id.image_page_image);
 		groupView = (TextView) findViewById(R.id.image_page_group_text);
 		tagsIcon = (ImageView) findViewById(R.id.image_page_tag_view);
+		backButton = (ImageView)findViewById(R.id.image_page_back);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		
 		groupView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.image_page_group, 0,0,0);
 		loadGroupName();

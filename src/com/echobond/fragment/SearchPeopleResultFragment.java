@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.PeoplePage;
 import com.echobond.activity.SearchPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -27,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -70,7 +72,10 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
-				
+				Intent intent = new Intent();
+				intent.putExtra("userName", position);
+				intent.setClass(getActivity(), PeoplePage.class);
+				startActivity(intent);
 			}
 		});
 		
