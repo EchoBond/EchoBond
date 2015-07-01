@@ -18,6 +18,8 @@ import com.echobond.connector.LoadThoughtAsyncTask;
 import com.echobond.dao.CommentDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
+import com.echobond.entity.Comment;
+import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
 import com.echobond.entity.User;
 import com.echobond.intf.BoostCallback;
@@ -34,6 +36,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -220,14 +223,28 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 				/* thoughts */
 				//contentValues[i++] = thought.putValues();
 				/* author */
-				UserDAO userDAO = new UserDAO();
-				userDAO.addUser(thought.getUser());
+				getActivity().getContentResolver().insert(UserDAO.CONTENT_URI_USER, thought.getUser().putValues());
 				/* comments */
-				CommentDAO commentDAO = new CommentDAO();
-				commentDAO.addComments(thought.getComments());
+				if(null != thought.getComments()){
+					int x = 0;
+					ContentValues[] cmtValues = new ContentValues[thought.getComments().size()]; 
+					for(Comment cmt: thought.getComments()){
+						cmtValues[x++] = cmt.putValues();
+					}
+					getActivity().getContentResolver().bulkInsert(CommentDAO.CONTENT_URI, cmtValues);
+				}
 				/* tags */
-				ThoughtTagDAO thoughtTagDAO = new ThoughtTagDAO(getActivity());
-				thoughtTagDAO.addThoughtTags(thought.getId(), thought.getTags());
+				if(null != thought.getTags()){
+					int x = 0;
+					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
+					for(Tag t: thought.getTags()){
+						ContentValues value = new ContentValues();
+						value.put("thought_id", thought.getId());
+						value.put("tag_id", t.getId());
+						thoughtTagValues[x++] = value;
+					}
+					getActivity().getContentResolver().bulkInsert(ThoughtTagDAO.CONTENT_URI, thoughtTagValues);
+				}
 				/* UI */
 				ThoughtView v = new ThoughtView(thought.getId(), thought.getUser().getUserName(), thought.getContent(), 
 						thought.getImage(), thought.getUserId(), thought.getBoost(), thought.getComments().size(), 

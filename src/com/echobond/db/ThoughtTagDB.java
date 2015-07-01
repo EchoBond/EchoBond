@@ -1,9 +1,6 @@
 package com.echobond.db;
 
-import java.util.ArrayList;
-
 import com.echobond.R;
-import com.echobond.entity.Tag;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,14 +11,23 @@ public class ThoughtTagDB extends MyDBHelper {
 	
 	/*Singleton pattern implementation*/
 	private static ThoughtTagDB INSTANCE;
-	public static ThoughtTagDB getInstance(Context ctx){
+	private static Context ctx;
+	public static ThoughtTagDB getInstance(Context context){
 		if(null == INSTANCE){
-			INSTANCE = new ThoughtTagDB(ctx.getApplicationContext());
+			ctx = context;
+			INSTANCE = new ThoughtTagDB();
 		}
 		return INSTANCE;
 	}
 	
-	public ThoughtTagDB(Context ctx){
+	public static ThoughtTagDB getInstance(){
+		if(null == INSTANCE){
+			INSTANCE = new ThoughtTagDB();
+		}
+		return INSTANCE;
+	}
+	
+	public ThoughtTagDB(){
 		super(ctx);
 		Resources res = ctx.getResources();
 		this.tblName = res.getString(R.string.tbl_t_tag);
@@ -32,13 +38,8 @@ public class ThoughtTagDB extends MyDBHelper {
 		// TODO Auto-generated method stub
 	}
 	
-	public void addThoughtTags(int thoughtId, ArrayList<Tag> tags){
-		for (Tag tag : tags) {
-			ContentValues values = new ContentValues();
-			values.put("thought_id", thoughtId);
-			values.put("tag_id", tag.getId());
-			replace(tblName, values);
-		}
+	public long addThoughtTag(ContentValues values){
+		return replace(tblName, values);
 	}
 	
 }

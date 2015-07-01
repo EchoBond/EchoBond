@@ -16,15 +16,23 @@ public class GroupDAO extends ContentProvider{
 	public static final Uri CONTENT_URI_GROUP = Uri.parse("content://"+PROVIDER_NAME+"/group");
 	public static final Uri CONTENT_URI_GROUP_ID = Uri.parse("content://"+PROVIDER_NAME+"/id");
 	public static final Uri CONTENT_URI_FOLLOW = Uri.parse("content://"+PROVIDER_NAME+"/follow");
+	public static final Uri CONTENT_URI_HOME = Uri.parse("content://"+PROVIDER_NAME+"/home");
+	public static final Uri CONTENT_URI_HOT = Uri.parse("content://"+PROVIDER_NAME+"/hot");
+
 	private static final int GROUP = 1;
 	private static final int GROUP_ID = 2;
 	private static final int GROUP_FOLLOW = 3;
+	private static final int GROUP_HOME = 4;
+	private static final int GROUP_HOT = 5;
+	
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(PROVIDER_NAME, "group", GROUP);
 		uriMatcher.addURI(PROVIDER_NAME, "id", GROUP_ID);
 		uriMatcher.addURI(PROVIDER_NAME, "follow", GROUP_FOLLOW);
+		uriMatcher.addURI(PROVIDER_NAME, "home", GROUP_HOME);
+		uriMatcher.addURI(PROVIDER_NAME, "hot", GROUP_HOT);
 	}
 
 	public void close(){
@@ -55,6 +63,10 @@ public class GroupDAO extends ContentProvider{
 			break;
 		case GROUP_FOLLOW:
 			GroupDB.getInstance().addGroupFollow(values);
+		case GROUP_HOME:
+			break;
+		case GROUP_HOT:
+			break;
 		}
 		return uri;
 	}
@@ -79,8 +91,18 @@ public class GroupDAO extends ContentProvider{
 		case GROUP:
 			cursor = GroupDB.getInstance().loadGroups(selectionArgs);
 			break;
+		case GROUP_ID:
+			cursor = GroupDB.getInstance().loadGroupById(selectionArgs);
+			break;
 		case GROUP_FOLLOW:
 			cursor = GroupDB.getInstance().loadGroupsFollow(selectionArgs);
+			break;
+		case GROUP_HOME:
+			cursor = GroupDB.getInstance().loadGroupHome(selectionArgs);
+			break;
+		case GROUP_HOT:
+			cursor = GroupDB.getInstance().loadGroupHot(selectionArgs);
+			break;
 		}
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
@@ -93,17 +115,5 @@ public class GroupDAO extends ContentProvider{
 			resolver.notifyChange(uri, null);
 		}
 		return 0;
-	}
-	
-	public Cursor loadGroupByHomeThought(String[] args){
-		return GroupDB.getInstance().loadGroupHome(args);
-	}
-	
-	public Cursor loadGroupByHotThought(String[] args){
-		return GroupDB.getInstance().loadGroupHot(args);
-	}
-
-	public Cursor loadGroupById(String[] args){
-		return GroupDB.getInstance().loadGroupById(args);
 	}
 }

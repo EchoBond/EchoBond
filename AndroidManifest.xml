@@ -141,7 +141,12 @@
             android:name=".dao.UserDAO"
             android:authorities="com.echobond.contentprovider.user"
             android:exported="false" />
-
+		<provider
+		    android:name=".dao.ThoughtTagDAO"
+		    android:authorities="com.echobond.contentprovider.thoughttag"
+		    android:exported="false" />
+        
+        
 		<activity
             android:name=".activity.EntryPage"
             android:label="@string/app_name" 

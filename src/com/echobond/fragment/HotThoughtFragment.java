@@ -17,6 +17,8 @@ import com.echobond.dao.HomeThoughtDAO;
 import com.echobond.dao.HotThoughtDAO;
 import com.echobond.dao.ThoughtTagDAO;
 import com.echobond.dao.UserDAO;
+import com.echobond.entity.Comment;
+import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
 import com.echobond.entity.User;
 import com.echobond.intf.BoostCallback;
@@ -33,10 +35,12 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -47,6 +51,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,20 +72,24 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	private ThoughtAdapter adapter;
 	private XListView mListView;
-	private UserDAO userDAO;
-	private CommentDAO commentDAO;
-	private ThoughtTagDAO thoughtTagDAO;
-	private static final int POST = 0;
-	private static final int MESSAGE = 1;
-	private static final int BOOST = 2;
-	private static final int COMMENT = 3;
-	private static final int SHARE = 4;
 	private int currentLimit;
-	private static final int DEFAULT_OFFSET = 0;
-	private static final int LIMIT_INIT = 10;
-	private static final int LIMIT_INCREMENT = 10;
-	private static final long LOAD_INTERVAL = 2000;
 	private long lastLoadTime;
+	
+	private BroadcastReceiver boostReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			
+		}
+	};
+	
+	private BroadcastReceiver commentReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			
+		}
+	};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,14 +103,22 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		mListView.setXListViewListener(this);
 		mListView.setPullLoadEnable(true);
 		
-		userDAO = new UserDAO();
-		currentLimit = LIMIT_INIT;
+		currentLimit = MyApp.LIMIT_INIT;
 		lastLoadTime = 0;
-		commentDAO = new CommentDAO();
-		thoughtTagDAO = new ThoughtTagDAO(getActivity());
+		
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(boostReceiver, new IntentFilter(MyApp.BROADCAST_BOOST));
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(commentReceiver, new IntentFilter(MyApp.BROADCAST_COMMENT));
+		
 		getLoaderManager().initLoader(MyApp.LOADER_HOT, null, this);
 		
 		return thoughtView;
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(boostReceiver);
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(commentReceiver);
 	}
 	
 	public class ThoughtAdapter extends CursorAdapter {
@@ -166,11 +183,11 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 			ImageView commentButton = (ImageView)convertView.findViewById(R.id.thought_list_comment);
 			ImageView shareButton = (ImageView)convertView.findViewById(R.id.thought_list_share);
 			
-			postFigure.setOnClickListener(new FunctionOnClickListener(POST));
-			messageButton.setOnClickListener(new FunctionOnClickListener(MESSAGE));
-			boostButton.setOnClickListener(new FunctionOnClickListener(BOOST));
-			commentButton.setOnClickListener(new FunctionOnClickListener(COMMENT));
-			shareButton.setOnClickListener(new FunctionOnClickListener(SHARE));
+			postFigure.setOnClickListener(new FunctionOnClickListener(MyApp.THOUGHT_POST));
+			messageButton.setOnClickListener(new FunctionOnClickListener(MyApp.THOUGHT_MESSAGE));
+			boostButton.setOnClickListener(new FunctionOnClickListener(MyApp.THOUGHT_BOOST));
+			commentButton.setOnClickListener(new FunctionOnClickListener(MyApp.THOUGHT_COMMENT));
+			shareButton.setOnClickListener(new FunctionOnClickListener(MyApp.THOUGHT_SHARE));
 			
 			if(isUserBoost == 1){
 				boostButton.setImageResource(R.drawable.thoughts_rocket_up_boost);
@@ -247,7 +264,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 			TextView userIdView = (TextView) root.findViewById(R.id.thought_list_poster_id);
 			String userId = userIdView.getText().toString();
 			switch (buttonIndex) {
-			case POST:
+			case MyApp.THOUGHT_POST:
 				Intent imageIntent = new Intent();
 				imageIntent.setClass(HotThoughtFragment.this.getActivity(), ImagePage.class);
 				String imageUrl = HTTPUtil.getInstance().composePreURL(getActivity())
@@ -258,7 +275,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				imageIntent.putExtra("type", "hot");
 				startActivity(imageIntent);
 				break;
-			case MESSAGE:
+			case MyApp.THOUGHT_MESSAGE:
 				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
 					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
@@ -270,7 +287,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 					startActivity(chatIntent);
 				}
 				break;
-			case BOOST:		
+			case MyApp.THOUGHT_BOOST:		
 				/*
 				TextView isUserBoostView = (TextView) root.findViewById(R.id.thought_list_isUserBoost);
 				TextView boostNumView = (TextView)root.findViewById(R.id.thought_list_boostsnum);
@@ -291,7 +308,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 						HotThoughtFragment.this, id, SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 
 				break;
-			case COMMENT:
+			case MyApp.THOUGHT_COMMENT:
 				Intent commentIntent = new Intent();
 				commentIntent.setClass(HotThoughtFragment.this.getActivity(), CommentPage.class);
 				String posterAvatar = userId;
@@ -308,7 +325,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				commentIntent.putExtra("content", content);
 				startActivity(commentIntent);
 				break;
-			case SHARE:				
+			case MyApp.THOUGHT_SHARE:				
 				break;
 			default:
 				break;
@@ -334,13 +351,13 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	@Override
 	public void onRefresh() {
-		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
 			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_thoughts), 
-					LoadThoughtAsyncTask.LOAD_T_HOT, this, DEFAULT_OFFSET, currentLimit, user);
+					LoadThoughtAsyncTask.LOAD_T_HOT, this, MyApp.DEFAULT_OFFSET, currentLimit, user);
 		} else {
 			onLoadFinished();
 		}
@@ -348,14 +365,14 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	@Override
 	public void onLoadMore() {
-		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
 			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
-			currentLimit += LIMIT_INCREMENT;
+			currentLimit += MyApp.LIMIT_INCREMENT;
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_thoughts), 
-					LoadThoughtAsyncTask.LOAD_T_HOT, this, DEFAULT_OFFSET, currentLimit, user);
+					LoadThoughtAsyncTask.LOAD_T_HOT, this, MyApp.DEFAULT_OFFSET, currentLimit, user);
 		} else {
 			onLoadFinished();
 		}
@@ -380,11 +397,28 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				/* thoughts */
 				contentValues[i++] = thought.putValues();
 				/* author */
-				userDAO.addUser(thought.getUser());
+				getActivity().getContentResolver().insert(UserDAO.CONTENT_URI_USER, thought.getUser().putValues());
 				/* comments */
-				commentDAO.addComments(thought.getComments());
+				if(null != thought.getComments()){
+					int x = 0;
+					ContentValues[] cmtValues = new ContentValues[thought.getComments().size()]; 
+					for(Comment cmt: thought.getComments()){
+						cmtValues[x++] = cmt.putValues();
+					}
+					getActivity().getContentResolver().bulkInsert(CommentDAO.CONTENT_URI, cmtValues);
+				}
 				/* tags */
-				thoughtTagDAO.addThoughtTags(thought.getId(), thought.getTags());
+				if(null != thought.getTags()){
+					int x = 0;
+					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
+					for(Tag t: thought.getTags()){
+						ContentValues value = new ContentValues();
+						value.put("thought_id", thought.getId());
+						value.put("tag_id", t.getId());
+						thoughtTagValues[x++] = value;
+					}
+					getActivity().getContentResolver().bulkInsert(ThoughtTagDAO.CONTENT_URI, thoughtTagValues);
+				}
 			}
 			/* Inserting thoughts */
 			getActivity().getContentResolver().bulkInsert(HotThoughtDAO.CONTENT_URI, contentValues);
@@ -430,7 +464,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 		switch(loader){
 		case MyApp.LOADER_HOT:
 			Uri uri = HotThoughtDAO.CONTENT_URI;
-			String[] args = new String[]{currentLimit+"", DEFAULT_OFFSET+""};
+			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 			return new CursorLoader(getActivity(), uri, null, null, args, null);
 		}
 		return null;
@@ -447,7 +481,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 	}
 	
 	private void updateListView(){
-		Cursor cursor = getActivity().getContentResolver().query(HotThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", DEFAULT_OFFSET+""}, null);
+		Cursor cursor = getActivity().getContentResolver().query(HotThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""}, null);
 		adapter.getCursor().close();
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();

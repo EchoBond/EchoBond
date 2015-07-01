@@ -1,6 +1,7 @@
 package com.echobond.activity;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.connector.InitFetchService;
 
 import android.app.Activity;
@@ -29,14 +30,15 @@ public class EntryPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_entry);
-		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("StartApp"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_STARTUP));
 		Intent initFetch = new Intent(this, InitFetchService.class);
 		startService(initFetch);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 	}
+	
 }

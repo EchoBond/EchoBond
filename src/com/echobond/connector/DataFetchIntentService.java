@@ -140,7 +140,7 @@ public class DataFetchIntentService extends IntentService {
 		}
 		
 		/* foreground activity handling */
-		Intent newNotifyIntent = new Intent("newNotification");
+		Intent newNotifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
 		newNotifyIntent.putExtra("new", true);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(newNotifyIntent);
 		

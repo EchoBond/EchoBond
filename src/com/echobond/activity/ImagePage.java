@@ -57,16 +57,15 @@ public class ImagePage extends Activity {
 	}
 	
 	private void loadGroupName(){
-		GroupDAO dao = new GroupDAO();
 		String args[] = {id+""};
 		Cursor cursor = null;
 		if("home".equals(type)){
-			cursor = dao.loadGroupByHomeThought(args);
+			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_HOME, null, null, args, null);
 		} else if("hot".equals(type)){
-			cursor = dao.loadGroupByHotThought(args);
+			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_HOT, null, null, args, null);
 		} else if("search".equals(type)){
 			String[] newArgs = {groupId+""};
-			cursor = dao.loadGroupById(newArgs);
+			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_GROUP_ID, null, null, newArgs, null);
 		}
 		if(null != cursor){
 			if(cursor.moveToFirst()){				
@@ -81,16 +80,15 @@ public class ImagePage extends Activity {
 	}
 	
 	private void loadTagNames(){
-		TagDAO dao = new TagDAO();
 		String args[] = {id+""};
 		Cursor cursor = null;
 		ArrayList<Tag> tagList = new ArrayList<Tag>();
 		if("home".equals(type)){
-			cursor = dao.loadTagsByHomeThought(args);
+			cursor = getContentResolver().query(TagDAO.CONTENT_URI_HOME, null, null, args, null);
 		} else if("hot".equals(type)){
-			cursor = dao.loadTagsByHotThought(args);
+			cursor = getContentResolver().query(TagDAO.CONTENT_URI_HOT, null, null, args, null);
 		} else if("search".equals(type)){
-			cursor = dao.loadTagsByThought(args);
+			cursor = getContentResolver().query(TagDAO.CONTENT_URI_THOUGHT, null, null, args, null);
 		}
 		if(null != cursor){
 			while(cursor.moveToNext()){

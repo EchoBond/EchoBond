@@ -129,17 +129,18 @@ public class MyGcmListenerService extends GcmListenerService {
 				if(activity instanceof ChatPage){
 					String guestId = ((ChatPage)activity).getGuestId();
 					if(guestId.equals(msg.getSenderId())){
-						Intent chatIntent = new Intent("chatWith" + guestId);
+						Intent chatIntent = new Intent(MyApp.BROADCAST_CHAT_WITH);
 						chatIntent.putExtra("id", msg.getId());
+						chatIntent.putExtra("guestId", guestId);
 						LocalBroadcastManager.getInstance(this).sendBroadcast(chatIntent);
 						return;
 					}
 				}
 			}
 		}
-		Intent msgListIntent = new Intent("msgListUpdate");
+		Intent msgListIntent = new Intent(MyApp.BROADCAST_UPDATE_MSGLIST);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(msgListIntent);
-		Intent notifyIntent = new Intent("newNotification");
+		Intent notifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
 		notifyIntent.putExtra("new", true);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
 

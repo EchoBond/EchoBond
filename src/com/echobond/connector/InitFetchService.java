@@ -176,7 +176,7 @@ public class InitFetchService extends IntentService {
 			} catch (JSONException e){
 				e.printStackTrace();
 			}
-			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("StartApp"));
+			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(MyApp.BROADCAST_STARTUP));
 			stopSelf();
 		} else {
 			new Thread(){
@@ -187,7 +187,7 @@ public class InitFetchService extends IntentService {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					LocalBroadcastManager.getInstance(InitFetchService.this).sendBroadcast(new Intent("StartApp"));
+					LocalBroadcastManager.getInstance(InitFetchService.this).sendBroadcast(new Intent(MyApp.BROADCAST_STARTUP));
 					stopSelf();
 					
 				}

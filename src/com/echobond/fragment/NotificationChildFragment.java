@@ -29,7 +29,7 @@ public class NotificationChildFragment extends Fragment {
 	
 	private XListView notificationList;
 	private String[] testStrings = new String[50];
-	private NotificationCursorAdapter adapter;
+	//private NotificationCursorAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,

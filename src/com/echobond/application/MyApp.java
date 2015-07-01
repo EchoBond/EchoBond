@@ -61,6 +61,12 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int LOADER_FOLLOW_GROUP = 8;
 	public static final int LOADER_FOLLOW_TAG = 9;
 	
+	public static final int THOUGHT_POST = 0;
+	public static final int THOUGHT_MESSAGE = 1;
+	public static final int THOUGHT_BOOST = 2;
+	public static final int THOUGHT_COMMENT = 3;
+	public static final int THOUGHT_SHARE = 4;
+	
 	public static final int DEFAULT_OFFSET = 0;
 	public static final int LIMIT_INIT = 10;
 	public static final int LIMIT_INIT_FETCH = 1000;
@@ -85,6 +91,14 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	
 	public static final String VIEW_MORE_GROUP = "Groups";
 	public static final String VIEW_MORE_TAG = "Hashtags";
+	
+	public static final String BROADCAST_STARTUP = "StartApp";
+	public static final String BROADCAST_NOTIFICATION = "newNotification";
+	public static final String BROADCAST_UPDATE_PROFILE = "updateUserProfile";
+	public static final String BROADCAST_UPDATE_MSGLIST = "msgListUpdate";
+	public static final String BROADCAST_CHAT_WITH = "chatWith";
+	public static final String BROADCAST_BOOST = "boostThought";
+	public static final String BROADCAST_COMMENT = "commentThought";
 	
 	private static int currentActivityIndex = ACTIVITY_NULL;
 	private static Activity currentActivity;

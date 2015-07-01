@@ -122,7 +122,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		initSettingPage();
 		
 		GCMUtil.getInstance().registerDevice(this);
-		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("newNotification"));
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_NOTIFICATION));
 		
 		String[] selectionArgs = new String[]{
 				(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class),""};

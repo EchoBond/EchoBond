@@ -80,12 +80,14 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			ContentValues values = new ContentValues();
-			values.put("is_read", 1);
-			String where = "_id=?";
-			String[] selectionArgs = new String[]{intent.getExtras().getInt("id")+""};
-			getContentResolver().update(ChatDAO.CONTENT_URI, values, where, selectionArgs);
-			updateUI();
+			if(null != intent && null != intent.getExtras() && intent.getStringExtra("guestId").equals(guestId)){
+				ContentValues values = new ContentValues();
+				values.put("is_read", 1);
+				String where = "_id=?";
+				String[] selectionArgs = new String[]{intent.getExtras().getInt("id")+""};
+				getContentResolver().update(ChatDAO.CONTENT_URI, values, where, selectionArgs);
+				updateUI();
+			}
 		}
 	};
 	
@@ -113,6 +115,8 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		currentLimit = LIMIT_INIT;
 		
+		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_CHAT_WITH));
+		
 		ContentValues values = new ContentValues();
 		values.put("is_read", 1);
 		String where = "recver_id=? OR sender_id=?";
@@ -124,16 +128,13 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		if(c.moveToFirst()){
 			int count = c.getInt(c.getColumnIndex("count"));
 			if(count == 0){
-				Intent notifyIntent = new Intent("newNotification");
+				Intent notifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
 				notifyIntent.putExtra("new", false);
 				LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
-				sendBroadcast(notifyIntent);
 			}
 			c.close();
 		}
-		
-		getSupportLoaderManager().initLoader(MyApp.LOADER_CHAT, null, this);
-		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("chatWith"+guestId));
+		getSupportLoaderManager().initLoader(MyApp.LOADER_CHAT, null, this);		
 	}
 	
 	@Override

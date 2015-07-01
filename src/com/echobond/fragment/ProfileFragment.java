@@ -7,6 +7,8 @@ import com.echobond.R;
 import com.echobond.activity.ThoughtsListPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
+import com.echobond.dao.GroupDAO;
+import com.echobond.dao.TagDAO;
 import com.echobond.dao.UserDAO;
 import com.echobond.entity.User;
 import com.echobond.intf.UserAsyncTaskCallback;
@@ -15,12 +17,16 @@ import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +42,16 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	private ImageView profileFigureView;
 	private TextView profileTitle, profileBio, profileGender;
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
-					profileDesc, profileHeart, profileSec, profileLang, profileTag; 
+					profileDesc, profileHeart, profileSec, profileLang, profileTag, profileGroup; 
 	private TextView viewThoughtsButton;
+	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateUserProfile();
+		}
+	};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,18 +72,9 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		profileSec = (TextView)profileView.findViewById(R.id.profile_about_sec_text);
 		profileLang = (TextView)profileView.findViewById(R.id.profile_about_lang_text);
 		profileTag = (TextView)profileView.findViewById(R.id.profile_about_tag_text);
+		profileGroup = (TextView) profileView.findViewById(R.id.profile_about_group_text);
 		
 		viewThoughtsButton = (TextView)profileView.findViewById(R.id.profile_view_thoughts);
-				
-		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_users);
-		User user = new User();
-		user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
-		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
-				UsersAsyncTask.USER_LOAD_BY_ID, user);
-		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
-				getResources().getString(R.string.url_down_img) + 
-				"?path=" + SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);
 		
 		viewThoughtsButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -81,11 +86,31 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				startActivity(intent);
 			}
 		});
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_UPDATE_PROFILE));
+		updateUserProfile();
 		
 		return profileView;
 		
 	}
-
+	
+	private void updateUserProfile(){
+		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_users);
+		User user = new User();
+		user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
+				UsersAsyncTask.USER_LOAD_BY_ID, user);
+		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
+				getResources().getString(R.string.url_down_img) + 
+				"?path=" + SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);		
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+	}
+	
 	@Override
 	public void onLoadUsersResult(JSONObject result) {
 		if(null != result){
@@ -114,7 +139,28 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				profileHeart.setText(cursor.getString(cursor.getColumnIndex("interest")));
 				profileSec.setText(cursor.getString(cursor.getColumnIndex("little_secret")));
 				profileLang.setText(cursor.getString(cursor.getColumnIndex("lang_name")));
-				profileTag.setText(cursor.getString(cursor.getColumnIndex("bio")));
+				String[] args = new String[]{(String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class)};
+				Cursor tCursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_SELF, null, null, args, null);
+				Cursor gCursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_FOLLOW, null, null, args, null);
+				String tags = "";
+				if(null != tCursor){
+					while(tCursor.moveToNext()){
+						tags += "#" + tCursor.getString(tCursor.getColumnIndex("name")) + " ";
+					}
+				}
+				tCursor.close();
+				String groups = "";
+				if(null != gCursor){
+					while(gCursor.moveToNext()){
+						groups += gCursor.getString(gCursor.getColumnIndex("name"));
+						if(!gCursor.isLast()){
+							groups += ",";
+						}
+					}
+				}
+				gCursor.close();
+				profileTag.setText(tags);
+				profileGroup.setText(groups);
 			}
 			cursor.close();
 		}

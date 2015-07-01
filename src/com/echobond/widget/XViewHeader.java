@@ -8,8 +8,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,7 +21,7 @@ public class XViewHeader extends LinearLayout {
 	private int mState = STATE_NORMAL;
 	
 	public final int ROTATE_ANIM_DURATION = 180;
-	private Animation mRotateUpAnim, mRotateDownAnim;
+	//private Animation mRotateUpAnim, mRotateDownAnim;
 	
 	private LinearLayout mContainer;
 	private ProgressBar mProgressBar;

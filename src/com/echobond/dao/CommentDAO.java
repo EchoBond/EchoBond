@@ -1,9 +1,6 @@
 package com.echobond.dao;
 
-import java.util.ArrayList;
-
 import com.echobond.db.CommentDB;
-import com.echobond.entity.Comment;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -24,17 +21,6 @@ public class CommentDAO extends ContentProvider{
 		uriMatcher.addURI(PROVIDER_NAME, "comment", COMMENT);
 	}
 
-	public void addComment(Comment cmt){
-		CommentDB.getInstance().addComment(cmt.putValues());
-	}
-	public void addComments(ArrayList<Comment> cmts){
-		for (Comment comment : cmts) {
-			addComment(comment);
-		}
-	}
-	public Cursor loadComments(int id){
-		return CommentDB.getInstance().loadComments(id);
-	}
 	public void close(){
 		if(null != CommentDB.getInstance()){
 			CommentDB.getInstance().close();
@@ -53,12 +39,20 @@ public class CommentDAO extends ContentProvider{
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		if(uriMatcher.match(uri) == COMMENT){
-			Comment cmt = new Comment();
-			cmt.loadValues(values);
-			addComment(cmt);
+			CommentDB.getInstance().addComment(values);
 			getContext().getContentResolver().notifyChange(uri, null);
 		}
 		return uri;
+	}
+	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		if(uriMatcher.match(uri) == COMMENT){
+			for(ContentValues value: values){
+				CommentDB.getInstance().addComment(value);
+			}
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return 0;
 	}
 	@Override
 	public boolean onCreate() {

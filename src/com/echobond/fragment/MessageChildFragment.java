@@ -78,7 +78,7 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		
 		userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		getLoaderManager().initLoader(MyApp.LOADER_MSG_LIST, null, this);
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter("msgListUpdate"));
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_UPDATE_MSGLIST));
 		return messageChildView;
 	}
 	@Override

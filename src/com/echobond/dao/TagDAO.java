@@ -18,11 +18,17 @@ public class TagDAO extends ContentProvider{
 	public static final Uri CONTENT_URI_LIKE = Uri.parse("content://"+PROVIDER_NAME+"/like");
 	public static final Uri CONTENT_URI_SELF_LIST = Uri.parse("content://"+PROVIDER_NAME+"/selflist");
 	public static final Uri CONTENT_URI_LIKE_LIST = Uri.parse("content://"+PROVIDER_NAME+"/likelist");
+	public static final Uri CONTENT_URI_HOME = Uri.parse("content://"+PROVIDER_NAME+"/home");
+	public static final Uri CONTENT_URI_HOT = Uri.parse("content://"+PROVIDER_NAME+"/hot");
+	public static final Uri CONTENT_URI_THOUGHT = Uri.parse("content://"+PROVIDER_NAME+"/thought");	
 	private static final int TAG = 1;
 	private static final int TAG_SELF = 2;
 	private static final int TAG_SELF_LIST = 3;
 	private static final int TAG_LIKE = 4;
 	private static final int TAG_LIKE_LIST = 5;
+	private static final int TAG_HOME = 6;
+	private static final int TAG_HOT = 7;
+	private static final int TAG_THOUGHT = 8;
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -31,6 +37,9 @@ public class TagDAO extends ContentProvider{
 		uriMatcher.addURI(PROVIDER_NAME, "like", TAG_LIKE);
 		uriMatcher.addURI(PROVIDER_NAME, "selflist", TAG_SELF_LIST);
 		uriMatcher.addURI(PROVIDER_NAME, "likelist", TAG_LIKE_LIST);
+		uriMatcher.addURI(PROVIDER_NAME, "home", TAG_HOME);
+		uriMatcher.addURI(PROVIDER_NAME, "hot", TAG_HOT);
+		uriMatcher.addURI(PROVIDER_NAME, "thought", TAG_THOUGHT);
 	}
 
 	public void close(){
@@ -119,6 +128,15 @@ public class TagDAO extends ContentProvider{
 		case TAG_LIKE_LIST:
 			cursor = TagDB.getInstance().loadTagsWithLike(selectionArgs);
 			break;
+		case TAG_HOME:
+			cursor = TagDB.getInstance().loadTagsHome(selectionArgs);
+			break;
+		case TAG_HOT:
+			cursor = TagDB.getInstance().loadTagsHot(selectionArgs);
+			break;
+		case TAG_THOUGHT:
+			cursor = TagDB.getInstance().loadTagsByThought(selectionArgs);
+			break;
 		}
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
@@ -131,17 +149,5 @@ public class TagDAO extends ContentProvider{
 			resolver.notifyChange(uri, null);
 		}
 		return 0;
-	}
-	
-	public Cursor loadTagsByHomeThought(String args[]){
-		return TagDB.getInstance().loadTagsHome(args);
-	}
-	
-	public Cursor loadTagsByHotThought(String args[]){
-		return TagDB.getInstance().loadTagsHot(args);
-	}
-
-	public Cursor loadTagsByThought(String args[]){
-		return TagDB.getInstance().loadTagsByThought(args);
 	}
 }

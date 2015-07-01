@@ -29,6 +29,7 @@ import com.echobond.util.SPUtil;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -59,9 +60,6 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	public static final int NEW_POST_WRITE = 2;
 	public static final int NEW_POST_GROUP = 3;
 	public static final int NEW_POST_CANVAS = 4;
-	
-	public static final String GROUP = "Groups";
-	public static final String TAG = "Hashtags";
 	
 	private NewCategoryFragment categoryFragment;
 	private NewPostFragment postFragment;
@@ -319,11 +317,21 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_successful_post), Toast.LENGTH_LONG).show();
 			try {
-				Thought t = (Thought) JSONUtil.fromJSONToObject(result.getJSONObject("thought"), Thought.class);
+				Thought thought = (Thought) JSONUtil.fromJSONToObject(result.getJSONObject("thought"), Thought.class);
 				// thought
-				getContentResolver().insert(HomeThoughtDAO.CONTENT_URI, t.putValues());
+				getContentResolver().insert(HomeThoughtDAO.CONTENT_URI, thought.putValues());
 				// thought tags
-				new ThoughtTagDAO(this).addThoughtTags(t.getId(),t.getTags());
+				if(null != thought.getTags()){
+					int x = 0;
+					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
+					for(Tag tag: thought.getTags()){
+						ContentValues value = new ContentValues();
+						value.put("thought_id", thought.getId());
+						value.put("tag_id", tag.getId());
+						thoughtTagValues[x++] = value;
+					}
+					getContentResolver().bulkInsert(ThoughtTagDAO.CONTENT_URI, thoughtTagValues);
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

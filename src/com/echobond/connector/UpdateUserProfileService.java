@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 import com.echobond.dao.GroupDAO;
 import com.echobond.dao.TagDAO;
 import com.echobond.dao.UserDAO;
@@ -63,7 +64,7 @@ public class UpdateUserProfileService extends IntentService {
 			check = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"), User.class);
 			//username in use by other user
 			if(check.getId() != null && !check.getId().isEmpty() && !check.getId().equals(user.getId())){
-				Intent backIntent = new Intent("updateUserProfile");
+				Intent backIntent = new Intent(MyApp.BROADCAST_UPDATE_PROFILE);
 				backIntent.putExtra("duplicateUserName", true);
 				LocalBroadcastManager.getInstance(this).sendBroadcast(backIntent);
 				stopSelf();
@@ -200,7 +201,7 @@ public class UpdateUserProfileService extends IntentService {
 				contentValues[i++] = values;
 			}
 			getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_FOLLOW, contentValues);
-			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("updateUserProfile"));
+			LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(MyApp.BROADCAST_UPDATE_PROFILE));
 			
 		} catch (JSONException e){
 			e.printStackTrace();
