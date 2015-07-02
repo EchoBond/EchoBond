@@ -74,7 +74,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
 				Intent intent = new Intent();
-				intent.putExtra("userName", (String) v.getTag());
+				intent.putExtra("userId", (String) v.getTag());
 				intent.setClass(getActivity(), PeoplePage.class);
 				startActivity(intent);
 			}
@@ -152,7 +152,7 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 			String imageUrl = HTTPUtil.getInstance().composePreURL(getActivity()) 
 					+ getResources().getString(R.string.url_down_img) + "?path=" + id;
 			ImageLoader.getInstance().displayImage(imageUrl, peoplePic);
-			convertView.setTag(userName);
+			convertView.setTag(id);
 		}
 
 		@Override
@@ -206,6 +206,8 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 					/* meta */
 					JSONObject meta = (JSONObject) metaArray.get(i);
 					String userId = u.getId();
+					String args[] = new String[]{u.getId()};
+					String where = "user_id = ?";
 					if(null != meta && meta.length() > 0){
 						JSONArray selfTags = meta.getJSONArray("selfTags");
 						JSONArray likedTags = meta.getJSONArray("likedTags");
@@ -225,8 +227,10 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 								selfTagValues[x] = tagValues;
 								selfTagsObj[x++] = tagObj;
 							}
-							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_SELF, selfTagValues);
 							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, selfTagsObj);
+							/* clearing */	
+							getActivity().getContentResolver().delete(TagDAO.CONTENT_URI_SELF, where, args);
+							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_SELF, selfTagValues);
 						}
 						/* liked tags */
 						if(likedTags.length() > 0){
@@ -243,8 +247,10 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 								likedTagValues[x] = tagValues;
 								likedTagsObj[x++] = tagObj;
 							}
-							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_LIKE, likedTagValues);
 							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, likedTagsObj);
+							/* clearing */	
+							getActivity().getContentResolver().delete(TagDAO.CONTENT_URI_LIKE, where, args);
+							getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_LIKE, likedTagValues);
 						}
 						/* followed groups */
 						if(followedGroups.length() > 0){
@@ -261,8 +267,10 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 								followedGroupValues[x] = groupValues;
 								followedGroupsObj[x++] = groupObj;
 							}
-							getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_FOLLOW, followedGroupValues);
 							getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, followedGroupsObj);
+							/* clearing */										
+							getActivity().getContentResolver().delete(GroupDAO.CONTENT_URI_FOLLOW, where, args);
+							getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_FOLLOW, followedGroupValues);
 						}
 					}
 					/* user */

@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.ChatPage;
 import com.echobond.activity.ThoughtsListPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -41,16 +42,22 @@ import android.widget.TextView;
  */
 public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	
-	private ImageView profileFigureView;
+	private ImageView profileFigureView, profileChat;
 	private TextView profileTitle, profileBio, profileGender;
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
 					profileDesc, profileHeart, profileSec, profileLang, profileTag, profileGroup; 
 	private TextView viewThoughtsButton;
+	private String userId, userName;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			//clear cache
+			String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
+					getResources().getString(R.string.url_down_img) + "?path=" + userId;
+			MemoryCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getMemoryCache());
+			DiskCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getDiskCache());
 			updateUserProfile();
 		}
 	};
@@ -60,6 +67,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		
 		View profileView = inflater.inflate(R.layout.fragment_main_profile, container, false);
 		profileFigureView = (ImageView)profileView.findViewById(R.id.profile_pic);
+		profileChat = (ImageView) profileView.findViewById(R.id.profile_chat);
 		profileTitle = (TextView)profileView.findViewById(R.id.profile_title);
 		profileBio = (TextView)profileView.findViewById(R.id.profile_content);
 		profileGender = (TextView)profileView.findViewById(R.id.profile_gender);
@@ -78,19 +86,40 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		
 		viewThoughtsButton = (TextView)profileView.findViewById(R.id.profile_view_thoughts);
 		
+		profileChat.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent chatIntent = new Intent();
+				chatIntent.setClass(ProfileFragment.this.getActivity(), ChatPage.class);
+				chatIntent.putExtra("guestId", userId);
+				chatIntent.putExtra("userName", userName);
+				startActivity(chatIntent);
+			}
+		});
+		
 		viewThoughtsButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.putExtra("userName", "Yourself");
+				intent.putExtra("userId", userId);
+				intent.putExtra("userName", userName);
 				intent.setClass(getActivity(), ThoughtsListPage.class);
 				startActivity(intent);
 			}
 		});
+		Bundle bundle = getArguments();
+		if(null != bundle && null != bundle.getString("userId")){
+			userId = bundle.getString("userId");
+			userName = bundle.getString("userName");
+		} else {
+			userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+			userName = "Yourself";
+			profileChat.setVisibility(View.INVISIBLE);
+		}
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_UPDATE_PROFILE));
 		updateUserProfile();
-		
 		return profileView;
 		
 	}
@@ -98,15 +127,11 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	private void updateUserProfile(){
 		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_users);
 		User user = new User();
-		user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+		user.setId(userId);
 		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
 				UsersAsyncTask.USER_LOAD_BY_ID, user);
 		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
-				getResources().getString(R.string.url_down_img) + 
-				"?path=" + SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-		//clear cache
-		MemoryCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getMemoryCache());
-		DiskCacheUtils.removeFromCache(avatarUrl, ImageLoader.getInstance().getDiskCache());
+				getResources().getString(R.string.url_down_img) + "?path=" + userId;
 		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);		
 	}
 	
@@ -128,10 +153,10 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				e.printStackTrace();
 			}
 		}
-		String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-		Cursor cursor = getActivity().getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{id}, null);
+		Cursor cursor = getActivity().getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{userId}, null);
 		if(null != cursor){
 			if(cursor.moveToFirst()){
+				String args[] = new String[]{userId};
 				profileGender.setText(cursor.getString(cursor.getColumnIndex("gender")));
 				profileTitle.setText(cursor.getString(cursor.getColumnIndex("username")));
 				profileBio.setText(cursor.getString(cursor.getColumnIndex("bio")));
@@ -144,7 +169,6 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				profileHeart.setText(cursor.getString(cursor.getColumnIndex("interest")));
 				profileSec.setText(cursor.getString(cursor.getColumnIndex("little_secret")));
 				profileLang.setText(cursor.getString(cursor.getColumnIndex("lang_name")));
-				String[] args = new String[]{(String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class)};
 				Cursor tCursor = getActivity().getContentResolver().query(TagDAO.CONTENT_URI_SELF, null, null, args, null);
 				Cursor gCursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_FOLLOW, null, null, args, null);
 				String tags = "";

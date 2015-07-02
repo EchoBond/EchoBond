@@ -66,8 +66,9 @@ public class User implements Serializable{
 		values.put("last_name", lastName);
 		values.put("name", name);
 		values.put("time_zone", timeZone);
-		values.put("age", gender);
-		values.put("gender", birthday);
+		values.put("age", age);
+		values.put("gender", gender);
+		values.put("birthday", birthday);
 		values.put("country_id", countryId);
 		values.put("home_id", homeId);
 		values.put("bio", bio);

@@ -6,8 +6,10 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
@@ -126,15 +128,14 @@ public class CanvasFragment extends Fragment {
 		paint = new Paint();
 		paint.setColor(Color.BLACK);
 		paint.setStrokeWidth(INIT_PEN_SIZE);
-		paint.setAntiAlias(true);
-		paint.setDither(true);
+		roundPaintEdge(paint);
+		canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));  
 		
 		rubber = new Paint();
 		rubber.setAlpha(0);
 		rubber.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
 		rubber.setStrokeWidth(INIT_RUBBER_SIZE);
-		rubber.setAntiAlias(true);
-		rubber.setDither(true);
+		roundPaintEdge(rubber);
 		
 		canvas.drawBitmap(baseBitmap, new Matrix(), paint);
 		drawBoard.setImageBitmap(baseBitmap);
@@ -274,6 +275,17 @@ public class CanvasFragment extends Fragment {
 
 	public ImageView getDrawBoard() {
 		return drawBoard;
+	}
+	
+	public void roundPaintEdge(Paint paint){
+		if(null != paint){
+			paint.setAntiAlias(true); // enable anti aliasing
+			paint.setDither(true); // enable dithering
+			paint.setStyle(Paint.Style.STROKE); // set to STOKE
+			paint.setStrokeJoin(Paint.Join.ROUND); // set the join to round you want
+			paint.setStrokeCap(Paint.Cap.ROUND);  // set the paint cap to round too
+			paint.setPathEffect(new CornerPathEffect(paint.getStrokeWidth())); // set the path effect when they join.
+		}
 	}
 	
 }

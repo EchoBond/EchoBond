@@ -32,6 +32,14 @@
 		        android:textStyle="bold"
 		        android:textSize="18sp"
 		        android:layout_below="@id/profile_pic"/>
+		    <ImageView
+		        android:contentDescription="@string/none"
+		        android:id="@+id/profile_chat"
+		        android:src="@drawable/thoughts_highfive_normal"
+		        android:layout_width="35dp"
+		        android:layout_height="35dp"
+		        android:layout_below="@id/profile_pic"
+		        android:layout_toRightOf="@id/profile_title"/>
 		    <TextView  
 		        android:id="@+id/profile_content"  
 		        android:layout_width="match_parent"  

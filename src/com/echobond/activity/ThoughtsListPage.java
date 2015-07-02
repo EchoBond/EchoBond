@@ -73,6 +73,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	private ImageView backButton;
 	private int currentLimit;
 	private long lastLoadTime;
+	private String userId, userName, localId;
 	
 	private BroadcastReceiver commentReceiver = new BroadcastReceiver() {
 		
@@ -86,6 +87,18 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thoughts_list_page);
+		localId = (String) SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		Intent intent = getIntent();
+		if(null != intent){
+			if(intent.hasExtra("userId")){
+				Bundle bundle = intent.getExtras();
+				userId = bundle.getString("userId");
+				userName = bundle.getString("userName");
+			} else {
+				userId = localId;
+				userName = "Yourself";
+			}
+		}
 		initActionBar();
 		initThoughtsList();
 		LocalBroadcastManager.getInstance(this).registerReceiver(commentReceiver, new IntentFilter(MyApp.BROADCAST_COMMENT));
@@ -273,7 +286,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 			TextView contentView = (TextView) root.findViewById(R.id.thought_list_content);
 			String content = contentView.getText().toString();
 			TextView userIdView = (TextView) root.findViewById(R.id.thought_list_poster_id);
-			String userId = userIdView.getText().toString();
+			String authorId = userIdView.getText().toString();
 			switch (buttonIndex) {
 			case MyApp.THOUGHT_POST:
 				Intent imageIntent = new Intent();
@@ -286,14 +299,13 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 				imageIntent.putExtra("id", id);
 				startActivity(imageIntent);
 				break;
-			case MyApp.THOUGHT_MESSAGE:
-				String localId = (String) SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-				if(localId.equals(userId)){
+			case MyApp.THOUGHT_MESSAGE:				
+				if(localId.equals(authorId)){
 					Toast.makeText(ThoughtsListPage.this, "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
 				} else {
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(ThoughtsListPage.this, ChatPage.class);
-					chatIntent.putExtra("guestId", userId);
+					chatIntent.putExtra("guestId", authorId);
 					chatIntent.putExtra("userName", userName);
 					startActivity(chatIntent);
 				}
@@ -301,12 +313,12 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 			case MyApp.THOUGHT_BOOST:				
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(ThoughtsListPage.this) + getResources().getString(R.string.url_boost_thought), 
-						ThoughtsListPage.this, id, SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
+						ThoughtsListPage.this, id, localId);
 				break;
 			case MyApp.THOUGHT_COMMENT:
 				Intent commentIntent = new Intent();
 				commentIntent.setClass(ThoughtsListPage.this, CommentPage.class);
-				String posterAvatar = userId;
+				String posterAvatar = authorId;
 				String avatarUrl = HTTPUtil.getInstance().composePreURL(ThoughtsListPage.this)
 						+ getResources().getString(R.string.url_down_img)
 						+ "?path=" + posterAvatar;
@@ -338,7 +350,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
-			user.setId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
+			user.setId(localId);
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_load_thoughts), 
 					LoadThoughtAsyncTask.LOAD_T_HOME, this, MyApp.DEFAULT_OFFSET, currentLimit, user);
@@ -352,7 +364,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
-			user.setId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
+			user.setId(localId);
 			currentLimit += MyApp.LIMIT_INCREMENT;
 			new LoadThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(this)+getResources().getString(R.string.url_load_thoughts), 

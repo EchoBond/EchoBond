@@ -48,8 +48,8 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 
 	private EditProfileSwitchCallback switchCallback;
 	private TextView setAvatarView, moreTagsView, moreGroupsView, moreLikedTagsView;
-	private EditText userName, userGender, userBio, userAge, //userOrigin, 
-					userDNA, userTrophy, userTodo, userPhilo, userDesc, userInterest, userSec, //userLang, 
+	private EditText userName, userGender, userBio, userAge,
+					userDNA, userTrophy, userTodo, userPhilo, userDesc, userInterest, userSec,
 					userTags, userGroups, userLikedTags;
 	private Spinner originSpinner, langSpinner;
 	private SimpleCursorAdapter originAdapter, langAdapter;
@@ -82,7 +82,6 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		userGender = (EditText)editProfileView.findViewById(R.id.edit_profile_gender_text);
 		userBio = (EditText)editProfileView.findViewById(R.id.edit_profile_bio_text);
 		userAge = (EditText)editProfileView.findViewById(R.id.edit_profile_age_text);
-//		userOrigin = (EditText)editProfileView.findViewById(R.id.edit_profile_earth_text);
 		
 		userDNA = (EditText)editProfileView.findViewById(R.id.edit_profile_dna_text);
 		userTrophy = (EditText)editProfileView.findViewById(R.id.edit_profile_trophy_text);
@@ -91,7 +90,6 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		userDesc = (EditText)editProfileView.findViewById(R.id.edit_profile_desc_text);
 		userInterest = (EditText)editProfileView.findViewById(R.id.edit_profile_heart_text);
 		userSec = (EditText)editProfileView.findViewById(R.id.edit_profile_sec_text);
-//		userLang = (EditText)editProfileView.findViewById(R.id.edit_profile_lang_text);
 		
 		userTags = (EditText)editProfileView.findViewById(R.id.edit_profile_tag_text);
 		userLikedTags = (EditText) editProfileView.findViewById(R.id.edit_profile_like_tag_text);
@@ -272,7 +270,6 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 				userGender.setText(cursor.getString(cursor.getColumnIndex("gender")));
 				userBio.setText(cursor.getString(cursor.getColumnIndex("bio")));
 				userAge.setText(cursor.getInt(cursor.getColumnIndex("age"))+"");
-				//userOrigin.setText(cursor.getInt(cursor.getColumnIndex("home_id"))+"");
 				userDNA.setText(cursor.getString(cursor.getColumnIndex("sth_interesting")));
 				userTrophy.setText(cursor.getString(cursor.getColumnIndex("amz_exp")));
 				userTodo.setText(cursor.getString(cursor.getColumnIndex("to_do")));
@@ -280,7 +277,6 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 				userDesc.setText(cursor.getString(cursor.getColumnIndex("friends_desc")));
 				userInterest.setText(cursor.getString(cursor.getColumnIndex("interest")));
 				userSec.setText(cursor.getString(cursor.getColumnIndex("little_secret")));
-				//userLang.setText(cursor.getString(cursor.getColumnIndex("locale")));
 				userTags.setText(tags);
 				userLikedTags.setText(likedTags);
 				userGroups.setText(groups);
