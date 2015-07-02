@@ -15,6 +15,11 @@
         app:contentInsetStart="0dp"
         android:background="#fff" />
     
+    <FrameLayout 
+        android:id="@+id/people_page_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!--  
     <ScrollView 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
@@ -309,5 +314,5 @@
 			    android:clickable="true" />
 		</LinearLayout>
 	</ScrollView>
-    
+      -->
 </LinearLayout>
