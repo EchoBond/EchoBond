@@ -24,7 +24,8 @@ public class XListView extends ListView implements OnScrollListener {
 	private static final int SCROLL_DURATION = 400;
 	private static final int PULL_LOAD_MORE_DELTA = 10;	// the height to trigger load
 	private static final float OFFSET_RADIO = 1.8f;
-	
+	private int mScrollBack;
+
 	private float mLastY = -1;	// save event y
 	
 	// the interface to trigger refresh and load more
@@ -33,7 +34,6 @@ public class XListView extends ListView implements OnScrollListener {
 	private Scroller scroller;
 	private OnScrollListener mScrollListener;
 	private int mTotalItemCount;
-	private int mScrollBack;
 	
 	// -- header view
 	private XViewHeader mHeaderView;
@@ -110,15 +110,15 @@ public class XListView extends ListView implements OnScrollListener {
 			mLastY = ev.getRawY();
 		}
 		
-		switch (ev.getAction()) {
+		switch (ev.getActionMasked()) {
 		case MotionEvent.ACTION_DOWN:
 			mLastY = ev.getRawY();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			final float deltaY = ev.getRawY() - mLastY;
 			mLastY = ev.getRawY();
-			System.out.println("testing: " + getFirstVisiblePosition() + "---->"
-					 + getLastVisiblePosition());
+//			System.out.println("testing: " + getFirstVisiblePosition() + "---->"
+//					 + getLastVisiblePosition());
 			if (getFirstVisiblePosition() == 0 && (mHeaderView.getVisibleHeight() > 0 || deltaY > 0)) {
 				// the first item is showing, header has shown or pull down
 				updateHeaderHeight(deltaY / OFFSET_RADIO);

@@ -8,38 +8,34 @@
 	<RelativeLayout 
 	    android:id="@+id/pulldown_header_content"
 	    android:layout_width="match_parent"
-	    android:layout_height="55dp"
+	    android:layout_height="?android:attr/actionBarSize"
+	    android:gravity="center"
 	    android:paddingTop="10dp"
 	    android:paddingBottom="10dp" >
-	    
-	    <LinearLayout 
-	        android:id="@+id/pulldown_header_text"
+	        
+        <TextView 
+            android:id="@+id/pulldown_header_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/hint_xview_header_normal" />
+    
+	    <ImageView 
+	        android:id="@+id/pulldown_header_arrow"
+	        android:contentDescription="@string/none"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:gravity="center_vertical"
-	        android:orientation="vertical" >
-	        
-	        <TextView 
-	            android:id="@+id/pulldown_header_textview"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_horizontal"
-	            android:text="@string/hint_xview_header_normal" />
-	        <!--  <TextView 
-	            android:id="@+id/pulldown_header_date"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_horizontal"
-	            android:text="Refreshed at "
-	            android:visibility="gone" />  -->
-	        
-	    </LinearLayout>
+	        android:layout_toLeftOf="@id/pulldown_header_textview"
+	        android:layout_toStartOf="@id/pulldown_header_textview"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="-35dp"
+	        android:layout_marginStart="-35dp"
+	        android:src="@drawable/xlistview_header_arrow" />
 	    
 	    <ProgressBar 
 	        android:id="@+id/pulldown_header_loading"
-	        android:layout_alignLeft="@id/pulldown_header_text"
-	        android:layout_alignStart="@id/pulldown_header_text"
+	        android:layout_alignLeft="@id/pulldown_header_textview"
+	        android:layout_alignStart="@id/pulldown_header_textview"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"

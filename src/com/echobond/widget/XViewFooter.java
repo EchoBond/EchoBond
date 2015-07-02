@@ -45,7 +45,6 @@ public class XViewFooter extends LinearLayout {
 	}
 	
 	public void setState(int state) {
-//		mContentView.setVisibility(View.INVISIBLE);
 		mHintTextView.setVisibility(View.INVISIBLE);
 		mProgressBar.setVisibility(View.INVISIBLE);
 		mHintTextView.setVisibility(View.INVISIBLE);
@@ -86,7 +85,7 @@ public class XViewFooter extends LinearLayout {
 	 * loading status
 	 */
 	public void loading() {
-//		mHintTextView.setVisibility(View.GONE);
+		mHintTextView.setVisibility(View.GONE);
 		mProgressBar.setVisibility(View.VISIBLE);
 	}
 	
