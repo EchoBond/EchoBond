@@ -14,6 +14,11 @@
         app:contentInsetStart="0dp"
         android:background="#fff" />
     
+    <FrameLayout  
+        android:id="@+id/thought_list_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
     <com.echobond.widget.XListView 
         android:id="@+id/thoughts_list"
         android:layout_width="match_parent"

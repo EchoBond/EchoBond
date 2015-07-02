@@ -18,6 +18,7 @@ import com.echobond.entity.Comment;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
 import com.echobond.entity.User;
+import com.echobond.fragment.SearchThoughtsResultFragment;
 import com.echobond.intf.BoostCallback;
 import com.echobond.intf.LoadThoughtCallback;
 import com.echobond.util.HTTPUtil;
@@ -44,6 +45,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -75,6 +77,8 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	private long lastLoadTime;
 	private String userId, userName, localId;
 	
+	private SearchThoughtsResultFragment resultFragment;
+	
 	private BroadcastReceiver commentReceiver = new BroadcastReceiver() {
 		
 		@Override
@@ -94,6 +98,11 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 				Bundle bundle = intent.getExtras();
 				userId = bundle.getString("userId");
 				userName = bundle.getString("userName");
+				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+				if (resultFragment == null) {
+					resultFragment = new SearchThoughtsResultFragment();
+				}
+				transaction.add(R.id.thought_list_content, resultFragment).show(resultFragment).commit();
 			} else {
 				userId = localId;
 				userName = "Yourself";
