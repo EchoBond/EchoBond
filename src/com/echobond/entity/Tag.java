@@ -38,9 +38,11 @@ public class Tag implements Serializable{
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 		String[] tagNames = src.split(",");
 		for (String name : tagNames) {
-			Tag tag = new Tag();
-			tag.setName(name);
-			tags.add(tag);
+			if(!name.trim().equals("")){
+				Tag tag = new Tag();
+				tag.setName(name.trim());
+				tags.add(tag);
+			}
 		}
 		return tags;
 	}

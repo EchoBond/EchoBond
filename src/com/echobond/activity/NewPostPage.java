@@ -208,7 +208,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		}
 		
 		private void isContentsEmpty() { 
-			if (contentsString == null || contentsString.equals("")) {
+			if (contentsString == null || contentsString.equals("") || contentsString.trim().equals("")) {
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_LONG).show();
 			}else {
 				barTitle.setText(R.string.title_new_post_group);

@@ -59,6 +59,7 @@ public class SearchPage extends ActionBarActivity implements ViewMoreSwitchCallb
 	public final static int THOUGHT_CATEGORY = 4;
 	public final static int THOUGHT_KEYWORD = 5;
 	public final static int PEOPLE_KEYWORD = 6;
+	public final static int THOUGHT_PEOPLE = 7;
 	
 	public final static String THOUGHTS_CATEGORY = "This Category's Thoughts";
 	public final static String THOUGHTS_MORE_GROUP = "Thoughts in More Groups";

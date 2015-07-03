@@ -27,6 +27,7 @@ public class SearchResultPage extends ActionBarActivity {
 	private SearchThoughtsResultFragment thoughtsTagResultFragment;
 	private SearchThoughtsResultFragment thoughtsCategoryResultFragment;
 	private SearchThoughtsResultFragment thoughtsKeywordResultFragment;
+	private SearchThoughtsResultFragment thoughtsPeopleResultFragment;
 	private SearchPeopleResultFragment peopleGroupResultFragment;
 	private SearchPeopleResultFragment peopleTagResultFragment;
 	private SearchPeopleResultFragment peopleKeywordResultFragment;	
@@ -77,6 +78,8 @@ public class SearchResultPage extends ActionBarActivity {
 		case SearchPage.THOUGHT_CATEGORY:
 			nameString = SearchPage.THOUGHTS_CATEGORY;
 			break;
+		case SearchPage.THOUGHT_PEOPLE:
+			break;
 		default:
 			break;
 		}
@@ -98,7 +101,7 @@ public class SearchResultPage extends ActionBarActivity {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		if (thoughtsGroupResultFragment == null || thoughtsTagResultFragment == null || thoughtsCategoryResultFragment == null 
 				|| peopleGroupResultFragment == null || peopleTagResultFragment == null 
-				|| thoughtsKeywordResultFragment == null || peopleKeywordResultFragment == null) {
+				|| thoughtsKeywordResultFragment == null || peopleKeywordResultFragment == null || thoughtsPeopleResultFragment == null) {
 			thoughtsGroupResultFragment = new SearchThoughtsResultFragment();
 			thoughtsTagResultFragment = new SearchThoughtsResultFragment();
 			thoughtsCategoryResultFragment = new SearchThoughtsResultFragment();
@@ -106,6 +109,7 @@ public class SearchResultPage extends ActionBarActivity {
 			peopleTagResultFragment = new SearchPeopleResultFragment();
 			thoughtsKeywordResultFragment = new SearchThoughtsResultFragment();
 			peopleKeywordResultFragment = new SearchPeopleResultFragment();
+			thoughtsPeopleResultFragment = new SearchThoughtsResultFragment();
 		}
 		
 		Bundle bundle = new Bundle();
@@ -142,6 +146,9 @@ public class SearchResultPage extends ActionBarActivity {
 			peopleKeywordResultFragment.setArguments(bundle);
 			transaction.add(R.id.search_result_content, peopleKeywordResultFragment).show(peopleKeywordResultFragment).commit();
 			break;
+		case SearchPage.THOUGHT_PEOPLE:
+			thoughtsPeopleResultFragment.setArguments(bundle);
+			transaction.add(R.id.search_result_content, thoughtsPeopleResultFragment).show(thoughtsPeopleResultFragment).commit();
 		default:
 			break;
 		}

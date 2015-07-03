@@ -130,6 +130,9 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 				condition.put("key", "k");
 				condition.put("keyword", searchText);
 				break;
+			case SearchPage.THOUGHT_PEOPLE:
+				condition.put("key", "u");
+				condition.put("userId", searchText);
 			default:
 				break;
 			}
@@ -472,6 +475,7 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 					chatIntent.setClass(SearchThoughtsResultFragment.this.getActivity(), ChatPage.class);
 					chatIntent.putExtra("guestId", userId);
 					chatIntent.putExtra("userName", userName);
+					chatIntent.putExtra("notFromMain", true);
 					startActivity(chatIntent);
 				}
 				break;

@@ -1,10 +1,14 @@
 package com.echobond.fragment;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.activity.ChatPage;
+import com.echobond.activity.SearchPage;
+import com.echobond.activity.SearchResultPage;
 import com.echobond.activity.ThoughtsListPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -47,7 +51,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	private TextView profileDNA, profileTrophy, profileTodo, profilePhilo, profileEarth, 
 					profileDesc, profileHeart, profileSec, profileLang, profileTag, profileGroup; 
 	private TextView viewThoughtsButton;
-	private String userId, userName;
+	private String userId, userName, localId;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
@@ -66,6 +70,9 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View profileView = inflater.inflate(R.layout.fragment_main_profile, container, false);
+		
+		localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+		
 		profileFigureView = (ImageView)profileView.findViewById(R.id.profile_pic);
 		profileChat = (ImageView) profileView.findViewById(R.id.profile_chat);
 		profileTitle = (TextView)profileView.findViewById(R.id.profile_title);
@@ -94,6 +101,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				chatIntent.setClass(ProfileFragment.this.getActivity(), ChatPage.class);
 				chatIntent.putExtra("guestId", userId);
 				chatIntent.putExtra("userName", userName);
+				chatIntent.putExtra("notFromMain", true);
 				startActivity(chatIntent);
 			}
 		});
@@ -103,9 +111,17 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
-				intent.putExtra("userId", userId);
-				intent.putExtra("userName", userName);
-				intent.setClass(getActivity(), ThoughtsListPage.class);
+				if(localId.equals(userId)){
+					intent.putExtra("userId", userId);
+					intent.putExtra("userName", userName);
+					intent.setClass(getActivity(), ThoughtsListPage.class);
+				} else {
+					intent.putExtra("id", 0);
+					intent.putExtra("idList", new ArrayList<Integer>());
+					intent.putExtra("type", SearchPage.THOUGHT_PEOPLE);
+					intent.putExtra("keyword", userId);
+					intent.setClass(getActivity(), SearchResultPage.class);
+				}
 				startActivity(intent);
 			}
 		});
@@ -114,7 +130,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			userId = bundle.getString("userId");
 			userName = bundle.getString("userName");
 		} else {
-			userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+			userId = localId;
 			userName = "Yourself";
 			profileChat.setVisibility(View.INVISIBLE);
 		}

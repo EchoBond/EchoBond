@@ -375,12 +375,18 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			Intent upIntent = new Intent(this, MainPage.class);
-			upIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			if (NavUtils.shouldUpRecreateTask(ChatPage.this, upIntent)) {
-				startActivity(upIntent);
+			Intent upIntent;
+			if(getIntent().hasExtra("notFromMain")){
+				finish();
+				return true;
 			} else {
-				NavUtils.navigateUpTo(ChatPage.this, upIntent);
+				upIntent = new Intent(this, MainPage.class);
+				upIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				if (NavUtils.shouldUpRecreateTask(ChatPage.this, upIntent)) {
+					startActivity(upIntent);
+				} else {
+					NavUtils.navigateUpTo(ChatPage.this, upIntent);
+				}
 			}
 			//Intent upIntent = NavUtils.getParentActivityIntent(ChatPage.this);
 			/*

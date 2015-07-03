@@ -9,6 +9,7 @@ import com.echobond.R;
 import com.echobond.activity.ChatPage;
 import com.echobond.activity.CommentPage;
 import com.echobond.activity.ImagePage;
+import com.echobond.activity.MainPage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.BoostAsyncTask;
 import com.echobond.connector.LoadThoughtAsyncTask;
@@ -35,6 +36,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -73,6 +75,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 	private ThoughtAdapter adapter;
 	private XListView mListView;
 
+	private MainPage mActivity;
+	
 	private int currentLimit;
 	private long lastLoadTime;
 	private BroadcastReceiver boostReceiver = new BroadcastReceiver() {
@@ -464,9 +468,14 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		adapter.swapCursor(null);
 	}
 	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = (MainPage) activity;
+	}
+	
 	private void updateListView(){
-		Cursor cursor = getActivity().getContentResolver().query(HomeThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""}, null);
-		adapter.getCursor().close();
+		Cursor cursor = mActivity.getContentResolver().query(HomeThoughtDAO.CONTENT_URI, null, null, new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""}, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
 	}

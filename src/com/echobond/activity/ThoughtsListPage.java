@@ -73,7 +73,7 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 	private ImageView backButton;
 	private int currentLimit;
 	private long lastLoadTime;
-	private String userId, userName, localId;
+	private String localId;
 	
 	private BroadcastReceiver commentReceiver = new BroadcastReceiver() {
 		
@@ -88,17 +88,6 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_thoughts_list_page);
 		localId = (String) SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-		Intent intent = getIntent();
-		if(null != intent){
-			if(intent.hasExtra("userId")){
-				Bundle bundle = intent.getExtras();
-				userId = bundle.getString("userId");
-				userName = bundle.getString("userName");
-			} else {
-				userId = localId;
-				userName = "Yourself";
-			}
-		}
 		initActionBar();
 		initThoughtsList();
 		LocalBroadcastManager.getInstance(this).registerReceiver(commentReceiver, new IntentFilter(MyApp.BROADCAST_COMMENT));
