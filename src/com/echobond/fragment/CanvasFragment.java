@@ -207,7 +207,6 @@ public class CanvasFragment extends Fragment {
 					canvas.drawColor(Color.TRANSPARENT);
 					drawBoard.setImageBitmap(baseBitmap);
 				}
-				paint.setColor(Color.BLACK);
 				break;
 			default:
 				break;

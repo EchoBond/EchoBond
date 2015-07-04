@@ -39,8 +39,8 @@
     <string name="hint_search">Search any thoughts or people. </string>
     
     <!-- REFRESH AND LOAD CONTENT -->
-    <string name="hint_xview_header_normal">Pull down to load new posts. </string>
-    <string name="hint_xview_header_ready">Release to get new posts… </string>
+    <string name="hint_xview_header_normal">Pull down to load MORE. </string>
+    <string name="hint_xview_header_ready">Release to get new contents… </string>
     <string name="hint_xview_header_loading">Loading…</string>
     <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
