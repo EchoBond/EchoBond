@@ -45,6 +45,17 @@
     <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
     <string name="hint_xview_footer_ready">Release to load MORE… </string>
     
+    <string name="hint_pull_to_refresh">Pull Down to Refresh</string>
+    <string name="hint_release_to_refresh">Release to Get New Contents</string>
+    <string name="hint_refreshing">Refreshing…</string>
+    <string name="hint_refresh_succeed">Refresh Succeed</string>
+    <string name="hint_refresh_fail">Fail Refreshing</string>
+    <string name="hint_pullup_to_load">Pull Up to Load</string>
+    <string name="hint_release_to_load">Release to Load</string>
+    <string name="hint_loading">Loading…</string>
+    <string name="hint_load_succeed">Loading Succeed</string>
+    <string name="hint_load_fail">Fail Loading</string>
+    
     <!-- EDIT PROFILE -->
     <string name="hint_edit_profile_title">Your user name</string>
     <string name="hint_edit_profile_gender">Right to choose your gender</string>

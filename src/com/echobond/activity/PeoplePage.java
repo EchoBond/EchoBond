@@ -38,7 +38,7 @@ public class PeoplePage extends ActionBarActivity {
 		
 		titleView = (TextView)findViewById(R.id.title_name);
 		userId = getIntent().getStringExtra("userId");
-		userName = "Sombody";
+		userName = "Somebody";
 		Cursor uCursor = getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{userId}, null);
 		if(null != uCursor){
 			if(uCursor.moveToNext()){

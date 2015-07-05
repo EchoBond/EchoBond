@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-    
-    <com.echobond.widget.XListView 
+        
+    <com.echobond.widget.XListView
         android:id="@+id/list_messages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" />
         
-    </com.echobond.widget.XListView>
 </LinearLayout>

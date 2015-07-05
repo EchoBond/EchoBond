@@ -10,13 +10,19 @@ import com.echobond.dao.GroupDAO;
 import com.echobond.entity.Group;
 import com.echobond.intf.LoadGroupsCallback;
 import com.echobond.util.JSONUtil;
+import com.echobond.widget.PullableGridView;
+import com.echobond.widget.PullableLayout;
+import com.echobond.widget.PullableLayout.OnPullableListener;
 import com.google.gson.reflect.TypeToken;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -36,10 +42,11 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class FollowingGroupsFragment extends Fragment implements OnClickListener, LoadGroupsCallback, LoaderCallbacks<Cursor> {
+@SuppressLint("HandlerLeak") 
+public class FollowingGroupsFragment extends Fragment implements OnPullableListener, OnClickListener, LoadGroupsCallback, LoaderCallbacks<Cursor> {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
-	private GridView groups2Follow;
+	private PullableGridView groups2Follow;
 	private FollowingGroupsAdapter adapter;
 	
 	private int currentLimit;
@@ -52,9 +59,11 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View followingGroupsView = inflater.inflate(R.layout.fragment_following_groups, container, false);
+		((PullableLayout)followingGroupsView.findViewById(R.id.pullable_gridview)).setOnPullableListener(this);
+		
 		currentLimit = MyApp.LIMIT_INIT*10;
 		groupList = new ArrayList<Integer>();
-		groups2Follow = (GridView)followingGroupsView.findViewById(R.id.grid_groups);
+		groups2Follow = (PullableGridView)followingGroupsView.findViewById(R.id.grid_groups);
 
 		String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
 		Cursor cursor = getActivity().getContentResolver().query(GroupDAO.CONTENT_URI_GROUP, null, null, args, null);
@@ -185,6 +194,28 @@ public class FollowingGroupsFragment extends Fragment implements OnClickListener
 
 	public ArrayList<Integer> getGroupList() {
 		return groupList;
+	}
+
+	@Override
+	public void onRefresh(final PullableLayout pullableLayout) {
+		new Handler() {
+			
+			@Override
+			public void handleMessage(Message msg) {
+				pullableLayout.refreshFinished(PullableLayout.SUCCEED);
+			}
+		}.sendEmptyMessageDelayed(0, 5000);
+	}
+
+	@Override
+	public void onLoadMore(final PullableLayout pullableLayout) {
+		new Handler() {
+			
+			@Override
+			public void handleMessage(Message msg) {
+				pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+			}
+		}.sendEmptyMessageDelayed(0, 5000);
 	}
 
 }
