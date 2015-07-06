@@ -11,17 +11,14 @@ public class PullableGridView extends GridView implements Pullable {
 	public PullableGridView(Context context, AttributeSet attrs,
 			int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PullableGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PullableGridView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -33,7 +30,6 @@ public class PullableGridView extends GridView implements Pullable {
 		} else {
 			return false;
 		}
-//		return true;
 	}
 
 	@Override
@@ -47,7 +43,6 @@ public class PullableGridView extends GridView implements Pullable {
 			}
 		}
 		return false;
-//		return true;
 	}
 
 }

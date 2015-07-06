@@ -75,7 +75,7 @@ public class XListView extends ListView implements OnScrollListener {
 		
 		// init header view
 		mHeaderView = new XViewHeader(context);
-		mHeaderViewContent = (RelativeLayout)mHeaderView.findViewById(R.id.pulldown_header_content);
+		mHeaderViewContent = (RelativeLayout)mHeaderView.findViewById(R.id.pulldown_content);
 		addHeaderView(mHeaderView);
 		// init header height
 		mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -83,7 +83,7 @@ public class XListView extends ListView implements OnScrollListener {
 			@SuppressLint("NewApi") 
 			@Override
 			public void onGlobalLayout() {
-				mHeaderViewHeight = mHeaderViewContent.getHeight();	// get the header view's height
+				mHeaderViewHeight = mHeaderViewContent.getMeasuredHeight();	// get the header view's height
 				getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
 		});

@@ -48,10 +48,10 @@ public class PullableLayout extends RelativeLayout {
 	
 	//	footer
 	private View loadMoreView;
-	private ImageView loadArrowView;		//	arrow
+	private ImageView loadArrowView;			//	arrow
 	private ImageView loadingView;
-	private ImageView loadStateImageView;	//	result image
-	private TextView loadStateTextView;		//	result text
+	private ImageView loadStateImageView;		//	result image
+	private TextView loadStateTextView;			//	result text
 	
 	private View pullableView;
 	

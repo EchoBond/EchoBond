@@ -39,12 +39,6 @@
     <string name="hint_search">Search any thoughts or people. </string>
     
     <!-- REFRESH AND LOAD CONTENT -->
-    <string name="hint_xview_header_normal">Pull down to load MORE. </string>
-    <string name="hint_xview_header_ready">Release to get new contents… </string>
-    <string name="hint_xview_header_loading">Loading…</string>
-    <string name="hint_xview_footer_normal">Drag or click to load MORE. </string>
-    <string name="hint_xview_footer_ready">Release to load MORE… </string>
-    
     <string name="hint_pull_to_refresh">Pull Down to Refresh</string>
     <string name="hint_release_to_refresh">Release to Get New Contents</string>
     <string name="hint_refreshing">Refreshing…</string>

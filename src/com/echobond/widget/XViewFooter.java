@@ -50,12 +50,12 @@ public class XViewFooter extends LinearLayout {
 		mHintTextView.setVisibility(View.INVISIBLE);
 		if (state == STATE_READY) {
 			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText(R.string.hint_xview_footer_ready);
+			mHintTextView.setText(R.string.hint_release_to_load);
 		} else if (state == STATE_LOADING) {
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText(R.string.hint_xview_footer_normal);
+			mHintTextView.setText(R.string.hint_pullup_to_load);
 		}
 	}
 	

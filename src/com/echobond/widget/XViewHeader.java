@@ -8,13 +8,11 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 @SuppressLint("InflateParams") 
@@ -25,13 +23,13 @@ public class XViewHeader extends LinearLayout {
 	public static final int STATE_REFRESHING = 2;
 	private int mState = STATE_NORMAL;
 	
-	public final int ROTATE_ANIM_DURATION = 180;
-	private Animation mRotateUpAnim, mRotateDownAnim, rotateAnimation;
+	private RotateAnimation rotateAnimation, refreshingAnimation;
 	
 	private LinearLayout mContainer;
-	private ImageView mArrowView;
-	private ProgressBar mProgressBar;
-	private TextView mHintTextView;
+	private ImageView refreshArrowView;
+	private ImageView refreshingView;
+	private ImageView refreshStateImageView;
+	private TextView refreshStateTextView;
 	
 	public XViewHeader(Context context) {
 		super(context);
@@ -51,27 +49,20 @@ public class XViewHeader extends LinearLayout {
 	private void initView(Context context) { 
 		//	set the initial height as 0
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0);
-		mContainer = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.refresh_pull_down, null);
+		mContainer = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.pullable_refresh, null);
 		addView(mContainer, params);
 		setGravity(Gravity.BOTTOM);
 		
-		mArrowView = (ImageView)findViewById(R.id.pulldown_header_arrow);
-		mHintTextView = (TextView)findViewById(R.id.pulldown_header_textview);
-		mProgressBar = (ProgressBar)findViewById(R.id.pulldown_header_loading);
+		refreshArrowView = (ImageView)findViewById(R.id.pull_down_arrow);
+		refreshingView = (ImageView)findViewById(R.id.pull_down_refreshing_view);
+		refreshStateImageView = (ImageView)findViewById(R.id.pull_down_state_image);
+		refreshStateTextView = (TextView)findViewById(R.id.pull_down_state_text);
 		
 		rotateAnimation = (RotateAnimation)AnimationUtils.loadAnimation(context, R.anim.reverse_anim);
+		refreshingAnimation = (RotateAnimation)AnimationUtils.loadAnimation(context, R.anim.rotating);
 		LinearInterpolator lir = new LinearInterpolator();
 		rotateAnimation.setInterpolator(lir);
-//		mRotateUpAnim = new RotateAnimation(0.0f, -180.0f, 
-//				Animation.RELATIVE_TO_SELF, 0.5f, 
-//				Animation.RELATIVE_TO_SELF, 0.5f);
-//		mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f, 
-//				Animation.RELATIVE_TO_SELF, 0.5f, 
-//				Animation.RELATIVE_TO_SELF, 0.5f);
-//		mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
-//		mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
-//		mRotateUpAnim.setFillAfter(true);
-//		mRotateDownAnim.setFillAfter(true);
+		refreshingAnimation.setInterpolator(lir);
 	}
 
 	public void setState(int state) {
@@ -79,34 +70,31 @@ public class XViewHeader extends LinearLayout {
 			return;
 		}
 		
-		if (state == STATE_REFRESHING) {	// get the loading status
-			mArrowView.clearAnimation();
-			mArrowView.setVisibility(View.INVISIBLE);
-			mProgressBar.setVisibility(View.VISIBLE);
-		} else {	// show the arrow
-			mArrowView.setVisibility(View.VISIBLE);
-			mProgressBar.setVisibility(View.INVISIBLE);
-		}
-		
 		switch (state) {
 		case STATE_NORMAL:
+			refreshArrowView.setVisibility(View.VISIBLE);
 			if (mState == STATE_READY) {
-				mArrowView.startAnimation(rotateAnimation);
+				refreshArrowView.clearAnimation();
+				refreshArrowView.setAnimation(rotateAnimation);
 			}
 			if (mState == STATE_REFRESHING) {
-				mArrowView.clearAnimation();
+				refreshArrowView.clearAnimation();
 			}
-			mHintTextView.setText(R.string.hint_xview_header_normal);
+			refreshStateImageView.setVisibility(View.GONE);
+			refreshStateTextView.setText(R.string.hint_pull_to_refresh);
 			break;
 		case STATE_READY:
 			if (mState != STATE_READY) {
-				mArrowView.clearAnimation();
-				mArrowView.setAnimation(rotateAnimation);
-				mHintTextView.setText(R.string.hint_xview_header_ready);
+				refreshArrowView.clearAnimation();
+				refreshArrowView.startAnimation(rotateAnimation);
+				refreshStateTextView.setText(R.string.hint_release_to_refresh);
 			}
 			break;
 		case STATE_REFRESHING:
-			mHintTextView.setText(R.string.hint_xview_header_loading);
+			refreshArrowView.clearAnimation();
+			refreshArrowView.setVisibility(View.INVISIBLE);
+			refreshingView.setVisibility(View.VISIBLE);
+			refreshStateTextView.setText(R.string.hint_refreshing);
 			break;
 		default:
 			break;
