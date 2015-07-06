@@ -275,7 +275,7 @@ public class XListView extends ListView implements OnScrollListener {
 	private void updateFooterHeight(float delta) {
 		int height = mFooterView.getBottomMargin() + (int) delta;
 		if (mEnablePullLoad && !mPullLoading) {
-			if (height > PULL_LOAD_MORE_DELTA) { // height enough to invoke load more
+			if (height >= PULL_LOAD_MORE_DELTA) { // height enough to invoke load more
 				mFooterView.setState(XViewFooter.STATE_READY);
 			} else {
 				mFooterView.setState(XViewFooter.STATE_NORMAL);
@@ -310,7 +310,6 @@ public class XListView extends ListView implements OnScrollListener {
 	@Override
 	public void setOnScrollListener(OnScrollListener l) {
 		mScrollListener = l;
-//		super.setOnScrollListener(l);
 	}
 	
 	public void setXListViewListener(IXListViewListener l) {

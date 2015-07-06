@@ -7,6 +7,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,10 +21,13 @@ public class XViewFooter extends LinearLayout {
 	public static final int STATE_READY = 1;
 	public static final int STATE_LOADING = 2;
 	
+	private RotateAnimation rotateAnimation, loadingAnimation;
+
 	private Context mContext;
 	private View mContentView;
-	private View mProgressBar;
-	private TextView mHintTextView;
+	private ImageView loadArrowView;
+	private ImageView loadingView;
+	private TextView loadStateTextView;
 	
 	public XViewFooter(Context context) {
 		super(context);
@@ -34,28 +41,44 @@ public class XViewFooter extends LinearLayout {
 	
 	private void initView(Context context) { 
 		mContext = context;
-		LinearLayout moreView = (LinearLayout)LayoutInflater.from(mContext).inflate(R.layout.refresh_pull_up, null);
+		LinearLayout moreView = (LinearLayout)LayoutInflater.from(mContext).inflate(R.layout.pullable_load, null);
 		addView(moreView);
 		moreView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		
-		mContentView = moreView.findViewById(R.id.pullup_footer_content);
-		mProgressBar = moreView.findViewById(R.id.pullup_footer_loading);
-		mHintTextView = (TextView)moreView.findViewById(R.id.pullup_footer_textview);
+		mContentView = moreView.findViewById(R.id.pullup_content);
+		loadArrowView = (ImageView)moreView.findViewById(R.id.pull_up_arrow);
+		loadingView = (ImageView)moreView.findViewById(R.id.pull_up_loading_view);
+		loadStateTextView = (TextView)moreView.findViewById(R.id.pull_up_state_text);
 		
+		rotateAnimation = (RotateAnimation)AnimationUtils.loadAnimation(context, R.anim.reverse_anim);
+		loadingAnimation = (RotateAnimation)AnimationUtils.loadAnimation(context, R.anim.rotating);
+		LinearInterpolator lir = new LinearInterpolator();
+		rotateAnimation.setInterpolator(lir);
+		loadingAnimation.setInterpolator(lir);
 	}
 	
 	public void setState(int state) {
-		mHintTextView.setVisibility(View.INVISIBLE);
-		mProgressBar.setVisibility(View.INVISIBLE);
-		mHintTextView.setVisibility(View.INVISIBLE);
-		if (state == STATE_READY) {
-			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText(R.string.hint_release_to_load);
-		} else if (state == STATE_LOADING) {
-			mProgressBar.setVisibility(View.VISIBLE);
-		} else {
-			mHintTextView.setVisibility(View.VISIBLE);
-			mHintTextView.setText(R.string.hint_pullup_to_load);
+		switch (state) {
+		case STATE_NORMAL:
+			loadArrowView.setVisibility(View.VISIBLE);
+			loadArrowView.clearAnimation();
+			loadingView.clearAnimation();
+			loadingView.setVisibility(View.GONE);
+			loadStateTextView.setText(R.string.hint_pullup_to_load);
+			break;
+		case STATE_READY:
+			loadArrowView.setAnimation(rotateAnimation);
+			loadStateTextView.setText(R.string.hint_release_to_load);
+			break;
+		case STATE_LOADING:
+			loadArrowView.clearAnimation();
+			loadArrowView.setVisibility(View.INVISIBLE);
+			loadingView.setVisibility(View.VISIBLE);
+			loadingView.startAnimation(loadingAnimation);
+			loadStateTextView.setText(R.string.hint_loading);
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -77,17 +100,15 @@ public class XViewFooter extends LinearLayout {
 	 * normal status
 	 */
 	public void normal() {
-		mHintTextView.setVisibility(View.VISIBLE);
-		mProgressBar.setVisibility(View.GONE);
+		loadStateTextView.setVisibility(View.VISIBLE);
 	}
 	
 	/**
 	 * loading status
 	 */
-	public void loading() {
-		mHintTextView.setVisibility(View.GONE);
-		mProgressBar.setVisibility(View.VISIBLE);
-	}
+//	public void loading() {
+//		loadStateTextView.setVisibility(View.GONE);
+//	}
 	
 	/**
 	 * hide footer when disable the function of load MORE

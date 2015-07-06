@@ -28,7 +28,6 @@ public class XViewHeader extends LinearLayout {
 	private LinearLayout mContainer;
 	private ImageView refreshArrowView;
 	private ImageView refreshingView;
-	private ImageView refreshStateImageView;
 	private TextView refreshStateTextView;
 	
 	public XViewHeader(Context context) {
@@ -55,7 +54,6 @@ public class XViewHeader extends LinearLayout {
 		
 		refreshArrowView = (ImageView)findViewById(R.id.pull_down_arrow);
 		refreshingView = (ImageView)findViewById(R.id.pull_down_refreshing_view);
-		refreshStateImageView = (ImageView)findViewById(R.id.pull_down_state_image);
 		refreshStateTextView = (TextView)findViewById(R.id.pull_down_state_text);
 		
 		rotateAnimation = (RotateAnimation)AnimationUtils.loadAnimation(context, R.anim.reverse_anim);
@@ -73,27 +71,20 @@ public class XViewHeader extends LinearLayout {
 		switch (state) {
 		case STATE_NORMAL:
 			refreshArrowView.setVisibility(View.VISIBLE);
-			if (mState == STATE_READY) {
-				refreshArrowView.clearAnimation();
-				refreshArrowView.setAnimation(rotateAnimation);
-			}
-			if (mState == STATE_REFRESHING) {
-				refreshArrowView.clearAnimation();
-			}
-			refreshStateImageView.setVisibility(View.GONE);
+			refreshArrowView.clearAnimation();
+			refreshingView.clearAnimation();
+			refreshingView.setVisibility(View.GONE);
 			refreshStateTextView.setText(R.string.hint_pull_to_refresh);
 			break;
 		case STATE_READY:
-			if (mState != STATE_READY) {
-				refreshArrowView.clearAnimation();
-				refreshArrowView.startAnimation(rotateAnimation);
-				refreshStateTextView.setText(R.string.hint_release_to_refresh);
-			}
+			refreshArrowView.startAnimation(rotateAnimation);
+			refreshStateTextView.setText(R.string.hint_release_to_refresh);
 			break;
 		case STATE_REFRESHING:
 			refreshArrowView.clearAnimation();
 			refreshArrowView.setVisibility(View.INVISIBLE);
 			refreshingView.setVisibility(View.VISIBLE);
+			refreshingView.startAnimation(refreshingAnimation);
 			refreshStateTextView.setText(R.string.hint_refreshing);
 			break;
 		default:
