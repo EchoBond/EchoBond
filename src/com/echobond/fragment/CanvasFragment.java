@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
@@ -20,7 +19,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 /**
@@ -36,12 +39,17 @@ public class CanvasFragment extends Fragment {
 	private Paint rubber;
 	
 	private ImageView drawBoard;
+	private ImageView moreButton, selectedDoneButton;
+	private LinearLayout moreFunctionsLayout;
 	private ImageView penView, backgroundView, rubberView, clearView;
 	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
 	private SeekBar penSeekBar, rubberSeekBar;
 	
 	private int selectedMode = 0;
 	private String[] colors;
+	private boolean isSelected = false;
+	
+	private RotateAnimation rotateAnimation;
 	
 	private final static int CHOOSE_PEN = 0;
 	private final static int CHOOSE_BACK = 1;
@@ -69,14 +77,23 @@ public class CanvasFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View canvasView = inflater.inflate(R.layout.fragment_canvas, container, false);
 		
+		rotateAnimation = (RotateAnimation)AnimationUtils.loadAnimation(getActivity(), R.anim.reverse_anim);
+		rotateAnimation.setFillAfter(false);
+		LinearInterpolator interpolator = new LinearInterpolator();
+		rotateAnimation.setInterpolator(interpolator);
+		
+		moreButton = (ImageView)canvasView.findViewById(R.id.canvas_more_button);
+		
     	drawBoard = (ImageView)canvasView.findViewById(R.id.canvas_draw);
 
+    	moreFunctionsLayout = (LinearLayout)canvasView.findViewById(R.id.canvas_more_functions);
 		penView = (ImageView)canvasView.findViewById(R.id.canvas_pen);
 		backgroundView = (ImageView)canvasView.findViewById(R.id.canvas_background);
 		rubberView = (ImageView)canvasView.findViewById(R.id.canvas_eraser);
 		clearView = (ImageView)canvasView.findViewById(R.id.canvas_clear);
 		penSeekBar = (SeekBar)canvasView.findViewById(R.id.canvas_pen_seekbar);
 		rubberSeekBar = (SeekBar)canvasView.findViewById(R.id.canvas_rubber_seekbar);
+		selectedDoneButton = (ImageView)canvasView.findViewById(R.id.canvas_done);
 		
 		penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_selected));
 
@@ -87,6 +104,21 @@ public class CanvasFragment extends Fragment {
 		penSeekBar.setOnSeekBarChangeListener(new StyleChangeListener(CHOOSE_PEN));
 		rubberSeekBar.setOnSeekBarChangeListener(new StyleChangeListener(CHOOSE_RUBBER));
 		
+		moreButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setMoreFunctions(false);
+			}
+		});
+		selectedDoneButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setMoreFunctions(true);
+			}
+		});
+
 		colors = getResources().getStringArray(R.array.color_array);
 
 		color0 = (ImageView)canvasView.findViewById(R.id.change_color0);
@@ -121,15 +153,10 @@ public class CanvasFragment extends Fragment {
 	}
 	
 	private void initCanvas() {
-		baseBitmap = Bitmap.createBitmap(1080, 764, Bitmap.Config.ARGB_8888);
-		canvas = new Canvas(baseBitmap);
-		canvas.drawColor(Color.TRANSPARENT);
-
 		paint = new Paint();
 		paint.setColor(Color.BLACK);
 		paint.setStrokeWidth(INIT_PEN_SIZE);
 		roundPaintEdge(paint);
-		canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));  
 		
 		rubber = new Paint();
 		rubber.setAlpha(0);
@@ -137,8 +164,6 @@ public class CanvasFragment extends Fragment {
 		rubber.setStrokeWidth(INIT_RUBBER_SIZE);
 		roundPaintEdge(rubber);
 		
-		canvas.drawBitmap(baseBitmap, new Matrix(), paint);
-		drawBoard.setImageBitmap(baseBitmap);
 		drawBoard.setOnTouchListener(new View.OnTouchListener() {
 			
 			float startX;
@@ -149,6 +174,12 @@ public class CanvasFragment extends Fragment {
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
+					if (baseBitmap == null) {
+						baseBitmap = Bitmap.createBitmap(drawBoard.getWidth(), drawBoard.getHeight(), Bitmap.Config.ARGB_8888);
+						canvas = new Canvas(baseBitmap);
+						canvas.drawColor(Color.TRANSPARENT);
+						canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));  
+					}
 					startX = event.getX();
 					startY = event.getY();
 					break;
@@ -202,7 +233,7 @@ public class CanvasFragment extends Fragment {
 				break;
 			case CHOOSE_CLEAR:
 				if (baseBitmap != null) {
-					baseBitmap = Bitmap.createBitmap(1080, 764, Bitmap.Config.ARGB_8888);
+					baseBitmap = Bitmap.createBitmap(drawBoard.getWidth(), drawBoard.getHeight(), Bitmap.Config.ARGB_8888);
 					canvas = new Canvas(baseBitmap);
 					canvas.drawColor(Color.TRANSPARENT);
 					drawBoard.setImageBitmap(baseBitmap);
@@ -276,14 +307,33 @@ public class CanvasFragment extends Fragment {
 		return drawBoard;
 	}
 	
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setMoreFunctions(boolean isSet) {
+		this.isSelected = isSet;
+		if (!isSelected) {
+			moreFunctionsLayout.setVisibility(View.VISIBLE);
+			moreButton.startAnimation(rotateAnimation);
+			moreButton.setVisibility(View.INVISIBLE);
+			isSelected = true;
+		} else if (isSelected) {
+			moreFunctionsLayout.setVisibility(View.INVISIBLE);
+			moreButton.clearAnimation();
+			moreButton.setVisibility(View.VISIBLE);
+			isSelected = false;
+		}
+	}
+	
 	public void roundPaintEdge(Paint paint){
 		if(null != paint){
-			paint.setAntiAlias(true); // enable anti aliasing
-			paint.setDither(true); // enable dithering
-			paint.setStyle(Paint.Style.STROKE); // set to STOKE
-			paint.setStrokeJoin(Paint.Join.ROUND); // set the join to round you want
-			paint.setStrokeCap(Paint.Cap.ROUND);  // set the paint cap to round too
-			paint.setPathEffect(new CornerPathEffect(paint.getStrokeWidth())); // set the path effect when they join.
+			paint.setAntiAlias(true);	// enable anti aliasing
+			paint.setDither(true);	// enable dithering
+			paint.setStyle(Paint.Style.STROKE);	// set to STOKE
+			paint.setStrokeJoin(Paint.Join.ROUND);	// set the join to round you want
+			paint.setStrokeCap(Paint.Cap.ROUND);	// set the paint cap to round too
+			paint.setPathEffect(new CornerPathEffect(paint.getStrokeWidth()));	// set the path effect when they join.
 		}
 	}
 	

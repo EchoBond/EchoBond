@@ -113,7 +113,9 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			
 			@Override
 			public void onClick(View v) {
-				if (pgIndex == PAGE_PROFILE) {
+				if (canvasFragment.isSelected()) {
+					canvasFragment.setMoreFunctions(true);
+				} else if (pgIndex == PAGE_PROFILE) {
 					closeEditorActivity();
 				} else if (pgIndex == PAGE_AVATAR) {
 					initContent();
@@ -231,7 +233,9 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-			if (pgIndex == PAGE_PROFILE) {
+			if (canvasFragment.isSelected()) {
+				canvasFragment.setMoreFunctions(true);
+			} else if (pgIndex == PAGE_PROFILE) {
 				finish();
 				return true;
 			} else if (pgIndex == PAGE_AVATAR) {

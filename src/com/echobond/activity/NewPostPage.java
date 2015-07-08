@@ -161,8 +161,12 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				fgIndex -= 1;
 				break;
 			case NEW_POST_CANVAS:
-				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
-				fgIndex = NEW_POST_PIC;
+				if (canvasFragment.isSelected()) {
+					canvasFragment.setMoreFunctions(true);
+				} else {
+					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
+					fgIndex = NEW_POST_PIC;
+				}
 				break;
 			default:
 				break;
@@ -301,8 +305,12 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
         		getSupportFragmentManager().beginTransaction().hide(groupsFragment).show(contentsFragment).commit();
         		fgIndex -= 1;
 			} else if (fgIndex == 4) {
-				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
-				fgIndex = NEW_POST_PIC;
+				if (canvasFragment.isSelected()) {
+					canvasFragment.setMoreFunctions(true);
+				} else {
+					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(postFragment).commit();
+					fgIndex = NEW_POST_PIC;
+				}
 			}
     	}
     	return true;
