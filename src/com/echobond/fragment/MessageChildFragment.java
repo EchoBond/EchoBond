@@ -51,6 +51,7 @@ import android.widget.TextView;
 public class MessageChildFragment extends Fragment implements IXListViewListener, LoaderCallbacks<Cursor>, OnClickListener, UserMsgCallback{
 	
 	private XListView messagesList;
+	private TextView emptyHint;
 	private MsgListCursorAdapter adapter;
 	private String userId;
 	
@@ -76,8 +77,11 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		messagesList.setPullLoadEnable(false);
 		messagesList.setXListViewListener(this);
 		
+		emptyHint = (TextView) messageChildView.findViewById(R.id.list_messages_empty);
+		
 		userId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		getLoaderManager().initLoader(MyApp.LOADER_MSG_LIST, null, this);
+		isEmpty();
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(MyApp.BROADCAST_UPDATE_MSGLIST));
 		return messageChildView;
 	}
@@ -90,6 +94,14 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 	public void onDestroy() {
 		super.onDestroy();
 		LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+	}
+	
+	private void isEmpty() {
+		if(0 == adapter.getCount()){
+			emptyHint.setVisibility(View.VISIBLE);
+		} else {
+			emptyHint.setVisibility(View.GONE);
+		}
 	}
 	
 	public class MsgListCursorAdapter extends CursorAdapter{
@@ -239,5 +251,6 @@ public class MessageChildFragment extends Fragment implements IXListViewListener
 		Cursor cursor = getActivity().getContentResolver().query(ChatDAO.CONTENT_URI, null, null, args, null);
 		adapter.swapCursor(cursor);
 		adapter.notifyDataSetChanged();
+		isEmpty();
 	}
 }

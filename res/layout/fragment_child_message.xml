@@ -6,7 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-        
+    <TextView android:id="@+id/list_messages_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="@string/hint_message_list_empty"
+        android:layout_gravity="center"
+        android:paddingTop="20dp"
+        android:visibility="gone"/>
     <com.echobond.widget.XListView
         android:id="@+id/list_messages"
         android:layout_width="match_parent"
