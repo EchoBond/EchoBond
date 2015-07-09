@@ -28,26 +28,20 @@ public class NewPostFragment extends Fragment {
 	private NewPostFragmentsSwitchAsyncTaskCallback callCanvas;
 	private RelativeLayout postLayout;
 	private String[] colors;
-	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
+	private ImageView[] colorViews = new ImageView[12];
+	private int[] colorButtons = {R.id.thought_poster_color0, R.id.thought_poster_color1, R.id.thought_poster_color2, 
+								R.id.thought_poster_color3, R.id.thought_poster_color4, R.id.thought_poster_color5, 
+								R.id.thought_poster_color6, R.id.thought_poster_color7, R.id.thought_poster_color8, 
+								R.id.thought_poster_color9, R.id.thought_poster_colora, R.id.thought_poster_colorb};
+
 	private ImageView postChange, textChange, categoryType, switchCanvas;
 	private EditText postText;
 	private int modeSelected;
 	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
-	
-	private final static int WHITE = 0;
-	private final static int DARK_RED = 1;
-	private final static int BRIGHT_RED = 2;
-	private final static int PINK = 3;
-	private final static int YELLOW = 4;
-	private final static int ORANGE = 5;
+
 	private final static int BLACK = 6;
-	private final static int CYAN = 7;
-	private final static int MINT = 8;
-	private final static int PURPLE = 9;
-	private final static int HORIZON = 10;
-	private final static int GREEN = 11;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -62,19 +56,12 @@ public class NewPostFragment extends Fragment {
 		textChange = (ImageView)postView.findViewById(R.id.thought_changetextcolor);
 		switchCanvas = (ImageView)postView.findViewById(R.id.thought_switch_canvas);
 		
-		color0 = (ImageView)postView.findViewById(R.id.thought_poster_color0);
-		color1 = (ImageView)postView.findViewById(R.id.thought_poster_color1);
-		color2 = (ImageView)postView.findViewById(R.id.thought_poster_color2);
-		color3 = (ImageView)postView.findViewById(R.id.thought_poster_color3);
-		color4 = (ImageView)postView.findViewById(R.id.thought_poster_color4);
-		color5 = (ImageView)postView.findViewById(R.id.thought_poster_color5);
-		color6 = (ImageView)postView.findViewById(R.id.thought_poster_color6);
-		color7 = (ImageView)postView.findViewById(R.id.thought_poster_color7);
-		color8 = (ImageView)postView.findViewById(R.id.thought_poster_color8);
-		color9 = (ImageView)postView.findViewById(R.id.thought_poster_color9);
-		colorA = (ImageView)postView.findViewById(R.id.thought_poster_colora);
-		colorB = (ImageView)postView.findViewById(R.id.thought_poster_colorb);
-		
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i] = (ImageView)postView.findViewById(colorButtons[i]);
+			colorViews[i].setOnClickListener(new SelectedColor(i));
+		}
+		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
+
 		categoryType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
 		setCategoryType();
 		modeSelected = CHANGE_TEXT;
@@ -106,19 +93,6 @@ public class NewPostFragment extends Fragment {
 				callCanvas.switchCanvas();
 			}
 		});
-		
-		color0.setOnClickListener(new SelectedColor(WHITE));
-		color1.setOnClickListener(new SelectedColor(DARK_RED));
-		color2.setOnClickListener(new SelectedColor(BRIGHT_RED));
-		color3.setOnClickListener(new SelectedColor(PINK));
-		color4.setOnClickListener(new SelectedColor(YELLOW));
-		color5.setOnClickListener(new SelectedColor(ORANGE));
-		color6.setOnClickListener(new SelectedColor(BLACK));
-		color7.setOnClickListener(new SelectedColor(CYAN));
-		color8.setOnClickListener(new SelectedColor(MINT));
-		color9.setOnClickListener(new SelectedColor(PURPLE));
-		colorA.setOnClickListener(new SelectedColor(HORIZON));
-		colorB.setOnClickListener(new SelectedColor(GREEN));
 		
 		return postView;
 	}
@@ -159,6 +133,10 @@ public class NewPostFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			for (int i = 0; i < colors.length; i++) {
+				colorViews[i].setBackgroundResource(0);
+			}
+			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
 			if (modeSelected == CHANGE_BACKGROUND) {
 				postLayout.setBackgroundColor(Color.parseColor(colors[colorIndex]));
 			}

@@ -29,7 +29,6 @@ public class DrawingIconFragment extends Fragment {
 	private EditProfileSwitchCallback callCanvas;
 	private RelativeLayout avatarLayout;
 	private String[] colors;
-	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
 	private ImageView postChange, textChange, avatarType, switchCanvas;
 	private EditText avatarText;
 	private TextView switchIcon;
@@ -38,23 +37,17 @@ public class DrawingIconFragment extends Fragment {
 	private int[] icons = {R.drawable.poster_type_dream, R.drawable.poster_type_feelings, R.drawable.poster_type_goodideas, 
 						R.drawable.poster_type_interests, R.drawable.poster_type_others, R.drawable.poster_type_plans, 
 						R.drawable.profile_about_gender, R.drawable.profile_about_earth, R.drawable.profile_about_trophy};
+	private ImageView[] colorViews = new ImageView[12];
+	private int[] colorButtons = {R.id.edit_profile_color0, R.id.edit_profile_color1, R.id.edit_profile_color2, 
+								R.id.edit_profile_color3, R.id.edit_profile_color4, R.id.edit_profile_color5, 
+								R.id.edit_profile_color6, R.id.edit_profile_color7, R.id.edit_profile_color8, 
+								R.id.edit_profile_color9, R.id.edit_profile_colora, R.id.edit_profile_colorb};
 	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
 	private final static int ICON_TYPE_COUNT = 9;
-	
-	private final static int WHITE = 0;
-	private final static int DARK_RED = 1;
-	private final static int BRIGHT_RED = 2;
-	private final static int PINK = 3;
-	private final static int YELLOW = 4;
-	private final static int ORANGE = 5;
+
 	private final static int BLACK = 6;
-	private final static int CYAN = 7;
-	private final static int MINT = 8;
-	private final static int PURPLE = 9;
-	private final static int HORIZON = 10;
-	private final static int GREEN = 11;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -70,18 +63,11 @@ public class DrawingIconFragment extends Fragment {
 		switchCanvas = (ImageView)drawingIconView.findViewById(R.id.edit_profile_switch_canvas);
 		switchIcon = (TextView)drawingIconView.findViewById(R.id.edit_profile_switch_icon);
 		
-		color0 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color0);
-		color1 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color1);
-		color2 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color2);
-		color3 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color3);
-		color4 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color4);
-		color5 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color5);
-		color6 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color6);
-		color7 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color7);
-		color8 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color8);
-		color9 = (ImageView)drawingIconView.findViewById(R.id.edit_profile_color9);
-		colorA = (ImageView)drawingIconView.findViewById(R.id.edit_profile_colora);
-		colorB = (ImageView)drawingIconView.findViewById(R.id.edit_profile_colorb);
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i] = (ImageView)drawingIconView.findViewById(colorButtons[i]);
+			colorViews[i].setOnClickListener(new SelectedColor(i));
+		}
+		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
 		
 		modeSelected = CHANGE_BACKGROUND;
 		avatarType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
@@ -125,19 +111,6 @@ public class DrawingIconFragment extends Fragment {
 			}
 		});
 		
-		color0.setOnClickListener(new SelectedColor(WHITE));
-		color1.setOnClickListener(new SelectedColor(DARK_RED));
-		color2.setOnClickListener(new SelectedColor(BRIGHT_RED));
-		color3.setOnClickListener(new SelectedColor(PINK));
-		color4.setOnClickListener(new SelectedColor(YELLOW));
-		color5.setOnClickListener(new SelectedColor(ORANGE));
-		color6.setOnClickListener(new SelectedColor(BLACK));
-		color7.setOnClickListener(new SelectedColor(CYAN));
-		color8.setOnClickListener(new SelectedColor(MINT));
-		color9.setOnClickListener(new SelectedColor(PURPLE));
-		colorA.setOnClickListener(new SelectedColor(HORIZON));
-		colorB.setOnClickListener(new SelectedColor(GREEN));
-		
 		return drawingIconView;
 	}
 	
@@ -150,6 +123,10 @@ public class DrawingIconFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			for (int i = 0; i < colors.length; i++) {
+				colorViews[i].setBackgroundResource(0);
+			}
+			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
 			if (modeSelected == CHANGE_BACKGROUND) {
 				avatarLayout.setBackgroundColor(Color.parseColor(colors[colorIndex]));
 			}

@@ -92,10 +92,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_0"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp" />
         <ImageView 
             android:id="@+id/thought_poster_color1"
             android:contentDescription="@string/none"
@@ -103,10 +104,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_1"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color0"
             android:layout_toEndOf="@id/thought_poster_color0" />
         <ImageView 
@@ -116,10 +118,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_2"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color1"
             android:layout_toEndOf="@id/thought_poster_color1" />
         <ImageView 
@@ -129,10 +132,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_3"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color2"
             android:layout_toEndOf="@id/thought_poster_color2" />
         <ImageView 
@@ -142,10 +146,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_4"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color3"
             android:layout_toEndOf="@id/thought_poster_color3" />
         <ImageView 
@@ -155,10 +160,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_5"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color4"
             android:layout_toEndOf="@id/thought_poster_color4" />
         
@@ -179,10 +185,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_6"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp" />
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp" />
         <ImageView 
             android:id="@+id/thought_poster_color7"
             android:contentDescription="@string/none"
@@ -190,10 +197,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_7"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color6"
             android:layout_toEndOf="@id/thought_poster_color6" />
         <ImageView 
@@ -203,10 +211,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_8"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color7"
             android:layout_toEndOf="@id/thought_poster_color7" />
         <ImageView 
@@ -216,10 +225,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_9"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color8"
             android:layout_toEndOf="@id/thought_poster_color8" />
         <ImageView 
@@ -229,10 +239,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_a"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_color9"
             android:layout_toEndOf="@id/thought_poster_color9" />
         <ImageView 
@@ -242,10 +253,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/color_selection_b"
             android:clickable="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
+            android:padding="3dp"
             android:layout_toRightOf="@id/thought_poster_colora"
             android:layout_toEndOf="@id/thought_poster_colora" />
     </RelativeLayout>
