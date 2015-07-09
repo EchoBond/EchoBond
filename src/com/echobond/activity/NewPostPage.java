@@ -374,8 +374,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	}
 
 	@Override
-	public void onDownloadImage(JSONObject result) {
-		// TODO Auto-generated method stub
+	public void onDownloadImage(byte[] result) {
 		
 	}
 

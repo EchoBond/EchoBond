@@ -264,7 +264,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	}
 
 	@Override
-	public void onDownloadImage(JSONObject result) {
+	public void onDownloadImage(byte[] result) {
 		
 	}
 

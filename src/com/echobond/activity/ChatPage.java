@@ -45,6 +45,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -222,6 +223,11 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			this.layout = layout;
 		}
 
+		@Override
+		public boolean isEnabled(int position) {
+			return false;
+		}
+		
 		@SuppressLint("NewApi") 
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
@@ -268,6 +274,17 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 				params.gravity = Gravity.START;
 				contentLayout.setLayoutParams(params);
 				timeLayout.setLayoutParams(params);
+				
+				guestImageView.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						Intent intent = new Intent();
+						intent.setClass(ChatPage.this, PeoplePage.class);
+						intent.putExtra("userId", guestId);
+						startActivity(intent);
+					}
+				});
 			}			
 		}
 

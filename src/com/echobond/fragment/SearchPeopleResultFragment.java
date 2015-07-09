@@ -25,6 +25,8 @@ import com.echobond.widget.XListView;
 import com.echobond.widget.XListView.IXListViewListener;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -202,7 +204,12 @@ public class SearchPeopleResultFragment extends Fragment implements IXListViewLi
 				users = (ArrayList<User>) JSONUtil.fromJSONArrayToList(result.getJSONArray("users"), token);
 				ContentValues[] userValues = new ContentValues[users.size()];
 				int i = 0;
+				String imgUrl = HTTPUtil.getInstance().composePreURL(getActivity()) 
+						+ getResources().getString(R.string.url_down_img) + "?path=";
 				for(User u: users){
+					/* clear avatar cache */
+					MemoryCacheUtils.removeFromCache(imgUrl + u.getId(), ImageLoader.getInstance().getMemoryCache());
+					DiskCacheUtils.removeFromCache(imgUrl + u.getId(), ImageLoader.getInstance().getDiskCache());
 					/* meta */
 					JSONObject meta = (JSONObject) metaArray.get(i);
 					String userId = u.getId();

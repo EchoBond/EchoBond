@@ -22,6 +22,7 @@ public class User implements Serializable{
 	private int type;
 	
 	private String id;
+	private String avatar;
 	private String userName;
 	private String password;
 	private String email;
@@ -58,6 +59,7 @@ public class User implements Serializable{
 	public ContentValues putValues(){
 		ContentValues values = new ContentValues();
 		values.put("_id", id);
+		values.put("avatar", avatar);
 		values.put("username", userName);
 		values.put("password", password);
 		values.put("email", email);
@@ -95,6 +97,12 @@ public class User implements Serializable{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	public String getUserName() {
 		return userName;

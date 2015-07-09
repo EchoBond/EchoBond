@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
+import com.echobond.activity.AvatarPage;
 import com.echobond.activity.ChatPage;
 import com.echobond.activity.SearchPage;
 import com.echobond.activity.SearchResultPage;
@@ -36,6 +37,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,6 +76,16 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 		
 		profileFigureView = (ImageView)profileView.findViewById(R.id.profile_pic);
+		profileFigureView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.putExtra("userId", userId);
+				intent.setClass(getActivity(), AvatarPage.class);
+				startActivity(intent);
+			}
+		});
 		profileChat = (ImageView) profileView.findViewById(R.id.profile_chat);
 		profileTitle = (TextView)profileView.findViewById(R.id.profile_title);
 		profileBio = (TextView)profileView.findViewById(R.id.profile_content);
@@ -140,6 +152,12 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		updateUserProfile();
+	}
+	
 	private void updateUserProfile(){
 		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_users);
 		User user = new User();
@@ -147,8 +165,8 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		new UsersAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, 
 				UsersAsyncTask.USER_LOAD_BY_ID, user);
 		String avatarUrl = HTTPUtil.getInstance().composePreURL(getActivity()) +
-				getResources().getString(R.string.url_down_img) + "?path=" + userId;
-		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);		
+				getResources().getString(R.string.url_down_img) + "?path=" + userId;		
+		ImageLoader.getInstance().displayImage(avatarUrl, profileFigureView);
 	}
 	
 	@Override
