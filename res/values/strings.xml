@@ -27,6 +27,7 @@
     <string name="title_activity_view_more_page">ViewMorePage</string>
     <string name="title_activity_service_page">ServicePage</string>
     <string name="title_activity_search_result_page">SearchResultPage</string>
+    <string name="title_activity_avatar_page">AvatarPage</string>
 
     <!-- NAME OF THE TITLES IN SENDING NEW POST -->
     <string name="title_new_post_share">Share Anything</string>
@@ -72,6 +73,5 @@
     <string name="pen_seekbar">Draw Size: </string>
     <string name="title_activity_entry">EntryActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_avatar_page">AvatarPage</string>
 
 </resources>

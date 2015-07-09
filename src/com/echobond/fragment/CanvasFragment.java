@@ -42,11 +42,14 @@ public class CanvasFragment extends Fragment {
 	private ImageView moreButton, selectedDoneButton;
 	private LinearLayout moreFunctionsLayout;
 	private ImageView penView, backgroundView, rubberView, clearView;
-	private ImageView color0, color1, color2, color3, color4, color5, color6, color7, color8, color9, colorA, colorB;
+	private ImageView[] colorViews = new ImageView[12];
+	private int[] colorButtons = {R.id.change_color0, R.id.change_color1, R.id.change_color2, R.id.change_color3, 
+								R.id.change_color4, R.id.change_color5, R.id.change_color6, R.id.change_color7, 
+								R.id.change_color8, R.id.change_color9, R.id.change_colora, R.id.change_colorb};
 	private SeekBar penSeekBar, rubberSeekBar;
 	
-	private int selectedMode = 0;
 	private String[] colors;
+	private int selectedMode = 0;
 	private boolean isSelected = false;
 	
 	private RotateAnimation rotateAnimation;
@@ -58,19 +61,6 @@ public class CanvasFragment extends Fragment {
 	
 	private final static int INIT_PEN_SIZE = 5;
 	private final static int INIT_RUBBER_SIZE = 30;
-	
-	private final static int WHITE = 0;
-	private final static int DARK_RED = 1;
-	private final static int BRIGHT_RED = 2;
-	private final static int PINK = 3;
-	private final static int YELLOW = 4;
-	private final static int ORANGE = 5;
-	private final static int BLACK = 6;
-	private final static int CYAN = 7;
-	private final static int MINT = 8;
-	private final static int PURPLE = 9;
-	private final static int HORIZON = 10;
-	private final static int GREEN = 11;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -120,33 +110,11 @@ public class CanvasFragment extends Fragment {
 		});
 
 		colors = getResources().getStringArray(R.array.color_array);
-
-		color0 = (ImageView)canvasView.findViewById(R.id.change_color0);
-		color1 = (ImageView)canvasView.findViewById(R.id.change_color1);
-		color2 = (ImageView)canvasView.findViewById(R.id.change_color2);
-		color3 = (ImageView)canvasView.findViewById(R.id.change_color3);
-		color4 = (ImageView)canvasView.findViewById(R.id.change_color4);
-		color5 = (ImageView)canvasView.findViewById(R.id.change_color5);
-		color6 = (ImageView)canvasView.findViewById(R.id.change_color6);
-		color7 = (ImageView)canvasView.findViewById(R.id.change_color7);
-		color8 = (ImageView)canvasView.findViewById(R.id.change_color8);
-		color9 = (ImageView)canvasView.findViewById(R.id.change_color9);
-		colorA = (ImageView)canvasView.findViewById(R.id.change_colora);
-		colorB = (ImageView)canvasView.findViewById(R.id.change_colorb);
-		
-		color0.setOnClickListener(new ColorChangeListener(WHITE));
-		color1.setOnClickListener(new ColorChangeListener(DARK_RED));
-		color2.setOnClickListener(new ColorChangeListener(BRIGHT_RED));
-		color3.setOnClickListener(new ColorChangeListener(PINK));
-		color4.setOnClickListener(new ColorChangeListener(YELLOW));
-		color5.setOnClickListener(new ColorChangeListener(ORANGE));
-		color6.setOnClickListener(new ColorChangeListener(BLACK));
-		color7.setOnClickListener(new ColorChangeListener(CYAN));
-		color8.setOnClickListener(new ColorChangeListener(MINT));
-		color9.setOnClickListener(new ColorChangeListener(PURPLE));
-		colorA.setOnClickListener(new ColorChangeListener(HORIZON));
-		colorB.setOnClickListener(new ColorChangeListener(GREEN));
-		
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i] = (ImageView)canvasView.findViewById(colorButtons[i]);
+			colorViews[i].setOnClickListener(new ColorChangeListener(i));
+		}
+		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
 		initCanvas();
 		
 		return canvasView;
@@ -280,6 +248,7 @@ public class CanvasFragment extends Fragment {
 		}
 	}
 	
+	@SuppressLint("NewApi") 
 	public class ColorChangeListener implements OnClickListener {
 
 		private int colorIndex;
@@ -289,6 +258,10 @@ public class CanvasFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			for (int i = 0; i < colors.length; i++) {
+				colorViews[i].setBackgroundResource(0);
+			}
+			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
 			switch (selectedMode) {
 			case CHOOSE_PEN:
 				paint.setColor(Color.parseColor(colors[colorIndex]));
