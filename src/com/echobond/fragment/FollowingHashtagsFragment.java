@@ -12,6 +12,9 @@ import com.echobond.entity.Tag;
 import com.echobond.intf.LoadTagsCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
+import com.echobond.widget.PullableGridView;
+import com.echobond.widget.PullableLayout;
+import com.echobond.widget.PullableLayout.OnPullableListener;
 import com.google.gson.reflect.TypeToken;
 
 import android.content.ContentValues;
@@ -39,26 +42,27 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class FollowingHashtagsFragment extends Fragment implements OnClickListener, LoadTagsCallback, LoaderCallbacks<Cursor>{
+public class FollowingHashtagsFragment extends Fragment implements OnPullableListener, OnClickListener, LoadTagsCallback, LoaderCallbacks<Cursor>{
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
-	private GridView hashtags2Follow;
+	private PullableGridView hashtags2Follow;
 	private FollowingTagsAdapter adapter;
 	
 	private int currentLimit;
+	private long lastLoadTime;
 	
-	private ArrayList<Integer> tagList;
-	
-//	private long lastLoadTime;
-	
+	private ArrayList<Integer> tagList;	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View followingHashtagsView = inflater.inflate(R.layout.fragment_following_hashtags, container, false);
-		hashtags2Follow = (GridView)followingHashtagsView.findViewById(R.id.grid_hashtags);
+		((PullableLayout)followingHashtagsView.findViewById(R.id.following_hashtags)).setOnPullableListener(this);
+		
+		hashtags2Follow = (PullableGridView)followingHashtagsView.findViewById(R.id.grid_hastags);
 		currentLimit = MyApp.LIMIT_INIT;
+		lastLoadTime = 0;
 		
 		tagList = new ArrayList<Integer>();
 		
@@ -70,9 +74,6 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 		hashtags2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
 		
 		getLoaderManager().initLoader(MyApp.LOADER_FOLLOW_TAG, null, this);
-		
-		String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_load_tags);
-		new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url, this, MyApp.DEFAULT_OFFSET, currentLimit);
 		
 		return followingHashtagsView;
 	}
@@ -180,6 +181,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
+		onLoadFinished();
 	}
 	
 	private void updateUI(){
@@ -192,4 +194,37 @@ public class FollowingHashtagsFragment extends Fragment implements OnClickListen
 		return tagList;
 	}
 
+	@Override
+	public void onRefresh(final PullableLayout pullableLayout) {
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+			lastLoadTime = System.currentTimeMillis();
+			new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_tags), 
+					this, MyApp.DEFAULT_OFFSET, currentLimit);
+		} else {
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}		
+	}
+
+	@Override
+	public void onLoadMore(final PullableLayout pullableLayout) {
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+			lastLoadTime = System.currentTimeMillis();
+			currentLimit += MyApp.LIMIT_INCREMENT;
+			new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_tags), 
+					this, MyApp.DEFAULT_OFFSET, currentLimit);
+		} else {
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}		
+	}
+	
+	public void onLoadFinished(){
+		PullableLayout pullableLayout = (PullableLayout) getView();
+		if(null != pullableLayout){
+			pullableLayout.refreshFinished(PullableLayout.SUCCEED);
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}
+	}
+	
 }

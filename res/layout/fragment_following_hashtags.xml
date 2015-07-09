@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView 
+<com.echobond.widget.PullableLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/grid_hashtags"
-    android:numColumns="3"
+    android:id="@+id/following_hashtags"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:stretchMode="columnWidth" >
+    android:layout_height="match_parent" >
     
-</GridView>
+    <include layout="@layout/pullable_refresh" />
+    
+    <com.echobond.widget.PullableGridView 
+        android:id="@+id/grid_hastags"
+   		android:numColumns="3"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:gravity="center"
+    	android:stretchMode="columnWidth" />
+    
+    <include layout="@layout/pullable_load" />
+    
+</com.echobond.widget.PullableLayout>

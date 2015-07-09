@@ -6,9 +6,11 @@ import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.application.MyApp;
+import com.echobond.connector.LoadGroupsAsyncTask;
 import com.echobond.dao.GroupDAO;
 import com.echobond.entity.Group;
 import com.echobond.intf.LoadGroupsCallback;
+import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.widget.PullableGridView;
 import com.echobond.widget.PullableLayout;
@@ -20,9 +22,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -50,7 +51,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 	private FollowingGroupsAdapter adapter;
 	
 	private int currentLimit;
-//	private long lastLoadTime;
+	private long lastLoadTime;
 	
 	private ArrayList<Integer> groupList;
 	
@@ -59,9 +60,10 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		
 		View followingGroupsView = inflater.inflate(R.layout.fragment_following_groups, container, false);
-		((PullableLayout)followingGroupsView.findViewById(R.id.pullable_gridview)).setOnPullableListener(this);
+		((PullableLayout)followingGroupsView.findViewById(R.id.following_groups)).setOnPullableListener(this);
 		
-		currentLimit = MyApp.LIMIT_INIT*10;
+		currentLimit = MyApp.LIMIT_INIT;
+		lastLoadTime = 0;
 		groupList = new ArrayList<Integer>();
 		groups2Follow = (PullableGridView)followingGroupsView.findViewById(R.id.grid_groups);
 
@@ -70,9 +72,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 		adapter = new FollowingGroupsAdapter(getActivity(), R.layout.item_following, cursor, 0);
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
-		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
-
-		//lastLoadTime = 0;
+		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);		
 		
 		getLoaderManager().initLoader(MyApp.LOADER_FOLLOW_GROUP, null, this);
 		
@@ -183,6 +183,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_LONG).show();
 		}
+		onLoadFinished();
 	}
 	
 	private void updateUI(){
@@ -198,24 +199,35 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 
 	@Override
 	public void onRefresh(final PullableLayout pullableLayout) {
-		new Handler() {
-			
-			@Override
-			public void handleMessage(Message msg) {
-				pullableLayout.refreshFinished(PullableLayout.SUCCEED);
-			}
-		}.sendEmptyMessageDelayed(0, 5000);
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+			lastLoadTime = System.currentTimeMillis();
+			new LoadGroupsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_groups), 
+					this, MyApp.DEFAULT_OFFSET, currentLimit);
+		} else {
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}		
 	}
 
 	@Override
 	public void onLoadMore(final PullableLayout pullableLayout) {
-		new Handler() {
-			
-			@Override
-			public void handleMessage(Message msg) {
-				pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
-			}
-		}.sendEmptyMessageDelayed(0, 5000);
+		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+			lastLoadTime = System.currentTimeMillis();
+			currentLimit += MyApp.LIMIT_INCREMENT;
+			new LoadGroupsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
+					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_groups), 
+					this, MyApp.DEFAULT_OFFSET, currentLimit);
+		} else {
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}		
+	}
+	
+	public void onLoadFinished(){
+		PullableLayout pullableLayout = (PullableLayout) getView();
+		if(null != pullableLayout){
+			pullableLayout.refreshFinished(PullableLayout.SUCCEED);
+			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
+		}
 	}
 
 }
