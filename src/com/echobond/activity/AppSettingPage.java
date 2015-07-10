@@ -86,21 +86,18 @@ public class AppSettingPage extends ActionBarActivity {
 				long id) {
 			switch (position) {
 			case 0:
-				Toast.makeText(getApplicationContext(), appSettingTitles[0], Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				break;
 			case 1:
-				Toast.makeText(getApplicationContext(), appSettingTitles[1], Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				break;
 			case 2:
-				Toast.makeText(getApplicationContext(), appSettingTitles[2], Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				break;
 			case 3:
-				Toast.makeText(getApplicationContext(), appSettingTitles[3], Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_current_version) + "0.1.0", Toast.LENGTH_SHORT).show();
 				break;
 			case 4:
-				Toast.makeText(getApplicationContext(), appSettingTitles[4], Toast.LENGTH_SHORT).show();
-				break;
-			case 5:
 				SPUtil.clear(AppSettingPage.this, MyApp.PREF_TYPE_LOGIN);
 				intent.setClass(AppSettingPage.this, StartPage.class);
 				//clear activity stack
@@ -109,12 +106,7 @@ public class AppSettingPage extends ActionBarActivity {
 				startActivity(intent);
 				finish();
 				break;
-			case 6:
-				Toast.makeText(getApplicationContext(), appSettingTitles[6], Toast.LENGTH_SHORT).show();
-				break;
-			case 7:
-				Toast.makeText(getApplicationContext(), appSettingTitles[7], Toast.LENGTH_SHORT).show();
-				break;
+
 			default:
 				break;
 			}

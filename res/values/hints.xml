@@ -68,7 +68,7 @@
     <string name="hint_edit_profile_hashtags_like">Hashtag you follow\nYou can find all hashtags you followed here</string>
     <string name="hint_edit_profile_groups">Groups you are following</string>
     <string name="hint_edit_profile_icon">Words on avatar…</string>
-    
-    
     <string name="hint_message_list_empty">No message now, quiet world :)</string>
+    <string name="hint_under_development">Under development. Coming soon. </string>
+    <string name="hint_current_version">Current Version: </string>
 </resources>

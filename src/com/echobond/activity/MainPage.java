@@ -329,9 +329,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case SETTING_TERMS_OF_SERVICES:
-				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
-				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
+//				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
+//				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				startActivity(intent);
 				break;
 			case SETTING_CONTACT_US:
 				Intent email = new Intent(Intent.ACTION_SEND);

@@ -13,12 +13,12 @@
     <string-array name="app_setting_array">
         <item>Notification</item>
         <item>Country</item>
-        <item>App Language</item>
-        <item>Language of Content</item>
+        <!--  <item>App Language</item>
+        <item>Language of Content</item>  -->
         <item>Clear Search History</item>
-        <item>Logout</item>
         <item>Version</item>
-        <item>Deactivate Account</item>
+        <item>Logout</item>
+        <!--  <item>Deactivate Account</item>  -->
     </string-array>
     
     <string-array name="color_array">
