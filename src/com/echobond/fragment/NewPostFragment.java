@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 import com.echobond.activity.NewPostPage;
+import com.echobond.application.MyApp;
 import com.echobond.intf.NewPostFragmentsSwitchAsyncTaskCallback;
 
 import android.app.Activity;
@@ -40,8 +41,6 @@ public class NewPostFragment extends Fragment {
 	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
-
-	private final static int BLACK = 6;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -62,7 +61,7 @@ public class NewPostFragment extends Fragment {
 		}
 		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
 
-		categoryType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
+		categoryType.setColorFilter(Color.parseColor(colors[MyApp.COLOR_BLACK]), PorterDuff.Mode.SRC_IN);
 		setCategoryType();
 		modeSelected = CHANGE_TEXT;
 		textChange.setImageResource(R.drawable.thoughts_text_colorchange_selected);

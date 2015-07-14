@@ -2,6 +2,7 @@ package com.echobond.fragment;
 
 import com.echobond.R;
 import com.echobond.activity.EditProfilePage;
+import com.echobond.application.MyApp;
 import com.echobond.intf.EditProfileSwitchCallback;
 
 import android.app.Activity;
@@ -46,8 +47,6 @@ public class DrawingIconFragment extends Fragment {
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
 	private final static int ICON_TYPE_COUNT = 9;
-
-	private final static int BLACK = 6;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -70,7 +69,7 @@ public class DrawingIconFragment extends Fragment {
 		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
 		
 		modeSelected = CHANGE_BACKGROUND;
-		avatarType.setColorFilter(Color.parseColor(colors[BLACK]), PorterDuff.Mode.SRC_IN);
+		avatarType.setColorFilter(Color.parseColor(colors[MyApp.COLOR_BLACK]), PorterDuff.Mode.SRC_IN);
 		postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_selected));
 		postChange.setOnClickListener(new View.OnClickListener() {
 			

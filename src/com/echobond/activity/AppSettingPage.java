@@ -91,13 +91,10 @@ public class AppSettingPage extends ActionBarActivity {
 			case 1:
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				break;
-			case 2:
-				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
-				break;
-			case 3:
+			case 2:	//	app version
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_current_version) + "0.1.0", Toast.LENGTH_SHORT).show();
 				break;
-			case 4:
+			case 3:	//	logout
 				SPUtil.clear(AppSettingPage.this, MyApp.PREF_TYPE_LOGIN);
 				intent.setClass(AppSettingPage.this, StartPage.class);
 				//clear activity stack

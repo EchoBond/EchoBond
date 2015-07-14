@@ -58,10 +58,8 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	public static final int SETTING_EDIT_PROFILE = 0;
 	public static final int SETTING_APP_SETTING = 1;
 	public static final int SETTING_FOLLOWING = 2;
-	public static final int SETTING_INVITE_FRIENDS = 3;
-	public static final int SETTING_THIS_APP_SUCKS = 4;
-	public static final int SETTING_TERMS_OF_SERVICES = 5;
-	public static final int SETTING_CONTACT_US = 6;
+	public static final int SETTING_TERMS_OF_SERVICES = 3;
+	public static final int SETTING_CONTACT_US = 4;
 	
 	public static final int TAB_NUMBER = 4;
 	
@@ -90,8 +88,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	private ListView drawerList;
 	private int[] settingIcons = new int[]{
 			R.drawable.setting_edit_profile, R.drawable.setting_app_setting, R.drawable.setting_following, 
-			R.drawable.setting_invite_friends, R.drawable.setting_sucks_comment, R.drawable.setting_terms_of_service, 
-			R.drawable.setting_contact};
+			R.drawable.setting_terms_of_service, R.drawable.setting_contact};
 	private String[] settingTitles;
 	private SimpleAdapter settingPageAdapter;
 	private boolean isOpened = false;
@@ -314,25 +311,16 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case SETTING_FOLLOWING:
+				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				intent.putExtra("page", SETTING_FOLLOWING);
-				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			case SETTING_INVITE_FRIENDS:
-				intent.putExtra("page", SETTING_INVITE_FRIENDS);
-				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			case SETTING_THIS_APP_SUCKS:
-				intent.putExtra("page", SETTING_THIS_APP_SUCKS);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
 			case SETTING_TERMS_OF_SERVICES:
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
-//				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
-//				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//				startActivity(intent);
+				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
+				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				break;
 			case SETTING_CONTACT_US:
 				Intent email = new Intent(Intent.ACTION_SEND);

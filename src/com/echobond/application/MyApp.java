@@ -36,7 +36,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-public class MyApp extends Application implements Application.ActivityLifecycleCallbacks{
+public class MyApp extends Application implements Application.ActivityLifecycleCallbacks {
 
 	public static final String PREF_TYPE_LOGIN = "login";
 	public static final String LOGIN_FIRST = "firstUse";
@@ -89,6 +89,19 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int VIEW_MORE_FROM_SEARCH = 0;
 	public static final int VIEW_MORE_FROM_PROFILE = 1;
 	public static final int VIEW_MORE_FROM_POST = 2;
+	
+	public final static int COLOR_WHITE = 0;
+	public final static int COLOR_DARK_RED = 1;
+	public final static int COLOR_BRIGHT_RED = 2;
+	public final static int COLOR_PINK = 3;
+	public final static int COLOR_YELLOW = 4;
+	public final static int COLOR_ORANGE = 5;
+	public final static int COLOR_BLACK = 6;
+	public final static int COLOR_CYAN = 7;
+	public final static int COLOR_MINT = 8;
+	public final static int COLOR_PURPLE = 9;
+	public final static int COLOR_HORIZON = 10;
+	public final static int COLOR_GREEN = 11;
 	
 	public static final String VIEW_MORE_GROUP = "Groups";
 	public static final String VIEW_MORE_TAG = "Hashtags";
