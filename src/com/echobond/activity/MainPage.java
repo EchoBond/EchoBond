@@ -311,13 +311,11 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case SETTING_FOLLOWING:
-				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				intent.putExtra("page", SETTING_FOLLOWING);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
 			case SETTING_TERMS_OF_SERVICES:
-				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				intent.putExtra("page", SETTING_TERMS_OF_SERVICES);
 				intent.setClass(MainPage.this, ServicePage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);

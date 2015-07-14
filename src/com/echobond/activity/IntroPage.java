@@ -102,7 +102,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 
 		@Override
 		public boolean isViewFromObject(View view, Object arg1) {
-
 			return (view == arg1);
 		}
 		

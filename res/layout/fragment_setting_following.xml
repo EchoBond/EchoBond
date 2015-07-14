@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center" >
+    
+    <TextView 
+        android:id="@+id/setting_following_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_following"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+    
+    <RelativeLayout 
+        android:id="@+id/setting_following_fb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:clickable="true" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/setting_following_fb_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_follow_facebook" />
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/setting_following_fb_img"
+            android:layout_toEndOf="@id/setting_following_fb_img"
+            android:text="@string/app_name"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <RelativeLayout 
+        android:id="@+id/setting_following_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:clickable="true" >
+        <ImageView 
+            android:contentDescription="@string/none"
+            android:id="@+id/setting_following_g_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_follow_google" />
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/setting_following_g_img"
+            android:layout_toEndOf="@id/setting_following_g_img"
+            android:text="@string/app_name"
+            android:textSize="24sp" />
+    </RelativeLayout>
+    
+</LinearLayout>

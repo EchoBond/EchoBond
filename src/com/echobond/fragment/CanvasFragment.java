@@ -1,6 +1,7 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -51,6 +52,8 @@ public class CanvasFragment extends Fragment {
 	private String[] colors;
 	private int selectedMode = 0;
 	private boolean isSelected = false;
+	private int penPrevState = -1;
+	private int backPrevState = -1;
 	
 	private RotateAnimation rotateAnimation;
 	
@@ -93,7 +96,6 @@ public class CanvasFragment extends Fragment {
 		clearView.setOnClickListener(new ModeSelectedListener(CHOOSE_CLEAR));
 		penSeekBar.setOnSeekBarChangeListener(new StyleChangeListener(CHOOSE_PEN));
 		rubberSeekBar.setOnSeekBarChangeListener(new StyleChangeListener(CHOOSE_RUBBER));
-		
 		moreButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -114,7 +116,7 @@ public class CanvasFragment extends Fragment {
 			colorViews[i] = (ImageView)canvasView.findViewById(colorButtons[i]);
 			colorViews[i].setOnClickListener(new ColorChangeListener(i));
 		}
-		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
+		colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
 		initCanvas();
 		
 		return canvasView;
@@ -182,12 +184,20 @@ public class CanvasFragment extends Fragment {
 		public void onClick(View v) {
 			switch (mode) {
 			case CHOOSE_PEN:
+				setColor(penPrevState);
+				if (penPrevState == -1) {
+					colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_selected));
 				backgroundView.setImageDrawable(getResources().getDrawable(R.drawable.change_background_color_nomal));
 				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.rubbertool_normal));
 				selectedMode = mode;
 				break;
 			case CHOOSE_BACK:
+				setColor(backPrevState);
+				if (backPrevState == -1) {
+					colorViews[MyApp.COLOR_WHITE].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_normal));
 				backgroundView.setImageDrawable(getResources().getDrawable(R.drawable.change_background_color_selected));
 				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.rubbertool_normal));
@@ -258,16 +268,15 @@ public class CanvasFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			for (int i = 0; i < colors.length; i++) {
-				colorViews[i].setBackgroundResource(0);
-			}
-			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
+			setColor(colorIndex);
 			switch (selectedMode) {
 			case CHOOSE_PEN:
 				paint.setColor(Color.parseColor(colors[colorIndex]));
+				penPrevState = colorIndex;
 				break;
 			case CHOOSE_BACK:
 				drawBoard.setBackgroundColor(Color.parseColor(colors[colorIndex]));
+				backPrevState = colorIndex;
 				break;
 			default:
 				break;
@@ -276,6 +285,15 @@ public class CanvasFragment extends Fragment {
 		
 	}
 
+	private void setColor(int state) {
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i].setBackgroundResource(0);
+		}
+		if (state != -1) {
+			colorViews[state].setBackgroundResource(R.drawable.color_selection_background);
+		}
+	}
+	
 	public ImageView getDrawBoard() {
 		return drawBoard;
 	}

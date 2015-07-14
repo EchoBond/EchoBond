@@ -1,10 +1,13 @@
 package com.echobond.activity;
 
 import com.echobond.R;
+import com.echobond.fragment.FollowingFragment;
+import com.echobond.fragment.ServiceFragment;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
@@ -19,15 +22,19 @@ import android.widget.TextView;
  */
 public class ServicePage extends ActionBarActivity {
 
+	private FollowingFragment followingFragment;
+	private ServiceFragment serviceFragment;
+	
 	private ImageView backButton;
 	private TextView titleView;
+	private int page;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_service_page);
 		initToolBar();
-		
+		setPage();
 	}
 
 	private void initToolBar() {
@@ -52,9 +59,26 @@ public class ServicePage extends ActionBarActivity {
 			}
 		});
 		
-		int page = getIntent().getIntExtra("page", -1);
+		page = getIntent().getIntExtra("page", -1);
 		titleView = (TextView)findViewById(R.id.title_name);
 		titleView.setText(getResources().getStringArray(R.array.setting_list_array)[page]);
-		
+	}
+	
+	private void setPage() {
+		if (followingFragment == null || serviceFragment == null) {
+			followingFragment = new FollowingFragment();
+			serviceFragment = new ServiceFragment();
+		}
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		switch (page) {
+		case MainPage.SETTING_FOLLOWING:
+			transaction.add(R.id.service_content, followingFragment).show(followingFragment).commit();
+			break;
+		case MainPage.SETTING_TERMS_OF_SERVICES:
+			transaction.add(R.id.service_content, serviceFragment).show(serviceFragment).commit();
+			break;
+		default:
+			break;
+		}
 	}
 }

@@ -24,6 +24,7 @@ public class AvatarPage extends Activity {
 	private ImageView avatarView;
 	private String url;
 	private List<Bitmap> cacheList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
