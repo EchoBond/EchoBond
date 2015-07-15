@@ -38,6 +38,8 @@ public class NewPostFragment extends Fragment {
 	private ImageView postChange, textChange, categoryType, switchCanvas;
 	private EditText postText;
 	private int modeSelected;
+	private int textPrevColor = -1;
+	private int backPrevColor = -1;
 	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
@@ -59,7 +61,7 @@ public class NewPostFragment extends Fragment {
 			colorViews[i] = (ImageView)postView.findViewById(colorButtons[i]);
 			colorViews[i].setOnClickListener(new SelectedColor(i));
 		}
-		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
+		colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
 
 		categoryType.setColorFilter(Color.parseColor(colors[MyApp.COLOR_BLACK]), PorterDuff.Mode.SRC_IN);
 		setCategoryType();
@@ -69,6 +71,10 @@ public class NewPostFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
+				setColor(backPrevColor);
+				if (backPrevColor == -1) {
+					colorViews[MyApp.COLOR_WHITE].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				NewPostFragment.this.modeSelected = CHANGE_BACKGROUND;
 				postChange.setImageResource(R.drawable.thoughts_background_colorchange_selected);
 				textChange.setImageResource(R.drawable.thoughts_text_colorchange_normal);
@@ -79,6 +85,10 @@ public class NewPostFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				setColor(textPrevColor);
+				if (textPrevColor == -1) {
+					colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				NewPostFragment.this.modeSelected = CHANGE_TEXT;
 				textChange.setImageResource(R.drawable.thoughts_text_colorchange_selected);
 				postChange.setImageResource(R.drawable.thoughts_background_colorchange_nomal);
@@ -132,21 +142,29 @@ public class NewPostFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			for (int i = 0; i < colors.length; i++) {
-				colorViews[i].setBackgroundResource(0);
-			}
-			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
+			setColor(colorIndex);
 			if (modeSelected == CHANGE_BACKGROUND) {
 				postLayout.setBackgroundColor(Color.parseColor(colors[colorIndex]));
+				backPrevColor = colorIndex;
 			}
 			if (modeSelected == CHANGE_TEXT){
 				postText.setTextColor(Color.parseColor(colors[colorIndex]));
 				categoryType.setColorFilter(Color.parseColor(colors[colorIndex]), PorterDuff.Mode.SRC_IN);
+				textPrevColor = colorIndex;
 			}
 		}
 		
 	}
 
+	private void setColor(int color) {
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i].setBackgroundResource(0);
+		}
+		if (color != -1) {
+			colorViews[color].setBackgroundResource(R.drawable.color_selection_background);
+		}
+	}
+	
 	public RelativeLayout getPostLayout() {
 		return postLayout;
 	}

@@ -43,6 +43,8 @@ public class DrawingIconFragment extends Fragment {
 								R.id.edit_profile_color3, R.id.edit_profile_color4, R.id.edit_profile_color5, 
 								R.id.edit_profile_color6, R.id.edit_profile_color7, R.id.edit_profile_color8, 
 								R.id.edit_profile_color9, R.id.edit_profile_colora, R.id.edit_profile_colorb};
+	private int textPrevColor = -1;
+	private int backPrevColor = -1;
 	
 	private final static int CHANGE_BACKGROUND = 0;
 	private final static int CHANGE_TEXT = 1;
@@ -66,15 +68,19 @@ public class DrawingIconFragment extends Fragment {
 			colorViews[i] = (ImageView)drawingIconView.findViewById(colorButtons[i]);
 			colorViews[i].setOnClickListener(new SelectedColor(i));
 		}
-		colorViews[6].setBackgroundResource(R.drawable.color_selection_background);
+		colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
 		
-		modeSelected = CHANGE_BACKGROUND;
+		modeSelected = CHANGE_TEXT;
 		avatarType.setColorFilter(Color.parseColor(colors[MyApp.COLOR_BLACK]), PorterDuff.Mode.SRC_IN);
-		postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_selected));
+		textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_selected));
 		postChange.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
+				setColor(backPrevColor);
+				if (backPrevColor == -1) {
+					colorViews[MyApp.COLOR_WHITE].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				DrawingIconFragment.this.modeSelected = CHANGE_BACKGROUND;
 				postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_selected));
 				textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_normal));
@@ -85,6 +91,10 @@ public class DrawingIconFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				setColor(textPrevColor);
+				if (textPrevColor == -1) {
+					colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
+				}
 				DrawingIconFragment.this.modeSelected = CHANGE_TEXT;
 				textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_selected));
 				postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_nomal));
@@ -122,21 +132,30 @@ public class DrawingIconFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			for (int i = 0; i < colors.length; i++) {
-				colorViews[i].setBackgroundResource(0);
-			}
-			colorViews[colorIndex].setBackgroundResource(R.drawable.color_selection_background);
+			setColor(colorIndex);
 			if (modeSelected == CHANGE_BACKGROUND) {
 				avatarLayout.setBackgroundColor(Color.parseColor(colors[colorIndex]));
+				backPrevColor = colorIndex;
 			}
 			if (modeSelected == CHANGE_TEXT) {
 				avatarText.setTextColor(Color.parseColor(colors[colorIndex]));
 				avatarType.setColorFilter(Color.parseColor(colors[colorIndex]), PorterDuff.Mode.SRC_IN);
+				textPrevColor = colorIndex;
 			}
 		}
 		
 	}
 
+
+	private void setColor(int color) {
+		for (int i = 0; i < colors.length; i++) {
+			colorViews[i].setBackgroundResource(0);
+		}
+		if (color != -1) {
+			colorViews[color].setBackgroundResource(R.drawable.color_selection_background);
+		}
+	}
+	
 	public RelativeLayout getAvatarLayout() {
 		return avatarLayout;
 	}
