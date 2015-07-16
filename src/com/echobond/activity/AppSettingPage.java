@@ -2,6 +2,7 @@ package com.echobond.activity;
 
 import com.echobond.R;
 import com.echobond.application.MyApp;
+import com.echobond.fragment.NotificationDialogFragment;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
@@ -31,6 +32,8 @@ public class AppSettingPage extends ActionBarActivity {
 	private String[] appSettingTitles;
 	private ListView appSettingListView;
 	private ArrayAdapter<String> appSettingArrayAdapter;
+	
+	private NotificationDialogFragment notificationDialog;
 	Intent intent = new Intent();
 	
 	@Override
@@ -87,6 +90,8 @@ public class AppSettingPage extends ActionBarActivity {
 			switch (position) {
 			case 0:
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
+				notificationDialog = new NotificationDialogFragment();
+//				notificationDialog.show(getSupportFragmentManager(), "ntc_setting");
 				break;
 			case 1:
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();

@@ -39,6 +39,7 @@
             android:layout_height="30dp"
             android:layout_weight="1"
             android:layout_gravity="bottom"
+           	android:layout_margin="3dp"
             android:src="@drawable/button_send_normal" />
     </LinearLayout>
     

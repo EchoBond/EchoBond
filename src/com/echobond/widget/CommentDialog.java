@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-
+/**
+ * 
+ * @author aohuijun
+ *
+ */
 public class CommentDialog extends AlertDialog {
 
 	private Activity activity;
@@ -20,13 +24,11 @@ public class CommentDialog extends AlertDialog {
 	
 	public CommentDialog(Activity a) {
 		super(a);
-		// TODO Auto-generated constructor stub
 		this.activity = a;
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_comment);
 		
@@ -37,10 +39,12 @@ public class CommentDialog extends AlertDialog {
 			@Override
 			public void onClick(View v) {
 				// TODO SEND COMMENTS(String comment)
-				comment = commentText.getText().toString();
-				((CommentPage)activity).onDialogConfirmed(comment);
-				commentText.setText(null);
-				cancel();
+				comment = commentText.getText().toString().trim();
+				if (!comment.equals(null)) {
+					((CommentPage)activity).onDialogConfirmed(comment);
+					commentText.setText(null);
+					cancel();
+				}
 			}
 		});
 		

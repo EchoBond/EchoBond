@@ -311,7 +311,8 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				commentIntent.putExtra("content", content);
 				startActivity(commentIntent);
 				break;
-			case MyApp.THOUGHT_SHARE:				
+			case MyApp.THOUGHT_SHARE:
+				Toast.makeText(getActivity().getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
