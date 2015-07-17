@@ -89,9 +89,8 @@ public class AppSettingPage extends ActionBarActivity {
 				long id) {
 			switch (position) {
 			case 0:
-				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();
 				notificationDialog = new NotificationDialogFragment();
-//				notificationDialog.show(getSupportFragmentManager(), "ntc_setting");
+				notificationDialog.show(getSupportFragmentManager(), "ntc_setting");
 				break;
 			case 1:
 				Toast.makeText(getApplicationContext(), getString(R.string.hint_under_development), Toast.LENGTH_SHORT).show();

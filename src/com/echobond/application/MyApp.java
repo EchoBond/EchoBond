@@ -152,7 +152,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		super.onLowMemory();
 	}
 	
-	private void initUIL(){
+	private void initUIL() {
 		ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(this)
 	        .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
 	        .diskCacheExtraOptions(480, 800, null)
@@ -177,7 +177,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		ImageLoader.getInstance().init(conf);		
 	}
 	
-	private void initDB(){
+	private void initDB() {
 		CommentDB.getInstance(this);
 		HomeThoughtDB.getInstance(this);
 		HotThoughtDB.getInstance(this);
@@ -191,7 +191,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		ThoughtTagDB.getInstance(this);
 	}
 	
-	public static DisplayImageOptions.Builder getDefaultDisplayImageOptions(DisplayImageOptions.Builder builder){
+	public static DisplayImageOptions.Builder getDefaultDisplayImageOptions(DisplayImageOptions.Builder builder) {
 		return builder.cacheInMemory(true)
 			.cacheOnDisk(true)
 			.imageScaleType(ImageScaleType.EXACTLY);
@@ -236,11 +236,11 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public void onActivityStopped(Activity activity) {
 	}
 	
-	private void setCurrentActivity(Activity activity){
+	private void setCurrentActivity(Activity activity) {
 		currentActivity = activity;
 	}
 	
-	private void setCurrentActivityIndex(Activity activity){
+	private void setCurrentActivityIndex(Activity activity) {
 		if(null == activity){
 			currentActivityIndex = -1;
 		} else if(activity instanceof AppSettingPage){
@@ -266,11 +266,11 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		}		
 	}
 	
-	public static int getCurrentActivityIndex(){
+	public static int getCurrentActivityIndex() {
 		return currentActivityIndex;
 	}
 	
-	public static Activity getCurrentActivity(){
+	public static Activity getCurrentActivity() {
 		if(null == currentActivity){
 			return currentActivity;
 		} else if(currentActivity instanceof AppSettingPage){

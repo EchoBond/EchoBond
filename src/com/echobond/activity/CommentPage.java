@@ -101,7 +101,7 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		dialog = null;
 	}
 	
-	public void onDialogConfirmed(String comment){
+	public void onDialogConfirmed(String comment) {
 		// TODO reg exp check 
 		Comment cmt = new Comment();
 		cmt.setContent(comment);
@@ -146,9 +146,8 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		}
 
 		@Override
-		public View newView(Context arg0, Cursor arg1, ViewGroup parent) {
-			View view = inflater.inflate(layout, parent, false);
-			return view;
+		public View newView(Context ctx, Cursor c, ViewGroup parent) {
+			return inflater.inflate(layout, parent, false);
 		}
 		
 	}

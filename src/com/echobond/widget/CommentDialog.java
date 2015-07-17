@@ -40,7 +40,7 @@ public class CommentDialog extends AlertDialog {
 			public void onClick(View v) {
 				// TODO SEND COMMENTS(String comment)
 				comment = commentText.getText().toString().trim();
-				if (!comment.equals(null)) {
+				if (!comment.equals("")) {
 					((CommentPage)activity).onDialogConfirmed(comment);
 					commentText.setText(null);
 					cancel();
@@ -49,10 +49,6 @@ public class CommentDialog extends AlertDialog {
 		});
 		
 		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-	}
-
-	public String getComment() {
-		return comment;
 	}
 	
 }

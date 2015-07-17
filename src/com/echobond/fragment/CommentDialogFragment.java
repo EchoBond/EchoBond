@@ -57,7 +57,9 @@ public class CommentDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View arg0) {
 				commentText = commentInput.getText().toString().trim();
-				
+				if (!commentText.equals("")) {
+					commentInput.setText(null);
+				}
 			}
 		});
 		return commentDialogView;
