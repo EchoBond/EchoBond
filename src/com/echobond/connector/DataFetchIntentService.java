@@ -36,8 +36,6 @@ import android.support.v4.content.LocalBroadcastManager;
  *
  */
 public class DataFetchIntentService extends IntentService {
-    public static final int ALARM_NOTIFICATION_ID = 1;
-    public static final int ICON_NOTIFICATION_ID = 2;
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
@@ -166,12 +164,27 @@ public class DataFetchIntentService extends IntentService {
         		new NotificationCompat.Builder(this);
         Notification notification = mBuilder2.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_SOUND; // To play default notification sound
+        
+        Integer type = (Integer) SPUtil.get(this, MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, 0, Integer.class);
+        switch(type){
+        case MyApp.NOTIFICATION_VIB_ALARM:
+            notification.defaults |= Notification.DEFAULT_SOUND;
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        	break;
+        case MyApp.NOTIFICATION_ALARM:
+            notification.defaults |= Notification.DEFAULT_SOUND;
+            break;
+        case MyApp.NOTIFICATION_VIB:
+        	notification.defaults |= Notification.DEFAULT_VIBRATE;
+        	break;
+    	default:
+    		break;
+        }
         NotificationManager nm = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         if(MyApp.getCurrentActivity() != null){
-        	mNotificationManager.notify(ICON_NOTIFICATION_ID, mBuilder.build());
-        	nm.notify(ALARM_NOTIFICATION_ID, notification);
+        	mNotificationManager.notify(MyApp.currentNotificationId++, mBuilder.build());
+        	nm.notify(MyApp.ALARM_NOTIFICATION_ID, notification);
         }
     }
     

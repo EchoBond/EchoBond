@@ -1,5 +1,8 @@
 package com.echobond.application;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.echobond.activity.AppSettingPage;
 import com.echobond.activity.ChatPage;
 import com.echobond.activity.CommentPage;
@@ -50,6 +53,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final String SYS_APP_VERSION = "app_version";
 	public static final String SYS_GCM_ID = "GCM_reg_id";
 	public static final String SYS_GCM_REG_TIME = "GCM_reg_time";
+	public static final String SYS_NOTIFY_TYPE = "notification_type";
 	
 	public static final int LOADER_HOME = 0;
 	public static final int LOADER_HOT = 1;
@@ -114,6 +118,16 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final String BROADCAST_BOOST = "boostThought";
 	public static final String BROADCAST_COMMENT = "commentThought";
 	
+	public static Map<String, Integer> notificationId;
+	public static Integer currentNotificationId;
+	
+    public static final int ALARM_NOTIFICATION_ID = 1;
+	
+	public static final int NOTIFICATION_VIB_ALARM = 0;
+	public static final int NOTIFICATION_ALARM = 1;
+	public static final int NOTIFICATION_VIB = 2;
+	public static final int NOTIFICATION_NONE = 3;
+	
 	private static int currentActivityIndex = ACTIVITY_NULL;
 	private static Activity currentActivity;
 	
@@ -124,6 +138,8 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		currentActivityIndex = ACTIVITY_NULL;
 		currentActivity = null;
 		registerActivityLifecycleCallbacks(this);
+		notificationId = new HashMap<String, Integer>();
+		currentNotificationId = 1;
 	}
 	
 	@Override
