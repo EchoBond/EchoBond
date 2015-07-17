@@ -153,11 +153,6 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	}
 	
 	private void initUIL(){
-		DisplayImageOptions opt = new DisplayImageOptions.Builder()
-			.cacheInMemory(true)
-			.cacheOnDisk(true)
-			.imageScaleType(ImageScaleType.EXACTLY)
-			.build();		
 		ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(this)
 	        .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
 	        .diskCacheExtraOptions(480, 800, null)
@@ -176,7 +171,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	        .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
 	        .imageDownloader(new BaseImageDownloader(this)) // default
 	        .imageDecoder(new BaseImageDecoder(true)) // default
-	        .defaultDisplayImageOptions(opt) // default
+	        .defaultDisplayImageOptions(getDefaultDisplayImageOptions(new DisplayImageOptions.Builder()).build()) // default
 	        .writeDebugLogs()
 	        .build();
 		ImageLoader.getInstance().init(conf);		
@@ -194,6 +189,12 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 		LanguageDB.getInstance(this);
 		CountryDB.getInstance(this);
 		ThoughtTagDB.getInstance(this);
+	}
+	
+	public static DisplayImageOptions.Builder getDefaultDisplayImageOptions(DisplayImageOptions.Builder builder){
+		return builder.cacheInMemory(true)
+			.cacheOnDisk(true)
+			.imageScaleType(ImageScaleType.EXACTLY);
 	}
 	
 	@Override
