@@ -278,6 +278,10 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				startActivity(imageIntent);
 				break;
 			case MyApp.THOUGHT_MESSAGE:
+				if(SPUtil.get(HomeThoughtFragment.this.getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(HomeThoughtFragment.this.getActivity(), getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
 					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
@@ -292,7 +296,11 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 					startActivity(chatIntent);
 				}
 				break;
-			case MyApp.THOUGHT_BOOST:				
+			case MyApp.THOUGHT_BOOST:
+				if(SPUtil.get(HomeThoughtFragment.this.getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(HomeThoughtFragment.this.getActivity(), getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_boost_thought), 
 						HomeThoughtFragment.this, id, SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));

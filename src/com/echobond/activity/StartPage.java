@@ -212,6 +212,7 @@ public class StartPage extends FragmentActivity implements StartPageFragmentsSwi
 						User user = (User) JSONUtil.fromJSONToObject(result.getJSONObject("user"),User.class);
 						recordFBUser(user);
 						login(user);
+						SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 1);
 					}
 				}
 			}

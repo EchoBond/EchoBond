@@ -87,7 +87,10 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 			
 			@Override
 			public void onClick(View v) {
-				if("".equals(SPUtil.get(CommentPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+				if(SPUtil.get(CommentPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(CommentPage.this, getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				} else if("".equals(SPUtil.get(CommentPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
 					Toast.makeText(CommentPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
 					return;
 				}

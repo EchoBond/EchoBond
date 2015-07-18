@@ -195,10 +195,13 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 		Cursor cursor = getActivity().getContentResolver().query(UserDAO.CONTENT_URI_USER, null, null, new String[]{userId}, null);
 		if(null != cursor){
 			if(cursor.moveToFirst()){
+				if(userId.equals(localId)){
+					SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, cursor.getString(cursor.getColumnIndex("username")));
+					SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, cursor.getInt(cursor.getColumnIndex("verified")));				
+				}
 				String args[] = new String[]{userId};
 				profileGender.setText(cursor.getString(cursor.getColumnIndex("gender")));
 				profileTitle.setText(cursor.getString(cursor.getColumnIndex("username")));
-				SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, cursor.getString(cursor.getColumnIndex("username")));
 				profileBio.setText(cursor.getString(cursor.getColumnIndex("bio")));
 				profileDNA.setText(cursor.getString(cursor.getColumnIndex("sth_interesting")));
 				profileTrophy.setText(cursor.getString(cursor.getColumnIndex("amz_exp")));

@@ -273,7 +273,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case 1:
-				if("".equals(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+				if(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(MainPage.this, getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				} else if("".equals(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
 					Toast.makeText(MainPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
 					return;
 				}

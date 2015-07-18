@@ -74,6 +74,7 @@
     <string name="hint_edit_profile_many_tags">Sorry but too many tags for yourself!</string>
     
     <string name="hint_empty_username">Sorry but your username is empty!</string>
+    <string name="hint_user_unverified">Sorry but you have not verified your account!</string>
     
     <string name="hint_message_list_empty">No message now, quiet world :)</string>
     <string name="hint_under_development">Under development. Coming soon. </string>

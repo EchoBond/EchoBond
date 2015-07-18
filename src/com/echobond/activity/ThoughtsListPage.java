@@ -288,7 +288,11 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 				imageIntent.putExtra("id", id);
 				startActivity(imageIntent);
 				break;
-			case MyApp.THOUGHT_MESSAGE:				
+			case MyApp.THOUGHT_MESSAGE:		
+				if(SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(ThoughtsListPage.this, getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				if(localId.equals(authorId)){
 					Toast.makeText(ThoughtsListPage.this, "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
 				} else if("".equals(SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
@@ -302,7 +306,11 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 					startActivity(chatIntent);
 				}
 				break;
-			case MyApp.THOUGHT_BOOST:				
+			case MyApp.THOUGHT_BOOST:		
+				if(SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+					Toast.makeText(ThoughtsListPage.this, getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				new BoostAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(ThoughtsListPage.this) + getResources().getString(R.string.url_boost_thought), 
 						ThoughtsListPage.this, id, localId);
