@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			}
 		});
 		Bundle bundle = getArguments();
-		if(null != bundle && null != bundle.getString("userId")){
+		if(null != bundle && null != bundle.getString("userId") && !bundle.getString("userId").equals(localId)){
 			userId = bundle.getString("userId");
 			userName = bundle.getString("userName");
 		} else {

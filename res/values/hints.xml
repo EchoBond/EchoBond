@@ -75,6 +75,7 @@
     
     <string name="hint_empty_username">Sorry but your username is empty!</string>
     <string name="hint_user_unverified">Sorry but you have not verified your account!</string>
+    <string name="hint_talk_self">Sorry but you can\'t talk to yourself!</string>
     
     <string name="hint_message_list_empty">No message now, quiet world :)</string>
     <string name="hint_under_development">Under development. Coming soon. </string>

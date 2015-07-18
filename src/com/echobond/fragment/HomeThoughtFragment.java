@@ -284,7 +284,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				}
 				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
-					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), getResources().getString(R.string.hint_talk_self), Toast.LENGTH_SHORT).show();
 				} else if("".equals(SPUtil.get(HomeThoughtFragment.this.getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
 					Toast.makeText(HomeThoughtFragment.this.getActivity(), getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
 					return;
