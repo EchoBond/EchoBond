@@ -15,12 +15,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ImagePage extends Activity {
 
-	private RelativeLayout layout;
+	private LinearLayout layout;
 	private ImageView image, tagsIcon, backButton;
 	private TextView groupView;
 	private String type;
@@ -41,10 +41,10 @@ public class ImagePage extends Activity {
 		groupId = b.getInt("groupId");
 		tags = new ArrayList<TextView>();
 		
-		layout = (RelativeLayout) findViewById(R.id.image_page_layout);
+		layout = (LinearLayout)findViewById(R.id.image_page_layout);
 		image = (ImageView)findViewById(R.id.image_page_image);
-		groupView = (TextView) findViewById(R.id.image_page_group_text);
-		tagsIcon = (ImageView) findViewById(R.id.image_page_tag_view);
+		groupView = (TextView)findViewById(R.id.image_page_group_text);
+		tagsIcon = (ImageView)findViewById(R.id.image_page_tag_view);
 		backButton = (ImageView)findViewById(R.id.image_page_back);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -54,7 +54,7 @@ public class ImagePage extends Activity {
 			}
 		});
 		
-		groupView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.image_page_group, 0,0,0);
+		groupView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.image_page_group, 0, 0, 0);
 		loadGroupName();
 		loadTagNames();
 		
@@ -63,19 +63,19 @@ public class ImagePage extends Activity {
 		
 	}
 	
-	private void loadGroupName(){
+	private void loadGroupName() {
 		String args[] = {id+""};
 		Cursor cursor = null;
-		if("home".equals(type)){
+		if ("home".equals(type)) {
 			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_HOME, null, null, args, null);
-		} else if("hot".equals(type)){
+		} else if ("hot".equals(type)) {
 			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_HOT, null, null, args, null);
-		} else if("search".equals(type)){
+		} else if ("search".equals(type)) {
 			String[] newArgs = {groupId+""};
 			cursor = getContentResolver().query(GroupDAO.CONTENT_URI_GROUP_ID, null, null, newArgs, null);
 		}
-		if(null != cursor){
-			if(cursor.moveToFirst()){				
+		if (null != cursor) {
+			if (cursor.moveToFirst()) {				
 				groupView.setText(groupView.getText() + cursor.getString(cursor.getColumnIndex("name")));
 				groupView.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
 				cursor.close();
@@ -86,26 +86,26 @@ public class ImagePage extends Activity {
 		groupView.setVisibility(View.INVISIBLE);
 	}
 	
-	private void loadTagNames(){
+	private void loadTagNames() {
 		String args[] = {id+""};
 		Cursor cursor = null;
 		ArrayList<Tag> tagList = new ArrayList<Tag>();
-		if("home".equals(type)){
+		if ("home".equals(type)) {
 			cursor = getContentResolver().query(TagDAO.CONTENT_URI_HOME, null, null, args, null);
-		} else if("hot".equals(type)){
+		} else if ("hot".equals(type)) {
 			cursor = getContentResolver().query(TagDAO.CONTENT_URI_HOT, null, null, args, null);
-		} else if("search".equals(type)){
+		} else if ("search".equals(type)) {
 			cursor = getContentResolver().query(TagDAO.CONTENT_URI_THOUGHT, null, null, args, null);
 		}
-		if(null != cursor){
-			while(cursor.moveToNext()){
+		if (null != cursor) {
+			while (cursor.moveToNext()) {
 				Tag t = new Tag();
 				t.setId(cursor.getInt(cursor.getColumnIndex("_id")));
 				t.setName(cursor.getString(cursor.getColumnIndex("name")));
 				tagList.add(t);
 			}
 		}
-		if(!tagList.isEmpty()){
+		if (!tagList.isEmpty()) {
 			//RelativeLayout rLayout = new RelativeLayout(this);
 			//layout.addView(rLayout);
 			for (Tag tag : tagList) {

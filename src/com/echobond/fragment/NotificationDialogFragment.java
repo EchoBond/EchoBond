@@ -1,9 +1,10 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
+import com.echobond.application.MyApp;
+import com.echobond.util.SPUtil;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ public class NotificationDialogFragment extends DialogFragment {
 	private ImageView vibrateSelectView;
 	private ImageView soundSelectView;
 	
+	private int ntcType;
 	private boolean isVibrateEnabled = true;
 	private boolean isSoundEnabled = true;
 	
@@ -30,6 +32,7 @@ public class NotificationDialogFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme);
+		ntcType = (Integer)SPUtil.get(getActivity(), MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, 0, Integer.class);
 	}
 	
 	@SuppressLint("InflateParams") 
@@ -40,6 +43,7 @@ public class NotificationDialogFragment extends DialogFragment {
 		
 		vibrateSelectView = (ImageView)notificationDialogView.findViewById(R.id.ntc_vibrate_seletor);
 		soundSelectView = (ImageView)notificationDialogView.findViewById(R.id.ntc_sound_seletor);
+		initNtcType();
 		vibrateSelectView.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -74,13 +78,13 @@ public class NotificationDialogFragment extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (isVibrateEnabled && isSoundEnabled) {
-							
+							SPUtil.put(getActivity(), MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, MyApp.NOTIFICATION_VIB_ALARM);
 						} else if (isVibrateEnabled && !isSoundEnabled) {
-							
+							SPUtil.put(getActivity(), MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, MyApp.NOTIFICATION_VIB);
 						} else if (!isVibrateEnabled && isSoundEnabled) {
-							
+							SPUtil.put(getActivity(), MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, MyApp.NOTIFICATION_ALARM);
 						} else if (!isVibrateEnabled && !isSoundEnabled) {
-							
+							SPUtil.put(getActivity(), MyApp.PREF_TYPE_SYSTEM, MyApp.SYS_NOTIFY_TYPE, MyApp.NOTIFICATION_NONE);
 						}
 					}
 				})
@@ -93,6 +97,30 @@ public class NotificationDialogFragment extends DialogFragment {
 					}
 				})
 				.create();
+	}
+
+	private void initNtcType() {
+		if (ntcType == MyApp.NOTIFICATION_VIB_ALARM) {
+			vibrateSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_2));
+			soundSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_2));
+			isVibrateEnabled = true;
+			isSoundEnabled = true;
+		} else if (ntcType == MyApp.NOTIFICATION_VIB) {
+			vibrateSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_2));
+			soundSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_0));
+			isVibrateEnabled = true;
+			isSoundEnabled = false;
+		} else if (ntcType == MyApp.NOTIFICATION_ALARM) {
+			vibrateSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_0));
+			soundSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_2));
+			isVibrateEnabled = false;
+			isSoundEnabled = true;
+		} else if (ntcType == MyApp.NOTIFICATION_NONE) {
+			vibrateSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_0));
+			soundSelectView.setImageDrawable(getResources().getDrawable(R.drawable.color_selection_0));
+			isVibrateEnabled = false;
+			isSoundEnabled = false;
+		}
 	}
 
 }
