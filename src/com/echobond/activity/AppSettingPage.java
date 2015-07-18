@@ -3,6 +3,7 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.fragment.NotificationDialogFragment;
+import com.echobond.intf.NotificationCallback;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
@@ -25,7 +26,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class AppSettingPage extends ActionBarActivity {
+public class AppSettingPage extends ActionBarActivity implements NotificationCallback {
 	
 	private ImageView backButton;
 	private TextView titleView;
@@ -88,8 +89,11 @@ public class AppSettingPage extends ActionBarActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			switch (position) {
-			case 0:
+			case 0:	//	notification type
+				Bundle bundle = new Bundle();
+				bundle.putString("title", appSettingTitles[0]);
 				notificationDialog = new NotificationDialogFragment();
+				notificationDialog.setArguments(bundle);
 				notificationDialog.show(getSupportFragmentManager(), "ntc_setting");
 				break;
 			case 1:
@@ -112,6 +116,12 @@ public class AppSettingPage extends ActionBarActivity {
 				break;
 			}
 		}
+		
+	}
+
+	@Override
+	public void onNtcTypeSelected() {
+		// TODO Auto-generated method stub
 		
 	}
 }

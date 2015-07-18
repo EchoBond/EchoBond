@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/comment_title"
+        android:textColor="#666666"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_margin="6dp" />
@@ -50,7 +51,7 @@
 	        android:contentDescription="@string/none"
 	        android:scaleType="fitCenter"
 	        android:src="@drawable/button_send_normal"
-	        android:background="#ffffff"
+	        android:background="#f2f2f2"
 	        android:padding="1dp"
 	        android:clickable="true" />
         

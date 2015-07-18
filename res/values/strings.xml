@@ -74,5 +74,7 @@
     <string name="title_activity_entry">EntryActivity</string>
     <string name="action_settings">Settings</string>
     <string name="setting_following">You can follow us at:</string>
+    <string name="notification_vibrate">Vibrate</string>
+    <string name="notification_sound">Sound</string>
 
 </resources>

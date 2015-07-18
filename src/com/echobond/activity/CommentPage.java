@@ -8,11 +8,11 @@ import com.echobond.application.MyApp;
 import com.echobond.connector.CommentAsyncTask;
 import com.echobond.dao.CommentDAO;
 import com.echobond.entity.Comment;
+import com.echobond.fragment.CommentDialogFragment;
 import com.echobond.intf.CommentCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
 import com.echobond.util.SPUtil;
-import com.echobond.widget.CommentDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -39,7 +39,7 @@ import android.widget.TextView;
 
 public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cursor>, CommentCallback {
 
-	private CommentDialog dialog;
+	private CommentDialogFragment dialogFragment;
 	private ImageView image, commentButton, avatar, backButton;
 	private TextView titleText, contentText;
 	private ListView commentsList;
@@ -51,7 +51,7 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment_page);
 		
-		dialog = new CommentDialog(CommentPage.this);
+		dialogFragment = new CommentDialogFragment();
 		image = (ImageView)findViewById(R.id.comment_page_image);
 		avatar = (ImageView)findViewById(R.id.comment_page_avatar);
 		backButton = (ImageView)findViewById(R.id.comment_page_back);
@@ -86,31 +86,12 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 			
 			@Override
 			public void onClick(View v) {
-				dialog.show();
+				dialogFragment.show(getFragmentManager(), "comment_dialog");
 			}
 		});
 		
 		commentsList.setAdapter(adapter);
 		commentsList.setOverScrollMode(View.OVER_SCROLL_NEVER);
-	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		dialog.cancel();
-		dialog = null;
-	}
-	
-	public void onDialogConfirmed(String comment) {
-		// TODO reg exp check 
-		Comment cmt = new Comment();
-		cmt.setContent(comment);
-		cmt.setThoughtId(id);
-		cmt.setUserId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
-		new CommentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CommentAsyncTask.SEND_COMMENT,
-				HTTPUtil.getInstance().composePreURL(this)+getResources().getString(R.string.url_comment_thought),
-				this, cmt);
-		
 	}
 	
 	public class CommentsAdapter extends CursorAdapter {
@@ -172,6 +153,19 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 		adapter.swapCursor(null);
 	}
 
+	@Override
+	public void onDialogConfirmed(String comment) {
+		// TODO reg exp check 
+		Comment cmt = new Comment();
+		cmt.setContent(comment);
+		cmt.setThoughtId(id);
+		cmt.setUserId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class));
+		new CommentAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, CommentAsyncTask.SEND_COMMENT,
+				HTTPUtil.getInstance().composePreURL(this)+getResources().getString(R.string.url_comment_thought),
+				this, cmt);
+		
+	}
+	
 	@Override
 	public void onCommentResult(JSONObject result) {
 		if(null != result){
