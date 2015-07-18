@@ -139,12 +139,12 @@ public class DataFetchIntentService extends IntentService {
 		
 		/* foreground activity handling */
 		Intent newNotifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
-		newNotifyIntent.putExtra("new", true);
+		newNotifyIntent.putExtra(MyApp.INTENT_MSG_NEW_MSG, true);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(newNotifyIntent);
 		
 		/* intent setting */
         Intent notificationIntent = new Intent(this, MainPage.class);
-        notificationIntent.putExtra("fromDataFetch", true);
+        notificationIntent.putExtra(MyApp.INTENT_MSG_DATA_FETCH, true);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivities(getApplicationContext(), new Random().nextInt(), 
         		new Intent[]{notificationIntent}, 0);

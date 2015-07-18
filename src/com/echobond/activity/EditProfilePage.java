@@ -72,10 +72,10 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			progressBar.setVisibility(View.INVISIBLE);
-			if(intent.hasExtra("duplicateUserName")){
+			if(intent.hasExtra(MyApp.INTENT_MSG_DUP_USERNAME)){
 				Toast.makeText(getApplicationContext(), "duplicate user name", Toast.LENGTH_SHORT).show();
 				return;
-			} else if(intent.hasExtra("imageUpload")){
+			} else if(intent.hasExtra(MyApp.INTENT_MSG_UPLOAD_IMG)){
 				
 			} else {
 				closeEditorActivity();
@@ -259,7 +259,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(mainFragment).commit();
 		progressBar.setVisibility(View.INVISIBLE);
 		Intent intent = new Intent(MyApp.BROADCAST_UPDATE_PROFILE);
-		intent.putExtra("imageUpload", true);
+		intent.putExtra(MyApp.INTENT_MSG_UPLOAD_IMG, true);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 

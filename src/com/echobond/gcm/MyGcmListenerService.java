@@ -141,7 +141,7 @@ public class MyGcmListenerService extends GcmListenerService {
 		Intent msgListIntent = new Intent(MyApp.BROADCAST_UPDATE_MSGLIST);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(msgListIntent);
 		Intent notifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
-		notifyIntent.putExtra("new", true);
+		notifyIntent.putExtra(MyApp.INTENT_MSG_NEW_MSG, true);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
 
 		/* intent setting */

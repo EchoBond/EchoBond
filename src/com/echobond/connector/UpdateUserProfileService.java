@@ -65,7 +65,7 @@ public class UpdateUserProfileService extends IntentService {
 			//username in use by other user
 			if(check.getId() != null && !check.getId().isEmpty() && !check.getId().equals(user.getId())){
 				Intent backIntent = new Intent(MyApp.BROADCAST_UPDATE_PROFILE);
-				backIntent.putExtra("duplicateUserName", true);
+				backIntent.putExtra(MyApp.INTENT_MSG_DUP_USERNAME, true);
 				LocalBroadcastManager.getInstance(this).sendBroadcast(backIntent);
 				stopSelf();
 				return;
