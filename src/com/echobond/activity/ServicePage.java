@@ -1,7 +1,6 @@
 package com.echobond.activity;
 
 import com.echobond.R;
-import com.echobond.fragment.FollowingFragment;
 import com.echobond.fragment.ServiceFragment;
 
 import android.app.ActionBar;
@@ -22,7 +21,6 @@ import android.widget.TextView;
  */
 public class ServicePage extends ActionBarActivity {
 
-	private FollowingFragment followingFragment;
 	private ServiceFragment serviceFragment;
 	
 	private ImageView backButton;
@@ -65,20 +63,13 @@ public class ServicePage extends ActionBarActivity {
 	}
 	
 	private void setPage() {
-		if (followingFragment == null || serviceFragment == null) {
-			followingFragment = new FollowingFragment();
+		if (serviceFragment == null) {
 			serviceFragment = new ServiceFragment();
 		}
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		switch (page) {
-		case MainPage.SETTING_FOLLOWING:
-			transaction.add(R.id.service_content, followingFragment).show(followingFragment).commit();
-			break;
-		case MainPage.SETTING_TERMS_OF_SERVICES:
-			transaction.add(R.id.service_content, serviceFragment).show(serviceFragment).commit();
-			break;
-		default:
-			break;
-		}
+		Bundle bundle = new Bundle();
+		bundle.putInt("page", page);
+		serviceFragment.setArguments(bundle);
+		transaction.add(R.id.service_content, serviceFragment).show(serviceFragment).commit();
 	}
 }

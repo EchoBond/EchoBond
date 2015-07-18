@@ -29,10 +29,11 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class FollowingHashtagsFragment extends Fragment implements OnPullableListener, OnClickListener, LoadTagsCallback, LoaderCallbacks<Cursor>{
+public class FollowingHashtagsFragment extends Fragment implements OnPullableListener, LoadTagsCallback, LoaderCallbacks<Cursor>{
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private PullableGridView hashtags2Follow;
@@ -72,7 +73,26 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 		hashtags2Follow.setAdapter(adapter);
 		hashtags2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		hashtags2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
-		
+		hashtags2Follow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
+				TextView tag = (TextView)v.findViewById(R.id.item_following_text);
+				Integer tagId = (Integer)tag.getTag();
+				if (selection.isSelected()) {
+					selection.setSelected(false);
+					adapter.setSelected(position, false);
+					tagList.remove(tagId);
+				} else if (!selection.isSelected()) {
+					selection.setSelected(true);
+					adapter.setSelected(position, true);
+					tagList.add(tagId);
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 		getLoaderManager().initLoader(MyApp.LOADER_FOLLOW_TAG, null, this);
 		
 		return followingHashtagsView;
@@ -80,6 +100,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 	
 	public class FollowingTagsAdapter extends CursorAdapter {
 
+		private SparseBooleanArray selectionArray = new SparseBooleanArray();
 		private LayoutInflater mInflater;
 		private int layout;
 		
@@ -97,19 +118,27 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 			return super.getCount();
 		}
 		
+		public void setSelected(int position, boolean isSelected) {
+			selectionArray.put(position, isSelected);
+		}
+		
 		@Override
 		public void bindView(View convertView, Context ctx, Cursor c) {
 			int position = c.getPosition();
 			int colorPos = position % (3 * colorBgd.length);
 			convertView.setBackgroundColor(colorBgd[colorPos/3]);
 			
+			ImageView selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
 			TextView tagName = (TextView)convertView.findViewById(R.id.item_following_text);
-
 			tagName.setText(c.getString(c.getColumnIndex("name")));
-			tagName.setTag(c.getInt(c.getColumnIndex("_id")));			
+			tagName.setTag(c.getInt(c.getColumnIndex("_id")));
 			
-			convertView.setOnClickListener(FollowingHashtagsFragment.this);
-
+			boolean isSelected = selectionArray.get(position);
+			if (isSelected) {
+				selection.setImageDrawable(getResources().getDrawable(R.drawable.image_seletor));
+			} else if (!isSelected) {
+				selection.setImageDrawable(null);
+			}
 		}
 		
 		@Override
@@ -124,27 +153,8 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 	}
 
 	@Override
-	public void onClick(View v) {
-		ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
-		TextView tag = (TextView) v.findViewById(R.id.item_following_text);
-		Boolean selected = false;
-		if(null != v.getTag()){
-			selected = (Boolean) v.getTag();
-		}
-		Integer id = (Integer) tag.getTag();
-		if (selected) {
-			selection.setImageDrawable(null);
-			v.setTag(false);			
-			tagList.remove(id);
-		} else {
-			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
-			v.setTag(true);
-			tagList.add(id);
-		}
-	}
-	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
-		switch(loader){
+		switch(loader) {
 		case MyApp.LOADER_FOLLOW_TAG:
 			Uri uri = TagDAO.CONTENT_URI_TAG;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
@@ -166,7 +176,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadTagsResult(JSONObject result) {
-		if(null != result){
+		if (null != result) {
 			TypeToken<ArrayList<Tag>> token = new TypeToken<ArrayList<Tag>>(){};
 			ArrayList<Tag> tags = null;
 			tags = (ArrayList<Tag>) JSONUtil.fromJSONToList(result, "tags", token);
@@ -175,7 +185,6 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 			for (Tag tag : tags) {
 				values[i++] = tag.putValues();
 			}
-			
 			getActivity().getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, values);
 			updateUI();
 		} else {
@@ -196,7 +205,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 
 	@Override
 	public void onRefresh(final PullableLayout pullableLayout) {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_tags), 
@@ -208,7 +217,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 
 	@Override
 	public void onLoadMore(final PullableLayout pullableLayout) {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			currentLimit += MyApp.LIMIT_INCREMENT;
 			new LoadTagsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
@@ -221,7 +230,7 @@ public class FollowingHashtagsFragment extends Fragment implements OnPullableLis
 	
 	public void onLoadFinished(){
 		PullableLayout pullableLayout = (PullableLayout) getView();
-		if(null != pullableLayout){
+		if (null != pullableLayout) {
 			pullableLayout.refreshFinished(PullableLayout.SUCCEED);
 			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
 		}

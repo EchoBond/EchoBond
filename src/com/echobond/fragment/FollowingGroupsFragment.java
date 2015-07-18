@@ -17,7 +17,6 @@ import com.echobond.widget.PullableLayout;
 import com.echobond.widget.PullableLayout.OnPullableListener;
 import com.google.gson.reflect.TypeToken;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -30,10 +29,11 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,8 +43,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-@SuppressLint("HandlerLeak") 
-public class FollowingGroupsFragment extends Fragment implements OnPullableListener, OnClickListener, LoadGroupsCallback, LoaderCallbacks<Cursor> {
+public class FollowingGroupsFragment extends Fragment implements OnPullableListener, LoadGroupsCallback, LoaderCallbacks<Cursor> {
 	
 	private int[] colorBgd = new int[] {0xffffb8b8, 0xffdbc600, 0xffac97ef, 0xff8cd19d, 0xff5cacc4, 0xfff49e40};
 	private PullableGridView groups2Follow;
@@ -73,7 +72,26 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 		groups2Follow.setAdapter(adapter);
 		groups2Follow.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		groups2Follow.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);		
-		
+		groups2Follow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
+				TextView group = (TextView)v.findViewById(R.id.item_following_text);
+				Integer groupId = (Integer)group.getTag();
+				if (selection.isSelected()) {
+					selection.setSelected(false);
+					adapter.setSelected(position, false);
+					groupList.remove(groupId);
+				} else if (!selection.isSelected()) {
+					selection.setSelected(true);
+					adapter.setSelected(position, true);
+					groupList.add(groupId);
+				}
+				adapter.notifyDataSetChanged();
+			}
+		});
 		getLoaderManager().initLoader(MyApp.LOADER_FOLLOW_GROUP, null, this);
 		
 		return followingGroupsView;
@@ -81,6 +99,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 	
 	public class FollowingGroupsAdapter extends CursorAdapter {
 
+		private SparseBooleanArray selectionArray = new SparseBooleanArray();
 		private LayoutInflater mInflater;
 		private int layout;
 		
@@ -88,6 +107,10 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 			super(context, c, flags);
 			this.layout = layout;
 			this.mInflater = LayoutInflater.from(context);
+		}
+		
+		public void setSelected(int position, boolean isSelected) {
+			selectionArray.put(position, isSelected);
 		}
 		
 		@Override
@@ -104,13 +127,17 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 			int colorPos = position % (3 * colorBgd.length);
 			convertView.setBackgroundColor(colorBgd[colorPos/3]);
 			
+			ImageView selection = (ImageView)convertView.findViewById(R.id.item_following_selected);
 			TextView groupName = (TextView)convertView.findViewById(R.id.item_following_text);
-
 			groupName.setText(c.getString(c.getColumnIndex("name")));
 			groupName.setTag(c.getInt(c.getColumnIndex("_id")));
-						
-			convertView.setOnClickListener(FollowingGroupsFragment.this);
-
+			
+			boolean isSelected = selectionArray.get(position);
+			if (isSelected) {
+				selection.setImageDrawable(getResources().getDrawable(R.drawable.image_seletor));
+			} else if (!isSelected) {
+				selection.setImageDrawable(null);
+			}
 		}
 		
 		@Override
@@ -125,28 +152,8 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 	}
 
 	@Override
-	public void onClick(View v) {
-		ImageView selection = (ImageView)v.findViewById(R.id.item_following_selected);
-		TextView group = (TextView) v.findViewById(R.id.item_following_text);
-		Boolean selected = false;
-		if(null != v.getTag()){
-			selected = (Boolean) v.getTag();
-		}
-		Integer id = (Integer) group.getTag();
-		if (selected) {
-			selection.setImageDrawable(null);
-			v.setTag(false);			
-			groupList.remove(id);
-		} else {
-			selection.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
-			v.setTag(true);
-			groupList.add(id);
-		}
-	}
-
-	@Override
 	public Loader<Cursor> onCreateLoader(int loader, Bundle arg1) {
-		switch(loader){
+		switch(loader) {
 		case MyApp.LOADER_FOLLOW_GROUP:
 			Uri uri = GroupDAO.CONTENT_URI_GROUP;
 			String[] args = new String[]{currentLimit+"", MyApp.DEFAULT_OFFSET+""};
@@ -168,7 +175,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadGroupsResult(JSONObject result) {
-		if(null != result){
+		if (null != result) {
 			TypeToken<ArrayList<Group>> token = new TypeToken<ArrayList<Group>>(){};
 			ArrayList<Group> groups = null;
 			groups = (ArrayList<Group>) JSONUtil.fromJSONToList(result, "groups", token);
@@ -177,7 +184,6 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 			for (Group group : groups) {
 				values[i++] = group.putValues();
 			}
-			
 			getActivity().getContentResolver().bulkInsert(GroupDAO.CONTENT_URI_GROUP, values);
 			updateUI();
 		} else {
@@ -199,7 +205,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 
 	@Override
 	public void onRefresh(final PullableLayout pullableLayout) {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			new LoadGroupsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 					HTTPUtil.getInstance().composePreURL(getActivity())+getResources().getString(R.string.url_load_groups), 
@@ -211,7 +217,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 
 	@Override
 	public void onLoadMore(final PullableLayout pullableLayout) {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			currentLimit += MyApp.LIMIT_INCREMENT;
 			new LoadGroupsAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
@@ -224,7 +230,7 @@ public class FollowingGroupsFragment extends Fragment implements OnPullableListe
 	
 	public void onLoadFinished(){
 		PullableLayout pullableLayout = (PullableLayout) getView();
-		if(null != pullableLayout){
+		if (null != pullableLayout) {
 			pullableLayout.refreshFinished(PullableLayout.SUCCEED);
 			pullableLayout.loadMoreFinished(PullableLayout.SUCCEED);
 		}

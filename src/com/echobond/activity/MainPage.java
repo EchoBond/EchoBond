@@ -98,7 +98,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(intent.getExtras().getBoolean(MyApp.INTENT_MSG_NEW_MSG)){
-				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_notification));
+				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.image_notification));
 			} else {
 				notificationIndicator.setImageDrawable(null);
 			}
@@ -128,7 +128,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 			if(c.moveToFirst()){
 				int count = c.getInt(c.getColumnIndex("count"));
 				if(count > 0){
-					notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.button_notification));
+					notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.image_notification));
 				}
 			}
 			c.close();
