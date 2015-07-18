@@ -10,6 +10,8 @@ import com.echobond.entity.User;
 import com.echobond.fragment.CanvasFragment;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
+import com.echobond.fragment.PresetAvatarFragment;
+import com.echobond.fragment.SelectAvatarDialogFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
 import com.echobond.intf.ImageCallback;
 import com.echobond.util.HTTPUtil;
@@ -23,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,13 +49,16 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback, ImageCallback{
+public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback, ImageCallback {
 
-	private ImageView backButton, doneButton;
-	private TextView titleView;
+	private SelectAvatarDialogFragment selectAvatarDialogFragment;
+	private PresetAvatarFragment presetAvatarFragment;
 	private EditProfileFragment mainFragment;
 	private DrawingIconFragment picFragment;
 	private CanvasFragment canvasFragment;
+	
+	private ImageView backButton, doneButton;
+	private TextView titleView;
 	
 	private ProgressBar progressBar;
 	private Bitmap avatar;
@@ -61,11 +67,12 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	private String[] selfTags, likedTags, followedGroups;
 	
 	private int pgIndex = 0;
-	private int avatarType = PAGE_AVATAR;
+	private int avatarType = PAGE_PROFILE;
 	
 	public static final int PAGE_PROFILE = 0;
-	public static final int PAGE_AVATAR = 1;
-	public static final int PAGE_CANVAS = 2;
+	public static final int PAGE_PRESET = 1;
+	public static final int PAGE_POSTER = 2;
+	public static final int PAGE_CANVAS = 3;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		
@@ -117,12 +124,12 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					canvasFragment.setMoreFunctions(true);
 				} else if (pgIndex == PAGE_PROFILE) {
 					closeEditorActivity();
-				} else if (pgIndex == PAGE_AVATAR) {
+				} else if (pgIndex == PAGE_PRESET) {
 					initContent();
-					titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+				} else if (pgIndex == PAGE_POSTER) {
+					initContent();
 				} else if (pgIndex == PAGE_CANVAS) {
-					pgIndex = PAGE_AVATAR;
-					getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(picFragment).commit();
+					initContent();
 				}
 			}
 		});
@@ -167,9 +174,14 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					startService(intent);		
 					
 				} else {
-					if (pgIndex == PAGE_AVATAR) {
+					if (pgIndex == PAGE_PRESET) {
 						initContent();
-						avatarType = PAGE_AVATAR;
+						avatarType = PAGE_PRESET;
+						avatar = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_1);
+						
+					} else if (pgIndex == PAGE_POSTER) {
+						initContent();
+						avatarType = PAGE_POSTER;
 						/* GENERATE AVATAR */
 						EditText avatarText = picFragment.getAvatarText();
 						avatarText.setBackground(null);
@@ -177,9 +189,8 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 						RelativeLayout avatarLayout = picFragment.getAvatarLayout();
 						avatar = ImageUtil.generateBitmap(avatarLayout);
 						
-						titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
 					} else if (pgIndex == PAGE_CANVAS) {
-						pgIndex = PAGE_PROFILE;
+						initContent();
 						avatarType = PAGE_CANVAS;
 						/* GENERATE CANVAS */
 						ImageView canvasView = canvasFragment.getDrawBoard();
@@ -207,28 +218,44 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	
 	private void initContent() {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		if (null == mainFragment || null == picFragment || null == canvasFragment) {
+		if (null == mainFragment || null == presetAvatarFragment || null == picFragment || null == canvasFragment) {
 			mainFragment = new EditProfileFragment();
+			presetAvatarFragment = new PresetAvatarFragment();
 			picFragment = new DrawingIconFragment();
 			canvasFragment = new CanvasFragment();
 			transaction.add(R.id.edit_profile_content, mainFragment);
+			transaction.add(R.id.edit_profile_content, presetAvatarFragment);
 			transaction.add(R.id.edit_profile_content, picFragment);
 			transaction.add(R.id.edit_profile_content, canvasFragment);
 		}
-		transaction.show(mainFragment).hide(picFragment).hide(canvasFragment).commit();
+		transaction.show(mainFragment).hide(presetAvatarFragment).hide(picFragment).hide(canvasFragment).commit();
 		pgIndex = PAGE_PROFILE;
+		titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+	}
+	
+
+	@Override
+	public void setAvatarSelection() {
+		Bundle bundle = new Bundle();
+		bundle.putString("title", getString(R.string.edit_profile_avatar));
+		selectAvatarDialogFragment = new SelectAvatarDialogFragment();
+		selectAvatarDialogFragment.setArguments(bundle);
+		selectAvatarDialogFragment.show(getSupportFragmentManager(), "select_avatar_type");
 	}
 	
 	@Override
-	public void setPoster(int index) {
+	public void setAvatarType(int index) {
 		this.pgIndex = index;
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		switch (pgIndex) {
-		case PAGE_AVATAR:
+		case PAGE_PRESET:
+			transaction.show(presetAvatarFragment).hide(mainFragment).commit();
+			break;
+		case PAGE_POSTER:
 			transaction.show(picFragment).hide(mainFragment).commit();
 			break;
 		case PAGE_CANVAS:
-			transaction.show(canvasFragment).hide(picFragment).commit();
+			transaction.show(canvasFragment).hide(mainFragment).commit();
 			break;
 		default:
 			break;
@@ -254,12 +281,12 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 			} else if (pgIndex == PAGE_PROFILE) {
 				finish();
 				return true;
-			} else if (pgIndex == PAGE_AVATAR) {
+			} else if (pgIndex == PAGE_PRESET) {
 				initContent();
-				titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
+			} else if (pgIndex == PAGE_POSTER) {
+				initContent();
 			} else if (pgIndex == PAGE_CANVAS) {
-				pgIndex = PAGE_AVATAR;
-				getSupportFragmentManager().beginTransaction().hide(canvasFragment).show(picFragment).commit();
+				initContent();
 			}
 		}
 		return true;

@@ -105,7 +105,7 @@ public class DrawingIconFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
-				callCanvas.setPoster(EditProfilePage.PAGE_CANVAS);
+				callCanvas.setAvatarType(EditProfilePage.PAGE_CANVAS);
 			}
 		});
 		switchIcon.setOnClickListener(new View.OnClickListener() {

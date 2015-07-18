@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
-import com.echobond.activity.EditProfilePage;
 import com.echobond.activity.ViewMorePage;
 import com.echobond.application.MyApp;
 import com.echobond.connector.UsersAsyncTask;
@@ -110,7 +109,7 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 			
 			@Override
 			public void onClick(View v) {
-				switchCallback.setPoster(EditProfilePage.PAGE_AVATAR);
+				switchCallback.setAvatarSelection();
 			}
 		});
 		moreTagsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_TAG, MORE_SELF_TAGS));

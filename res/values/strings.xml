@@ -58,6 +58,9 @@
     <string name="edit_profile_activity_title">Edit Profile</string>
     <string name="edit_profile_set_avatar">Set Your Avatar</string>
     <string name="edit_profile_set_icon">Switch icon…</string>
+    <string name="edit_profile_preset_avatar">Set Preset Avatar</string>
+    <string name="edit_profile_poster_avatar">Create Poster Avatar</string>
+    <string name="edit_profile_canvas_avatar">Draw Your Avatar</string>
 
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>

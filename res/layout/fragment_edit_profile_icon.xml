@@ -41,7 +41,7 @@
         android:layout_weight="1" >
 
         <ImageView
-            android:id="@+id/edit_profile_changepostcolor"
+            android:id="@+id/edit_profile_changetextcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
@@ -51,10 +51,10 @@
             android:layout_marginStart="32dp"
             android:clickable="true"
             android:contentDescription="@string/none"
-            android:src="@drawable/thoughts_background_colorchange_nomal" />
-
+            android:src="@drawable/thoughts_text_colorchange_normal" />
+        
         <ImageView
-            android:id="@+id/edit_profile_changetextcolor"
+            android:id="@+id/edit_profile_changepostcolor"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
@@ -62,12 +62,12 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toRightOf="@id/edit_profile_changepostcolor"
-            android:layout_toEndOf="@id/edit_profile_changepostcolor"
+            android:layout_toRightOf="@id/edit_profile_changetextcolor"
+            android:layout_toEndOf="@id/edit_profile_changetextcolor"
             android:clickable="true"
             android:contentDescription="@string/none"
-            android:src="@drawable/thoughts_text_colorchange_normal" />
-        
+            android:src="@drawable/thoughts_background_colorchange_nomal" />
+
         <TextView 
             android:id="@+id/edit_profile_switch_icon"
             android:layout_width="wrap_content"

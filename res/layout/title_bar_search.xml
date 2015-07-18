@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="5dp"
-        android:src="@drawable/button_search" />
+        android:src="@drawable/button_search_back" />
     
     <RelativeLayout
         android:layout_width="0dp"

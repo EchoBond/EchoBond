@@ -1,5 +1,6 @@
 package com.echobond.intf;
 
 public interface EditProfileSwitchCallback {
-	public void setPoster(int index);
+	public void setAvatarSelection();
+	public void setAvatarType(int index);
 }

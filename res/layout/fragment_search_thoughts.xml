@@ -201,7 +201,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_good_idea"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -215,7 +215,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -229,7 +229,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_other"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -243,7 +243,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -257,7 +257,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -320,7 +320,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_good_idea"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -334,7 +334,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -348,7 +348,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_other"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -362,7 +362,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
@@ -376,7 +376,7 @@
 			    android:paddingEnd="0dp"
 			    android:paddingTop="5dp"
 			    android:paddingBottom="5dp"
-			    android:text="@string/category_feelings"
+			    android:text="@string/none"
 			    android:textSize="24sp"
 			    android:textStyle="bold"
 			    android:clickable="true" />
