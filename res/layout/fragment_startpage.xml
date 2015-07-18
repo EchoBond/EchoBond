@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
-            android:src="@drawable/signup_email_button"
+            android:src="@drawable/button_signup_email"
             android:clickable="true" />
         <ImageView
             android:id="@+id/button_signin_email"
@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/none"
             android:scaleType="fitCenter"
-            android:src="@drawable/signin_email_button"
+            android:src="@drawable/button_signin_email"
             android:clickable="true" />
     </LinearLayout>
     

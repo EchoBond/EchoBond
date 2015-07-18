@@ -90,7 +90,7 @@
             android:layout_toStartOf="@id/edit_profile_switch_icon"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/switch_canvas"
+            android:src="@drawable/button_switch_canvas"
             android:clickable="true"
             android:background="#cccccc" />
     </RelativeLayout>

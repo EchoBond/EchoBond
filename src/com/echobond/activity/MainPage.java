@@ -73,7 +73,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	private MainFragmentPagerAdapter mAdapter;
 	private ViewPager mTabPager;
 	private ImageView homeButton, hitButton, notificationButton, profileButton,  
-						newPostButton, settingButton, notificationIndicator;
+						mainSearchButton, newPostButton, settingButton, notificationIndicator;
 	private EditText searchBar;
 	private int currentIndex = 0;
 	private int[] offset;
@@ -87,7 +87,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	private DrawerLayout mainDrawerLayout;
 	private ListView drawerList;
 	private int[] settingIcons = new int[]{
-			R.drawable.setting_edit_profile, R.drawable.setting_app_setting, R.drawable.setting_following, 
+			R.drawable.setting_edit_profile, R.drawable.button_app_setting, R.drawable.setting_following, 
 			R.drawable.setting_terms_of_service, R.drawable.setting_contact};
 	private String[] settingTitles;
 	private SimpleAdapter settingPageAdapter;
@@ -173,9 +173,11 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_main);
 		
+		mainSearchButton = (ImageView)findViewById(R.id.search_button_view);
 		searchBar = (EditText)findViewById(R.id.search_bar_view);
 		newPostButton = (ImageView)findViewById(R.id.button_new_post);
 		settingButton = (ImageView)findViewById(R.id.button_setting);
+		mainSearchButton.setOnClickListener(new BarItemOnClickListener(0));
 		searchBar.setOnClickListener(new BarItemOnClickListener(0));
 		newPostButton.setOnClickListener(new BarItemOnClickListener(1));
 		settingButton.setOnClickListener(new BarItemOnClickListener(2));
@@ -261,6 +263,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		
 		private int barItemIndex = 0;
 		public BarItemOnClickListener(int i) { barItemIndex = i; }
+		
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();

@@ -106,7 +106,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/thoughts_highfive_normal"
+            android:src="@drawable/thoughts_clickable_highfive"
             android:clickable="true" />
 
         <ImageView
@@ -128,7 +128,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/thoughts_comment"
+            android:src="@drawable/thoughts_clickable_comment"
             android:clickable="true" />
 
         <ImageView
@@ -139,7 +139,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/thoughts_share_orange"
+            android:src="@drawable/thoughts_clickable_share"
             android:clickable="true" />
 
     </LinearLayout>

@@ -93,6 +93,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		if (categoryId != -1) {
 			barTitle.setText(R.string.title_new_post_pic);
 			postFragment.setCategoryType();
+			forwardButton.setVisibility(View.VISIBLE);
 			getSupportFragmentManager().beginTransaction().hide(categoryFragment).show(postFragment).commit();
 			fgIndex += 1;
 		}
@@ -131,6 +132,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		
 		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
 		forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_forward));
+		forwardButton.setVisibility(View.GONE);
 		backButton.setOnClickListener(new backOnClickListener());
 		forwardButton.setOnClickListener(new forwardOnClickListener());
 		
@@ -147,6 +149,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				break;
 			case NEW_POST_PIC:
 				barTitle.setText(R.string.title_new_post_share);
+				forwardButton.setVisibility(View.GONE);
 				getSupportFragmentManager().beginTransaction().hide(postFragment).show(categoryFragment).commit();
 				fgIndex -= 1;
 				break;
@@ -182,7 +185,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		public void onClick(View v) {
 			switch (fgIndex) {
 			case NEW_POST_CATEGORY:
-				selectCategory(categoryId);
+//				selectCategory(categoryId);
 				break;
 			case NEW_POST_PIC:
 				createPost();

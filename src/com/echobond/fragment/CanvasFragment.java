@@ -88,7 +88,7 @@ public class CanvasFragment extends Fragment {
 		rubberSeekBar = (SeekBar)canvasView.findViewById(R.id.canvas_rubber_seekbar);
 		selectedDoneButton = (ImageView)canvasView.findViewById(R.id.canvas_done);
 		
-		penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_selected));
+		penView.setImageDrawable(getResources().getDrawable(R.drawable.button_pentool_selected));
 
 		penView.setOnClickListener(new ModeSelectedListener(CHOOSE_PEN));
 		backgroundView.setOnClickListener(new ModeSelectedListener(CHOOSE_BACK));
@@ -188,9 +188,9 @@ public class CanvasFragment extends Fragment {
 				if (penPrevState == -1) {
 					colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
 				}
-				penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_selected));
+				penView.setImageDrawable(getResources().getDrawable(R.drawable.button_pentool_selected));
 				backgroundView.setImageDrawable(getResources().getDrawable(R.drawable.change_background_color_nomal));
-				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.rubbertool_normal));
+				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.button_rubbertool_normal));
 				selectedMode = mode;
 				break;
 			case CHOOSE_BACK:
@@ -198,15 +198,15 @@ public class CanvasFragment extends Fragment {
 				if (backPrevState == -1) {
 					colorViews[MyApp.COLOR_WHITE].setBackgroundResource(R.drawable.color_selection_background);
 				}
-				penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_normal));
+				penView.setImageDrawable(getResources().getDrawable(R.drawable.button_pentool_normal));
 				backgroundView.setImageDrawable(getResources().getDrawable(R.drawable.change_background_color_selected));
-				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.rubbertool_normal));
+				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.button_rubbertool_normal));
 				selectedMode = mode;
 				break;
 			case CHOOSE_RUBBER:
-				penView.setImageDrawable(getResources().getDrawable(R.drawable.pentool_normal));
+				penView.setImageDrawable(getResources().getDrawable(R.drawable.button_pentool_normal));
 				backgroundView.setImageDrawable(getResources().getDrawable(R.drawable.change_background_color_nomal));
-				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.rubbertool_selected));
+				rubberView.setImageDrawable(getResources().getDrawable(R.drawable.button_rubbertool_selected));
 				selectedMode = mode;
 				break;
 			case CHOOSE_CLEAR:

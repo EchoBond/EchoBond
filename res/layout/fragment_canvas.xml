@@ -40,7 +40,7 @@
 	            android:layout_margin="5dp"
 	            android:layout_centerVertical="true"
 	            android:padding="5dp"
-	            android:src="@drawable/pentool_normal"
+	            android:src="@drawable/button_pentool_normal"
 	            android:clickable="true" />
 	        <ImageView 
 	            android:id="@+id/canvas_background"
@@ -64,7 +64,7 @@
 	            android:padding="5dp"
 	            android:layout_toRightOf="@id/canvas_background"
 	            android:layout_toEndOf="@id/canvas_background"
-	            android:src="@drawable/rubbertool_normal"
+	            android:src="@drawable/button_rubbertool_normal"
 	            android:clickable="true" />
 	        <ImageView 
 	            android:id="@+id/canvas_clear"
@@ -76,7 +76,7 @@
 	            android:padding="5dp"
 	            android:layout_toRightOf="@id/canvas_eraser"
 	            android:layout_toEndOf="@id/canvas_eraser"
-	            android:src="@drawable/clear_clickable"
+	            android:src="@drawable/button_clickable_clear"
 	            android:clickable="true" />
 	        <ImageView 
 	            android:id="@+id/canvas_done"

@@ -71,7 +71,8 @@ public class NotificationDialogFragment extends DialogFragment {
 			}
 		});
 		
-		return new AlertDialog.Builder(getActivity()).setView(notificationDialogView)
+		return new AlertDialog.Builder(getActivity())
+				.setView(notificationDialogView)
 				.setTitle(getArguments().getString("title"))
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					
