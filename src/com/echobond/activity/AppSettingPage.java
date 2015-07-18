@@ -3,7 +3,6 @@ package com.echobond.activity;
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.fragment.NotificationDialogFragment;
-import com.echobond.intf.NotificationCallback;
 import com.echobond.util.SPUtil;
 
 import android.app.ActionBar;
@@ -26,7 +25,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class AppSettingPage extends ActionBarActivity implements NotificationCallback {
+public class AppSettingPage extends ActionBarActivity {
 	
 	private ImageView backButton;
 	private TextView titleView;
@@ -119,9 +118,4 @@ public class AppSettingPage extends ActionBarActivity implements NotificationCal
 		
 	}
 
-	@Override
-	public void onNtcTypeSelected() {
-		// TODO Auto-generated method stub
-		
-	}
 }

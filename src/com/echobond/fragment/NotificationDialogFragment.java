@@ -1,7 +1,6 @@
 package com.echobond.fragment;
 
 import com.echobond.R;
-import com.echobond.intf.NotificationCallback;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,8 +19,6 @@ import android.widget.ImageView;
  *
  */
 public class NotificationDialogFragment extends DialogFragment {
-
-	private NotificationCallback ntcCallback;
 	
 	private ImageView vibrateSelectView;
 	private ImageView soundSelectView;
@@ -97,14 +94,5 @@ public class NotificationDialogFragment extends DialogFragment {
 				})
 				.create();
 	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			ntcCallback = (NotificationCallback) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + "must implement NotificationCallback. ");
-		}
-	}
+
 }
