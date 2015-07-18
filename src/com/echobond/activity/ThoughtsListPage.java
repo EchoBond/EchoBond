@@ -291,6 +291,9 @@ public class ThoughtsListPage extends ActionBarActivity implements IXListViewLis
 			case MyApp.THOUGHT_MESSAGE:				
 				if(localId.equals(authorId)){
 					Toast.makeText(ThoughtsListPage.this, "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
+				} else if("".equals(SPUtil.get(ThoughtsListPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+					Toast.makeText(ThoughtsListPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
+					return;
 				} else {
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(ThoughtsListPage.this, ChatPage.class);

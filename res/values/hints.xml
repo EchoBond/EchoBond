@@ -27,6 +27,9 @@
     <string name="hint_thoughts_content">It can be your weekend plans, ideas, questions, opinions, emotions, secret…</string>
     <string name="hint_tags_content">e.g. HKU, relationship, Hong Kong, boycott, studies, happy…</string>
     <string name="hint_new_post_empty_content">Sorry but content cannot be empty! </string>
+    <string name="hint_new_post_long_content">Sorry but content cannot be too long! </string>
+	<string name="hint_new_post_many_tags">Sorry but too many tags for the thought!</string>
+    <string name="hint_long_comment">Sorry but comment cannot be too long!</string>
     <string name="hint_tags_separate">separate by commas</string>
     
     <string name="hint_network_issue">Unable to connect to server, please check your network connectivity. </string>
@@ -68,6 +71,9 @@
     <string name="hint_edit_profile_hashtags_like">Hashtag you follow\nYou can find all hashtags you followed here</string>
     <string name="hint_edit_profile_groups">Groups you are following</string>
     <string name="hint_edit_profile_icon">Words on avatar…</string>
+    <string name="hint_edit_profile_many_tags">Sorry but too many tags for yourself!</string>
+    
+    <string name="hint_empty_username">Sorry but your username is empty!</string>
     
     <string name="hint_message_list_empty">No message now, quiet world :)</string>
     <string name="hint_under_development">Under development. Coming soon. </string>

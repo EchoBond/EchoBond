@@ -138,7 +138,23 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 				progressBar.setVisibility(View.VISIBLE);
 				if (pgIndex == PAGE_PROFILE) {					
 					user = mainFragment.getUser();
+					
+					if(null == user.getUserName() || user.getUserName().trim().equals("")){
+						Toast.makeText(EditProfilePage.this, getResources().getString(R.string.hint_empty_username), 
+								Toast.LENGTH_SHORT).show();
+						progressBar.setVisibility(View.INVISIBLE);
+						return;
+					}
+					
 					selfTags = mainFragment.getSelfTags();
+					
+					if(selfTags.length > MyApp.MAX_SELF_TAG){
+						Toast.makeText(EditProfilePage.this, getResources().getString(R.string.hint_edit_profile_many_tags), 
+								Toast.LENGTH_SHORT).show();
+						progressBar.setVisibility(View.INVISIBLE);
+						return;
+					}
+					
 					likedTags = mainFragment.getLikedTags();
 					followedGroups = mainFragment.getFollowedGroups();
 					

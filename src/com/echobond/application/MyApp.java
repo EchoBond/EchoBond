@@ -48,6 +48,8 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final String LOGIN_PASS = "loginUser_pass";
 	public static final String LOGIN_EMAIL = "loginUser_email";
 	public static final String LOGIN_FBId = "loginUser_FBId";
+	public static final String LOGIN_USERNAME = "loginUser_username";
+	public static final String LOGIN_VERIFIED = "loginUser_verified";
 	
 	public static final String PREF_TYPE_SYSTEM = "system";
 	public static final String SYS_APP_VERSION = "app_version";
@@ -71,6 +73,12 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final int THOUGHT_BOOST = 2;
 	public static final int THOUGHT_COMMENT = 3;
 	public static final int THOUGHT_SHARE = 4;
+	
+	public static final int MAX_THOUGHT_CONTENT = 50;
+	public static final int MAX_COMMENT = 50;
+	public static final int MAX_THOUGHT_LINE = 5;
+	public static final int MAX_THOUGHT_TAG = 10;
+	public static final int MAX_SELF_TAG = 10;
 	
 	public static final int DEFAULT_OFFSET = 0;
 	public static final int LIMIT_INIT = 10;

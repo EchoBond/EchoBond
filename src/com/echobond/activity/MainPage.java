@@ -273,6 +273,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case 1:
+				if("".equals(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+					Toast.makeText(MainPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				intent.putExtra("mode", MyApp.VIEW_MORE_FROM_POST);
 				intent.setClass(MainPage.this, NewPostPage.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);

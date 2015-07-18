@@ -287,6 +287,9 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				String localId = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 				if(localId.equals(userId)){
 					Toast.makeText(getActivity(), "Sorry but you can't talk to yourself!", Toast.LENGTH_SHORT).show();
+				} else if("".equals(SPUtil.get(HotThoughtFragment.this.getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+					Toast.makeText(HotThoughtFragment.this.getActivity(), getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
+					return;
 				} else {
 					Intent chatIntent = new Intent();
 					chatIntent.setClass(HotThoughtFragment.this.getActivity(), ChatPage.class);

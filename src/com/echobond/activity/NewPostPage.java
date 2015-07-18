@@ -191,7 +191,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				createPost();
 				break;
 			case NEW_POST_WRITE:
-				isContentsEmpty();
+				checkContent();
 				break;
 			case NEW_POST_GROUP:
 				postThought();
@@ -215,10 +215,14 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 			}
 		}
 		
-		private void isContentsEmpty() { 
+		private void checkContent() { 
 			if (contentsString == null || contentsString.equals("") || contentsString.trim().equals("")) {
-				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_LONG).show();
-			}else {
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_empty_content), Toast.LENGTH_SHORT).show();
+			} else if(contentsString.length() > MyApp.MAX_THOUGHT_CONTENT){
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_long_content), Toast.LENGTH_SHORT).show();
+			} else if(Tag.str2TagList(tagsString).size() > MyApp.MAX_THOUGHT_TAG){
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_many_tags), Toast.LENGTH_SHORT).show();
+			} else {
 				barTitle.setText(R.string.title_new_post_group);
 				forwardButton.setImageDrawable(getResources().getDrawable(R.drawable.button_done));
 				getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(groupsFragment).commit();

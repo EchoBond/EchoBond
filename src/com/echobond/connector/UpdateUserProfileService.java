@@ -16,6 +16,7 @@ import com.echobond.entity.Tag;
 import com.echobond.entity.User;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.JSONUtil;
+import com.echobond.util.SPUtil;
 import com.google.gson.reflect.TypeToken;
 
 import android.app.IntentService;
@@ -75,6 +76,7 @@ public class UpdateUserProfileService extends IntentService {
 			body.put("action", UsersAsyncTask.USER_UPDATE);
 			result = HTTPUtil.getInstance().sendRequest(url, body, true);
 			getContentResolver().insert(UserDAO.CONTENT_URI_USER, user.putValues());
+			SPUtil.put(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, user.getUserName());
 			
 			/* update tags */
 			ArrayList<String> tags = new ArrayList<String>();

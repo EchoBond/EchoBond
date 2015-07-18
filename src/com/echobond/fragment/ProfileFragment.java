@@ -41,6 +41,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -109,6 +110,10 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 			
 			@Override
 			public void onClick(View v) {
+				if("".equals(SPUtil.get(ProfileFragment.this.getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+					Toast.makeText(ProfileFragment.this.getActivity(), getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				Intent chatIntent = new Intent();
 				chatIntent.setClass(ProfileFragment.this.getActivity(), ChatPage.class);
 				chatIntent.putExtra("guestId", userId);
@@ -193,6 +198,7 @@ public class ProfileFragment extends Fragment implements UserAsyncTaskCallback{
 				String args[] = new String[]{userId};
 				profileGender.setText(cursor.getString(cursor.getColumnIndex("gender")));
 				profileTitle.setText(cursor.getString(cursor.getColumnIndex("username")));
+				SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, cursor.getString(cursor.getColumnIndex("username")));
 				profileBio.setText(cursor.getString(cursor.getColumnIndex("bio")));
 				profileDNA.setText(cursor.getString(cursor.getColumnIndex("sth_interesting")));
 				profileTrophy.setText(cursor.getString(cursor.getColumnIndex("amz_exp")));

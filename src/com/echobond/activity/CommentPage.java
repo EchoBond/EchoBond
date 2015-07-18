@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cursor>, CommentCallback {
 
@@ -86,6 +87,10 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 			
 			@Override
 			public void onClick(View v) {
+				if("".equals(SPUtil.get(CommentPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+					Toast.makeText(CommentPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
+					return;
+				}
 				dialogFragment.show(getFragmentManager(), "comment_dialog");
 			}
 		});
@@ -155,7 +160,10 @@ public class CommentPage extends FragmentActivity implements LoaderCallbacks<Cur
 
 	@Override
 	public void onDialogConfirmed(String comment) {
-		// TODO reg exp check 
+		if(comment.length() > MyApp.MAX_COMMENT){
+			Toast.makeText(this, getResources().getString(R.string.hint_long_comment), Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Comment cmt = new Comment();
 		cmt.setContent(comment);
 		cmt.setThoughtId(id);
