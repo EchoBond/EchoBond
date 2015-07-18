@@ -128,7 +128,7 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static Map<String, Integer> notificationId;
 	public static Integer currentNotificationId;
 	
-    public static final int ALARM_NOTIFICATION_ID = 1;
+    public static final int ALARM_NOTIFICATION_ID = 0;
 	
 	public static final int NOTIFICATION_VIB_ALARM = 0;
 	public static final int NOTIFICATION_ALARM = 1;

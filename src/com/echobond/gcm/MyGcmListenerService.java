@@ -165,7 +165,8 @@ public class MyGcmListenerService extends GcmListenerService {
         mBuilder.setContentIntent(contentIntent);
         Integer notificationId = MyApp.notificationId.get(msg.getSenderId());
         if(null == notificationId){
-        	notificationId = MyApp.notificationId.put(msg.getSenderId(), MyApp.currentNotificationId++);
+        	MyApp.notificationId.put(msg.getSenderId(), MyApp.currentNotificationId);
+        	notificationId = MyApp.currentNotificationId++;
         }
         mNotificationManager.notify(notificationId, mBuilder.build());
 
