@@ -84,7 +84,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(null != intent && null != intent.getExtras()){
-				if(intent.getBooleanExtra("forHome", false)){
+				if(intent.getBooleanExtra(MyApp.INTENT_MSG_UPDATE_HOME, false)){
 					updateListView();
 				}
 			}
@@ -435,7 +435,7 @@ public class HomeThoughtFragment extends Fragment implements AdapterView.OnItemC
 				/* Update HotThought if this thought is also there */
 				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
 				Intent intent = new Intent(MyApp.BROADCAST_BOOST);
-				intent.putExtra("forHot", true);
+				intent.putExtra(MyApp.INTENT_MSG_UPDATE_HOT, true);
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 			} catch (JSONException e) {
 				e.printStackTrace();

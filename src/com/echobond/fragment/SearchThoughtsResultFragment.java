@@ -295,8 +295,8 @@ public class SearchThoughtsResultFragment extends Fragment implements IXListView
 				resolver.update(HotThoughtDAO.CONTENT_URI, values, where, null);
 				resolver.update(HomeThoughtDAO.CONTENT_URI, values, where, null);
 				Intent homeIntent = new Intent(MyApp.BROADCAST_BOOST), hotIntent = new Intent(MyApp.BROADCAST_BOOST);
-				homeIntent.putExtra("forHome", true);
-				hotIntent.putExtra("forHot", true);
+				homeIntent.putExtra(MyApp.INTENT_MSG_UPDATE_HOME, true);
+				hotIntent.putExtra(MyApp.INTENT_MSG_UPDATE_HOT, true);
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(homeIntent);
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(hotIntent);
 			} catch (JSONException e) {

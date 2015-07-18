@@ -130,7 +130,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			int count = c.getInt(c.getColumnIndex("count"));
 			if(count == 0){
 				Intent notifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
-				notifyIntent.putExtra("new", false);
+				notifyIntent.putExtra(MyApp.INTENT_MSG_NEW_MSG, false);
 				LocalBroadcastManager.getInstance(this).sendBroadcast(notifyIntent);
 			}
 			c.close();

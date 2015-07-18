@@ -118,6 +118,13 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final String BROADCAST_BOOST = "boostThought";
 	public static final String BROADCAST_COMMENT = "commentThought";
 	
+	public static final String INTENT_MSG_NEW_MSG = "new";
+	public static final String INTENT_MSG_UPLOAD_IMG = "imageUpload";
+	public static final String INTENT_MSG_UPDATE_HOME = "forHome";
+	public static final String INTENT_MSG_UPDATE_HOT = "forHot";
+	public static final String INTENT_MSG_DATA_FETCH = "fromDataFetch";
+	public static final String INTENT_MSG_DUP_USERNAME = "duplicateUserName";
+	
 	public static Map<String, Integer> notificationId;
 	public static Integer currentNotificationId;
 	

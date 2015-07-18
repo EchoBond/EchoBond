@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
@@ -341,6 +342,9 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 					getContentResolver().bulkInsert(TagDAO.CONTENT_URI_TAG, tagValues);
 					getContentResolver().bulkInsert(ThoughtTagDAO.CONTENT_URI, thoughtTagValues);
 				}
+				Intent intent = new Intent(MyApp.BROADCAST_BOOST);
+				intent.putExtra(MyApp.INTENT_MSG_UPDATE_HOME, true);
+				LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
