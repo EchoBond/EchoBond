@@ -13,24 +13,24 @@ import android.util.Patterns;
 
 public class CommUtil {
 	
-	public static boolean isValidEmail(String email){
+	public static boolean isValidEmail(String email) {
 		return Patterns.EMAIL_ADDRESS.matcher(email).matches();
 	}
 	
-	public static boolean isValidPassword(String password){
+	public static boolean isValidPassword(String password) {
 		if(password.length() < 6){
 			return false;
 		} else return true;
 	}
 
-	public static boolean isThreadRunning(String name){
+	public static boolean isThreadRunning(String name) {
 		Thread thread = getThreadByName(name);
 		if(null == thread || !thread.isAlive())
 			return false;
 		return true;
 	}
 	
-	public static Thread getThreadByName(String name){
+	public static Thread getThreadByName(String name) {
 		Set<Thread> tSet = Thread.getAllStackTraces().keySet();
 		Iterator<Thread> t = tSet.iterator();
 		Thread thread = null;
@@ -62,31 +62,34 @@ public class CommUtil {
 	    return status;
     }
 	
-	public static String getDateAsString(String pattern){
+	public static String getDateAsString(String pattern) {
 		if(null == pattern || pattern.isEmpty()){
 			pattern = "yyyy-MM-dd";
 		}
 		return dateToString(new Date(), pattern);
 	}
-	public static String getTimeAsString(String pattern){
+	
+	public static String getTimeAsString(String pattern) {
 		if(null == pattern || pattern.isEmpty()){
 			pattern = "HH:mm:ss";
 		}
 		return dateToString(new Date(), pattern);		
 	}
-	public static String getDateTimeAsString(String pattern){
+	
+	public static String getDateTimeAsString(String pattern) {
 		if(null == pattern || pattern.isEmpty()){
 			pattern = "yyyy-MM-dd HH:mm:ss";
 		}
 		return dateToString(new Date(), pattern);
 	}
-	public static String dateToString(Date date, String pattern){
+	
+	public static String dateToString(Date date, String pattern) {
 		SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance();
 		sdf.applyPattern(pattern);
 		return sdf.format(date);		
 	}
 	
-	public static String[] parseString(String raw, String split){
+	public static String[] parseString(String raw, String split) {
 		if(null == raw || 0 == raw.length()){
 			return null;
 		}
@@ -99,7 +102,7 @@ public class CommUtil {
 		return newNames;
 	}
 	
-	public static String arrayListToString(ArrayList<String> stringList, String split){
+	public static String arrayListToString(ArrayList<String> stringList, String split) {
 		StringBuilder builder = new StringBuilder();
 		if(null != stringList){
 			for(int i = 0; i < stringList.size(); i++){
