@@ -7,13 +7,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 /**
  * 
  * @author aohuijun
@@ -25,6 +26,7 @@ public class PresetAvatarFragment extends Fragment {
 							R.drawable.avatar_4, R.drawable.avatar_5, R.drawable.avatar_6, 
 							R.drawable.avatar_7, R.drawable.avatar_8, R.drawable.avatar_9, 
 							R.drawable.avatar_10, R.drawable.avatar_11, R.drawable.avatar_12};
+	private int selectedAvatar = -1;
 	private GridView avatarGridView;
 	private AvatarAdapter adapter;
 	
@@ -37,20 +39,39 @@ public class PresetAvatarFragment extends Fragment {
 		avatarGridView = (GridView)presetAvatarView.findViewById(R.id.grid_preset_avatar);
 		avatarGridView.setAdapter(adapter);
 		avatarGridView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
+		avatarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				adapter.changeState(position);
+				selectedAvatar = avatarsList[position];
+			}
+		});
 		
 		return presetAvatarView;
 	}
 	
+	public int getSelectedAvatar() {
+		return selectedAvatar;
+	}
+
 	public class AvatarAdapter extends BaseAdapter {
 
+		private SparseBooleanArray avatarStatusArray = new SparseBooleanArray();
 		private int[] avatars;
 		private LayoutInflater inflater = null;
+		private int lastPosition = -1;
 		
 		public AvatarAdapter(Context ctx, int[] picList) {
 			this.avatars = picList;
 			this.inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
+		public void setSelected(int position, boolean isSelected) {
+			avatarStatusArray.put(position, isSelected);
+		}
+		
 		@Override
 		public int getCount() {
 			return avatars.length;
@@ -83,14 +104,22 @@ public class PresetAvatarFragment extends Fragment {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			holder.avatar.setImageResource(avatars[position]);
-			convertView.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					Toast.makeText(getActivity(), "Position " + position, Toast.LENGTH_SHORT).show();
-				}
-			});
+			boolean isSelected = avatarStatusArray.get(position);
+			if (isSelected) {
+				holder.selector.setImageDrawable(getResources().getDrawable(R.drawable.image_seletor));
+			} else if (!isSelected) {
+				holder.selector.setImageDrawable(null);
+			}
 			return convertView;
+		}
+		
+		public void changeState(int position) {
+			if (lastPosition != -1 && lastPosition != position) {
+				avatarStatusArray.put(lastPosition, false);
+			}
+			avatarStatusArray.put(position, !avatarStatusArray.get(position));
+			lastPosition = position;
+			notifyDataSetChanged();
 		}
 		
 	}

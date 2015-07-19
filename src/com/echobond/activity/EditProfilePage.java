@@ -177,7 +177,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					if (pgIndex == PAGE_PRESET) {
 						initContent();
 						avatarType = PAGE_PRESET;
-						avatar = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_1);
+						avatar = BitmapFactory.decodeResource(getResources(), presetAvatarFragment.getSelectedAvatar());
 						
 					} else if (pgIndex == PAGE_POSTER) {
 						initContent();
