@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import com.echobond.application.MyApp;
 import com.echobond.connector.DataFetchIntentService;
 import com.echobond.dao.ChatDAO;
-import com.echobond.fragment.MainFragmentPagerAdapter;
 import com.echobond.fragment.HomeThoughtFragment;
 import com.echobond.fragment.HotThoughtFragment;
 import com.echobond.fragment.MessageChildFragment;
@@ -31,6 +30,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -231,6 +231,27 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		
 	}
 	
+	public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
+
+		private ArrayList<Fragment> mainFragmentsList;	
+
+		public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> mainFragmentsList) {
+			super(fm);
+			this.mainFragmentsList = mainFragmentsList;
+		}
+		
+		@Override
+		public Fragment getItem(int index) {
+			return mainFragmentsList.get(index);
+		}
+
+		@Override
+		public int getCount() {
+			return mainFragmentsList.size();
+		}
+
+	}
+
 	private void initSettingPage() {
 		
 		final String[] from = new String[] {"pic", "title"};

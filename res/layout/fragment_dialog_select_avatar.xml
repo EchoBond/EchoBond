@@ -15,8 +15,8 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/select_avatar_preset_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_launcher" />
         <TextView 
@@ -28,7 +28,7 @@
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:text="@string/edit_profile_preset_avatar"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
     </RelativeLayout>
     
     <RelativeLayout 
@@ -41,9 +41,10 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/select_avatar_poster_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_poster" />
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:text="@string/edit_profile_poster_avatar"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
     </RelativeLayout>
         
     <RelativeLayout 
@@ -66,9 +67,10 @@
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/select_avatar_canvas_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/img_canvas" />
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +80,7 @@
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:text="@string/edit_profile_canvas_avatar"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
     </RelativeLayout>
         
 </LinearLayout>
