@@ -155,7 +155,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 					
 					selfTags = mainFragment.getSelfTags();
 					
-					if(selfTags.length > MyApp.MAX_SELF_TAG){
+					if(null != selfTags && selfTags.length > MyApp.MAX_SELF_TAG){
 						Toast.makeText(EditProfilePage.this, getResources().getString(R.string.hint_edit_profile_many_tags), 
 								Toast.LENGTH_SHORT).show();
 						progressBar.setVisibility(View.INVISIBLE);
