@@ -18,10 +18,10 @@
 		    <ImageView  
 		        android:contentDescription="@string/none"
 		        android:id="@+id/profile_pic"  
-		        android:layout_width="match_parent"  
-		        android:layout_height="300dp"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
 		        android:layout_centerHorizontal="true"
-		        android:scaleType="fitXY"
+		        android:adjustViewBounds="true"
 		        android:padding="6dp" />
 		    <TextView  
 		        android:id="@+id/profile_title"  
@@ -39,7 +39,8 @@
 		        android:layout_width="35dp"
 		        android:layout_height="35dp"
 		        android:layout_below="@id/profile_pic"
-		        android:layout_toRightOf="@id/profile_title"/>
+		        android:layout_toRightOf="@id/profile_title"
+		        android:layout_toEndOf="@id/profile_title" />
 		    <TextView  
 		        android:id="@+id/profile_content"  
 		        android:layout_width="match_parent"  
@@ -299,7 +300,7 @@
 		    android:text="@string/view_thoughts"
 		    android:textSize="20sp"
 		    android:textStyle="bold"
-		    android:textColor="@android:color/holo_blue_bright"
+		    android:textColor="@drawable/text_view_thoughts"
 		    android:background="@drawable/square_edittext_lightgrey"
 		    android:clickable="true" />
 	</LinearLayout>

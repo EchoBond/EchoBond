@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 /**
  * 
@@ -30,9 +29,8 @@ public class DrawingIconFragment extends Fragment {
 	private EditProfileSwitchCallback callCanvas;
 	private RelativeLayout avatarLayout;
 	private String[] colors;
-	private ImageView postChange, textChange, avatarType, switchCanvas;
+	private ImageView postChange, textChange, avatarType, switchCanvas, switchIcon;
 	private EditText avatarText;
-	private TextView switchIcon;
 	private int modeSelected;
 	private int count = 0;
 	private int[] icons = {R.drawable.poster_type_dream, R.drawable.poster_type_feelings, R.drawable.poster_type_goodideas, 
@@ -62,7 +60,7 @@ public class DrawingIconFragment extends Fragment {
 		postChange = (ImageView)drawingIconView.findViewById(R.id.edit_profile_changepostcolor);
 		textChange = (ImageView)drawingIconView.findViewById(R.id.edit_profile_changetextcolor);
 		switchCanvas = (ImageView)drawingIconView.findViewById(R.id.edit_profile_switch_canvas);
-		switchIcon = (TextView)drawingIconView.findViewById(R.id.edit_profile_switch_icon);
+		switchIcon = (ImageView)drawingIconView.findViewById(R.id.edit_profile_switch_icon);
 		
 		for (int i = 0; i < colors.length; i++) {
 			colorViews[i] = (ImageView)drawingIconView.findViewById(colorButtons[i]);

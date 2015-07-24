@@ -11,6 +11,7 @@ import com.echobond.fragment.CanvasFragment;
 import com.echobond.fragment.DrawingIconFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.fragment.PresetAvatarFragment;
+import com.echobond.fragment.ResetPasswordDialogFragment;
 import com.echobond.fragment.SelectAvatarDialogFragment;
 import com.echobond.intf.EditProfileSwitchCallback;
 import com.echobond.intf.ImageCallback;
@@ -51,6 +52,7 @@ import android.widget.Toast;
  */
 public class EditProfilePage extends ActionBarActivity implements EditProfileSwitchCallback, ImageCallback {
 
+	public ResetPasswordDialogFragment resetPasswordDialogFragment;
 	private SelectAvatarDialogFragment selectAvatarDialogFragment;
 	private PresetAvatarFragment presetAvatarFragment;
 	private EditProfileFragment mainFragment;
@@ -233,11 +235,16 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		titleView.setText(getResources().getString(R.string.edit_profile_activity_title));
 	}
 	
-
+	@Override
+	public void resetPassword() {
+		resetPasswordDialogFragment = new ResetPasswordDialogFragment();
+		resetPasswordDialogFragment.show(getSupportFragmentManager(), "reset_password");
+	}
+	
 	@Override
 	public void setAvatarSelection() {
 		Bundle bundle = new Bundle();
-		bundle.putString("title", getString(R.string.edit_profile_avatar));
+		bundle.putString("title", getString(R.string.edit_profile_set_avatar));
 		selectAvatarDialogFragment = new SelectAvatarDialogFragment();
 		selectAvatarDialogFragment.setArguments(bundle);
 		selectAvatarDialogFragment.show(getSupportFragmentManager(), "select_avatar_type");

@@ -44,7 +44,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_poster" />
+            android:src="@drawable/image_poster" />
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_canvas" />
+            android:src="@drawable/image_canvas" />
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

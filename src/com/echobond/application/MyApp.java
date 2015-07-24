@@ -133,6 +133,9 @@ public class MyApp extends Application implements Application.ActivityLifecycleC
 	public static final String INTENT_MSG_DATA_FETCH = "fromDataFetch";
 	public static final String INTENT_MSG_DUP_USERNAME = "duplicateUserName";
 	
+	public static final String DIALOG_CONFIRM = "OK";
+	public static final String DIALOG_CANCEL = "Cancel";
+	
 	public static Map<String, Integer> notificationId;
 	public static Integer currentNotificationId;
 	

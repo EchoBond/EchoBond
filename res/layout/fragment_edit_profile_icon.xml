@@ -45,9 +45,9 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="32dp"
             android:clickable="true"
             android:contentDescription="@string/none"
@@ -58,41 +58,40 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
             android:layout_toRightOf="@id/edit_profile_changetextcolor"
             android:layout_toEndOf="@id/edit_profile_changetextcolor"
             android:clickable="true"
             android:contentDescription="@string/none"
             android:src="@drawable/thoughts_background_colorchange_nomal" />
 
-        <TextView 
+        <ImageView 
+            android:contentDescription="@string/none"
             android:id="@+id/edit_profile_switch_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:text="@string/edit_profile_set_icon"
-            android:textStyle="bold"
-            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/button_switch_icons"
             android:clickable="true" />
         <ImageView 
             android:contentDescription="@string/none"
             android:id="@+id/edit_profile_switch_canvas"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/edit_profile_switch_icon"
             android:layout_toStartOf="@id/edit_profile_switch_icon"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/button_switch_canvas"
-            android:clickable="true"
-            android:background="#cccccc" />
+            android:clickable="true" />
     </RelativeLayout>
 
     <RelativeLayout

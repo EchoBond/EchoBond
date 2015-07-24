@@ -58,7 +58,7 @@ import android.widget.TextView;
  * @author aohuijun
  *
  */
-public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Cursor>, UserMsgCallback, IXListViewListener{
+public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Cursor>, UserMsgCallback, IXListViewListener {
 	
 	private Toolbar toolbar;
 	private TextView titleView;
@@ -405,15 +405,6 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 					NavUtils.navigateUpTo(ChatPage.this, upIntent);
 				}
 			}
-			//Intent upIntent = NavUtils.getParentActivityIntent(ChatPage.this);
-			/*
-			if (NavUtils.shouldUpRecreateTask(ChatPage.this, upIntent)) {
-				//TaskStackBuilder.create(ChatPage.this).addNextIntentWithParentStack(upIntent).startActivities();				
-				startActivity(upIntent);
-			}else {
-				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				NavUtils.navigateUpTo(ChatPage.this, upIntent);
-			}*/
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

@@ -54,13 +54,15 @@
     <string name="edit_profile_more">More About You</string>
     <string name="edit_profile_more_groups"><u>MORE Groups…</u></string>
     <string name="edit_profile_more_tags"><u>MORE Hashtags…</u></string>
-    <string name="edit_profile_avatar"><u>Set Your Avatar…</u></string>
     <string name="edit_profile_activity_title">Edit Profile</string>
     <string name="edit_profile_set_avatar">Set Your Avatar</string>
-    <string name="edit_profile_set_icon">Switch icon…</string>
     <string name="edit_profile_preset_avatar">Set Preset Avatar</string>
     <string name="edit_profile_poster_avatar">Create Poster Avatar</string>
     <string name="edit_profile_canvas_avatar">Draw Your Avatar</string>
+    <string name="edit_profile_reset_password">Reset Password</string>
+    <string name="edit_profile_reset_password_origin">Your Origin Password:</string>
+    <string name="edit_profile_reset_password_new">Your New Password:</string>
+    <string name="edit_profile_reset_password_new_again">New Password Again:</string>
 
     <!-- INDICATORS -->
     <string name="following_groups">Follow These Groups</string>

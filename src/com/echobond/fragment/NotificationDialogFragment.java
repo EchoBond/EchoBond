@@ -74,7 +74,7 @@ public class NotificationDialogFragment extends DialogFragment {
 		return new AlertDialog.Builder(getActivity())
 				.setView(notificationDialogView)
 				.setTitle(getArguments().getString("title"))
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				.setPositiveButton(MyApp.DIALOG_CONFIRM, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -89,7 +89,7 @@ public class NotificationDialogFragment extends DialogFragment {
 						}
 					}
 				})
-				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				.setNegativeButton(MyApp.DIALOG_CANCEL, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

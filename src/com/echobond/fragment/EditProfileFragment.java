@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 /**
@@ -46,7 +47,8 @@ import android.widget.TextView;
 public class EditProfileFragment extends Fragment implements UserAsyncTaskCallback {
 
 	private EditProfileSwitchCallback switchCallback;
-	private TextView setAvatarView, moreTagsView, moreGroupsView, moreLikedTagsView;
+	private ImageView setAvatarView, resetPasswordView;
+	private TextView moreTagsView, moreGroupsView, moreLikedTagsView;
 	private EditText userName, userGender, userBio, userAge,
 					userDNA, userTrophy, userTodo, userPhilo, userDesc, userInterest, userSec,
 					userTags, userGroups, userLikedTags;
@@ -94,7 +96,8 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 		userLikedTags = (EditText) editProfileView.findViewById(R.id.edit_profile_like_tag_text);
 		userGroups = (EditText)editProfileView.findViewById(R.id.edit_profile_group_text);
 		
-		setAvatarView = (TextView)editProfileView.findViewById(R.id.edit_profile_icon);
+		setAvatarView = (ImageView)editProfileView.findViewById(R.id.edit_profile_icon);
+		resetPasswordView = (ImageView)editProfileView.findViewById(R.id.edit_profile_password);
 		moreTagsView = (TextView)editProfileView.findViewById(R.id.edit_profile_tag_more);
 		moreGroupsView = (TextView)editProfileView.findViewById(R.id.edit_profile_group_more);
 		moreLikedTagsView = (TextView) editProfileView.findViewById(R.id.edit_profile_like_tag_more);
@@ -110,6 +113,13 @@ public class EditProfileFragment extends Fragment implements UserAsyncTaskCallba
 			@Override
 			public void onClick(View v) {
 				switchCallback.setAvatarSelection();
+			}
+		});
+		resetPasswordView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				switchCallback.resetPassword();
 			}
 		});
 		moreTagsView.setOnClickListener(new ViewMoreClickListener(MyApp.VIEW_MORE_TAG, MORE_SELF_TAGS));

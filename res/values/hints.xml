@@ -73,6 +73,12 @@
     <string name="hint_edit_profile_icon">Words on avatar…</string>
     <string name="hint_edit_profile_many_tags">Sorry but too many tags for yourself!</string>
     
+    <!-- RESET PASSWORD -->
+    <string name="hint_reset_password_empty_origin"></string>
+    <string name="hint_reset_password_empty_new"></string>
+    <string name="hint_reset_password_empty_new_again"></string>
+    <string name="hint_reset_password_new_dismatched"></string>
+    
     <string name="hint_empty_username">Sorry but your username is empty!</string>
     <string name="hint_user_unverified">Sorry but you have not verified your account!</string>
     <string name="hint_talk_self">Sorry but you can\'t talk to yourself!</string>
