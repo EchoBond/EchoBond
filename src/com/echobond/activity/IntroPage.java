@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
  * @author aohuijun
  *
  */
-public class IntroPage extends Activity implements OnClickListener, OnPageChangeListener{
+public class IntroPage extends Activity implements OnClickListener, OnPageChangeListener {
 	
 	private ViewPager viewPager;
 	private IntroViewPagerAdapter vpAdapter;
@@ -162,7 +162,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 
 	@Override
 	public void onPageSelected(int position) {
-
 		setCurrentPoint(position);
 		if (position == 1 && isSlided == false) {
 			tagView[0].startAnimation(alphaAnimation[1]);
@@ -183,7 +182,6 @@ public class IntroPage extends Activity implements OnClickListener, OnPageChange
 
 	@Override
 	public void onClick(View v) {
-
 		int position = (Integer)v.getTag();
 		setCurrentView(position);
 		setCurrentPoint(position);

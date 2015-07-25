@@ -36,9 +36,7 @@
     <string name="hint_new_post_failed_post">Failed in posting thought! </string>
     <string name="hint_new_post_successful_post">Thought successfully posted! </string>
     <string name="hint_edit_profile_saved">Modification successfully saved! </string>
-    
-    <string name="hint_quit">Click once more to quit. </string>
-    
+        
     <string name="hint_search">Search any thoughts or people. </string>
     
     <!-- REFRESH AND LOAD CONTENT -->
@@ -84,6 +82,7 @@
     <string name="hint_user_unverified">Sorry but you have not verified your account!</string>
     <string name="hint_talk_self">Sorry but you can\'t talk to yourself!</string>
     
+    <string name="hint_quit">Click once more to quit. </string>
     <string name="hint_message_list_empty">No message now, quiet world :)</string>
     <string name="hint_under_development">Under development. Coming soon. </string>
     <string name="hint_current_version">Current Version: </string>

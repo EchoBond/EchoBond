@@ -26,7 +26,7 @@ import android.widget.ProgressBar;
 public class AvatarPage extends Activity {
 
 	private String userId;
-	private ImageView avatarView;
+	private ImageView avatarView, backButton;
 	private ProgressBar progressBar;
 	private String url;
 	
@@ -34,18 +34,29 @@ public class AvatarPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_avatar_page);
+		
 		userId = getIntent().getStringExtra("userId");
-		avatarView = (ImageView) findViewById(R.id.avatar_image);
-		progressBar = (ProgressBar) findViewById(R.id.avatar_progress);
+		avatarView = (ImageView)findViewById(R.id.avatar_image);
+		backButton = (ImageView)findViewById(R.id.avatar_back);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		progressBar = (ProgressBar)findViewById(R.id.avatar_progress);
 		progressBar.bringToFront();
 		url = HTTPUtil.getInstance().composePreURL(this) + getResources().getString(R.string.url_down_img) 
 				+ "?path=" + userId;
 		Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
+		
 		//load image
-		if(MemoryCacheUtils.findCachedBitmapsForImageUri(url, ImageLoader.getInstance().getMemoryCache()) != null){
+		if (MemoryCacheUtils.findCachedBitmapsForImageUri(url, ImageLoader.getInstance().getMemoryCache()) != null) {
 			MemoryCacheUtils.removeFromCache(url, ImageLoader.getInstance().getMemoryCache());
 		}
-		if(DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache()) != null){
+		if (DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache()) != null) {
 			File file = DiskCacheUtils.findInCache(url, ImageLoader.getInstance().getDiskCache());
 			image = BitmapFactory.decodeFile(file.getAbsolutePath());
 			try {
@@ -55,6 +66,7 @@ public class AvatarPage extends Activity {
 			}
 			DiskCacheUtils.removeFromCache(url, ImageLoader.getInstance().getDiskCache());
 		}
+		
 		//displaying
 		MyApp.getDefaultDisplayImageOptions(new DisplayImageOptions.Builder()).showImageOnLoading(new BitmapDrawable(getResources(), image));
 		ImageLoader.getInstance().displayImage(url, avatarView, new ImageLoadingListener() {
@@ -84,7 +96,7 @@ public class AvatarPage extends Activity {
 			}
 			
 			private void recoverDiskCache(String imageUri){
-				if(null != DiskCacheUtils.findInCache(imageUri+"_", ImageLoader.getInstance().getDiskCache())){
+				if (null != DiskCacheUtils.findInCache(imageUri+"_", ImageLoader.getInstance().getDiskCache())) {
 					try {
 						File file = DiskCacheUtils.findInCache(imageUri+"_", ImageLoader.getInstance().getDiskCache());
 						Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());

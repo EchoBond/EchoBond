@@ -326,7 +326,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 
 	@Override
 	public void onPostThoughtResult(JSONObject result) {
-		if(null == result){
+		if (null == result) {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_failed_post), Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_successful_post), Toast.LENGTH_LONG).show();
@@ -335,7 +335,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				// thought
 				getContentResolver().insert(HomeThoughtDAO.CONTENT_URI, thought.putValues());
 				// thought tags
-				if(null != thought.getTags()){
+				if (null != thought.getTags()) {
 					int x = 0;
 					ContentValues[] tagValues = new ContentValues[thought.getTags().size()];
 					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
@@ -362,8 +362,8 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 
 	@Override
 	public void onUploadImage(JSONObject result) {
-		try{
-			if(null != result && ((String)result.get("result")).equals("1")){
+		try {
+			if (null != result && ((String)result.get("result")).equals("1")) {
 				String image = (String) result.get("path");
 				Thought t = new Thought();
 				ArrayList<Tag> tags = Tag.str2TagList(tagsString);
@@ -379,7 +379,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 			} else {
 				Toast.makeText(this, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();
 			}
-		} catch (JSONException e){
+		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}

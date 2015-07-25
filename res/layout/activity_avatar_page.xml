@@ -9,6 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.echobond.activity.AvatarPage" >
     
+    <ImageView 
+        android:id="@+id/avatar_back"
+        android:contentDescription="@string/none"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/button_back" />
     <ProgressBar 
         android:id="@+id/avatar_progress"
         android:layout_width="wrap_content"

@@ -81,7 +81,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(null != intent && null != intent.getExtras() && intent.getStringExtra("guestId").equals(guestId)){
+			if (null != intent && null != intent.getExtras() && intent.getStringExtra("guestId").equals(guestId)) {
 				ContentValues values = new ContentValues();
 				values.put("is_read", 1);
 				String where = "_id=?";
@@ -98,6 +98,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		setContentView(R.layout.activity_chat_page);
 		initActionBar();
 		initSendingMsg();
+		
 		toolbar = (Toolbar) findViewById(R.id.toolbar_chat_page);
 		titleView = (TextView) toolbar.findViewById(R.id.title_name);
 		adapter = new ChatListAdapter(this, R.layout.item_chat, null, 0);
@@ -126,7 +127,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		
 		selectionArgs = new String[]{userId,""};
 		Cursor c = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, selectionArgs, null);
-		if(c.moveToFirst()){
+		if (c.moveToFirst()) {
 			int count = c.getInt(c.getColumnIndex("count"));
 			if(count == 0){
 				Intent notifyIntent = new Intent(MyApp.BROADCAST_NOTIFICATION);
@@ -256,7 +257,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 			String url = HTTPUtil.getInstance().composePreURL(ChatPage.this)
 					+ getResources().getString(R.string.url_down_img)
 					+ "?path=" + senderId;
-			if(userId.equals(senderId)){
+			if (userId.equals(senderId)) {
 				ImageLoader.getInstance().displayImage(url, hostImageView);
 				guestImageView.setImageDrawable(null);
 				contentLayout.setBackground(getResources().getDrawable(R.drawable.square_edittext_green));		// new API
@@ -319,7 +320,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public void onSendResult(JSONObject result) {
-		if(null != result){
+		if (null != result) {
 			try {
 				if("0".equals(result.getString("success"))){
 					Toast.makeText(this, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();
@@ -341,7 +342,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadResult(JSONObject result) {
-		if(null != result){
+		if (null != result) {
 			ArrayList<UserMsg> msgs = null;
 			try {
 				TypeToken<ArrayList<UserMsg>> token = new TypeToken<ArrayList<UserMsg>>(){};				
@@ -364,7 +365,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 
 	@Override
 	public void onRefresh() {
-		if(System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			User me = new User();
 			me.setId((String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
