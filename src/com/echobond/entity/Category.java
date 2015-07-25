@@ -1,7 +1,6 @@
 package com.echobond.entity;
 
 import android.content.ContentValues;
-
 /**
  * 
  * @author Luck

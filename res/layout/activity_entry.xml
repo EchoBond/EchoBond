@@ -9,10 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.echobond.activity.EntryPage" 
     android:background="@drawable/start_page_background" >
+    
     <ImageView 
         android:src="@drawable/ic_entry"
         android:layout_centerInParent="true"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:contentDescription="@string/none"/>
+    
 </RelativeLayout>

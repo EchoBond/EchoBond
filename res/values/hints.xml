@@ -74,10 +74,11 @@
     <string name="hint_edit_profile_many_tags">Sorry but too many tags for yourself!</string>
     
     <!-- RESET PASSWORD -->
-    <string name="hint_reset_password_empty_origin"></string>
-    <string name="hint_reset_password_empty_new"></string>
-    <string name="hint_reset_password_empty_new_again"></string>
-    <string name="hint_reset_password_new_dismatched"></string>
+    <string name="hint_reset_password_empty_origin">Sorry but your origin password is needed.</string>
+    <string name="hint_reset_password_empty_new">New password missed :)</string>
+    <string name="hint_reset_password_empty_new_again">New password confirmation missed :)</string>
+    <string name="hint_reset_password_origin_duplicate">It seems that you didn\'t change your password actually!</string>
+    <string name="hint_reset_password_new_dismatched">New password confirmation error.</string>
     
     <string name="hint_empty_username">Sorry but your username is empty!</string>
     <string name="hint_user_unverified">Sorry but you have not verified your account!</string>

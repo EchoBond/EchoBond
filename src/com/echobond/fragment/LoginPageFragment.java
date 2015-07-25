@@ -86,7 +86,6 @@ public class LoginPageFragment extends Fragment {
 		});
 		
 		return loginPageView;
-		
 	}
 	
 	@Override

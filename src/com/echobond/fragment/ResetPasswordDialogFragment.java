@@ -70,8 +70,12 @@ public class ResetPasswordDialogFragment extends DialogFragment {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new), Toast.LENGTH_SHORT).show();
 		} else if (newPasswordAgainString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new_again), Toast.LENGTH_SHORT).show();
+		} else if (originPasswordString.equals(newPasswordString)) {
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_duplicate), Toast.LENGTH_SHORT).show();
+		} else if (!newPasswordString.equals(newPasswordAgainString)) {
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_new_dismatched), Toast.LENGTH_SHORT).show();
 		} else {
-
+			//	TODO send newPasswordString
 		}
 	}
 }

@@ -371,7 +371,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	@Override
 	public void onRefresh() {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
 			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
@@ -385,7 +385,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	@Override
 	public void onLoadMore() {
-		if(System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL){
+		if (System.currentTimeMillis() - lastLoadTime > MyApp.LOAD_INTERVAL) {
 			lastLoadTime = System.currentTimeMillis();
 			User user = new User();
 			user.setId((String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
@@ -401,7 +401,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onLoadThoughtResult(JSONObject result) {
-		if(null != result){
+		if (null != result) {
 			getActivity().getContentResolver().delete(HotThoughtDAO.CONTENT_URI, null, null);
 			TypeToken<ArrayList<Thought>> token = new TypeToken<ArrayList<Thought>>(){};
 			ArrayList<Thought> thoughts = null;
@@ -419,19 +419,19 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 				/* author */
 				getActivity().getContentResolver().insert(UserDAO.CONTENT_URI_USER, thought.getUser().putValues());
 				/* comments */
-				if(null != thought.getComments()){
+				if (null != thought.getComments()) {
 					int x = 0;
 					ContentValues[] cmtValues = new ContentValues[thought.getComments().size()]; 
-					for(Comment cmt: thought.getComments()){
+					for (Comment cmt: thought.getComments()) {
 						cmtValues[x++] = cmt.putValues();
 					}
 					getActivity().getContentResolver().bulkInsert(CommentDAO.CONTENT_URI, cmtValues);
 				}
 				/* tags */
-				if(null != thought.getTags()){
+				if (null != thought.getTags()) {
 					int x = 0;
 					ContentValues[] thoughtTagValues = new ContentValues[thought.getTags().size()];
-					for(Tag t: thought.getTags()){
+					for (Tag t: thought.getTags()) {
 						ContentValues value = new ContentValues();
 						value.put("thought_id", thought.getId());
 						value.put("tag_id", t.getId());
@@ -453,7 +453,7 @@ public class HotThoughtFragment extends Fragment implements AdapterView.OnItemCl
 
 	@Override
 	public void onBoostResult(JSONObject result) {
-		if(null != result){			
+		if (null != result) {			
 			try {
 				Integer action =  result.getInt("action");
 				Integer id = result.getInt("id");
