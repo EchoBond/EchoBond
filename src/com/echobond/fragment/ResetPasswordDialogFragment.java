@@ -2,13 +2,20 @@ package com.echobond.fragment;
 
 import java.lang.reflect.Field;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.echobond.R;
 import com.echobond.application.MyApp;
+import com.echobond.connector.RequestResetPassAsyncTask;
+import com.echobond.intf.RequestResetPassCallback;
+import com.echobond.util.SPUtil;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -21,10 +28,11 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class ResetPasswordDialogFragment extends DialogFragment {
+public class ResetPasswordDialogFragment extends DialogFragment implements RequestResetPassCallback{
 
 	private EditText originPasswordText, newPasswordText, newPasswordAgainText;
 	private String originPasswordString, newPasswordString, newPasswordAgainString;
+	private DialogInterface dialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,9 +90,10 @@ public class ResetPasswordDialogFragment extends DialogFragment {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_new_dismatched), Toast.LENGTH_SHORT).show();
 			maintainDialog(dialog, false);
 		} else {
-			//	TODO send newPasswordString
-			maintainDialog(dialog, true);
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();
+			String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+			String url = getResources().getString(R.string.url_request_reset_pass);
+			this.dialog = dialog;
+			new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
 		}
 	}
 	
@@ -96,6 +105,27 @@ public class ResetPasswordDialogFragment extends DialogFragment {
 			dialogInterface.dismiss();
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+	}
+
+	@Override
+	public void onRequestResetPassFinished(JSONObject result) {
+		if(null != result){
+			try {
+				if(null != result.get("success")){
+					SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
+					maintainDialog(dialog, true);
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
+				} else if(null != result.get("wrongOld")){
+					maintainDialog(dialog, false);
+					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else {
+			maintainDialog(dialog, false);
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
 		}
 	}
 }
