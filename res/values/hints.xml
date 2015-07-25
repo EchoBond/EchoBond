@@ -77,6 +77,7 @@
     <string name="hint_reset_password_empty_new_again">New password confirmation missed :)</string>
     <string name="hint_reset_password_origin_duplicate">It seems that you didn\'t change your password actually!</string>
     <string name="hint_reset_password_new_dismatched">New password confirmation error.</string>
+    <string name="hint_reset_password_success">Your password has been successfully changed.</string>
     
     <string name="hint_empty_username">Sorry but your username is empty!</string>
     <string name="hint_user_unverified">Sorry but you have not verified your account!</string>

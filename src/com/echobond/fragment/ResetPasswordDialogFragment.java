@@ -1,5 +1,7 @@
 package com.echobond.fragment;
 
+import java.lang.reflect.Field;
+
 import com.echobond.R;
 import com.echobond.application.MyApp;
 
@@ -47,35 +49,53 @@ public class ResetPasswordDialogFragment extends DialogFragment {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						verifyPassword();
+						verifyPassword(dialog);
 					}
 				})
 				.setNegativeButton(MyApp.DIALOG_CANCEL, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
+						maintainDialog(dialog, true);
 					}
 				})
 				.create();
 	}
 
-	private void verifyPassword() {
+	private void verifyPassword(DialogInterface dialog) {
 		originPasswordString = originPasswordText.getText().toString();
 		newPasswordString = newPasswordText.getText().toString();
 		newPasswordAgainString = newPasswordAgainText.getText().toString();
 		if (originPasswordString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_origin), Toast.LENGTH_SHORT).show();
+			maintainDialog(dialog, false);
 		} else if (newPasswordString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new), Toast.LENGTH_SHORT).show();
+			maintainDialog(dialog, false);
 		} else if (newPasswordAgainString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new_again), Toast.LENGTH_SHORT).show();
+			maintainDialog(dialog, false);
 		} else if (originPasswordString.equals(newPasswordString)) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_duplicate), Toast.LENGTH_SHORT).show();
+			maintainDialog(dialog, false);
 		} else if (!newPasswordString.equals(newPasswordAgainString)) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_new_dismatched), Toast.LENGTH_SHORT).show();
+			maintainDialog(dialog, false);
 		} else {
 			//	TODO send newPasswordString
+			maintainDialog(dialog, true);
+			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private void maintainDialog(DialogInterface dialogInterface, boolean closeDialog) {
+		try {
+			Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
+			field.setAccessible(true);
+			field.set(dialogInterface, closeDialog);
+			dialogInterface.dismiss();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 }
