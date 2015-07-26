@@ -1,6 +1,5 @@
 package com.echobond.fragment;
 
-import java.lang.reflect.Field;
 import org.json.JSONObject;
 
 import com.echobond.R;
@@ -21,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 /**
@@ -28,11 +28,11 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class ResetPasswordDialogFragment extends DialogFragment implements RequestResetPassCallback{
+public class ResetPasswordDialogFragment extends DialogFragment implements RequestResetPassCallback {
 
 	private EditText originPasswordText, newPasswordText, newPasswordAgainText;
 	private String originPasswordString, newPasswordString, newPasswordAgainString;
-	private DialogInterface dialog;
+	private AlertDialog dialog;
 	private Activity mActivity;
 	
 	@Override
@@ -51,77 +51,72 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 		newPasswordText = (EditText)resetPasswordDialogView.findViewById(R.id.reset_password_new_input);
 		newPasswordAgainText = (EditText)resetPasswordDialogView.findViewById(R.id.reset_password_new_again_input);
 		
-		return new AlertDialog.Builder(getActivity())
+		dialog = new AlertDialog.Builder(getActivity())
 				.setView(resetPasswordDialogView)
 				.setTitle(R.string.edit_profile_reset_password)
 				.setPositiveButton(MyApp.DIALOG_CONFIRM, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						verifyPassword(dialog);
+						//	do NOTHING here
 					}
 				})
 				.setNegativeButton(MyApp.DIALOG_CANCEL, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						maintainDialog(dialog, true);
+						//	do NOTHING here
 					}
 				})
 				.create();
+		
+		return dialog;
 	}
 
-	private void verifyPassword(DialogInterface dialog) {
-		originPasswordString = originPasswordText.getText().toString();
-		newPasswordString = newPasswordText.getText().toString();
-		newPasswordAgainString = newPasswordAgainText.getText().toString();
-		/*if (originPasswordString.equals("")) {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_origin), Toast.LENGTH_SHORT).show();
-			maintainDialog(dialog, false);
-		} else*/ if (newPasswordString.equals("")) {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new), Toast.LENGTH_SHORT).show();
-			maintainDialog(dialog, false);
-		} else if (newPasswordAgainString.equals("")) {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new_again), Toast.LENGTH_SHORT).show();
-			maintainDialog(dialog, false);
-		} else if (originPasswordString.equals(newPasswordString)) {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_duplicate), Toast.LENGTH_SHORT).show();
-			maintainDialog(dialog, false);
-		} else if (!newPasswordString.equals(newPasswordAgainString)) {
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_new_dismatched), Toast.LENGTH_SHORT).show();
-			maintainDialog(dialog, false);
-		} else {
-			String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-			String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_request_reset_pass);
-			this.dialog = dialog;
-			new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
-		}
-	}
-	
-	private void maintainDialog(DialogInterface dialogInterface, boolean closeDialog) {
-		try {
-			Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
-			field.setAccessible(true);
-			field.set(dialogInterface, closeDialog);
-			dialogInterface.dismiss();
-		} catch (Exception e) {
-			// TODO: handle exception
+	@Override
+	public void onStart() {
+		super.onStart();
+		AlertDialog dialog = (AlertDialog)getDialog();
+		if (dialog != null) {
+			Button button = (Button)dialog.getButton(Dialog.BUTTON_POSITIVE);
+			button.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					originPasswordString = originPasswordText.getText().toString();
+					newPasswordString = newPasswordText.getText().toString();
+					newPasswordAgainString = newPasswordAgainText.getText().toString();
+					
+					if (newPasswordString.equals("")) {
+						Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new), Toast.LENGTH_SHORT).show();
+					} else if (newPasswordAgainString.equals("")) {
+						Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new_again), Toast.LENGTH_SHORT).show();
+					} else if (originPasswordString.equals(newPasswordString)) {
+						Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_duplicate), Toast.LENGTH_SHORT).show();
+					} else if (!newPasswordString.equals(newPasswordAgainString)) {
+						Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_new_dismatched), Toast.LENGTH_SHORT).show();
+					} else {
+						String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
+						String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_request_reset_pass);
+						new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
+						dismiss();
+					}
+				}
+			});
 		}
 	}
 
 	@Override
 	public void onRequestResetPassFinished(JSONObject result) {
-		if(null != result){
-			if(result.has("success")){
+		if (null != result) {
+			if (result.has("success")) {
 				SPUtil.put(mActivity, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
-				maintainDialog(dialog, true);
+				dialog.dismiss();
 				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
-			} else if(result.has("wrongOld")){
-				maintainDialog(dialog, false);
+			} else if (result.has("wrongOld")) {
 				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			maintainDialog(dialog, false);
 			Toast.makeText(mActivity, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
 		}
 	}

@@ -304,6 +304,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
         	//in other fragments
     		else if (fgIndex == 1) {
     			getSupportFragmentManager().beginTransaction().hide(postFragment).show(categoryFragment).commit();
+				forwardButton.setVisibility(View.GONE);
     			fgIndex -= 1;
 			} else if (fgIndex == 2) { 
         		getSupportFragmentManager().beginTransaction().hide(contentsFragment).show(postFragment).commit();
