@@ -1,17 +1,17 @@
 package com.echobond.fragment;
 
 import java.lang.reflect.Field;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.application.MyApp;
 import com.echobond.connector.RequestResetPassAsyncTask;
 import com.echobond.intf.RequestResetPassCallback;
+import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -33,6 +33,7 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 	private EditText originPasswordText, newPasswordText, newPasswordAgainText;
 	private String originPasswordString, newPasswordString, newPasswordAgainString;
 	private DialogInterface dialog;
+	private Activity mActivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,10 +75,10 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 		originPasswordString = originPasswordText.getText().toString();
 		newPasswordString = newPasswordText.getText().toString();
 		newPasswordAgainString = newPasswordAgainText.getText().toString();
-		if (originPasswordString.equals("")) {
+		/*if (originPasswordString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_origin), Toast.LENGTH_SHORT).show();
 			maintainDialog(dialog, false);
-		} else if (newPasswordString.equals("")) {
+		} else*/ if (newPasswordString.equals("")) {
 			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_empty_new), Toast.LENGTH_SHORT).show();
 			maintainDialog(dialog, false);
 		} else if (newPasswordAgainString.equals("")) {
@@ -91,7 +92,7 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 			maintainDialog(dialog, false);
 		} else {
 			String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
-			String url = getResources().getString(R.string.url_request_reset_pass);
+			String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_request_reset_pass);
 			this.dialog = dialog;
 			new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
 		}
@@ -111,21 +112,23 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 	@Override
 	public void onRequestResetPassFinished(JSONObject result) {
 		if(null != result){
-			try {
-				if(null != result.get("success")){
-					SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
-					maintainDialog(dialog, true);
-					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
-				} else if(null != result.get("wrongOld")){
-					maintainDialog(dialog, false);
-					Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+			if(result.has("success")){
+				SPUtil.put(mActivity, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
+				maintainDialog(dialog, true);
+				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
+			} else if(result.has("wrongOld")){
+				maintainDialog(dialog, false);
+				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
 			}
 		} else {
 			maintainDialog(dialog, false);
-			Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
+			Toast.makeText(mActivity, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
 		}
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mActivity = activity;
 	}
 }
