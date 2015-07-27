@@ -47,6 +47,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,8 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 	private MoreGroupsFragment groupsFragment;
 	
 	private ImageView backButton, forwardButton;
-	private TextView barTitle;
+	private TextView barTitle, progressTxt;
+	private ProgressBar progressBar;
 	
 	private int fgIndex;
 	private int postType = NEW_POST_PIC;
@@ -137,6 +139,9 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		forwardButton.setOnClickListener(new forwardOnClickListener());
 		
 		barTitle.setText(R.string.title_new_post_share);
+		
+		progressBar = (ProgressBar) findViewById(R.id.new_post_progress);
+		progressTxt = (TextView) findViewById(R.id.new_post_progress_txt);
 	}
 
 	public class backOnClickListener implements OnClickListener {
@@ -232,6 +237,9 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 		
 		@SuppressLint("NewApi") 
 		private void postThought() {
+			progressBar.setVisibility(View.VISIBLE);
+			progressTxt.setVisibility(View.VISIBLE);
+			progressTxt.setText("Saving Image");
 			if (postType == NEW_POST_PIC) {
 				EditText postText = postFragment.getPostText();
 				postText.setBackground(null);
@@ -327,6 +335,8 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 
 	@Override
 	public void onPostThoughtResult(JSONObject result) {
+		progressBar.setVisibility(View.INVISIBLE);
+		progressTxt.setVisibility(View.INVISIBLE);
 		if (null == result) {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.hint_new_post_failed_post), Toast.LENGTH_LONG).show();
 		} else {
@@ -374,6 +384,7 @@ public class NewPostPage extends ActionBarActivity implements ViewMoreSwitchCall
 				t.setContent(contentsString);
 				t.setUserId((String) SPUtil.get(NewPostPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, null, String.class));
 				t.setGroupId(groupId);
+				progressTxt.setText("Posting your thought...");
 				new PostThoughtAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, 
 						HTTPUtil.getInstance().composePreURL(NewPostPage.this) + getResources().getString(R.string.url_post_thought), 
 						t, NewPostPage.this);
