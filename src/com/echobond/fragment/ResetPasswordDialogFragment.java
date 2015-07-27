@@ -1,16 +1,15 @@
 package com.echobond.fragment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.echobond.R;
 import com.echobond.application.MyApp;
-import com.echobond.connector.RequestResetPassAsyncTask;
 import com.echobond.intf.RequestResetPassCallback;
 import com.echobond.util.HTTPUtil;
 import com.echobond.util.SPUtil;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -33,7 +32,6 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 	private EditText originPasswordText, newPasswordText, newPasswordAgainText;
 	private String originPasswordString, newPasswordString, newPasswordAgainString;
 	private AlertDialog dialog;
-	private Activity mActivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,8 +96,30 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 					} else {
 						String id = (String) SPUtil.get(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class);
 						String url = HTTPUtil.getInstance().composePreURL(getActivity()) + getResources().getString(R.string.url_request_reset_pass);
-						new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
-						dismiss();
+						//new RequestResetPassAsyncTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, this, originPasswordString, newPasswordString);
+						new AsyncTask<Object, Integer, JSONObject>(){
+							@Override
+							protected JSONObject doInBackground(Object... params) {
+								String id = (String) params[0];
+								String url = (String) params[1];
+								String oldPass = (String) params[2];
+								String newPass = (String) params[3];
+								JSONObject body = new JSONObject();
+								try {
+									body.put("id", id);
+									body.put("oldPass", oldPass);
+									body.put("newPass", newPass);
+								} catch (JSONException e1) {
+									e1.printStackTrace();
+								}
+								return HTTPUtil.getInstance().sendRequest(url, body, true);
+							}
+							protected void onPostExecute(JSONObject result) {
+								super.onPostExecute(result);
+								ResetPasswordDialogFragment.this.onRequestResetPassFinished(result);
+							};
+						}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, id, url, originPasswordString, newPasswordString);
+//						dismiss();
 					}
 				}
 			});
@@ -110,20 +130,15 @@ public class ResetPasswordDialogFragment extends DialogFragment implements Reque
 	public void onRequestResetPassFinished(JSONObject result) {
 		if (null != result) {
 			if (result.has("success")) {
-				SPUtil.put(mActivity, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
+				SPUtil.put(getActivity(), MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_PASS, newPasswordString);
 				dialog.dismiss();
-				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
+				Toast.makeText(getActivity(), getResources().getString(R.string.hint_reset_password_success), Toast.LENGTH_SHORT).show();		
 			} else if (result.has("wrongOld")) {
-				Toast.makeText(mActivity, getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), getResources().getString(R.string.hint_reset_password_origin_wrong), Toast.LENGTH_SHORT).show();
 			}
 		} else {
-			Toast.makeText(mActivity, getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
+			Toast.makeText(getActivity(), getResources().getString(R.string.hint_network_issue), Toast.LENGTH_SHORT).show();		
 		}
 	}
-	
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mActivity = activity;
-	}
+
 }
