@@ -67,7 +67,7 @@ public class XViewFooter extends LinearLayout {
 			loadStateTextView.setText(R.string.hint_pullup_to_load);
 			break;
 		case STATE_READY:
-			loadArrowView.setAnimation(rotateAnimation);
+			loadArrowView.startAnimation(rotateAnimation);
 			loadStateTextView.setText(R.string.hint_release_to_load);
 			break;
 		case STATE_LOADING:
