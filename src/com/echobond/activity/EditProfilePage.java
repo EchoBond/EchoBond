@@ -8,7 +8,7 @@ import com.echobond.connector.ImageUploadAsyncTask;
 import com.echobond.connector.UpdateUserProfileService;
 import com.echobond.entity.User;
 import com.echobond.fragment.CanvasFragment;
-import com.echobond.fragment.DrawingIconFragment;
+import com.echobond.fragment.PosterAvatarFragment;
 import com.echobond.fragment.EditProfileFragment;
 import com.echobond.fragment.PresetAvatarFragment;
 import com.echobond.fragment.ResetPasswordDialogFragment;
@@ -56,7 +56,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 	private SelectAvatarDialogFragment selectAvatarDialogFragment;
 	private PresetAvatarFragment presetAvatarFragment;
 	private EditProfileFragment mainFragment;
-	private DrawingIconFragment picFragment;
+	private PosterAvatarFragment picFragment;
 	private CanvasFragment canvasFragment;
 	
 	private ImageView backButton, doneButton;
@@ -223,7 +223,7 @@ public class EditProfilePage extends ActionBarActivity implements EditProfileSwi
 		if (null == mainFragment || null == presetAvatarFragment || null == picFragment || null == canvasFragment) {
 			mainFragment = new EditProfileFragment();
 			presetAvatarFragment = new PresetAvatarFragment();
-			picFragment = new DrawingIconFragment();
+			picFragment = new PosterAvatarFragment();
 			canvasFragment = new CanvasFragment();
 			transaction.add(R.id.edit_profile_content, mainFragment);
 			transaction.add(R.id.edit_profile_content, presetAvatarFragment);

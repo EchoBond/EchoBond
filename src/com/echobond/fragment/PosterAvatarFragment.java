@@ -24,7 +24,7 @@ import android.widget.Toast;
  * @author aohuijun
  *
  */
-public class DrawingIconFragment extends Fragment {
+public class PosterAvatarFragment extends Fragment {
 
 	private EditProfileSwitchCallback callCanvas;
 	private RelativeLayout avatarLayout;
@@ -79,7 +79,7 @@ public class DrawingIconFragment extends Fragment {
 				if (backPrevColor == -1) {
 					colorViews[MyApp.COLOR_WHITE].setBackgroundResource(R.drawable.color_selection_background);
 				}
-				DrawingIconFragment.this.modeSelected = CHANGE_BACKGROUND;
+				PosterAvatarFragment.this.modeSelected = CHANGE_BACKGROUND;
 				postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_selected));
 				textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_normal));
 				Toast.makeText(getActivity().getApplicationContext(), "Please select avatar's background color. ", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class DrawingIconFragment extends Fragment {
 				if (textPrevColor == -1) {
 					colorViews[MyApp.COLOR_BLACK].setBackgroundResource(R.drawable.color_selection_background);
 				}
-				DrawingIconFragment.this.modeSelected = CHANGE_TEXT;
+				PosterAvatarFragment.this.modeSelected = CHANGE_TEXT;
 				textChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_text_colorchange_selected));
 				postChange.setImageDrawable(getResources().getDrawable(R.drawable.thoughts_background_colorchange_nomal));
 				Toast.makeText(getActivity().getApplicationContext(), "Please select avatar's text color. ", Toast.LENGTH_SHORT).show();
