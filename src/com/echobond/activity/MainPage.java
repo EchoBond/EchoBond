@@ -418,6 +418,8 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				} else if (currentIndex == 3) {
 					profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button));
 				}
+				NotificationManager nm = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+				nm.cancelAll();
 				break;
 			case 3:
 				profileButton.setImageDrawable(getResources().getDrawable(R.drawable.main_profile_button_selected));

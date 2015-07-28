@@ -9,6 +9,20 @@
     <string name="facebook_sso_timeout">6000</string>
     <string name="gcm_sender_id">812713217371</string>
     <string name="app_copyright">Copyright © 2014–2015 EchoBond. All Rights Reserved. </string>
+    <string name="app_acc_tos">Acceptance of Terms</string>
+    <string name="app_acc_tos_detail">The services that EchoBond provides to you are subject to the following Terms of Use ("TOU"). EchoBond reserves the 
+        right to update the TOU at any time without notice to you.</string>
+    <string name="app_desc_tos">Description of Services</string>
+    <string name="app_desc_tos_detail">Through its network of Web properties, EchoBond provides you with access to a variety of resources, including EchoBond app 
+		and EchoBond website, and product information (collectively "Services"). The Services, including any updates, enhancements, 
+		new features, and/or the addition of any new properties, are subject to the TOU.</string>
+	<string name="app_limit_tos">Personal and Non-Commercial Use Limitation</string>
+	<string name="app_limit_tos_detail">Unless otherwise specified, the Services are for your personal and 
+		non-commercial use. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create 
+		derivative works from, transfer, or sell any information, software, products or services obtained from the Services.</string>
+	<string name="app_info_tos">Privacy and Protection of Personal Information</string>
+	<string name="app_info_tos_detail">EchoBond guarantees that any private information collected through EchoBond 
+		app or website may not be transmitted or sold to the public.</string>
 
     <!-- NAME OF THE ACTIVITIES -->
     <string name="title_activity_login_page">LoginPage</string>
