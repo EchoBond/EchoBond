@@ -60,11 +60,10 @@ import android.widget.TextView;
  */
 public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Cursor>, UserMsgCallback, IXListViewListener {
 	
-	private Toolbar toolbar;
 	private TextView titleView;
 	private XListView chatListView;
 	private EditText msgInputText;
-	private ImageView msgSendView;
+	private ImageView msgSendView, backButton;
 	private String userId;
 	private String guestId;
 	private String userName;
@@ -98,9 +97,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 		setContentView(R.layout.activity_chat_page);
 		initActionBar();
 		initSendingMsg();
-		
-		toolbar = (Toolbar) findViewById(R.id.toolbar_chat_page);
-		titleView = (TextView) toolbar.findViewById(R.id.title_name);
+
 		adapter = new ChatListAdapter(this, R.layout.item_chat, null, 0);
 		chatListView = (XListView)findViewById(R.id.chat_list);
 		chatListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -155,10 +152,21 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	}
 	
 	private void initActionBar() {
-		Toolbar chatToolbar = (Toolbar)findViewById(R.id.toolbar_chat_page);
-		setSupportActionBar(chatToolbar);
+		Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_chat_page);
+		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setCustomView(R.layout.title_bar_setting);
+		
+		titleView = (TextView)findViewById(R.id.title_name);
+		backButton = (ImageView)findViewById(R.id.button_left_side);
+		backButton.setImageDrawable(getResources().getDrawable(R.drawable.button_back));
+		backButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 	}
 
 	private void initSendingMsg() {
@@ -394,7 +402,7 @@ public class ChatPage extends ActionBarActivity implements LoaderCallbacks<Curso
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 			Intent upIntent;
-			if(getIntent().hasExtra("notFromMain")){
+			if (getIntent().hasExtra("notFromMain")) {
 				finish();
 				return true;
 			} else {
