@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -97,7 +98,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(intent.getExtras().getBoolean(MyApp.INTENT_MSG_NEW_MSG)){
+			if (intent.getExtras().getBoolean(MyApp.INTENT_MSG_NEW_MSG)) {
 				notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.image_notification));
 			} else {
 				notificationIndicator.setImageDrawable(null);
@@ -124,10 +125,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 		String[] selectionArgs = new String[]{
 				(String) SPUtil.get(this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_ID, "", String.class),""};
 		Cursor c = getContentResolver().query(ChatDAO.CONTENT_URI, null, null, selectionArgs, null);
-		if(null != c){
-			if(c.moveToFirst()){
+		if (null != c) {
+			if (c.moveToFirst()) {
 				int count = c.getInt(c.getColumnIndex("count"));
-				if(count > 0){
+				if (count > 0) {
 					notificationIndicator.setImageDrawable(getResources().getDrawable(R.drawable.image_notification));
 				}
 			}
@@ -144,7 +145,7 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 	protected void onResume() {
 		super.onResume();
 		Intent thisIntent = getIntent();
-		if(null != thisIntent && thisIntent.getExtras()!= null && thisIntent.getExtras().getBoolean("fromDataFetch")){
+		if (null != thisIntent && thisIntent.getExtras()!= null && thisIntent.getExtras().getBoolean("fromDataFetch")) {
 //			notificationFragment.changeTab(1);
 			mTabPager.setCurrentItem(2);
 		}
@@ -294,10 +295,10 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case 1:
-				if(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)){
+				if (SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_VERIFIED, 0, Integer.class).equals(0)) {
 					Toast.makeText(MainPage.this, getResources().getString(R.string.hint_user_unverified), Toast.LENGTH_SHORT).show();
 					return;
-				} else if("".equals(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))){
+				} else if ("".equals(SPUtil.get(MainPage.this, MyApp.PREF_TYPE_LOGIN, MyApp.LOGIN_USERNAME, "", String.class))) {
 					Toast.makeText(MainPage.this, getResources().getString(R.string.hint_empty_username), Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -352,11 +353,15 @@ public class MainPage extends ActionBarActivity implements GCMCallback {
 				startActivity(intent);
 				break;
 			case SETTING_CONTACT_US:
-				Intent email = new Intent(Intent.ACTION_SEND);
-				email.setType("message/rfc822");
-				email.putExtra(Intent.EXTRA_EMAIL, new String[]{"server@echobond.com"});
+				Uri uri = Uri.parse("mailto:server@echobond.com");
+				Intent email = new Intent(Intent.ACTION_SENDTO, uri);
 				email.putExtra(Intent.EXTRA_SUBJECT, "Something to tell you");
 				startActivity(Intent.createChooser(email, "Email us by "));
+//				Intent email = new Intent(Intent.ACTION_SEND);
+//				email.setType("message/rfc822");
+//				email.putExtra(Intent.EXTRA_EMAIL, new String[]{"server@echobond.com"});
+//				email.putExtra(Intent.EXTRA_SUBJECT, "Something to tell you");
+//				startActivity(Intent.createChooser(email, "Email us by "));
 				break;
 			default:
 				break;
