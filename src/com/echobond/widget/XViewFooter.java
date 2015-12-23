@@ -21,6 +21,7 @@ public class XViewFooter extends LinearLayout {
 	public static final int STATE_READY = 1;
 	public static final int STATE_LOADING = 2;
 	
+	private int footerState;
 	private RotateAnimation rotateAnimation, loadingAnimation;
 
 	private Context mContext;
@@ -80,8 +81,13 @@ public class XViewFooter extends LinearLayout {
 		default:
 			break;
 		}
+		footerState = state;
 	}
 	
+	public int getFooterState() {
+		return footerState;
+	}
+
 	public void setBottomMargin(int height) {
 		if (height < 0) {
 			return;

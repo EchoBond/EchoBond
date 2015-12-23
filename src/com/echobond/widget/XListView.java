@@ -125,7 +125,9 @@ public class XListView extends ListView implements OnScrollListener {
 				invokeOnScrolling();
 			} else if (getLastVisiblePosition() == mTotalItemCount - 1 && (mFooterView.getBottomMargin() > 0 || deltaY < 0)) {
 				// last item, already pull up or want to pull up
-				updateFooterHeight(-deltaY / OFFSET_RADIO);
+				if (mFooterView.getFooterState() == XViewFooter.STATE_NORMAL) {
+					updateFooterHeight(-deltaY / OFFSET_RADIO);
+				}
 			}
 			break;
 		default:
