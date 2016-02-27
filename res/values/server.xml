@@ -2,7 +2,7 @@
 <resources>
     <!-- basic connection configs -->
     <string name="url_protocol">http</string>
-    <string name="url_domain">147.8.138.9</string>
+    <string name="url_domain">tomcat.luckyluck.info</string>
     <string name="url_sub">Echobond_API</string>
     <string name="url_port">80</string>
     
